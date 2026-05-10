@@ -146,4 +146,39 @@
 <div class="wallet-box" style="background: #222; padding: 5px 15px; border-radius: 20px; color: #ff8c00; font-weight: bold;">
     ব্যালেন্স: <span id="user-balance">০.০০</span> ৳
 </div>
-<button class="add-fund-btn" onclick="openAddFund()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px;">টাকা অ্যাড করুন</button>
+<button class="add-fund-btn" onclick="openAddFund()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 5px; 
+    cursor: pointer; margin-left: 10px;">টাকা অ্যাড করুন</button>
+<nav>
+    <div class="logo">Online Shop <span>AR</span></div>
+    
+    <div class="user-profile-nav" id="auth-section">
+        <!-- শুরুতে লগইন বাটন দেখাবে -->
+        <button class="login-btn" onclick="simulateLogin()">
+            <i class="fab fa-google"></i> Login
+        </button>
+    </div>
+</nav>
+
+<!-- প্রোফাইল ড্যাশবোর্ড (লগইন করার পর যা দেখাবে) -->
+<template id="user-dashboard-template">
+    <div class="profile-container">
+        <div class="balance-info">
+            <span class="label">ব্যালেন্স:</span>
+            <span class="amount">৳ <span id="nav-balance">০.০০</span></span>
+        </div>
+        <div class="user-meta" onclick="toggleProfileMenu()">
+            <span class="user-name" id="nav-user-name">Atiqur Rahman</span>
+            <img id="nav-user-pic" src="https://via.placeholder.com/35" alt="User">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        
+        <!-- ড্রপডাউন মেনু -->
+        <div class="profile-dropdown" id="profile-menu">
+            <a href="#"><i class="fas fa-user"></i> প্রোফাইল</a>
+            <a href="#" onclick="openAddFund()"><i class="fas fa-wallet"></i> টাকা অ্যাড করুন</a>
+            <a href="#"><i class="fas fa-history"></i> অর্ডার হিস্ট্রি</a>
+            <hr>
+            <a href="#" onclick="location.reload()" style="color:red;"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+        </div>
+    </div>
+</template>
