@@ -3,34 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - All-in-One SMM Panel</title>
+    <title>Online Shop AR - Members Area</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- নেভিগেশন বার (লগইন করার পর ডানে প্রোফাইল শো করবে) -->
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
-        <div class="auth-options">
-            <button class="login-btn"><i class="fab fa-google"></i> Login</button>
+        <div id="nav-user-area" style="display:none;">
+            <div class="top-profile">
+                <div class="top-wallet">
+                    <span id="nav-balance">৳ ০.০০</span>
+                    <button onclick="openAddFund()"><i class="fas fa-plus-circle"></i></button>
+                </div>
+                <div class="user-info-box" onclick="toggleMenu()">
+                    <span id="user-name">Atiqur</span>
+                    <img src="https://i.ibb.co/v3m9FvC/user-icon.png" alt="user">
+                    <div id="profile-dropdown" class="dropdown">
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="container">
-        <header>
+    <!-- লগইন পেজ (ডিফল্ট ভাবে এটিই শো করবে) -->
+    <div id="login-screen" class="full-screen-center">
+        <div class="login-card">
             <h1>Online Shop <span>AR</span></h1>
-            <p>আপনার সোশ্যাল মিডিয়া প্রোফাইলকে প্রফেশনাল ভাবে বুস্ট করুন</p>
+            <p>আমাদের সার্ভিস দেখতে আপনার একাউন্টে লগইন করুন</p>
+            <button onclick="loginProcess()" class="google-btn">
+                <i class="fab fa-google"></i> Google দিয়ে লগইন করুন
+            </button>
+            <p class="footer-text">লগইন করলে আপনি আমাদের সব সার্ভিস এক্সেস করতে পারবেন।</p>
+        </div>
+    </div>
+
+    <!-- মেইন সার্ভিস এরিয়া (লগইন না করা পর্যন্ত হাইড থাকবে) -->
+    <div id="main-content" class="container" style="display:none;">
+        <header>
+            <h2>স্বাগতম, <span id="header-name"></span></h2>
+            <p>আপনার পছন্দের সার্ভিসটি বেছে নিন</p>
         </header>
 
         <div class="grid">
             <!-- Facebook -->
             <div class="card">
                 <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
-                <h3>Facebook</h3>
+                <h3>Facebook Service</h3>
                 <select id="fb-pack" class="package-select">
                     <option value="5K Followers - 130 TK">5K Followers - 130 TK</option>
                     <option value="10K Followers - 250 TK">10K Followers - 250 TK</option>
-                    <option value="FB Watchtime (60K Min) - 1500 TK">Watchtime (60K) - 1500 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('fb-pack', 'Facebook')">অর্ডার করুন</button>
             </div>
@@ -38,174 +63,51 @@
             <!-- YouTube -->
             <div class="card">
                 <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
-                <h3>YouTube</h3>
+                <h3>YouTube Growth</h3>
                 <select id="yt-pack" class="package-select">
                     <option value="1K Subscriber - 1200 TK">1K Subs - 1200 TK</option>
-                    <option value="4K Hours Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
-                    <option value="1K Real Views - 300 TK">1K Views - 300 TK</option>
+                    <option value="4K Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('yt-pack', 'YouTube')">অর্ডার করুন</button>
             </div>
 
-            <!-- TikTok -->
-            <div class="card">
-                <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
-                <h3>TikTok</h3>
-                <select id="tt-pack" class="package-select">
-                    <option value="1K Followers - 150 TK">1K Followers - 150 TK</option>
-                    <option value="10K Views - 100 TK">10K Views - 100 TK</option>
-                    <option value="5K Likes - 400 TK">5K Likes - 400 TK</option>
-                </select>
-                <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
-            </div>
-
-            <!-- Instagram -->
-            <div class="card">
-                <div class="icon-circle ig-bg"><i class="fab fa-instagram"></i></div>
-                <h3>Instagram</h3>
-                <select id="ig-pack" class="package-select">
-                    <option value="1K Followers - 180 TK">1K Followers - 180 TK</option>
-                    <option value="5K Followers - 800 TK">5K Followers - 800 TK</option>
-                    <option value="1K Likes - 100 TK">1K Likes - 100 TK</option>
-                </select>
-                <button class="buy-btn" onclick="buyService('ig-pack', 'Instagram')">অর্ডার করুন</button>
-            </div>
-
-            <!-- Free Fire -->
+            <!-- FF Diamond -->
             <div class="card">
                 <div class="icon-circle ff-bg"><i class="fas fa-gem"></i></div>
                 <h3>FF Diamond</h3>
                 <select id="ff-pack" class="package-select">
                     <option value="115 Diamond - 85 TK">115 Diamond - 85 TK</option>
                     <option value="240 Diamond - 165 TK">240 Diamond - 165 TK</option>
-                    <option value="610 Diamond - 430 TK">610 Diamond - 430 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('ff-pack', 'Free Fire')">টপ-আপ করুন</button>
             </div>
 
-            <!-- Telegram -->
+            <!-- TikTok -->
             <div class="card">
-                <div class="icon-circle tg-bg"><i class="fab fa-telegram-plane"></i></div>
-                <h3>Telegram</h3>
-                <select id="tg-pack" class="package-select">
-                    <option value="1K Channel Members - 200 TK">1K Member - 200 TK</option>
-                    <option value="5K Channel Members - 900 TK">5K Member - 900 TK</option>
+                <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
+                <h3>TikTok Services</h3>
+                <select id="tt-pack" class="package-select">
+                    <option value="1K Followers - 150 TK">1K Followers - 150 TK</option>
+                    <option value="10K Views - 100 TK">10K Views - 100 TK</option>
                 </select>
-                <button class="buy-btn" onclick="buyService('tg-pack', 'Telegram')">অর্ডার করুন</button>
-            </div>
-
-            <!-- Twitter (X) -->
-            <div class="card">
-                <div class="icon-circle x-bg"><i class="fab fa-twitter"></i></div>
-                <h3>Twitter (X)</h3>
-                <select id="x-pack" class="package-select">
-                    <option value="1K Followers - 500 TK">1K Followers - 500 TK</option>
-                    <option value="1K Retweets - 300 TK">1K Retweets - 300 TK</option>
-                </select>
-                <button class="buy-btn" onclick="buyService('x-pack', 'Twitter')">অর্ডার করুন</button>
-            </div>
-
-            <!-- ID Sale -->
-            <div class="card">
-                <div class="icon-circle id-bg"><i class="fas fa-user-shield"></i></div>
-                <h3>ID Store</h3>
-                <p>পুরাতন ও ভেরিফাইড আইডি</p>
-                <button class="buy-btn" style="background:#6f42c1;" onclick="openPayment('FF ID Sale')">আইডি লিস্ট</button>
+                <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
             </div>
         </div>
     </div>
 
-    <!-- Payment Modal -->
+    <!-- পেমেন্ট মোডাল (অর্ডার করার সময় আসবে) -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>অর্ডার কনফার্ম করুন</h3>
             <p id="selectedItem"></p>
-            <input type="text" id="targetLink" placeholder="আইডি/লিংক দিন">
-            <input type="text" id="userPhone" placeholder="আপনার ফোন নম্বর">
-            <div class="number-box"><small>বিকাশ/নগদ/উপায় (Personal)</small><br>01766380931</div>
-            <input type="text" id="trxId" placeholder="ট্রানজেকশন আইডি (TrxID)">
-            <button class="confirm-btn" onclick="submitOrder()">সাবমিট করুন</button>
+            <input type="text" id="targetLink" placeholder="আইডি বা লিংক দিন">
+            <div class="number-box">বিকাশ/নগদ: 01766380931</div>
+            <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
+            <button class="confirm-btn" onclick="submitOrder()">কনফার্ম করুন</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html> 
-<nav>
-    <div class="logo">Online Shop <span>AR</span></div>
-    <div class="auth-options" id="user-info">
-        <!-- এখানে গুগল লগইন বাটন সচল হবে -->
-        <div id="g_id_onload"
-             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse">
-        </div>
-        <div class="g_id_signin" data-type="standard"></div>
-    </div>
-</nav>
-<div class="wallet-box" style="background: #222; padding: 5px 15px; border-radius: 20px; color: #ff8c00; font-weight: bold;">
-    ব্যালেন্স: <span id="user-balance">০.০০</span> ৳
-</div>
-<button class="add-fund-btn" onclick="openAddFund()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 5px; 
-    cursor: pointer; margin-left: 10px;">টাকা অ্যাড করুন</button>
-<nav>
-    <div class="logo">Online Shop <span>AR</span></div>
-    
-    <div class="user-profile-nav" id="auth-section">
-        <!-- শুরুতে লগইন বাটন দেখাবে -->
-        <button class="login-btn" onclick="simulateLogin()">
-            <i class="fab fa-google"></i> Login
-        </button>
-    </div>
-</nav>
-
-<!-- প্রোফাইল ড্যাশবোর্ড (লগইন করার পর যা দেখাবে) -->
-<template id="user-dashboard-template">
-    <div class="profile-container">
-        <div class="balance-info">
-            <span class="label">ব্যালেন্স:</span>
-            <span class="amount">৳ <span id="nav-balance">০.০০</span></span>
-        </div>
-        <div class="user-meta" onclick="toggleProfileMenu()">
-            <span class="user-name" id="nav-user-name">Atiqur Rahman</span>
-            <img id="nav-user-pic" src="https://via.placeholder.com/35" alt="User">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-        
-        <!-- ড্রপডাউন মেনু -->
-        <div class="profile-dropdown" id="profile-menu">
-            <a href="#"><i class="fas fa-user"></i> প্রোফাইল</a>
-            <a href="#" onclick="openAddFund()"><i class="fas fa-wallet"></i> টাকা অ্যাড করুন</a>
-            <a href="#"><i class="fas fa-history"></i> অর্ডার হিস্ট্রি</a>
-            <hr>
-            <a href="#" onclick="location.reload()" style="color:red;"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
-        </div>
-    </div>
-</template>
-<nav>
-    <div class="logo">Online Shop <span>AR</span></div>
-    
-    <!-- প্রোফাইল সেকশন: লগইন করার পর এটি দেখাবে -->
-    <div id="user-profile" class="user-profile" style="display:none;">
-        <div class="balance-display">
-            <span>ব্যালেন্স: ৳ <span id="current-balance">০.০০</span></span>
-        </div>
-        <div class="user-details" onclick="toggleMenu()">
-            <span id="display-name">Atiqur Rahman</span>
-            <img src="https://via.placeholder.com/30" id="user-img">
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <!-- ড্রপডাউন মেনু -->
-        <div id="dropdown-menu" class="dropdown">
-            <a href="#" onclick="openAddFund()"><i class="fas fa-wallet"></i> টাকা অ্যাড করুন</a>
-            <a href="#"><i class="fas fa-list"></i> অর্ডার হিস্ট্রি</a>
-            <hr>
-            <a href="#" onclick="logout()" style="color:red;"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
-        </div>
-    </div>
-
-    <!-- লগইন বাটন: যদি লগইন না থাকে -->
-    <button id="login-btn" class="login-btn" onclick="loginSimulate()">
-        <i class="fab fa-google"></i> Login
-    </button>
-</nav>
+</html>
