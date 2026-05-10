@@ -102,3 +102,38 @@ input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; borde
 
 .profile-dropdown a i { margin-right: 10px; color: #0084ff; }
 .profile-dropdown a:hover { background: #f4f4f4; }
+.user-profile { display: flex; align-items: center; gap: 15px; position: relative; color: white; }
+
+.balance-display {
+    background: #ff8c00;
+    color: black;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-details { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.user-details img { border-radius: 50%; border: 2px solid #ff8c00; }
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    width: 170px;
+    z-index: 100;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown a:hover { background: #f1f1f1; }
