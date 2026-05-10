@@ -6,37 +6,57 @@
     <title>Online Shop AR - SMM & Game Topup</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
-        <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
-        <div class="g_id_signin" data-type="standard"></div>
+        <div class="auth-options">
+            <!-- Google Login Button Placeholder -->
+            <button class="login-btn"><i class="fab fa-google"></i> Login</button>
+        </div>
     </nav>
 
     <div class="container">
         <header>
             <h1>Online Shop <span>AR</span></h1>
-            <p>সেরা দামে ফেসবুক বুস্ট এবং ফ্রি ফায়ার ডায়মন্ড টপ-আপ</p>
+            <p>সেরা রেটে সোশ্যাল মিডিয়া বুস্টিং এবং ডায়মন্ড টপ-আপ</p>
         </header>
 
         <div class="grid">
             <!-- Facebook -->
             <div class="card">
                 <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
-                <h3>Facebook Boost</h3>
-                <p>ফলোয়ার ও লাইক সার্ভিস</p>
-                <button class="buy-btn" onclick="openPayment('Facebook Service')">অর্ডার করুন</button>
+                <h3>Facebook Service</h3>
+                <select id="fb-pack" class="package-select">
+                    <option value="5000 Followers - 130 TK">5K Followers - 130 TK</option>
+                    <option value="10000 Followers - 250 TK">10K Followers - 250 TK</option>
+                    <option value="Facebook Watchtime Pack - 1500 TK">Watchtime Pack - 1500 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('fb-pack', 'Facebook')">অর্ডার করুন</button>
             </div>
 
             <!-- YouTube -->
             <div class="card">
                 <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
                 <h3>YouTube Growth</h3>
-                <p>ওয়াচটাইম ও সাবস্ক্রাইবার</p>
-                <button class="buy-btn" onclick="openPayment('YouTube Service')">অর্ডার করুন</button>
+                <select id="yt-pack" class="package-select">
+                    <option value="1000 Subscriber - 1200 TK">1K Subs - 1200 TK</option>
+                    <option value="4000 Hours Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('yt-pack', 'YouTube')">অর্ডার করুন</button>
+            </div>
+
+            <!-- TikTok (আবার যুক্ত করা হলো) -->
+            <div class="card">
+                <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
+                <h3>TikTok Service</h3>
+                <select id="tt-pack" class="package-select">
+                    <option value="1000 Followers - 150 TK">1K Followers - 150 TK</option>
+                    <option value="5000 Followers - 650 TK">5K Followers - 650 TK</option>
+                    <option value="10000 Likes - 400 TK">10K Likes - 400 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
             </div>
 
             <!-- Free Fire Diamond -->
@@ -48,7 +68,7 @@
                     <option value="240 Diamond - 165 TK">240 Diamond - 165 TK</option>
                     <option value="610 Diamond - 430 TK">610 Diamond - 430 TK</option>
                 </select>
-                <button class="buy-btn" onclick="buyFF()">টপ-আপ করুন</button>
+                <button class="buy-btn" onclick="buyService('ff-pack', 'Free Fire')">টপ-আপ করুন</button>
             </div>
 
             <!-- ID Sale -->
@@ -56,7 +76,7 @@
                 <div class="icon-circle id-bg"><i class="fas fa-user-shield"></i></div>
                 <h3>ID Sale & Buy</h3>
                 <p>পুরাতন ও ভেরিফাইড আইডি</p>
-                <button class="buy-btn" onclick="openPayment('FF ID Sale')">আইডি দেখুন</button>
+                <button class="buy-btn" style="background:#6f42c1;" onclick="openPayment('FF ID Sale')">আইডি লিস্ট</button>
             </div>
         </div>
     </div>
@@ -65,10 +85,10 @@
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>পেমেন্ট সম্পন্ন করুন</h3>
-            <p id="selectedItem" style="font-weight: bold;"></p>
+            <h3>পেমেন্ট গেটওয়ে</h3>
+            <p id="selectedItem" style="color:#007bff; font-weight:bold;"></p>
             
-            <input type="text" id="targetLink" placeholder="প্লেয়ার আইডি বা প্রোফাইল লিংক">
+            <input type="text" id="targetLink" placeholder="প্লেয়ার আইডি / প্রোফাইল বা ভিডিও লিংক">
             <input type="text" id="userPhone" placeholder="আপনার ফোন নম্বর">
             
             <div class="number-box">
@@ -77,7 +97,7 @@
             </div>
             
             <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
-            <button class="confirm-btn" onclick="submitOrder()">অর্ডার কনফার্ম</button>
+            <button class="confirm-btn" onclick="submitOrder()">অর্ডার সফল করুন</button>
         </div>
     </div>
 
