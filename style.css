@@ -1,139 +1,43 @@
-:root { --primary: #0084ff; --dark: #111; --gray: #f4f6f8; }
+:root { --primary: #0084ff; --dark: #111; --gray: #f4f7f6; --orange: #ff8c00; }
 body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray); }
 
-nav { background: var(--dark); padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top:0; z-index: 100; }
-.logo { font-size: 24px; font-weight: bold; text-transform: uppercase; }
-.logo span { color: #ff8c00; }
-.login-btn { background: #fff; border:none; padding: 7px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+/* Navigation */
+nav { background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
+.logo { font-size: 20px; font-weight: bold; }
+.logo span { color: var(--orange); }
 
-.container { max-width: 1200px; margin: auto; padding: 20px; }
-header { text-align: center; margin-bottom: 30px; }
-header h1 { font-size: 35px; color: #333; }
-header h1 span { color: #ff8c00; }
+.top-profile { display: flex; align-items: center; gap: 15px; }
+.top-wallet { background: #222; border: 1px solid var(--orange); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--orange); font-size: 14px; }
+.top-wallet button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-.card { background: #fff; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; }
-.card:hover { transform: translateY(-7px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+.user-info-box { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+.user-info-box img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--orange); }
+.user-info-box span { font-size: 14px; }
 
-.icon-circle { width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; font-size: 24px; color: white; }
-.fb-bg { background: #1877F2; }
-.yt-bg { background: #FF0000; }
-.tt-bg { background: #000000; }
-.ig-bg { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-.ff-bg { background: #ff8c00; }
-.tg-bg { background: #0088cc; }
-.x-bg { background: #000; }
-.id-bg { background: #6f42c1; }
+.dropdown { display: none; position: absolute; top: 40px; right: 0; background: white; border-radius: 8px; width: 150px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+.dropdown a { display: block; padding: 12px; color: #333; text-decoration: none; font-size: 14px; }
 
-.buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-.package-select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin: 10px 0; outline: none; background: #fafafa; }
+/* Login Screen */
+.full-screen-center { height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+.login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
+.google-btn { background: #4285F4; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
+.footer-text { font-size: 12px; color: #777; margin-top: 20px; }
 
-/* Modal Design */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; }
-.modal-content { background: #fff; width: 90%; max-width: 400px; margin: 50px auto; padding: 25px; border-radius: 20px; position: relative; text-align: center; }
-.number-box { background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 22px; font-weight: bold; color: #d9534f; border: 2px dashed #ff8c00; }
+/* Dashboard Cards */
+.container { max-width: 1100px; margin: auto; padding: 30px 20px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+.icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: white; font-size: 22px; }
+.fb-bg { background: #1877F2; } .yt-bg { background: #FF0000; } .ff-bg { background: #ff8c00; } .tt-bg { background: #000; }
+
+.package-select { width: 100%; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; }
+.buy-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
+
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; }
+.modal-content { background: white; width: 90%; max-width: 380px; margin: 100px auto; padding: 25px; border-radius: 20px; text-align: center; position: relative; }
+.number-box { background: #fff3cd; padding: 12px; border-radius: 8px; margin: 15px 0; font-weight: bold; color: #d9534f; border: 2px dashed var(--orange); }
 input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-.confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-.close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; color: #999; } 
-
-/* User Profile Navigation */
-.profile-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
-}
-
-.balance-info {
-    background: #222;
-    padding: 5px 12px;
-    border-radius: 20px;
-    border: 1px solid #ff8c00;
-}
-
-.balance-info .label { color: #ccc; font-size: 12px; }
-.balance-info .amount { color: #ff8c00; font-weight: bold; }
-
-.user-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    background: #333;
-    padding: 5px 10px;
-    border-radius: 30px;
-}
-
-.user-meta img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 2px solid #0084ff;
-}
-
-.user-name {
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Dropdown Menu */
-.profile-dropdown {
-    display: none;
-    position: absolute;
-    top: 45px;
-    right: 0;
-    background: white;
-    width: 180px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    z-index: 1000;
-    overflow: hidden;
-}
-
-.profile-dropdown a {
-    display: block;
-    padding: 12px 15px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.profile-dropdown a i { margin-right: 10px; color: #0084ff; }
-.profile-dropdown a:hover { background: #f4f4f4; }
-.user-profile { display: flex; align-items: center; gap: 15px; position: relative; color: white; }
-
-.balance-display {
-    background: #ff8c00;
-    color: black;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.user-details { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-.user-details img { border-radius: 50%; border: 2px solid #ff8c00; }
-
-.dropdown {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 0;
-    background: white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    border-radius: 8px;
-    width: 170px;
-    z-index: 100;
-}
-
-.dropdown a {
-    display: block;
-    padding: 10px 15px;
-    color: #333;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.dropdown a:hover { background: #f1f1f1; }
+.confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
+.close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; }
