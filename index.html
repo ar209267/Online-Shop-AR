@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shop AR - Professional SMM Panel</title>
+    <!-- Google Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Login API -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+    <!-- নেভিগেশন বার -->
+    <nav>
+        <div class="logo">Online Shop <span>AR</span></div>
+        <div class="auth-box">
+            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
+            <div class="g_id_signin" data-type="standard"></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>সোশ্যাল মিডিয়া বুস্টিং সার্ভিস</h1>
+            <p>আপনার প্রোফাইলকে প্রফেশনাল ভাবে সাজিয়ে নিন আমাদের সাথে</p>
+        </header>
+
+        <!-- সার্ভিস সেকশন -->
+        <div class="grid">
+            <!-- ফেসবুক কার্ড -->
+            <div class="card">
+                <i class="fab fa-facebook-f fb-icon"></i>
+                <h3>Facebook Services</h3>
+                <p>ফলোয়ার, লাইক ও পেজ বুস্ট</p>
+                <button class="buy-btn" onclick="openPayment('Facebook Pack', 500)">অর্ডার করুন</button>
+            </div>
+
+            <!-- ইউটিউব কার্ড -->
+            <div class="card">
+                <i class="fab fa-youtube yt-icon"></i>
+                <h3>YouTube Services</h3>
+                <p>ওয়াচটাইম ও সাবস্ক্রাইবার</p>
+                <button class="buy-btn" onclick="openPayment('YouTube Pack', 1200)">অর্ডার করুন</button>
+            </div>
+
+            <!-- টিকটক কার্ড -->
+            <div class="card">
+                <i class="fab fa-tiktok tt-icon"></i>
+                <h3>TikTok Services</h3>
+                <p>ফলোয়ার ও ভিডিও ভিউ</p>
+                <button class="buy-btn" onclick="openPayment('TikTok Pack', 300)">অর্ডার করুন</button>
+            </div>
+
+            <!-- ইনস্টাগ্রাম কার্ড -->
+            <div class="card">
+                <i class="fab fa-instagram ig-icon"></i>
+                <h3>Instagram Services</h3>
+                <p>ফলোয়ার ও লাইক বৃদ্ধি</p>
+                <button class="buy-btn" onclick="openPayment('Instagram Pack', 450)">অর্ডার করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- পেমেন্ট পপআপ (Modal) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>অর্ডার কনফার্ম করুন</h3>
+            <p id="selectedItem" style="font-weight: bold; color: #555;"></p>
+            
+            <div class="payment-details">
+                <p>নিচের নাম্বারে টাকা পাঠিয়ে TrxID দিন:</p>
+                <div class="number-box">০১৭৬৬৩৮০৯৩১</div>
+                <p style="font-size: 12px; color: #666;">(বিকাশ, নগদ, উপায় - পার্সোনাল)</p>
+            </div>
+
+            <input type="text" id="userPhone" placeholder="আপনার মোবাইল নম্বর">
+            <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
+            <button class="confirm-btn" onclick="submitOrder()">সাবমিট করুন</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
