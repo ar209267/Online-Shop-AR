@@ -1,111 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR | Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-bg: #0f172a;
-            --secondary-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --text-color: #f8fafc;
-        }
-        body { background-color: var(--primary-bg); color: var(--text-color); font-family: 'Segoe UI', sans-serif; margin: 0; }
-        .sidebar { width: 250px; background: var(--secondary-bg); height: 100vh; position: fixed; padding: 20px; }
-        .main-content { margin-left: 270px; padding: 30px; }
-        .card { background: var(--secondary-bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
-        .balance-card { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; }
-        .btn { background: var(--accent-color); color: #000; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn:hover { background: #7dd3fc; }
-    </style>
-</head>
-<body>
+<section style="padding: 40px 20px; font-family: Arial, sans-serif; background-color: #f9f9f9; text-align: center;">
+    <h2 style="color: #2c3e50;">প্যাকেজ এবং পেমেন্ট সেটআপ</h2>
+    <p style="color: #7f8c8d;">আপনার পছন্দমতো প্যাকেজটি সিলেক্ট করে অর্ডার কনফার্ম করুন।</p>
 
-<div class="sidebar">
-    <h2>Shop AR</h2>
-    <p><i class="fas fa-home"></i> Dashboard</p>
-    <p><i class="fas fa-plus"></i> New Order</p>
-    <p><i class="fas fa-history"></i> Order History</p>
-    <p><i class="fas fa-wallet"></i> Add Funds</p>
-    <p><i class="fas fa-ticket-alt"></i> Support</p>
-</div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 30px;">
+        
+        <div style="background: #fff; border: 1px solid #ddd; border-radius: 12px; width: 280px; padding: 25px; transition: 0.3s;">
+            <h3 style="color: #1dbf73;">সিলভার প্যাক</h3>
+            <p>বেসিক ফায়ারবেস সেটআপ</p>
+            <hr>
+            <div style="font-size: 30px; font-weight: bold; margin: 20px 0;">৳৫০০</div>
+            <ul style="text-align: left; line-height: 2; margin-bottom: 20px;">
+                <li>✔️ কনফিগারেশন সেটআপ</li>
+                <li>✔️ ডাটাবেস কানেকশন</li>
+                <li>✔️ ১ দিন ডেলিভারি</li>
+            </ul>
+            <button onclick="selectPackage('সিলভার প্যাক', 500)" style="width: 100%; background: #1dbf73; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
 
-<div class="main-content">
-    <div class="card balance-card">
-        <h3>আপনার বর্তমান ব্যালেন্স</h3>
-        <h1>$0.00 / ৳০.০০</h1>
+        <div style="background: #fff; border: 2px solid #1dbf73; border-radius: 12px; width: 280px; padding: 25px; transform: scale(1.05);">
+            <h3 style="color: #1dbf73;">গোল্ড প্যাক</h3>
+            <p>ফুল ওয়েবসাইট ও হোস্টিং</p>
+            <hr>
+            <div style="font-size: 30px; font-weight: bold; margin: 20px 0;">৳২০০০</div>
+            <ul style="text-align: left; line-height: 2; margin-bottom: 20px;">
+                <li>✔️ কাস্টম ডিজাইন</li>
+                <li>✔️ ফায়ারবেস হোস্টিং</li>
+                <li>✔️ লাইফটাইম সাপোর্ট</li>
+            </ul>
+            <button onclick="selectPackage('গোল্ড প্যাক', 2000)" style="width: 100%; background: #1dbf73; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
     </div>
 
-    <div class="card">
-        <h3>অর্ডার করুন (New Order)</h3>
-        <label>Category</label>
-        <select>
-            <option>Facebook Followers [Premium]</option>
-            <option>YouTube Watch Time</option>
-            <option>Instagram Likes</option>
-        </select>
+    <div id="payment-form" style="display: none; margin-top: 50px; background: white; padding: 30px; border-radius: 12px; max-width: 400px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+        <h4 id="selected-plan-name" style="color: #1dbf73;"></h4>
+        <p>মোট প্রদেয়: <strong id="plan-price"></strong> টাকা</p>
+        <hr>
+        <p style="font-size: 14px; color: #555;">পেমেন্ট করতে আমাদের <strong>বিকাশ (পার্সোনাল): ০১৭XXXXXXXX</strong> নাম্বারে টাকা পাঠিয়ে নিচের ট্রানজেকশন আইডি দিন।</p>
         
-        <label>Service</label>
-        <select>
-            <option>Real Followers - Non Drop - 30 Days Refill</option>
-        </select>
-
-        <label>Link</label>
-        <input type="text" placeholder="https://facebook.com/yourprofile">
-
-        <label>Quantity</label>
-        <input type="number" placeholder="Min: 100 - Max: 10000">
-
-        <button class="btn">Place Order</button>
-    </div>
-</div>
-
-</body>
-</html>
-<section id="services" style="padding: 50px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; text-align: center;">
-    <h2 style="color: #333; margin-bottom: 30px;">আমার ফাইবার সার্ভিসসমূহ</h2>
-    
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-        
-        <div style="background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; padding: 20px; transition: 0.3s;">
-            <h3 style="color: #1dbf73;">বেসিক সেটআপ</h3>
-            <p style="color: #666;">ফায়ারবেস কানেকশন এবং ডাটাবেস কনফিগারেশন।</p>
-            <div style="font-size: 24px; font-weight: bold; margin: 20px 0;">$১০ - $২০</div>
-            <ul style="text-align: left; color: #555; margin-bottom: 20px; list-style: none; padding: 0;">
-                <li>✔️ Firebase Auth</li>
-                <li>✔️ Database Setup</li>
-                <li>✔️ 2 Days Delivery</li>
-            </ul>
-            <a href="আপনার-ফাইবার-গিগ-লিঙ্ক" target="_blank" style="display: block; background-color: #1dbf73; color: white; padding: 12px; border-radius: 5px; text-decoration: none; font-weight: bold;">অর্ডার করুন (Fiverr)</a>
-        </div>
-
-        <div style="background: white; border-radius: 10px; border: 2px solid #1dbf73; box-shadow: 0 6px 12px rgba(0,0,0,0.15); width: 300px; padding: 20px; position: relative;">
-            <span style="position: absolute; top: -15px; right: 20px; background: #1dbf73; color: white; padding: 5px 15px; border-radius: 20px; font-size: 12px;">সেরা পছন্দ</span>
-            <h3 style="color: #1dbf73;">প্রফেশনাল ওয়েবসাইট</h3>
-            <p style="color: #666;">ফুল স্ট্যাক ওয়েবসাইট ডেভেলপমেন্ট এবং হোস্টিং।</p>
-            <div style="font-size: 24px; font-weight: bold; margin: 20px 0;">$৫০ - $১০০</div>
-            <ul style="text-align: left; color: #555; margin-bottom: 20px; list-style: none; padding: 0;">
-                <li>✔️ Custom Design</li>
-                <li>✔️ Firebase Hosting</li>
-                <li>✔️ GitHub Repository</li>
-            </ul>
-            <a href="আপনার-ফাইবার-গিগ-লিঙ্ক" target="_blank" style="display: block; background-color: #1dbf73; color: white; padding: 12px; border-radius: 5px; text-decoration: none; font-weight: bold;">অর্ডার করুন (Fiverr)</a>
-        </div>
-
-        <div style="background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; padding: 20px;">
-            <h3 style="color: #1dbf73;">বাগ ফিক্সিং</h3>
-            <p style="color: #666;">আপনার ওয়েবসাইটের যেকোনো কোডিং সমস্যার সমাধান।</p>
-            <div style="font-size: 24px; font-weight: bold; margin: 20px 0;">$৫ - $৩০</div>
-            <ul style="text-align: left; color: #555; margin-bottom: 20px; list-style: none; padding: 0;">
-                <li>✔️ Code Optimization</li>
-                <li>✔️ Error Fixing</li>
-                <li>✔️ Fast Support</li>
-            </ul>
-            <a href="আপনার-ফাইবার-গিগ-লিঙ্ক" target="_blank" style="display: block; background-color: #1dbf73; color: white; padding: 12px; border-radius: 5px; text-decoration: none; font-weight: bold;">অর্ডার করুন (Fiverr)</a>
-        </div>
-
+        <input type="text" id="txn-id" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+        <button onclick="submitOrder()" style="width: 100%; background: #2c3e50; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">পেমেন্ট নিশ্চিত করুন</button>
     </div>
 </section>
+
+<script>
+function selectPackage(name, price) {
+    document.getElementById('payment-form').style.display = 'block';
+    document.getElementById('selected-plan-name').innerText = "আপনি সিলেক্ট করেছেন: " + name;
+    document.getElementById('plan-price').innerText = price;
+    window.scrollTo(0, document.body.scrollHeight);
+}
+
+function submitOrder() {
+    const txn = document.getElementById('txn-id').value;
+    if(txn === "") {
+        alert("দয়া করে ট্রানজেকশন আইডি দিন।");
+    } else {
+        alert("আপনার পেমেন্ট রিকোয়েস্টটি গ্রহণ করা হয়েছে। ট্রানজেকশন আইডি: " + txn);
+        // এখানে আপনি Firebase Firestore-এ ডাটা সেভ করার কোড লিখতে পারেন
+    }
+}
+</script>
