@@ -1,0 +1,19 @@
+<?php
+// ১. সেশন প্রটেকশন
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ২. ইনপুট স্যানিটাইজেশন (XSS থেকে বাঁচতে)
+function secure_input($data) {
+    return htmlspecialchars(strip_tags(trim($data)));
+}
+
+// ৩. ক্লিকজ্যাকিং প্রোটেকশন
+header("X-Frame-Options: SAMEORIGIN");
+header("X-XSS-Protection: 1; mode=block");
+header("X-Content-Type-Options: nosniff");
+
+// ৪. আইপি ট্র্যাকিং (নিরাপত্তার জন্য)
+$user_ip = $_SERVER['REMOTE_ADDR'];
+?>
