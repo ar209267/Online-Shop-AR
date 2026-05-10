@@ -1,0 +1,11 @@
+/OnlineShopAR-Project
+│
+├── /assets (CSS, JS এবং ইমেজের জন্য)
+├── /includes (config.php, security.php, functions.php)
+├── /admin (admin.php এবং অ্যাডমিন ফাইল)
+├── index.php (ইউজার ড্যাশবোর্ড)
+├── login.php
+├── signup.php
+├── add_funds.php
+├── database.sql (টেবিল তৈরির কোড)
+└── README.md (প্রজেক্ট ডেসক্রিপশন)
