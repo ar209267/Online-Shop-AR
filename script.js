@@ -66,3 +66,38 @@ function parseJwt (token) {
 
     return JSON.parse(jsonPayload);
 };
+// প্রোফাইল মেনু খোলা/বন্ধ করা
+function toggleProfileMenu() {
+    const menu = document.getElementById('profile-menu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+// টাকা অ্যাড করার পপআপ (উদাহরণ হিসেবে)
+function openAddFund() {
+    alert("আপনার ওয়ালেটে টাকা যোগ করতে ০১৭৬৬৩৮০৯৩১ নাম্বারে সেন্ডমানি করে TrxID দিয়ে রিকোয়েস্ট পাঠান।");
+}
+
+// লগইন করার পর ইন্টারফেস পরিবর্তন করা (সিমুলেশন)
+function simulateLogin() {
+    const authSection = document.getElementById('auth-section');
+    const template = document.getElementById('user-dashboard-template');
+    const clone = document.importNode(template.content, true);
+    
+    authSection.innerHTML = "";
+    authSection.appendChild(clone);
+    
+    // ডেমো ডেটা সেট করা
+    document.getElementById('nav-user-name').innerText = "Atiqur Rahman";
+    document.getElementById('nav-balance').innerText = "500.00"; // উদাহরণ ব্যালেন্স
+}
+
+// স্ক্রিনের অন্য কোথাও ক্লিক করলে ড্রপডাউন বন্ধ হবে
+window.onclick = function(event) {
+    if (!event.target.closest('.user-meta')) {
+        const menu = document.getElementById('profile-menu');
+        if (menu) menu.style.display = 'none';
+    }
+    if (event.target == document.getElementById('paymentModal')) {
+        closeModal();
+    }
+}
