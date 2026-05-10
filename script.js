@@ -101,3 +101,37 @@ window.onclick = function(event) {
         closeModal();
     }
 }
+// ডেমো ডেটা (এটি পরে আমরা ডাটাবেজে কানেক্ট করব)
+let userData = {
+    name: "Atiqur Rahman",
+    balance: 0.00,
+    isLoggedIn: false
+};
+
+function loginSimulate() {
+    userData.isLoggedIn = true;
+    userData.balance = 500.00; // ধরুন সে ৫০০ টাকা লোড করেছে
+    updateUI();
+}
+
+function updateUI() {
+    if(userData.isLoggedIn) {
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('user-profile').style.display = 'flex';
+        document.getElementById('display-name').innerText = userData.name;
+        document.getElementById('current-balance').innerText = userData.balance.toFixed(2);
+    }
+}
+
+function toggleMenu() {
+    let menu = document.getElementById('dropdown-menu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function openAddFund() {
+    alert("টাকা অ্যাড করতে আমাদের বিকাশ নাম্বারে (01766380931) টাকা পাঠিয়ে TrxID দিন।");
+}
+
+function logout() {
+    location.reload(); // পেজ রিলোড দিলে সব আবার আগের মতো হয়ে যাবে
+}
