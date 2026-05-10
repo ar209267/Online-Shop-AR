@@ -3,47 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Live</title>
+    <title>Online Shop AR - Live Database</title>
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        /* আপনার আগের সব স্টাইল এখানে থাকবে */
-        :root { --primary: #0084ff; --dark: #0f172a; --orange: #f59e0b; }
-        body { margin: 0; font-family: sans-serif; background: #f8fafc; }
-        nav { background: var(--dark); padding: 15px; color: white; display: flex; justify-content: space-between; }
-        .container { padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
-        #login-screen { text-align: center; margin-top: 100px; }
+        :root { --primary: #0084ff; --dark: #0f172a; --orange: #f59e0b; --light: #f8fafc; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light); }
+        nav { background: var(--dark); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: bold; }
+        .logo span { color: var(--orange); }
+        .wallet-box { background: rgba(255,255,255,0.1); border: 1px solid var(--orange); padding: 5px 15px; border-radius: 20px; color: var(--orange); font-weight: bold; }
+        
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; }
+        
+        #login-screen { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
     </style>
 </head>
 <body>
 
     <nav id="navbar" style="display:none;">
-        <div>Online Shop <b>AR</b></div>
-        <div id="balance-area">৳ <span id="balance">0.00</span></div>
+        <div class="logo">Online Shop <span>AR</span></div>
+        <div class="wallet-box">৳ <span id="balanceDisplay">0.00</span></div>
     </nav>
 
     <div id="login-screen">
-        <h2>Online Shop AR</h2>
-        <button class="btn" onclick="startApp()">প্রবেশ করুন</button>
-    </div>
-
-    <div id="main-content" class="container" style="display:none;">
-        <div class="card">
-            <h3>Facebook Service</h3>
-            <select id="fb-service">
-                <option value="5K Followers">5K Followers - 130 TK</option>
-                <option value="Post Boost">Post Boost - 150 TK</option>
-                <option value="Meta Verified">Meta Verified - 1200 TK</option>
-            </select>
-            <button class="btn" onclick="orderNow()">অর্ডার করুন</button>
+        <div class="card" style="max-width: 350px;">
+            <h1 style="margin-bottom:10px;">স্বাগতম!</h1>
+            <p style="color:#666; margin-bottom:25px;">আপনার প্রফেশনাল প্যানেলে প্রবেশ করুন</p>
+            <button class="btn" onclick="loginAction()">লগইন করুন</button>
         </div>
     </div>
 
+    <div id="main-content" class="container" style="display:none;">
+        <h2 style="margin-bottom:25px;">আমাদের সার্ভিসসমূহ</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fab fa-facebook" style="font-size:40px; color:#1877F2;"></i>
+                <h3>Facebook Service</h3>
+                <select id="fb-service">
+                    <option value="5K Followers">5K Followers - 130 TK</option>
+                    <option value="Post Boost">Post Boost - 150 TK</option>
+                </select>
+                <button class="btn" onclick="makeOrder('Facebook')">অর্ডার করুন</button>
+            </div>
+            </div>
+    </div>
+
     <script>
-        // আপনার স্ক্রিনশট থেকে নেওয়া কনফিগ
+        // আপনার স্ক্রিনশট থেকে নেওয়া কনফিগারেশন
         const firebaseConfig = {
             apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
             authDomain: "online-shop-ar.firebaseapp.com",
@@ -53,27 +70,30 @@
             appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
         };
 
+        // ফায়ারবেস কানেক্ট করা
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        const database = firebase.database();
 
-        function startApp() {
+        function loginAction() {
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
             document.getElementById('navbar').style.display = 'flex';
-            
-            // ডাটাবেজ থেকে ব্যালেন্স আনা
-            db.ref('users/atiq_user').on('value', (snapshot) => {
-                const val = snapshot.val();
-                if(val) {
-                    document.getElementById('balance').innerText = val.balance.toFixed(2);
+            document.getElementById('main-content').style.display = 'block';
+
+            // ডাটাবেজ থেকে লাইভ ব্যালেন্স চেক করা
+            const userRef = database.ref('users/atiq_user_01');
+            userRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('balanceDisplay').innerText = data.balance.toFixed(2);
                 } else {
-                    db.ref('users/atiq_user').set({ balance: 0.00 });
+                    // প্রথমবার লগইন করলে ০ ব্যালেন্স সেট হবে
+                    userRef.set({ name: "Atiqur Rahman", balance: 0.00 });
                 }
             });
         }
 
-        function orderNow() {
-            alert("অর্ডার সফল! এডমিন চেক করে কাজ শুরু করবে।");
+        function makeOrder(service) {
+            alert(service + " অর্ডার রিসিভ হয়েছে! ২-৫ মিনিটের মধ্যে ব্যালেন্স চেক করে কাজ শুরু হবে।");
         }
     </script>
 </body>
