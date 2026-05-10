@@ -34,4 +34,71 @@ header h1 span { color: #ff8c00; }
 .number-box { background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 22px; font-weight: bold; color: #d9534f; border: 2px dashed #ff8c00; }
 input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
 .confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-.close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; color: #999; }
+.close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; color: #999; } 
+
+/* User Profile Navigation */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.balance-info {
+    background: #222;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid #ff8c00;
+}
+
+.balance-info .label { color: #ccc; font-size: 12px; }
+.balance-info .amount { color: #ff8c00; font-weight: bold; }
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: #333;
+    padding: 5px 10px;
+    border-radius: 30px;
+}
+
+.user-meta img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #0084ff;
+}
+
+.user-name {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Dropdown Menu */
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    width: 180px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 12px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.profile-dropdown a i { margin-right: 10px; color: #0084ff; }
+.profile-dropdown a:hover { background: #f4f4f4; }
