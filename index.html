@@ -1,156 +1,77 @@
-<section style="padding: 40px 20px; font-family: Arial, sans-serif; background-color: #f9f9f9; text-align: center;">
-    <h2 style="color: #2c3e50;">প্যাকেজ এবং পেমেন্ট সেটআপ</h2>
-    <p style="color: #7f8c8d;">আপনার পছন্দমতো প্যাকেজটি সিলেক্ট করে অর্ডার কনফার্ম করুন।</p>
-
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin-top: 30px;">
-        
-        <div style="background: #fff; border: 1px solid #ddd; border-radius: 12px; width: 280px; padding: 25px; transition: 0.3s;">
-            <h3 style="color: #1dbf73;">সিলভার প্যাক</h3>
-            <p>বেসিক ফায়ারবেস সেটআপ</p>
-            <hr>
-            <div style="font-size: 30px; font-weight: bold; margin: 20px 0;">৳৫০০</div>
-            <ul style="text-align: left; line-height: 2; margin-bottom: 20px;">
-                <li>✔️ কনফিগারেশন সেটআপ</li>
-                <li>✔️ ডাটাবেস কানেকশন</li>
-                <li>✔️ ১ দিন ডেলিভারি</li>
-            </ul>
-            <button onclick="selectPackage('সিলভার প্যাক', 500)" style="width: 100%; background: #1dbf73; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
-        </div>
-
-        <div style="background: #fff; border: 2px solid #1dbf73; border-radius: 12px; width: 280px; padding: 25px; transform: scale(1.05);">
-            <h3 style="color: #1dbf73;">গোল্ড প্যাক</h3>
-            <p>ফুল ওয়েবসাইট ও হোস্টিং</p>
-            <hr>
-            <div style="font-size: 30px; font-weight: bold; margin: 20px 0;">৳২০০০</div>
-            <ul style="text-align: left; line-height: 2; margin-bottom: 20px;">
-                <li>✔️ কাস্টম ডিজাইন</li>
-                <li>✔️ ফায়ারবেস হোস্টিং</li>
-                <li>✔️ লাইফটাইম সাপোর্ট</li>
-            </ul>
-            <button onclick="selectPackage('গোল্ড প্যাক', 2000)" style="width: 100%; background: #1dbf73; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
-        </div>
-
-    </div>
-
-    <div id="payment-form" style="display: none; margin-top: 50px; background: white; padding: 30px; border-radius: 12px; max-width: 400px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-        <h4 id="selected-plan-name" style="color: #1dbf73;"></h4>
-        <p>মোট প্রদেয়: <strong id="plan-price"></strong> টাকা</p>
-        <hr>
-        <p style="font-size: 14px; color: #555;">পেমেন্ট করতে আমাদের <strong>বিকাশ (পার্সোনাল): ০১৭৬৬৩৮০৯৩১</strong> নাম্বারে টাকা পাঠিয়ে নিচের ট্রানজেকশন আইডি দিন।</p>
-        
-        <input type="text" id="txn-id" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
-        <button onclick="submitOrder()" style="width: 100%; background: #2c3e50; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer;">পেমেন্ট নিশ্চিত করুন</button>
-    </div>
-</section>
-
-<script>
-function selectPackage(name, price) {
-    document.getElementById('payment-form').style.display = 'block';
-    document.getElementById('selected-plan-name').innerText = "আপনি সিলেক্ট করেছেন: " + name;
-    document.getElementById('plan-price').innerText = price;
-    window.scrollTo(0, document.body.scrollHeight);
-}
-
-function submitOrder() {
-    const txn = document.getElementById('txn-id').value;
-    if(txn === "") {
-        alert("দয়া করে ট্রানজেকশন আইডি দিন।");
-    } else {
-        alert("আপনার পেমেন্ট রিকোয়েস্টটি গ্রহণ করা হয়েছে। ট্রানজেকশন আইডি: " + txn);
-        // এখানে আপনি Firebase Firestore-এ ডাটা সেভ করার কোড লিখতে পারেন
-    }
-}
-</script>
-<div style="text-align: center; margin-top: 20px;">
-    <a href="আপনার-ফাইবার-গিগ-লিঙ্ক" target="_blank" style="display: inline-block; background-color: #1dbf73; color: #fff; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 4px; text-decoration: none; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-        Order Professionally on Fiverr
-    </a>
-    <p style="font-size: 14px; color: #666; margin-top: 10px;">Safe payment & 24/7 support via Fiverr</p>
-</div>
-<a href="https://www.fiverr.com/s/abcdef" target="_blank" ...>
-    Order on Fiverr
-</a>
-<section style="padding: 50px 20px; font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; text-align: center;">
-    <h2 style="color: #2c3e50;">আমাদের অনলাইন সার্ভিসসমূহ</h2>
-    <p style="color: #666; margin-bottom: 40px;">আপনার প্রয়োজনীয় সার্ভিসটি বেছে নিন</p>
-
+<section style="padding: 50px 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; text-align: center;">
+    <h2 style="color: #2c3e50; margin-bottom: 30px;">আমাদের অল-ইন-ওয়ান ডিজিটাল সার্ভিস</h2>
+    
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
 
-        <div class="service-card" style="background: white; border-radius: 12px; width: 260px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid #1877f2;">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="FB" style="width: 50px; margin-bottom: 15px;">
-            <h3 style="margin: 10px 0; color: #1877f2;">Facebook</h3>
-            <p style="font-size: 14px; color: #777;">লাইক, ফলোয়ার, ওয়াচটাইম</p>
-            <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">৳১৩০ (৫০০০ ফলোয়ার)</div>
-            <button onclick="openPanel('Facebook Service', '130')" style="width: 100%; background: #1877f2; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">অর্ডার করুন</button>
+        <div style="background: white; border-radius: 12px; width: 280px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #1877f2;">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="50" height="50" style="margin-bottom: 15px;">
+            <h3 style="color: #1877f2;">Facebook</h3>
+            <p>লাইক, ফলোয়ার ও ওয়াচটাইম</p>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">৳১৩০ (৫০০০ ফলোয়ার)</div>
+            <button onclick="openBooking('Facebook', 130)" style="width: 100%; background: #1877f2; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
         </div>
 
-        <div class="service-card" style="background: white; border-radius: 12px; width: 260px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid #ff0000;">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YT" style="width: 50px; margin-bottom: 15px;">
-            <h3 style="margin: 10px 0; color: #ff0000;">YouTube</h3>
-            <p style="font-size: 14px; color: #777;">সাবস্ক্রাইবার, ভিউ, ওয়াচটাইম</p>
-            <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">৳২৫০ (১০০০ সাবস্ক্রাইবার)</div>
-            <button onclick="openPanel('YouTube Service', '250')" style="width: 100%; background: #ff0000; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">অর্ডার করুন</button>
+        <div style="background: white; border-radius: 12px; width: 280px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff0000;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="50" height="50" style="margin-bottom: 15px;">
+            <h3 style="color: #ff0000;">YouTube</h3>
+            <p>সাবস্ক্রাইবার ও ওয়াচটাইম</p>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">৳২৫০ (১০০০ সাব)</div>
+            <button onclick="openBooking('YouTube', 250)" style="width: 100%; background: #ff0000; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
         </div>
 
-        <div class="service-card" style="background: white; border-radius: 12px; width: 260px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid #ff9800;">
-            <img src="https://cdn-icons-png.flaticon.com/512/10543/10543162.png" alt="FF" style="width: 50px; margin-bottom: 15px;">
-            <h3 style="margin: 10px 0; color: #ff9800;">Free Fire Diamond</h3>
-            <p style="font-size: 14px; color: #777;">আইডি কোড টপ-আপ</p>
-            <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">৳৮৫ (১০০ ডায়মন্ড)</div>
-            <button onclick="openPanel('FF Diamond', '85')" style="width: 100%; background: #ff9800; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">টপ-আপ করুন</button>
+        <div style="background: white; border-radius: 12px; width: 280px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff9800;">
+            <img src="https://cdn-icons-png.flaticon.com/512/10543/10543162.png" width="50" height="50" style="margin-bottom: 15px;">
+            <h3 style="color: #ff9800;">Free Fire</h3>
+            <p>ডায়মন্ড ও আইডি সেল</p>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">৳৮৫ (১০০ ডায়মন্ড)</div>
+            <button onclick="openBooking('Free Fire', 85)" style="width: 100%; background: #ff9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">টপ-আপ করুন</button>
         </div>
 
-        <div class="service-card" style="background: white; border-radius: 12px; width: 260px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid #4caf50;">
-            <img src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png" alt="ID" style="width: 50px; margin-bottom: 15px;">
-            <h3 style="margin: 10px 0; color: #4caf50;">Free Fire ID Sale</h3>
-            <p style="font-size: 14px; color: #777;">সেরা গেম আইডি কালেকশন</p>
-            <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">আলোচনা সাপেক্ষে</div>
-            <button onclick="openPanel('ID Buy/Sell', 'Contact')" style="width: 100%; background: #4caf50; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">বিস্তারিত দেখুন</button>
-        </div>
-
-        <div class="service-card" style="background: white; border-radius: 12px; width: 260px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 4px solid #e1306c;">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Insta" style="width: 50px; margin-bottom: 15px;">
-            <h3 style="margin: 10px 0; color: #e1306c;">TikTok & Insta</h3>
-            <p style="font-size: 14px; color: #777;">ফলোয়ার এবং ভিডিও ভিউ</p>
-            <div style="font-size: 20px; font-weight: bold; margin: 15px 0;">৳১৩০ (৫০০০ ফলোয়ার)</div>
-            <button onclick="openPanel('TikTok/Insta Service', '130')" style="width: 100%; background: #e1306c; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">অর্ডার করুন</button>
+        <div style="background: white; border-radius: 12px; width: 280px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #e1306c;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="50" height="50" style="margin-bottom: 15px;">
+            <h3 style="color: #e1306c;">TikTok & Insta</h3>
+            <p>ফলোয়ার, লাইক ও ভিউ</p>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">৳১৩০ (৫০০০ ফলোয়ার)</div>
+            <button onclick="openBooking('Social Service', 130)" style="width: 100%; background: #e1306c; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
         </div>
 
     </div>
 
-    <div id="payment-panel" style="display: none; margin-top: 40px; padding: 30px; background: white; border-radius: 15px; max-width: 500px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-        <h4 id="panel-title" style="color: #333;">অর্ডার ফরম</h4>
-        <p>সার্ভিস চার্জ: <strong id="panel-price"></strong> টাকা</p>
+    <div id="booking-box" style="display: none; margin-top: 50px; background: white; padding: 30px; border-radius: 15px; max-width: 450px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #ddd;">
+        <h4 id="selected-service" style="color: #333; margin-bottom: 10px;"></h4>
+        <p style="color: #1dbf73; font-weight: bold; font-size: 18px;">বিল: <span id="selected-price"></span> টাকা</p>
         <hr>
-        <p style="background: #e3f2fd; padding: 10px; border-radius: 5px; font-size: 13px;">
-            পেমেন্ট বিকাশ/নগদ (পার্সোনাল): <strong>০১৭৬৬৩৮০৯৩১</strong> নাম্বারে পাঠিয়ে তথ্য দিন।
-        </p>
-        <input type="text" id="user-link" placeholder="লিঙ্ক বা গেম আইডি (UID) দিন" style="width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
-        <input type="text" id="user-txn" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px;">
-        <button onclick="submitToAdmin()" style="width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;">অর্ডার সাবমিট করুন</button>
+        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 20px;">
+            পেমেন্ট করুন <strong>বিকাশ/নগদ (পার্সোনাল): 01766380931</strong> নাম্বারে টাকা পাঠিয়ে নিচের তথ্য দিন।
+        </div>
+        
+        <input type="text" id="target-link" placeholder="লিঙ্ক বা গেম UID দিন" style="width: 90%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <input type="text" id="txn-id" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px;">
+        
+        <button onclick="confirmBooking()" style="width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">অর্ডার সাবমিট করুন</button>
     </div>
 </section>
 
 <script>
-function openPanel(title, price) {
-    document.getElementById('payment-panel').style.display = 'block';
-    document.getElementById('panel-title').innerText = "অর্ডার করছেন: " + title;
-    document.getElementById('panel-price').innerText = price;
-    window.scrollTo({ top: document.getElementById('payment-panel').offsetTop - 50, behavior: 'smooth' });
+function openBooking(title, price) {
+    document.getElementById('booking-box').style.display = 'block';
+    document.getElementById('selected-service').innerText = "অর্ডার করছেন: " + title;
+    document.getElementById('selected-price').innerText = price;
+    window.scrollTo({ top: document.getElementById('booking-box').offsetTop - 20, behavior: 'smooth' });
 }
 
-function submitToAdmin() {
-    const link = document.getElementById('user-link').value;
-    const txn = document.getElementById('user-txn').value;
-    const service = document.getElementById('panel-title').innerText;
-    
+function confirmBooking() {
+    const link = document.getElementById('target-link').value;
+    const txn = document.getElementById('txn-id').value;
+    const service = document.getElementById('selected-service').innerText;
+
     if(!link || !txn) {
-        alert("সবগুলো ঘর পূরণ করুন!");
+        alert("সবগুলো তথ্য দিন।");
         return;
     }
 
-    // এখানে আপনি WhatsApp-এ মেসেজ পাঠানোর লিঙ্ক তৈরি করতে পারেন
-    const message = `নতুন অর্ডার: ${service}%0Aলিঙ্ক/ইউআইডি: ${link}%0Aট্রানজেকশন আইডি: ${txn}`;
-    window.open(`https://wa.me/৮৮০১৭৬৬৩৮০৯৩১?text=${message}`, '_blank');
+    // আপনার হোয়াটসঅ্যাপে সরাসরি মেসেজ যাবে
+    const whatsappMsg = `নতুন অর্ডার: ${service}%0Aলিঙ্ক/UID: ${link}%0Aট্রানজেকশন আইডি: ${txn}`;
+    window.open(`https://wa.me/8801766380931?text=${whatsappMsg}`, '_blank');
 }
-</script>
+        </script>
