@@ -5,11 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Shop AR - Members Area</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* CSS কোড এখানে */
+        :root { --primary: #0084ff; --dark: #111; --gray: #f4f7f6; --orange: #ff8c00; }
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray); }
+
+        nav { background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; height: 60px; box-sizing: border-box; }
+        .logo { font-size: 20px; font-weight: bold; }
+        .logo span { color: var(--orange); }
+
+        .top-profile { display: flex; align-items: center; gap: 15px; }
+        .top-wallet { background: #222; border: 1px solid var(--orange); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--orange); font-size: 14px; }
+        .top-wallet button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; padding: 0; }
+
+        .user-info-box { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+        .user-info-box img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--orange); }
+        
+        .dropdown { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 8px; width: 150px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .dropdown a { display: block; padding: 12px; color: #333; text-decoration: none; font-size: 14px; border-bottom: 1px solid #eee; }
+        .dropdown a:last-child { border: none; }
+
+        /* Login Screen */
+        .full-screen-center { height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
+        .google-btn { background: #4285F4; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        /* Service Grid */
+        .container { max-width: 1100px; margin: auto; padding: 30px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        .icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: white; font-size: 22px; }
+        .fb-bg { background: #1877F2; } .yt-bg { background: #FF0000; } .ff-bg { background: #ff8c00; } .tt-bg { background: #000; }
+
+        .package-select { width: 100%; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; outline: none; }
+        .buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; }
+        .modal-content { background: white; width: 90%; max-width: 380px; margin: 80px auto; padding: 25px; border-radius: 20px; text-align: center; position: relative; }
+        .close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; color: #777; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .number-box { background: #fff3cd; padding: 10px; border-radius: 8px; margin: 10px 0; font-weight: bold; border: 1px dashed var(--orange); font-size: 14px; }
+    </style>
 </head>
 <body>
 
-    <!-- নেভিগেশন বার (লগইন করার পর ডানে প্রোফাইল শো করবে) -->
+    <!-- নেভিগেশন বার -->
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
         <div id="nav-user-area" style="display:none;">
@@ -19,8 +63,8 @@
                     <button onclick="openAddFund()"><i class="fas fa-plus-circle"></i></button>
                 </div>
                 <div class="user-info-box" onclick="toggleMenu()">
-                    <span id="user-name">Atiqur</span>
-                    <img src="https://i.ibb.co/v3m9FvC/user-icon.png" alt="user">
+                    <span id="user-display-name">User</span>
+                    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="user">
                     <div id="profile-dropdown" class="dropdown">
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
                     </div>
@@ -29,23 +73,23 @@
         </div>
     </nav>
 
-    <!-- লগইন পেজ (ডিফল্ট ভাবে এটিই শো করবে) -->
+    <!-- লগইন স্ক্রিন -->
     <div id="login-screen" class="full-screen-center">
         <div class="login-card">
             <h1>Online Shop <span>AR</span></h1>
-            <p>আমাদের সার্ভিস দেখতে আপনার একাউন্টে লগইন করুন</p>
+            <p style="color: #666; margin-bottom: 20px;">আমাদের সার্ভিস দেখতে আপনার একাউন্টে লগইন করুন</p>
             <button onclick="loginProcess()" class="google-btn">
                 <i class="fab fa-google"></i> Google দিয়ে লগইন করুন
             </button>
-            <p class="footer-text">লগইন করলে আপনি আমাদের সব সার্ভিস এক্সেস করতে পারবেন।</p>
+            <p style="font-size: 11px; color: #999; margin-top: 25px;">সুরক্ষিত ভাবে লগইন করুন এবং সেরা সার্ভিস নিন।</p>
         </div>
     </div>
 
-    <!-- মেইন সার্ভিস এরিয়া (লগইন না করা পর্যন্ত হাইড থাকবে) -->
+    <!-- মেইন সার্ভিস এরিয়া -->
     <div id="main-content" class="container" style="display:none;">
-        <header>
-            <h2>স্বাগতম, <span id="header-name"></span></h2>
-            <p>আপনার পছন্দের সার্ভিসটি বেছে নিন</p>
+        <header style="margin-bottom: 30px;">
+            <h2 style="margin:0;">স্বাগতম, <span id="header-name" style="color: var(--primary);"></span></h2>
+            <p style="color: #666; margin-top: 5px;">আপনার পছন্দের সার্ভিসটি বেছে নিন</p>
         </header>
 
         <div class="grid">
@@ -95,19 +139,79 @@
         </div>
     </div>
 
-    <!-- পেমেন্ট মোডাল (অর্ডার করার সময় আসবে) -->
+    <!-- পেমেন্ট মোডাল -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>অর্ডার কনফার্ম করুন</h3>
-            <p id="selectedItem"></p>
+            <h3 style="margin-top: 0;">অর্ডার কনফার্ম করুন</h3>
+            <p id="selectedItem" style="font-weight: bold; color: var(--primary);"></p>
             <input type="text" id="targetLink" placeholder="আইডি বা লিংক দিন">
-            <div class="number-box">বিকাশ/নগদ: 01766380931</div>
-            <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
+            <div class="number-box">বিকাশ/নগদ (Snd Money): 01766380931</div>
+            <input type="text" id="trxId" placeholder="ট্রানজেকশন আইডি (TrxID)">
             <button class="confirm-btn" onclick="submitOrder()">কনফার্ম করুন</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JavaScript কোড এখানে -->
+    <script>
+        function loginProcess() {
+            // ডিজাইন পরিবর্তন
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('nav-user-area').style.display = 'block';
+            
+            // ডেটা সেট
+            document.getElementById('header-name').innerText = "Atiqur Rahman";
+            document.getElementById('user-display-name').innerText = "Atiqur";
+            document.getElementById('nav-balance').innerText = "৳ ৫০০.০০";
+            
+            alert("সফলভাবে লগইন হয়েছে!");
+        }
+
+        function toggleMenu() {
+            let menu = document.getElementById('profile-dropdown');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function buyService(selectId, serviceName) {
+            const pack = document.getElementById(selectId).value;
+            document.getElementById('selectedItem').innerText = serviceName + " - " + pack;
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function submitOrder() {
+            const link = document.getElementById('targetLink').value;
+            const trx = document.getElementById('trxId').value;
+            if(!link || !trx) {
+                alert("সব তথ্য পূরণ করুন!");
+                return;
+            }
+            alert("অর্ডার রিসিভ করা হয়েছে! ২-৫ মিনিটের মধ্যে চেক করে কাজ শুরু হবে।");
+            closeModal();
+        }
+
+        function openAddFund() {
+            alert("ওয়ালেটে ব্যালেন্স অ্যাড করতে আমাদের নাম্বারে টাকা পাঠিয়ে Admin-কে TrxID দিন।");
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        // বাইরের জায়গায় ক্লিক করলে মেনু বন্ধ হওয়া
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-info-box')) {
+                let menu = document.getElementById('profile-dropdown');
+                if(menu) menu.style.display = 'none';
+            }
+            if (event.target == document.getElementById('paymentModal')) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
 </html>
