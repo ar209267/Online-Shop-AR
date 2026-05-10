@@ -3,111 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Professional Service Panel</title>
+    <title>Online Shop AR - Professional Dashboard</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --primary: #0084ff; --dark: #0f172a; --orange: #f59e0b; --light: #f1f5f9; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--light); color: #334155; }
+        :root { --primary: #ff8c00; --dark-bg: #1a1a1a; --card-bg: #2d2d2d; --text: #ffffff; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark-bg); color: var(--text); }
         
-        nav { background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; height: 65px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .logo { font-size: 22px; font-weight: 800; }
-        .logo span { color: var(--orange); }
-        .wallet { background: rgba(255,140,0,0.15); border: 1px solid var(--orange); padding: 5px 15px; border-radius: 50px; color: var(--orange); font-weight: bold; }
+        /* Header */
+        header { background: #000; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); }
+        .logo { font-size: 22px; font-weight: bold; color: var(--primary); }
 
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
-        
-        .service-card { background: white; padding: 25px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: 0.3s; }
-        .service-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .service-card i { font-size: 45px; margin-bottom: 15px; }
-        
-        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; margin: 10px 0; box-sizing: border-box; }
-        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #006ee0; }
+        /* Stats Grid - MarufSMM Style */
+        .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; max-width: 1100px; margin: 0 auto; }
+        .stat-box { background: var(--card-bg); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); }
+        .stat-box small { color: #aaa; font-size: 12px; }
+        .stat-box h3 { margin: 5px 0; font-size: 18px; }
 
-        /* Payment Modal */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; padding: 30px; border-radius: 25px; width: 100%; max-width: 400px; text-align: center; position: relative; }
-        .payment-info { background: #fff8e1; border: 1px dashed var(--orange); padding: 15px; border-radius: 12px; margin: 15px 0; color: #856404; font-weight: bold; }
+        /* Category Icons */
+        .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 20px; max-width: 1100px; margin: 0 auto; }
+        .cat-icon { background: #333; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #444; }
+        .cat-icon:hover { border-color: var(--primary); background: #444; }
+        .cat-icon i { font-size: 20px; }
+
+        /* Order Form */
+        .order-section { background: var(--card-bg); margin: 25px 20px; padding: 25px; border-radius: 20px; max-width: 1100px; margin: 25px auto; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
+        select, input, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
+        
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        
+        /* Notice Box */
+        .notice { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Online Shop <span>AR</span></div>
-        <div class="wallet"><i class="fas fa-wallet"></i> ৳ <span id="userBalance">0.00</span></div>
-    </nav>
+    <header>
+        <div class="logo">Online Shop AR</div>
+        <i class="fas fa-bars" style="font-size: 20px;"></i>
+    </header>
 
-    <div class="container">
-        <h2 style="margin-bottom: 30px;"><i class="fas fa-th-large"></i> আপনার সার্ভিস বেছে নিন</h2>
-        <div class="grid">
-            <div class="service-card">
-                <i class="fab fa-facebook" style="color: #1877F2;"></i>
-                <h3>Facebook Service</h3>
-                <select id="fb-pack">
-                    <option value="5K Followers - 130 TK">5K Followers - 130 TK</option>
-                    <option value="Post Boost (1K) - 150 TK">Post Boost (1K) - 150 TK</option>
-                    <option value="Meta Verified - 1200 TK">Meta Verified Payment</option>
-                </select>
-                <button class="btn" onclick="openPayment('Facebook', 'fb-pack')">অর্ডার করুন</button>
-            </div>
-
-            <div class="service-card">
-                <i class="fab fa-youtube" style="color: #FF0000;"></i>
-                <h3>YouTube Growth</h3>
-                <select id="yt-pack">
-                    <option value="1K Subs - 1200 TK">1,000 Subscribers - 1200 TK</option>
-                    <option value="4K Hours - 3200 TK">4,000 Hours Watchtime</option>
-                </select>
-                <button class="btn" onclick="openPayment('YouTube', 'yt-pack')">অর্ডার করুন</button>
-            </div>
-
-            <div class="service-card">
-                <i class="fab fa-tiktok" style="color: #000;"></i>
-                <h3>TikTok Services</h3>
-                <select id="tt-pack">
-                    <option value="1K Followers - 150 TK">1,000 Followers - 150 TK</option>
-                    <option value="10K Views - 100 TK">10,000 Video Views - 100 TK</option>
-                </select>
-                <button class="btn" onclick="openPayment('TikTok', 'tt-pack')">অর্ডার করুন</button>
-            </div>
-
-            <div class="service-card">
-                <i class="fas fa-gem" style="color: #ff8c00;"></i>
-                <h3>FF Diamond</h3>
-                <select id="ff-pack">
-                    <option value="115 Diamond - 85 TK">115 Diamond - 85 TK</option>
-                    <option value="240 Diamond - 165 TK">240 Diamond - 165 TK</option>
-                </select>
-                <button class="btn" onclick="openPayment('Free Fire', 'ff-pack')">টপ-আপ করুন</button>
-            </div>
+    <div class="stats-container">
+        <div class="stat-box">
+            <small>Username</small>
+            <h3>Atiqur Rahman</h3>
+        </div>
+        <div class="stat-box">
+            <small>Remaining balance</small>
+            <h3>৳ <span id="balance">0.00</span></h3>
+        </div>
+        <div class="stat-box">
+            <small>Total Cost</small>
+            <h3>৳ 0.00</h3>
+        </div>
+        <div class="stat-box">
+            <small>Total Orders</small>
+            <h3>1,831</h3>
         </div>
     </div>
 
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <h3 id="m-service-name">পেমেন্ট করুন</h3>
-            <p id="m-package-name" style="color: var(--primary); font-weight: bold;"></p>
-            
-            <div class="payment-info">
-                বিকাশ/নগদ (Send Money): 01766380931
-            </div>
+    <div class="category-grid">
+        <div class="cat-icon" style="color: #1877F2;"><i class="fab fa-facebook"></i></div>
+        <div class="cat-icon" style="color: #E1306C;"><i class="fab fa-instagram"></i></div>
+        <div class="cat-icon" style="color: #0088cc;"><i class="fab fa-telegram"></i></div>
+        <div class="cat-icon" style="color: #FF0000;"><i class="fab fa-youtube"></i></div>
+    </div>
 
-            <input type="text" id="orderLink" placeholder="আইডি লিংক বা গেম ইউআইডি দিন">
-            <input type="text" id="orderTrx" placeholder="টাকা পাঠানোর পর TrxID দিন">
-            
-            <button class="btn" onclick="submitOrder()">অর্ডার কনফার্ম</button>
-            <button onclick="closeModal()" style="background:none; border:none; margin-top:15px; color:#64748b; cursor:pointer;">বন্ধ করুন</button>
+    <div class="order-section">
+        <label>Category</label>
+        <select id="category">
+            <option>Facebook Followers | High Quality</option>
+            <option>YouTube Watch Time | Non Drop</option>
+            <option>TikTok Followers | Real</option>
+        </select>
+
+        <label>Service</label>
+        <select id="service">
+            <option>Facebook 5K Followers - 130 TK</option>
+            <option>Facebook 10K Followers - 250 TK</option>
+        </select>
+
+        <label>Link</label>
+        <input type="text" id="orderLink" placeholder="https://facebook.com/yourprofile">
+
+        <label>Quantity (Min: 100 - Max: 50,000)</label>
+        <input type="number" id="quantity" placeholder="0">
+
+        <button class="submit-btn" onclick="submitOrder()">Submit Order</button>
+
+        <div class="notice">
+            <b>Please Follow:</b><br>
+            * No Refill: There is no guarantee in any case.<br>
+            * Orders will be marked as completed if the link is changed or account is hidden.
         </div>
     </div>
 
     <script>
-        // আপনার স্ক্রিনশট থেকে নেওয়া কনফিগ
         const firebaseConfig = {
             apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
             authDomain: "online-shop-ar.firebaseapp.com",
@@ -120,48 +115,17 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // লাইভ ব্যালেন্স চেক
+        // ব্যালেন্স সিঙ্ক
         db.ref('users/atiq_user_01').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (data) document.getElementById('userBalance').innerText = data.balance.toFixed(2);
+            if (data) document.getElementById('balance').innerText = data.balance.toFixed(2);
         });
-
-        let currentService = "";
-        let currentPackage = "";
-
-        function openPayment(service, selectId) {
-            currentService = service;
-            currentPackage = document.getElementById(selectId).value;
-            
-            document.getElementById('m-service-name').innerText = service + " পেমেন্ট";
-            document.getElementById('m-package-name').innerText = currentPackage;
-            document.getElementById('paymentModal').style.display = 'flex';
-        }
-
-        function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
 
         function submitOrder() {
             const link = document.getElementById('orderLink').value;
-            const trx = document.getElementById('orderTrx').value;
-
-            if(!link || !trx) {
-                alert("দয়া করে সব তথ্য পূরণ করুন!");
-                return;
-            }
-
-            // অর্ডারের তথ্য ডাটাবেজে সেভ করা
-            const orderId = Date.now();
-            db.ref('orders/' + orderId).set({
-                service: currentService,
-                package: currentPackage,
-                target: link,
-                transactionId: trx,
-                status: "Pending",
-                time: new Date().toLocaleString()
-            }).then(() => {
-                alert("অর্ডারটি সফলভাবে জমা হয়েছে! অ্যাডমিন চেক করে কাজ শুরু করবে।");
-                closeModal();
-            });
+            const qty = document.getElementById('quantity').value;
+            if(!link || !qty) { alert("সব তথ্য পূরণ করুন!"); return; }
+            alert("Order Submitted Successfully!");
         }
     </script>
 </body>
