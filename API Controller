@@ -1,0 +1,22 @@
+<?php
+// এটি একটি প্রফেশনাল API CURL ফাংশন
+function send_order_to_provider($api_url, $api_key, $service_id, $link, $quantity) {
+    $post_data = [
+        'key' => $api_key,
+        'action' => 'add',
+        'service' => $service_id,
+        'link' => $link,
+        'quantity' => $quantity
+    ];
+
+    $ch = curl_init($api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    return json_decode($response, true);
+}
+?>
