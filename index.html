@@ -242,3 +242,32 @@
     </script>
 </body>
 </html>
+<script>
+    // ডিফল্ট ব্যালেন্স ০.০০
+    let currentBalance = 0.00;
+
+    function loginProcess() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('nav-user-area').style.display = 'block';
+        
+        document.getElementById('header-name').innerText = "Atiqur Rahman";
+        document.getElementById('user-display-name').innerText = "Atiqur";
+        
+        // শুরুতে ব্যালেন্স ০.০০ দেখাবে
+        updateBalanceUI();
+    }
+
+    function updateBalanceUI() {
+        document.getElementById('nav-balance').innerText = "৳ " + currentBalance.toFixed(2);
+    }
+
+    // আপনার জন্য গোপন ফাংশন (ল্যাপটপের কনসোলে গিয়ে ব্যালেন্স বাড়ানো যাবে)
+    function addMoneyAdmin(amount) {
+        currentBalance += amount;
+        updateBalanceUI();
+        alert(amount + " টাকা আপনার একাউন্টে যোগ করা হয়েছে!");
+    }
+    
+    // বাকি ফাংশনগুলো আগের মতোই থাকবে...
+</script>
