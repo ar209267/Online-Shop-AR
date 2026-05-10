@@ -1,0 +1,38 @@
+// Firebase Firestore কানেকশন এবং অটোমেশন লজিক
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const db = getFirestore();
+
+async function confirmAndSend() {
+    const link = document.getElementById('link-field').value;
+    const txn = document.getElementById('txn-field').value;
+    const title = document.getElementById('order-title').innerText;
+    const bill = document.getElementById('order-price').innerText;
+
+    if(!link || !txn) {
+        alert("দয়া করে লিঙ্ক এবং ট্রানজেকশন আইডি দিন।");
+        return;
+    }
+
+    try {
+        // ১. সরাসরি ফায়ারবেস ডাটাবেসে অর্ডার সেভ হবে
+        const docRef = await addDoc(collection(db, "all_orders"), {
+            service: title,
+            link_or_uid: link,
+            amount: bill,
+            transaction_id: txn,
+            status: "Pending", // আপনার প্যানেল থেকে পরে 'Processing' বা 'Completed' করবেন
+            order_date: serverTimestamp()
+        });
+
+        alert("অর্ডারটি সফলভাবে ডাটাবেসে জমা হয়েছে! আইডি: " + docRef.id);
+
+        // ২. অটোমেটিক হোয়াটসঅ্যাপে নোটিফিকেশন যাবে (আপনার ব্যাকআপের জন্য)
+        const waMsg = `*অটোমেটেড অর্ডার*%0A*ID:* ${docRef.id}%0A*সার্ভিস:* ${title}%0A*বিল:* ${bill}৳%0A*Txn ID:* ${txn}`;
+        window.open(`https://wa.me/8801766380931?text=${waMsg}`, '_blank');
+
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        alert("অর্ডার সেভ করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
+}
