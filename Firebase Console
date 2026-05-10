@@ -1,0 +1,19 @@
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.x/firebase-firestore.js";
+
+const db = getFirestore(app);
+
+async function saveOrderToFirebase(plan, price, link, txid) {
+    try {
+        const docRef = await addDoc(collection(db, "orders"), {
+            service: plan,
+            amount: price,
+            link: link,
+            transactionId: txid,
+            status: "Pending",
+            date: new Date()
+        });
+        console.log("Order saved with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
