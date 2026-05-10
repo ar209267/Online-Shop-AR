@@ -1,0 +1,28 @@
+function confirmPayment() {
+    const link = document.getElementById('target-link').value;
+    const txid = document.getElementById('transaction-id').value;
+    const plan = document.getElementById('order-title').innerText;
+    const price = document.getElementById('order-price').innerText;
+    
+    if(!link || !txid) {
+        alert("দয়া করে লিঙ্ক এবং ট্রানজেকশন আইডি দিন।");
+        return;
+    }
+
+    // ইমেইল পাঠানোর প্যারামিটার
+    const templateParams = {
+        service_name: plan,
+        price: price,
+        target_link: link,
+        transaction_id: txid
+    };
+
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+           alert("ধন্যবাদ! আপনার অর্ডারটি সফল হয়েছে এবং আমাদের কাছে ইমেইল পৌঁছেছে।");
+           console.log('SUCCESS!', response.status, response.text);
+        }, function(error) {
+           alert("দুঃখিত, ইমেইল পাঠানো যায়নি। আবার চেষ্টা করুন।");
+           console.log('FAILED...', error);
+        });
+}
