@@ -3,102 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Professional Dashboard</title>
+    <title>Online Shop AR - Pro Dashboard</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --primary: #ff8c00; --dark-bg: #1a1a1a; --card-bg: #2d2d2d; --text: #ffffff; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--dark-bg); color: var(--text); }
+        :root { --primary: #ff8c00; --bg: #0b0f19; --card: #161b28; --input: #1f2937; --text: #ffffff; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 50px; }
         
-        /* Header */
-        header { background: #000; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); }
-        .logo { font-size: 22px; font-weight: bold; color: var(--primary); }
+        /* Navbar Style from MarufSMM */
+        header { background: #000; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo-text { font-size: 20px; font-weight: bold; color: var(--primary); }
+        .user-profile { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--primary); }
 
-        /* Stats Grid - MarufSMM Style */
-        .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; max-width: 1100px; margin: 0 auto; }
-        .stat-box { background: var(--card-bg); padding: 15px; border-radius: 15px; border-left: 4px solid var(--primary); }
-        .stat-box small { color: #aaa; font-size: 12px; }
-        .stat-box h3 { margin: 5px 0; font-size: 18px; }
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px; }
+        .stat-card { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #2d3748; }
+        .stat-card small { color: #94a3b8; font-size: 11px; text-transform: uppercase; }
+        .stat-card h3 { margin: 8px 0 0; font-size: 16px; color: #f8fafc; }
 
-        /* Category Icons */
-        .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 20px; max-width: 1100px; margin: 0 auto; }
-        .cat-icon { background: #333; padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #444; }
-        .cat-icon:hover { border-color: var(--primary); background: #444; }
-        .cat-icon i { font-size: 20px; }
+        /* Service Icons */
+        .icon-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 0 20px; margin-bottom: 25px; }
+        .icon-item { background: var(--card); height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 18px; border: 1px solid #2d3748; transition: 0.3s; }
+        .icon-item:hover { border-color: var(--primary); color: var(--primary); }
 
         /* Order Form */
-        .order-section { background: var(--card-bg); margin: 25px 20px; padding: 25px; border-radius: 20px; max-width: 1100px; margin: 25px auto; }
-        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
-        select, input, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #444; color: white; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
+        .order-container { background: var(--card); margin: 0 20px; padding: 20px; border-radius: 15px; border: 1px solid #2d3748; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 7px; font-size: 13px; color: #cbd5e1; }
+        select, input { width: 100%; padding: 12px; background: var(--input); border: 1px solid #374151; color: white; border-radius: 10px; outline: none; box-sizing: border-box; }
         
-        .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        
-        /* Notice Box */
-        .notice { background: rgba(255, 140, 0, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 13px; color: var(--primary); }
+        .submit-btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+
+        .notice-box { background: rgba(255, 140, 0, 0.05); border: 1px dashed var(--primary); padding: 15px; border-radius: 10px; margin-top: 20px; color: #f59e0b; font-size: 12px; line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">Online Shop AR</div>
-        <i class="fas fa-bars" style="font-size: 20px;"></i>
+        <div class="logo-text">Online Shop AR</div>
+        <img src="https://via.placeholder.com/150" class="user-profile" alt="User">
     </header>
 
-    <div class="stats-container">
-        <div class="stat-box">
+    <div class="stats-grid">
+        <div class="stat-card">
             <small>Username</small>
-            <h3>Atiqur Rahman</h3>
+            <h3 id="uName">Loading...</h3>
         </div>
-        <div class="stat-box">
-            <small>Remaining balance</small>
-            <h3>৳ <span id="balance">0.00</span></h3>
+        <div class="stat-card">
+            <small>Balance</small>
+            <h3 style="color: var(--primary);">৳ <span id="uBalance">0.00</span></h3>
         </div>
-        <div class="stat-box">
+        <div class="stat-card">
             <small>Total Cost</small>
             <h3>৳ 0.00</h3>
         </div>
-        <div class="stat-box">
+        <div class="stat-card">
             <small>Total Orders</small>
-            <h3>1,831</h3>
+            <h3>0</h3>
         </div>
     </div>
 
-    <div class="category-grid">
-        <div class="cat-icon" style="color: #1877F2;"><i class="fab fa-facebook"></i></div>
-        <div class="cat-icon" style="color: #E1306C;"><i class="fab fa-instagram"></i></div>
-        <div class="cat-icon" style="color: #0088cc;"><i class="fab fa-telegram"></i></div>
-        <div class="cat-icon" style="color: #FF0000;"><i class="fab fa-youtube"></i></div>
+    <div class="icon-bar">
+        <div class="icon-item" style="color: #1877f2;"><i class="fab fa-facebook"></i></div>
+        <div class="icon-item" style="color: #e1306c;"><i class="fab fa-instagram"></i></div>
+        <div class="icon-item" style="color: #0088cc;"><i class="fab fa-telegram"></i></div>
+        <div class="icon-item" style="color: #ff0000;"><i class="fab fa-youtube"></i></div>
+        <div class="icon-item" style="color: #25d366;"><i class="fab fa-whatsapp"></i></div>
     </div>
 
-    <div class="order-section">
-        <label>Category</label>
-        <select id="category">
-            <option>Facebook Followers | High Quality</option>
-            <option>YouTube Watch Time | Non Drop</option>
-            <option>TikTok Followers | Real</option>
-        </select>
+    <div class="order-container">
+        <div class="form-group">
+            <label>Category</label>
+            <select id="cat">
+                <option>Facebook Follower | Non-Drop</option>
+                <option>YouTube Subscribers | Real</option>
+            </select>
+        </div>
 
-        <label>Service</label>
-        <select id="service">
-            <option>Facebook 5K Followers - 130 TK</option>
-            <option>Facebook 10K Followers - 250 TK</option>
-        </select>
+        <div class="form-group">
+            <label>Service</label>
+            <select id="ser">
+                <option>5K Followers - 130 TK</option>
+                <option>10K Followers - 250 TK</option>
+            </select>
+        </div>
 
-        <label>Link</label>
-        <input type="text" id="orderLink" placeholder="https://facebook.com/yourprofile">
+        <div class="form-group">
+            <label>Link</label>
+            <input type="text" id="link" placeholder="প্রোফাইল বা পোস্ট লিংক দিন">
+        </div>
 
-        <label>Quantity (Min: 100 - Max: 50,000)</label>
-        <input type="number" id="quantity" placeholder="0">
+        <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" id="qty" placeholder="100 - 5000">
+        </div>
 
-        <button class="submit-btn" onclick="submitOrder()">Submit Order</button>
+        <button class="submit-btn" onclick="submitOrder()">SUBMIT ORDER</button>
 
-        <div class="notice">
-            <b>Please Follow:</b><br>
-            * No Refill: There is no guarantee in any case.<br>
-            * Orders will be marked as completed if the link is changed or account is hidden.
+        <div class="notice-box">
+            <b>নির্দেশনা:</b><br>
+            * কোনো রিফিল গ্যারান্টি নেই যদি না সার্ভিসে উল্লেখ থাকে।<br>
+            * ভুল লিংক দিলে টাকা ফেরত দেওয়া হবে না।
         </div>
     </div>
 
@@ -115,17 +123,17 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ব্যালেন্স সিঙ্ক
-        db.ref('users/atiq_user_01').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) document.getElementById('balance').innerText = data.balance.toFixed(2);
+        // ডেটাবেজ থেকে তথ্য আনা
+        db.ref('users/atiq_user_01').on('value', (snap) => {
+            const val = snap.val();
+            if(val) {
+                document.getElementById('uName').innerText = val.name || "User";
+                document.getElementById('uBalance').innerText = val.balance.toFixed(2);
+            }
         });
 
         function submitOrder() {
-            const link = document.getElementById('orderLink').value;
-            const qty = document.getElementById('quantity').value;
-            if(!link || !qty) { alert("সব তথ্য পূরণ করুন!"); return; }
-            alert("Order Submitted Successfully!");
+            alert("অর্ডারটি সফলভাবে জমা হয়েছে!");
         }
     </script>
 </body>
