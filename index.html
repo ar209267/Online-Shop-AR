@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - SMM & Game Topup</title>
+    <title>Online Shop AR - All-in-One SMM Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +12,6 @@
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
         <div class="auth-options">
-            <!-- Google Login Button Placeholder -->
             <button class="login-btn"><i class="fab fa-google"></i> Login</button>
         </div>
     </nav>
@@ -20,18 +19,18 @@
     <div class="container">
         <header>
             <h1>Online Shop <span>AR</span></h1>
-            <p>সেরা রেটে সোশ্যাল মিডিয়া বুস্টিং এবং ডায়মন্ড টপ-আপ</p>
+            <p>আপনার সোশ্যাল মিডিয়া প্রোফাইলকে প্রফেশনাল ভাবে বুস্ট করুন</p>
         </header>
 
         <div class="grid">
             <!-- Facebook -->
             <div class="card">
                 <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
-                <h3>Facebook Service</h3>
+                <h3>Facebook</h3>
                 <select id="fb-pack" class="package-select">
-                    <option value="5000 Followers - 130 TK">5K Followers - 130 TK</option>
-                    <option value="10000 Followers - 250 TK">10K Followers - 250 TK</option>
-                    <option value="Facebook Watchtime Pack - 1500 TK">Watchtime Pack - 1500 TK</option>
+                    <option value="5K Followers - 130 TK">5K Followers - 130 TK</option>
+                    <option value="10K Followers - 250 TK">10K Followers - 250 TK</option>
+                    <option value="FB Watchtime (60K Min) - 1500 TK">Watchtime (60K) - 1500 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('fb-pack', 'Facebook')">অর্ডার করুন</button>
             </div>
@@ -39,27 +38,40 @@
             <!-- YouTube -->
             <div class="card">
                 <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
-                <h3>YouTube Growth</h3>
+                <h3>YouTube</h3>
                 <select id="yt-pack" class="package-select">
-                    <option value="1000 Subscriber - 1200 TK">1K Subs - 1200 TK</option>
-                    <option value="4000 Hours Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
+                    <option value="1K Subscriber - 1200 TK">1K Subs - 1200 TK</option>
+                    <option value="4K Hours Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
+                    <option value="1K Real Views - 300 TK">1K Views - 300 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('yt-pack', 'YouTube')">অর্ডার করুন</button>
             </div>
 
-            <!-- TikTok (আবার যুক্ত করা হলো) -->
+            <!-- TikTok -->
             <div class="card">
                 <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
-                <h3>TikTok Service</h3>
+                <h3>TikTok</h3>
                 <select id="tt-pack" class="package-select">
-                    <option value="1000 Followers - 150 TK">1K Followers - 150 TK</option>
-                    <option value="5000 Followers - 650 TK">5K Followers - 650 TK</option>
-                    <option value="10000 Likes - 400 TK">10K Likes - 400 TK</option>
+                    <option value="1K Followers - 150 TK">1K Followers - 150 TK</option>
+                    <option value="10K Views - 100 TK">10K Views - 100 TK</option>
+                    <option value="5K Likes - 400 TK">5K Likes - 400 TK</option>
                 </select>
                 <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
             </div>
 
-            <!-- Free Fire Diamond -->
+            <!-- Instagram -->
+            <div class="card">
+                <div class="icon-circle ig-bg"><i class="fab fa-instagram"></i></div>
+                <h3>Instagram</h3>
+                <select id="ig-pack" class="package-select">
+                    <option value="1K Followers - 180 TK">1K Followers - 180 TK</option>
+                    <option value="5K Followers - 800 TK">5K Followers - 800 TK</option>
+                    <option value="1K Likes - 100 TK">1K Likes - 100 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('ig-pack', 'Instagram')">অর্ডার করুন</button>
+            </div>
+
+            <!-- Free Fire -->
             <div class="card">
                 <div class="icon-circle ff-bg"><i class="fas fa-gem"></i></div>
                 <h3>FF Diamond</h3>
@@ -71,10 +83,32 @@
                 <button class="buy-btn" onclick="buyService('ff-pack', 'Free Fire')">টপ-আপ করুন</button>
             </div>
 
+            <!-- Telegram -->
+            <div class="card">
+                <div class="icon-circle tg-bg"><i class="fab fa-telegram-plane"></i></div>
+                <h3>Telegram</h3>
+                <select id="tg-pack" class="package-select">
+                    <option value="1K Channel Members - 200 TK">1K Member - 200 TK</option>
+                    <option value="5K Channel Members - 900 TK">5K Member - 900 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('tg-pack', 'Telegram')">অর্ডার করুন</button>
+            </div>
+
+            <!-- Twitter (X) -->
+            <div class="card">
+                <div class="icon-circle x-bg"><i class="fab fa-twitter"></i></div>
+                <h3>Twitter (X)</h3>
+                <select id="x-pack" class="package-select">
+                    <option value="1K Followers - 500 TK">1K Followers - 500 TK</option>
+                    <option value="1K Retweets - 300 TK">1K Retweets - 300 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('x-pack', 'Twitter')">অর্ডার করুন</button>
+            </div>
+
             <!-- ID Sale -->
             <div class="card">
                 <div class="icon-circle id-bg"><i class="fas fa-user-shield"></i></div>
-                <h3>ID Sale & Buy</h3>
+                <h3>ID Store</h3>
                 <p>পুরাতন ও ভেরিফাইড আইডি</p>
                 <button class="buy-btn" style="background:#6f42c1;" onclick="openPayment('FF ID Sale')">আইডি লিস্ট</button>
             </div>
@@ -85,22 +119,27 @@
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>পেমেন্ট গেটওয়ে</h3>
-            <p id="selectedItem" style="color:#007bff; font-weight:bold;"></p>
-            
-            <input type="text" id="targetLink" placeholder="প্লেয়ার আইডি / প্রোফাইল বা ভিডিও লিংক">
+            <h3>অর্ডার কনফার্ম করুন</h3>
+            <p id="selectedItem"></p>
+            <input type="text" id="targetLink" placeholder="আইডি/লিংক দিন">
             <input type="text" id="userPhone" placeholder="আপনার ফোন নম্বর">
-            
-            <div class="number-box">
-                <small>বিকাশ/নগদ/উপায় (Personal)</small><br>
-                01766380931
-            </div>
-            
-            <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
-            <button class="confirm-btn" onclick="submitOrder()">অর্ডার সফল করুন</button>
+            <div class="number-box"><small>বিকাশ/নগদ/উপায় (Personal)</small><br>01766380931</div>
+            <input type="text" id="trxId" placeholder="ট্রানজেকশন আইডি (TrxID)">
+            <button class="confirm-btn" onclick="submitOrder()">সাবমিট করুন</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
+</html> 
+<nav>
+    <div class="logo">Online Shop <span>AR</span></div>
+    <div class="auth-options" id="user-info">
+        <!-- এখানে গুগল লগইন বাটন সচল হবে -->
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard"></div>
+    </div>
+</nav>
