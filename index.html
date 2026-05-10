@@ -3,39 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Members Area</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Online Shop AR - Professional Panel</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        :root { --primary: #0084ff; --dark: #111; --gray: #f4f7f6; --orange: #ff8c00; }
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray); }
-        nav { background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; height: 60px; box-sizing: border-box; }
-        .logo { font-size: 20px; font-weight: bold; }
+        :root { --primary: #0084ff; --secondary: #00c6ff; --dark: #0f172a; --orange: #f59e0b; --light: #f8fafc; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--light); color: #334155; }
+
+        /* Navbar Styling */
+        nav { background: var(--dark); padding: 0 5%; display: flex; justify-content: space-between; align-items: center; color: white; height: 70px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
         .logo span { color: var(--orange); }
-        .top-profile { display: flex; align-items: center; gap: 15px; }
-        .top-wallet { background: #222; border: 1px solid var(--orange); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--orange); font-size: 14px; }
-        .top-wallet button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; padding: 0; }
-        .user-info-box { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
-        .user-info-box img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--orange); }
-        .dropdown { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 8px; width: 150px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .dropdown a { display: block; padding: 12px; color: #333; text-decoration: none; font-size: 14px; border-bottom: 1px solid #eee; }
-        .full-screen-center { height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
-        .google-btn { background: #4285F4; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: white; font-size: 22px; }
-        .fb-bg { background: #1877F2; } .yt-bg { background: #FF0000; } .ff-bg { background: #ff8c00; } .tt-bg { background: #000; }
-        .package-select { width: 100%; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; }
-        .buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; }
-        .modal-content { background: white; width: 90%; max-width: 380px; margin: 80px auto; padding: 25px; border-radius: 20px; text-align: center; position: relative; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        .top-profile { display: flex; align-items: center; gap: 20px; }
+        .wallet-card { background: rgba(255,255,255,0.1); border: 1px solid var(--orange); padding: 6px 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--orange); }
+        .add-btn { background: var(--orange); color: var(--dark); border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+
+        /* Login Section */
+        .auth-container { height: 90vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); }
+        .auth-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; width: 100%; max-width: 400px; }
+        .google-login { background: #fff; color: #444; border: 1px solid #ddd; padding: 12px; border-radius: 12px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 20px; }
+        .google-login:hover { background: #f1f1f1; }
+
+        /* Main Dashboard */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-title { font-size: 24px; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .service-card { background: white; border-radius: 20px; padding: 25px; transition: 0.3s; border: 1px solid #e2e8f0; position: relative; overflow: hidden; }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--primary); }
+        
+        .icon-box { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; margin-bottom: 20px; }
+        .fb-color { background: #1877F2; }
+        .yt-color { background: #FF0000; }
+        .tt-color { background: #000; }
+        .ig-color { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+
+        select, input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #cbd5e1; margin: 15px 0; outline: none; font-size: 14px; }
+        .order-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .order-btn:hover { background: #006ae6; box-shadow: 0 10px 15px -3px rgba(0,106,230,0.3); }
+
+        /* Modal Area */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; padding: 30px; border-radius: 24px; width: 100%; max-width: 400px; text-align: center; }
+        .trx-info { background: #fef3c7; border: 1px dashed #f59e0b; padding: 15px; border-radius: 12px; margin: 15px 0; font-weight: 700; color: #92400e; }
     </style>
 </head>
 <body>
@@ -44,104 +60,111 @@
         <div class="logo">Online Shop <span>AR</span></div>
         <div id="nav-user-area" style="display:none;">
             <div class="top-profile">
-                <div class="top-wallet">
-                    <span id="nav-balance">৳ ০.০০</span>
-                    <button onclick="alert('Admin-কে TrxID পাঠিয়ে ব্যালেন্স অ্যাড করুন।')"><i class="fas fa-plus-circle"></i></button>
+                <div class="wallet-card">
+                    <i class="fas fa-wallet"></i> <span id="balanceText">৳ ০.০০</span>
+                    <button class="add-btn" onclick="openDeposit()"><i class="fas fa-plus"></i></button>
                 </div>
-                <div class="user-info-box" onclick="toggleMenu()">
-                    <span id="user-display-name">User</span>
-                    <img src="https://www.w3schools.com/howto/img_avatar.png">
-                    <div id="profile-dropdown" class="dropdown">
-                        <a href="#" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
-                    </div>
+                <div class="user-info-box" style="display:flex; align-items:center; gap:10px;">
+                    <span id="userName" style="font-weight:600;">Atiqur</span>
+                    <img src="https://ui-avatars.com/api/?name=Atiqur+Rahman&background=f59e0b&color=fff" style="width:35px; border-radius:50%;">
                 </div>
             </div>
         </div>
     </nav>
 
-    <div id="login-screen" class="full-screen-center">
-        <div class="login-card">
-            <h1>Online Shop <span>AR</span></h1>
-            <p>আপনার একাউন্টে লগইন করুন</p>
-            <button onclick="loginProcess()" class="google-btn">
-                <i class="fab fa-google"></i> Google দিয়ে লগইন করুন
+    <div id="login-screen" class="auth-container">
+        <div class="auth-card">
+            <h2 style="margin:0">স্বাগতম!</h2>
+            <p style="color:#64748b">প্রফেশনাল সার্ভিস প্যানেলে লগইন করুন</p>
+            <button class="google-login" onclick="startApp()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/button/google.svg" width="20">
+                Google দিয়ে প্রবেশ করুন
             </button>
         </div>
     </div>
 
     <div id="main-content" class="container" style="display:none;">
-        <h2 id="welcome-msg">স্বাগতম, Atiqur Rahman</h2>
+        <div class="section-title">
+            <i class="fas fa-th-large" style="color:var(--primary)"></i> আমাদের সার্ভিসসমূহ
+        </div>
+
         <div class="grid">
-            <div class="card">
-                <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
-                <h3>Facebook Service</h3>
-                <select id="fb-pack" class="package-select">
-                    <option value="5K Followers - 130 TK">5K Followers - 130 TK</option>
+            <div class="service-card">
+                <div class="icon-box fb-color"><i class="fab fa-facebook-f"></i></div>
+                <h3 style="margin:0">Facebook Master</h3>
+                <select id="fb-service">
+                    <option value="FB 5K Followers - 130 TK">Facebook 5K Followers - 130 TK</option>
                     <option value="Post Boost (1K Like) - 150 TK">Post Boost (1K Like) - 150 TK</option>
-                    <option value="Meta Verified Payment - 1200 TK">Meta Verified Payment - 1200 TK</option>
+                    <option value="Meta Verified Payment - 1200 TK">Meta Verified (Payment Service)</option>
+                    <option value="FB Page Monetization - Contact">FB Page Monetization Package</option>
                 </select>
-                <button class="buy-btn" onclick="openOrder('Facebook')">অর্ডার করুন</button>
+                <button class="order-btn" onclick="initOrder('fb-service')">অর্ডার শুরু করুন</button>
             </div>
-            <div class="card">
-                <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
-                <h3>YouTube Growth</h3>
-                <select id="yt-pack" class="package-select">
-                    <option value="1K Subs - 1200 TK">1K Subs - 1200 TK</option>
+
+            <div class="service-card">
+                <div class="icon-box yt-color"><i class="fab fa-youtube"></i></div>
+                <h3 style="margin:0">YouTube Growth</h3>
+                <select id="yt-service">
+                    <option value="1K Subscribers - 1200 TK">1,000 Subscribers - 1200 TK</option>
+                    <option value="4K Hours Watchtime - 3200 TK">4,000 Hours Watchtime</option>
                 </select>
-                <button class="buy-btn" onclick="openOrder('YouTube')">অর্ডার করুন</button>
+                <button class="order-btn" onclick="initOrder('yt-service')">অর্ডার শুরু করুন</button>
             </div>
-            <div class="card">
-                <div class="icon-circle ff-bg"><i class="fas fa-gem"></i></div>
-                <h3>FF Diamond</h3>
-                <select id="ff-pack" class="package-select">
-                    <option value="115 Diamond - 85 TK">115 Diamond - 85 TK</option>
+
+            <div class="service-card">
+                <div class="icon-box tt-color"><i class="fab fa-tiktok"></i></div>
+                <h3 style="margin:0">TikTok Services</h3>
+                <select id="tt-service">
+                    <option value="1K Followers - 140 TK">1,000 Followers - 140 TK</option>
+                    <option value="10K Video Views - 90 TK">10,000 Video Views - 90 TK</option>
                 </select>
-                <button class="buy-btn" onclick="openOrder('Free Fire')">টপ-আপ করুন</button>
+                <button class="order-btn" onclick="initOrder('tt-service')">অর্ডার শুরু করুন</button>
             </div>
         </div>
     </div>
 
-    <div id="paymentModal" class="modal">
+    <div id="orderModal" class="modal">
         <div class="modal-content">
-            <h3>অর্ডার কনফার্ম করুন</h3>
-            <input type="text" id="targetLink" placeholder="আইডি বা লিংক দিন">
-            <input type="text" id="trxId" placeholder="ট্রানজেকশন আইডি (TrxID)">
-            <button class="confirm-btn" onclick="submitOrder()">কনফার্ম করুন</button>
-            <button onclick="closeModal()" style="background:none; border:none; margin-top:10px; cursor:pointer;">বন্ধ করুন</button>
+            <h3 id="modalTitle">অর্ডার ডিটেইলস</h3>
+            <p id="selectedPlan" style="color:var(--primary); font-weight:700;"></p>
+            <input type="text" id="targetLink" placeholder="প্রোফাইল লিংক বা ইউজার আইডি">
+            <div class="trx-info">বিকাশ/নগদ (Snd Money): 01766380931</div>
+            <input type="text" id="trxId" placeholder="TrxID (টাকা পাঠানোর পর)">
+            <button class="order-btn" onclick="confirmOrder()">অর্ডার কনফার্ম করুন</button>
+            <button onclick="closeModal()" style="background:none; border:none; margin-top:15px; color:#64748b; cursor:pointer;">পরে করব</button>
         </div>
     </div>
 
     <script>
-        // আপনার ফায়ারবেস কনফিগ (স্ক্রিনশট থেকে নেওয়া)
+        // আপনার দেওয়া Firebase কনফিগারেশন
         const firebaseConfig = {
             apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
             authDomain: "online-shop-ar.firebaseapp.com",
             projectId: "online-shop-ar",
             storageBucket: "online-shop-ar.appspot.com",
             messagingSenderId: "913434308973",
-            appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
-            measurementId: "G-T20TRS2F59"
+            appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
         };
 
-        // ফায়ারবেস ইনিশিয়ালাইজ
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const db = firebase.database();
 
-        function loginProcess() {
-            // ডিজাইন পরিবর্তন
+        // ইউজার আইডি (লগইনের পর এটি ডাইনামিক হবে)
+        const currentUserId = "atiq_user_01"; 
+
+        function startApp() {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             document.getElementById('nav-user-area').style.display = 'block';
-
-            // ডাটাবেজ থেকে ব্যালেন্স আনা
-            const userId = "atiqur_123"; // আপাতত একটি আইডি
-            database.ref('users/' + userId).on('value', (snapshot) => {
+            
+            // ডাটাবেজ থেকে লাইভ ব্যালেন্স রিড করা
+            db.ref('users/' + currentUserId).on('value', (snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    document.getElementById('nav-balance').innerText = "৳ " + data.balance.toFixed(2);
+                if(data) {
+                    document.getElementById('balanceText').innerText = "৳ " + data.balance.toFixed(2);
                 } else {
-                    // প্রথমবার লগইন করলে ০.০০ সেট হবে
-                    database.ref('users/' + userId).set({
+                    // নতুন ইউজার হলে ডাটাবেজে এন্ট্রি তৈরি করা (০ ব্যালেন্স দিয়ে)
+                    db.ref('users/' + currentUserId).set({
                         name: "Atiqur Rahman",
                         balance: 0.00
                     });
@@ -149,16 +172,38 @@
             });
         }
 
-        function openOrder(name) { document.getElementById('paymentModal').style.display = 'block'; }
-        function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
-        function toggleMenu() {
-            let m = document.getElementById('profile-dropdown');
-            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        function initOrder(id) {
+            const plan = document.getElementById(id).value;
+            document.getElementById('selectedPlan').innerText = plan;
+            document.getElementById('orderModal').style.display = 'flex';
         }
-        function submitOrder() {
-            alert("অর্ডার রিসিভ হয়েছে! ২-৫ মিনিটের মধ্যে চেক করে কাজ শুরু হবে।");
-            closeModal();
+
+        function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
+
+        function confirmOrder() {
+            const link = document.getElementById('targetLink').value;
+            const trx = document.getElementById('trxId').value;
+            
+            if(!link || !trx) {
+                alert("দয়া করে লিংক এবং ট্রানজেকশন আইডি দিন।");
+                return;
+            }
+
+            // অর্ডারের ডাটা ফায়ারবেসে পাঠানো (অ্যাডমিন প্যানেলের জন্য)
+            const orderId = Date.now();
+            db.ref('orders/' + orderId).set({
+                user: currentUserId,
+                service: document.getElementById('selectedPlan').innerText,
+                target: link,
+                trxid: trx,
+                status: "Pending"
+            }).then(() => {
+                alert("অর্ডারটি সফলভাবে জমা হয়েছে! অ্যাডমিন চেক করে কাজ শুরু করবে।");
+                closeModal();
+            });
         }
-    </script>
-</body>
-</html>
+
+        function openDeposit() {
+            alert("টাকা অ্যাড করতে 01766380931 নাম্বারে টাকা পাঠিয়ে আপনার TrxID টি অ্যাডমিনকে দিন।");
+        }
+    </
