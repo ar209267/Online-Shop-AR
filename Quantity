@@ -1,0 +1,11 @@
+<script>
+function calculatePrice() {
+    var quantity = document.getElementById("quantity").value;
+    var pricePerThousand = 180; // উদাহরণস্বরূপ ফেসবুক ফলোয়ারের দাম ১৮০ টাকা
+    var total = (pricePerThousand / 1000) * quantity;
+    document.getElementById("total_price").innerText = "মোট মূল্য: ৳" + total.toFixed(2);
+}
+</script>
+
+<input type="number" id="quantity" oninput="calculatePrice()" placeholder="কত সংখ্যা লাগবে লিখুন">
+<p id="total_price" style="color: #38bdf8; font-weight: bold;"></p>
