@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* CSS কোড এখানে */
         :root { --primary: #0084ff; --dark: #111; --gray: #f4f7f6; --orange: #ff8c00; }
         body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray); }
 
@@ -24,7 +23,6 @@
         
         .dropdown { display: none; position: absolute; top: 45px; right: 0; background: white; border-radius: 8px; width: 150px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .dropdown a { display: block; padding: 12px; color: #333; text-decoration: none; font-size: 14px; border-bottom: 1px solid #eee; }
-        .dropdown a:last-child { border: none; }
 
         /* Login Screen */
         .full-screen-center { height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
@@ -32,12 +30,14 @@
         .google-btn { background: #4285F4; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; }
         
         /* Service Grid */
-        .container { max-width: 1100px; margin: auto; padding: 30px 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: white; font-size: 22px; }
         .fb-bg { background: #1877F2; } .yt-bg { background: #FF0000; } .ff-bg { background: #ff8c00; } .tt-bg { background: #000; }
+        .ig-bg { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); } .tg-bg { background: #0088cc; } .x-bg { background: #000; } .id-bg { background: #6f42c1; }
 
         .package-select { width: 100%; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; outline: none; }
         .buy-btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
@@ -53,7 +53,6 @@
 </head>
 <body>
 
-    <!-- নেভিগেশন বার -->
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
         <div id="nav-user-area" style="display:none;">
@@ -73,19 +72,16 @@
         </div>
     </nav>
 
-    <!-- লগইন স্ক্রিন -->
     <div id="login-screen" class="full-screen-center">
         <div class="login-card">
             <h1>Online Shop <span>AR</span></h1>
-            <p style="color: #666; margin-bottom: 20px;">আমাদের সার্ভিস দেখতে আপনার একাউন্টে লগইন করুন</p>
+            <p style="color: #666; margin-bottom: 20px;">আমাদের সব সার্ভিস দেখতে লগইন করুন</p>
             <button onclick="loginProcess()" class="google-btn">
                 <i class="fab fa-google"></i> Google দিয়ে লগইন করুন
             </button>
-            <p style="font-size: 11px; color: #999; margin-top: 25px;">সুরক্ষিত ভাবে লগইন করুন এবং সেরা সার্ভিস নিন।</p>
         </div>
     </div>
 
-    <!-- মেইন সার্ভিস এরিয়া -->
     <div id="main-content" class="container" style="display:none;">
         <header style="margin-bottom: 30px;">
             <h2 style="margin:0;">স্বাগতম, <span id="header-name" style="color: var(--primary);"></span></h2>
@@ -93,10 +89,9 @@
         </header>
 
         <div class="grid">
-            <!-- Facebook -->
             <div class="card">
                 <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
-                <h3>Facebook Service</h3>
+                <h3>Facebook</h3>
                 <select id="fb-pack" class="package-select">
                     <option value="5K Followers - 130 TK">5K Followers - 130 TK</option>
                     <option value="10K Followers - 250 TK">10K Followers - 250 TK</option>
@@ -104,10 +99,9 @@
                 <button class="buy-btn" onclick="buyService('fb-pack', 'Facebook')">অর্ডার করুন</button>
             </div>
 
-            <!-- YouTube -->
             <div class="card">
                 <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
-                <h3>YouTube Growth</h3>
+                <h3>YouTube</h3>
                 <select id="yt-pack" class="package-select">
                     <option value="1K Subscriber - 1200 TK">1K Subs - 1200 TK</option>
                     <option value="4K Watchtime - 3500 TK">4K Watchtime - 3500 TK</option>
@@ -115,7 +109,26 @@
                 <button class="buy-btn" onclick="buyService('yt-pack', 'YouTube')">অর্ডার করুন</button>
             </div>
 
-            <!-- FF Diamond -->
+            <div class="card">
+                <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
+                <h3>TikTok</h3>
+                <select id="tt-pack" class="package-select">
+                    <option value="1K Followers - 150 TK">1K Followers - 150 TK</option>
+                    <option value="10K Views - 100 TK">10K Views - 100 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
+            </div>
+
+            <div class="card">
+                <div class="icon-circle ig-bg"><i class="fab fa-instagram"></i></div>
+                <h3>Instagram</h3>
+                <select id="ig-pack" class="package-select">
+                    <option value="1K Followers - 180 TK">1K Followers - 180 TK</option>
+                    <option value="1K Likes - 100 TK">1K Likes - 100 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('ig-pack', 'Instagram')">অর্ডার করুন</button>
+            </div>
+
             <div class="card">
                 <div class="icon-circle ff-bg"><i class="fas fa-gem"></i></div>
                 <h3>FF Diamond</h3>
@@ -126,20 +139,33 @@
                 <button class="buy-btn" onclick="buyService('ff-pack', 'Free Fire')">টপ-আপ করুন</button>
             </div>
 
-            <!-- TikTok -->
             <div class="card">
-                <div class="icon-circle tt-bg"><i class="fab fa-tiktok"></i></div>
-                <h3>TikTok Services</h3>
-                <select id="tt-pack" class="package-select">
-                    <option value="1K Followers - 150 TK">1K Followers - 150 TK</option>
-                    <option value="10K Views - 100 TK">10K Views - 100 TK</option>
+                <div class="icon-circle tg-bg"><i class="fab fa-telegram-plane"></i></div>
+                <h3>Telegram</h3>
+                <select id="tg-pack" class="package-select">
+                    <option value="1K Member - 200 TK">1K Member - 200 TK</option>
                 </select>
-                <button class="buy-btn" onclick="buyService('tt-pack', 'TikTok')">অর্ডার করুন</button>
+                <button class="buy-btn" onclick="buyService('tg-pack', 'Telegram')">অর্ডার করুন</button>
+            </div>
+
+            <div class="card">
+                <div class="icon-circle x-bg"><i class="fab fa-twitter"></i></div>
+                <h3>Twitter (X)</h3>
+                <select id="x-pack" class="package-select">
+                    <option value="1K Followers - 500 TK">1K Followers - 500 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyService('x-pack', 'Twitter')">অর্ডার করুন</button>
+            </div>
+
+            <div class="card">
+                <div class="icon-circle id-bg"><i class="fas fa-user-shield"></i></div>
+                <h3>ID Store</h3>
+                <p style="font-size: 13px; color: #666;">পুরাতন ও ভেরিফাইড আইডি</p>
+                <button class="buy-btn" style="background:#6f42c1;" onclick="openPayment('FF ID Sale')">আইডি লিস্ট</button>
             </div>
         </div>
     </div>
 
-    <!-- পেমেন্ট মোডাল -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -152,20 +178,14 @@
         </div>
     </div>
 
-    <!-- JavaScript কোড এখানে -->
     <script>
         function loginProcess() {
-            // ডিজাইন পরিবর্তন
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             document.getElementById('nav-user-area').style.display = 'block';
-            
-            // ডেটা সেট
             document.getElementById('header-name').innerText = "Atiqur Rahman";
             document.getElementById('user-display-name').innerText = "Atiqur";
             document.getElementById('nav-balance').innerText = "৳ ৫০০.০০";
-            
-            alert("সফলভাবে লগইন হয়েছে!");
         }
 
         function toggleMenu() {
@@ -175,7 +195,11 @@
 
         function buyService(selectId, serviceName) {
             const pack = document.getElementById(selectId).value;
-            document.getElementById('selectedItem').innerText = serviceName + " - " + pack;
+            openPayment(serviceName + " - " + pack);
+        }
+
+        function openPayment(itemText) {
+            document.getElementById('selectedItem').innerText = itemText;
             document.getElementById('paymentModal').style.display = 'block';
         }
 
@@ -186,30 +210,21 @@
         function submitOrder() {
             const link = document.getElementById('targetLink').value;
             const trx = document.getElementById('trxId').value;
-            if(!link || !trx) {
-                alert("সব তথ্য পূরণ করুন!");
-                return;
-            }
-            alert("অর্ডার রিসিভ করা হয়েছে! ২-৫ মিনিটের মধ্যে চেক করে কাজ শুরু হবে।");
+            if(!link || !trx) { alert("সব তথ্য পূরণ করুন!"); return; }
+            alert("অর্ডার রিসিভ করা হয়েছে! ধন্যবাদ।");
             closeModal();
         }
 
         function openAddFund() {
-            alert("ওয়ালেটে ব্যালেন্স অ্যাড করতে আমাদের নাম্বারে টাকা পাঠিয়ে Admin-কে TrxID দিন।");
+            alert("ওয়ালেটে ব্যালেন্স অ্যাড করতে Admin-কে TrxID দিন।");
         }
 
-        function logout() {
-            location.reload();
-        }
+        function logout() { location.reload(); }
 
-        // বাইরের জায়গায় ক্লিক করলে মেনু বন্ধ হওয়া
         window.onclick = function(event) {
             if (!event.target.closest('.user-info-box')) {
                 let menu = document.getElementById('profile-dropdown');
                 if(menu) menu.style.display = 'none';
-            }
-            if (event.target == document.getElementById('paymentModal')) {
-                closeModal();
             }
         }
     </script>
