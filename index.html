@@ -75,3 +75,117 @@ function confirmBooking() {
     window.open(`https://wa.me/8801766380931?text=${whatsappMsg}`, '_blank');
 }
         </script>
+<section style="padding: 50px 20px; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; text-align: center;">
+    <h2 style="color: #333; margin-bottom: 10px;">আমাদের স্পেশাল অফারসমূহ</h2>
+    <p style="color: #666; margin-bottom: 40px;">আপনার প্রয়োজনীয় সার্ভিসটি বেছে নিন (বিকাশ/নগদ: 01766380931)</p>
+    
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px;">
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #1877f2;">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #1877f2;">Facebook Offers</h3>
+            <select id="fb-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="130">৫০০০ ফলোয়ার - ১৩০৳</option>
+                <option value="২৫০">১০০০০ ফলোয়ার - ২৫০৳</option>
+                <option value="৫০০">ফুল ওয়াচটাইম প্যাক - ৫০০৳</option>
+            </select>
+            <button onclick="openBooking('Facebook', document.getElementById('fb-select'))" style="width: 100%; background: #1877f2; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #000;">
+            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #000;">TikTok Offers</h3>
+            <select id="tt-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
+                <option value="১০০">১০০০০ ভিউ + লাইক - ১০০৳</option>
+                <option value="৩০০">অর্গানিক গ্রোথ প্যাক - ৩০০৳</option>
+            </select>
+            <button onclick="openBooking('TikTok', document.getElementById('tt-select'))" style="width: 100%; background: #000; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #e1306c;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #e1306c;">Instagram Offers</h3>
+            <select id="ig-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
+                <option value="২০০">১০০০০ ফলোয়ার - ২০০৳</option>
+                <option value="৮০">১০০০ লাইক প্যাক - ৮০৳</option>
+            </select>
+            <button onclick="openBooking('Instagram', document.getElementById('ig-select'))" style="width: 100%; background: #e1306c; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #25d366;">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #25d366;">WhatsApp/Social</h3>
+            <select id="wa-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="১৫০">মেসেজ বাল্ক সার্ভিস - ১৫০৳</option>
+                <option value="২০০">গ্রুপ মেম্বার এড - ২০০৳</option>
+                <option value="৫০০">ফুল মার্কেটিং সাপোর্ট - ৫০০৳</option>
+            </select>
+            <button onclick="openBooking('WhatsApp', document.getElementById('wa-select'))" style="width: 100%; background: #25d366; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #1da1f2;">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #1da1f2;">Twitter (X)</h3>
+            <select id="tw-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="১৫০">১০০০ ফলোয়ার - ১৫০৳</option>
+                <option value="১০০">৫০০০ রিটুইট - ১০০৳</option>
+                <option value="৩০০">ভেরিফাইড প্রোফাইল বুস্ট - ৩০০৳</option>
+            </select>
+            <button onclick="openBooking('Twitter', document.getElementById('tw-select'))" style="width: 100%; background: #1da1f2; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        </div>
+
+        <div class="card" style="background: white; border-radius: 15px; width: 300px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 6px solid #ff9800;">
+            <img src="https://cdn-icons-png.flaticon.com/512/10543/10543162.png" width="45" style="margin-bottom: 10px;">
+            <h3 style="color: #ff9800;">Gaming Top-up</h3>
+            <select id="ff-select" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ddd;">
+                <option value="৮৫">১০০ ডায়মন্ড - ৮৫৳</option>
+                <option value="৪৩০">৫০৫ ডায়মন্ড - ৪৩০৳</option>
+                <option value="৮৫০">১০৮০ ডায়মন্ড - ৮৫০৳</option>
+            </select>
+            <button onclick="openBooking('Free Fire', document.getElementById('ff-select'))" style="width: 100%; background: #ff9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">টপ-আপ করুন</button>
+        </div>
+
+    </div>
+
+    <div id="booking-panel" style="display: none; margin-top: 50px; background: white; padding: 30px; border-radius: 15px; max-width: 500px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 2px solid #ddd;">
+        <h3 id="panel-title" style="color: #333;"></h3>
+        <p style="font-size: 20px; color: #1dbf73; font-weight: bold;">মোট বিল: <span id="panel-price"></span> টাকা</p>
+        <hr>
+        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 15px;">
+            পেমেন্ট বিকাশ/নগদ (পার্সোনাল): <strong>01766380931</strong> নাম্বারে টাকা পাঠিয়ে নিচের ফর্মটি পূরণ করুন।
+        </div>
+        <input type="text" id="order-link" placeholder="লিঙ্ক বা গেম আইডি (UID) দিন" style="width: 90%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px;">
+        <input type="text" id="order-txn" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px;">
+        <button onclick="sendToWhatsApp()" style="width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">অর্ডার নিশ্চিত করুন</button>
+    </div>
+</section>
+
+<script>
+function openBooking(platform, selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex].text;
+    const price = selectElement.value;
+    
+    document.getElementById('booking-panel').style.display = 'block';
+    document.getElementById('panel-title').innerText = platform + " - " + selectedOption;
+    document.getElementById('panel-price').innerText = price;
+    
+    window.scrollTo({ top: document.getElementById('booking-panel').offsetTop - 20, behavior: 'smooth' });
+}
+
+function sendToWhatsApp() {
+    const link = document.getElementById('order-link').value;
+    const txn = document.getElementById('order-txn').value;
+    const service = document.getElementById('panel-title').innerText;
+    const total = document.getElementById('panel-price').innerText;
+
+    if(!link || !txn) {
+        alert("সবগুলো তথ্য সঠিকভাবে দিন।");
+        return;
+    }
+
+    const message = `*নতুন অর্ডার ফ্রম ওয়েবসাইট*%0A--------------------------%0A*সার্ভিস:* ${service}%0A*লিঙ্ক/UID:* ${link}%0A*বিল:* ${total} টাকা%0A*ট্রানজেকশন আইডি:* ${txn}%0A--------------------------`;
+    window.open(`https://wa.me/8801766380931?text=${message}`, '_blank');
+}
+</script>
