@@ -1,11 +1,12 @@
 function openPayment(item) {
-    document.getElementById('selectedItem').innerText = "সার্ভিস: " + item;
+    document.getElementById('selectedItem').innerText = "অর্ডার: " + item;
     document.getElementById('paymentModal').style.display = 'block';
 }
 
-function buyFF() {
-    const pack = document.getElementById('ff-pack').value;
-    openPayment("Free Fire: " + pack);
+// সিলেক্টেড প্যাকেজ থেকে তথ্য নিয়ে পেমেন্ট উইন্ডো খোলা
+function buyService(selectId, serviceName) {
+    const pack = document.getElementById(selectId).value;
+    openPayment(serviceName + " (" + pack + ")");
 }
 
 function closeModal() {
@@ -18,14 +19,15 @@ function submitOrder() {
     const trx = document.getElementById('trxId').value;
 
     if (!link || !phone || !trx) {
-        alert("সবগুলো ঘর সঠিকভাবে পূরণ করুন!");
+        alert("অনুগ্রহ করে সব তথ্য দিন!");
         return;
     }
 
-    alert("ধন্যবাদ! আপনার অর্ডারটি গ্রহণ করা হয়েছে।\nআমরা আপনার TrxID চেক করে দ্রুত কাজ শুরু করব।");
+    alert("সাফল্যের সাথে অর্ডার করা হয়েছে!\nআপনার TrxID: " + trx + "\nআমরা দ্রুত কাজ শুরু করব।");
     closeModal();
 }
 
+// বাইরের জায়গায় ক্লিক করলে পপআপ বন্ধ হবে
 window.onclick = function(event) {
     if (event.target == document.getElementById('paymentModal')) {
         closeModal();
