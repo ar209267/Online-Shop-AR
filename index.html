@@ -1,112 +1,177 @@
-<section style="padding: 50px 20px; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8f9fa; text-align: center;">
-    <h2 style="color: #2c3e50; margin-bottom: 5px;">আমাদের ডিজিটাল সার্ভিস প্যানেল</h2>
-    <p style="color: #666; margin-bottom: 40px;">বিকাশ/নগদ পেমেন্ট: <strong>01766380931</strong></p>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMM Digital Service Panel</title>
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #1877f2;">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #1877f2; margin: 10px 0;">Facebook</h3>
-            <select id="fb-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="130">৫০০০ ফলোয়ার - ১৩০৳</option>
-                <option value="২৫০">১০০০০ ফলোয়ার - ২৫০৳</option>
-                <option value="৫০০">ওয়াচটাইম ফুল প্যাক - ৫০০৳</option>
-            </select>
-            <button onclick="openForm('Facebook', document.getElementById('fb-opt'))" style="width: 100%; background: #1877f2; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        // আপনার স্ক্রিনশট থেকে নেওয়া কনফিগারেশন
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5i7S0EJeFO8NsO7VbiU63rfRBrGwBWQY",
+            authDomain: "online-shop-ar.firebaseapp.com",
+            projectId: "online-shop-ar",
+            storageBucket: "online-shop-ar.firebasestorage.app",
+            messagingSenderId: "913434308973",
+            appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
+            measurementId: "G-T20TRS2F59"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ইউজার যখন অর্ডার করবে তা ডাটাবেসে সেভ করার ফাংশন
+        window.confirmAndSend = async () => {
+            const link = document.getElementById('link-field').value;
+            const txn = document.getElementById('txn-field').value;
+            const title = document.getElementById('order-title').innerText;
+            const bill = document.getElementById('order-price').innerText;
+
+            if(!link || !txn) {
+                alert("সব তথ্য দিন!");
+                return;
+            }
+
+            try {
+                const docRef = await addDoc(collection(db, "all_orders"), {
+                    service: title,
+                    link: link,
+                    amount: bill,
+                    transaction_id: txn,
+                    status: "Pending",
+                    order_date: serverTimestamp()
+                });
+                
+                alert("অর্ডার সফল! আপনার অর্ডারটি ডাটাবেসে সেভ হয়েছে।");
+                
+                // হোয়াটসঅ্যাপে নোটিফিকেশন পাঠানো
+                const waMsg = `*নতুন অর্ডার*%0A*সার্ভিস:* ${title}%0A*লিঙ্ক:* ${link}%0A*বিল:* ${bill}৳%0A*Transaction ID:* ${txn}`;
+                window.open(`https://wa.me/8801766380931?text=${waMsg}`, '_blank');
+            } catch (e) {
+                console.error("Error: ", e);
+                alert("ত্রুটি হয়েছে! আপনার ফায়ারবেস সেটিংস চেক করুন।");
+            }
+        };
+
+        // অ্যাডমিন প্যানেলে ডাটা দেখানোর ফাংশন
+        window.loadAdminOrders = () => {
+            const q = query(collection(db, "all_orders"), orderBy("order_date", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const tbody = document.getElementById('admin-rows');
+                tbody.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    tbody.innerHTML += `
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 10px;">${data.service}</td>
+                            <td style="padding: 10px; font-size:12px;">${data.link}</td>
+                            <td style="padding: 10px;">${data.amount}৳</td>
+                            <td style="padding: 10px;"><strong>${data.transaction_id}</strong></td>
+                            <td style="padding: 10px; color: orange; font-weight:bold;">${data.status}</td>
+                        </tr>`;
+                });
+            });
+        };
+    </script>
+</head>
+<body style="margin:0; padding:0; background:#f4f7f6; font-family: 'Segoe UI', Tahoma, sans-serif;">
+
+    <section style="padding: 40px 20px; text-align: center;">
+        <h2 style="color: #2c3e50;">আমাদের অল-ইন-ওয়ান ডিজিটাল প্যানেল</h2>
+        <p>বিকাশ/নগদ পেমেন্ট (পার্সোনাল): <strong>01766380931</strong></p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1100px; margin: 40px auto;">
+            
+            <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #1877f2;">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" width="45">
+                <h3>Facebook Service</h3>
+                <select id="fb-opt" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                    <option value="130">৫০০০ ফলোয়ার - ১৩০৳</option>
+                    <option value="২৫০">১০০০০ ফলোয়ার - ২৫০৳</option>
+                    <option value="৫০০">ওয়াচটাইম প্যাক - ৫০০৳</option>
+                </select>
+                <button onclick="openForm('Facebook', document.getElementById('fb-opt'))" style="width: 100%; padding: 12px; background: #1877f2; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #ff0000;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="45">
+                <h3>YouTube Service</h3>
+                <select id="yt-opt" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                    <option value="২৫০">১০০০ সাবস্ক্রাইবার - ২৫০৳</option>
+                    <option value="১০০">৫০০০ ভিউস - ১০০৳</option>
+                </select>
+                <button onclick="openForm('YouTube', document.getElementById('yt-opt'))" style="width: 100%; padding: 12px; background: #ff0000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+            </div>
+
+            <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid #000;">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" width="45">
+                <h3>TikTok Service</h3>
+                <select id="tt-opt" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                    <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
+                    <option value="১০০">১০০০০ ভিউস - ১০০৳</option>
+                </select>
+                <button onclick="openForm('TikTok', document.getElementById('tt-opt'))" style="width: 100%; padding: 12px; background: #000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+            </div>
+
         </div>
 
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff0000;">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #ff0000; margin: 10px 0;">YouTube</h3>
-            <select id="yt-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="২৫০">১০০০ সাবস্ক্রাইবার - ২৫০৳</option>
-                <option value="৫০০">৪০০০ ঘণ্টা ওয়াচটাইম - ৫০০৳</option>
-                <option value="১০০">৫০০০ ভিউস - ১০০৳</option>
-            </select>
-            <button onclick="openForm('YouTube', document.getElementById('yt-opt'))" style="width: 100%; background: #ff0000; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
+        <div id="payment-panel" style="display: none; background: white; padding: 30px; border-radius: 15px; max-width: 450px; margin: 30px auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #eee;">
+            <h4 id="order-title" style="margin-top: 0;"></h4>
+            <p style="font-size: 20px; font-weight: bold; color: #28a745;">মোট বিল: <span id="order-price"></span> টাকা</p>
+            <div style="background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 13px; margin: 15px 0;">
+                পেমেন্ট নম্বর: <strong>01766380931</strong> (বিকাশ/নগদ)<br>টাকা পাঠিয়ে ট্রানজেকশন আইডি দিন।
+            </div>
+            <input type="text" id="link-field" placeholder="লিঙ্ক বা আইডি (UID) দিন" style="width: 93%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px;">
+            <input type="text" id="txn-field" placeholder="Transaction ID দিন" style="width: 93%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px;">
+            <button onclick="confirmAndSend()" style="width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;">অর্ডার নিশ্চিত করুন</button>
         </div>
+    </section>
 
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #000;">
-            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #000; margin: 10px 0;">TikTok</h3>
-            <select id="tt-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
-                <option value="১০০">১০০০০ ভিউস - ১০০৳</option>
-                <option value="২০০">১০০০ লাইক - ২০০৳</option>
-            </select>
-            <button onclick="openForm('TikTok', document.getElementById('tt-opt'))" style="width: 100%; background: #000; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
-        </div>
+    <footer style="text-align: center; padding: 30px;">
+        <button onclick="checkAdmin()" style="background: none; border: none; color: #ddd; cursor: pointer; font-size: 10px;">Admin Login</button>
+    </footer>
 
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #e1306c;">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #e1306c; margin: 10px 0;">Instagram</h3>
-            <select id="ig-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
-                <option value="২০০">১০০০০ ফলোয়ার - ২০০৳</option>
-                <option value="৮০">১০০০ লাইক - ৮০৳</option>
-            </select>
-            <button onclick="openForm('Instagram', document.getElementById('ig-opt'))" style="width: 100%; background: #e1306c; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
-        </div>
-
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #1da1f2;">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #1da1f2; margin: 10px 0;">Twitter (X)</h3>
-            <select id="tw-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="১৫০">১০০০ ফলোয়ার - ১৫০৳</option>
-                <option value="১০০">৫০০০ রিটুইট - ১০০৳</option>
-            </select>
-            <button onclick="openForm('Twitter', document.getElementById('tw-opt'))" style="width: 100%; background: #1da1f2; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">অর্ডার করুন</button>
-        </div>
-
-        <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff9800;">
-            <img src="https://cdn-icons-png.flaticon.com/512/10543/10543162.png" width="50" style="margin-bottom: 15px;">
-            <h3 style="color: #ff9800; margin: 10px 0;">Free Fire</h3>
-            <select id="ff-opt" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; margin-bottom: 15px;">
-                <option value="৮৫">১০০ ডায়মন্ড - ৮৫৳</option>
-                <option value="৪৩০">৫০৫ ডায়মন্ড - ৪৩০৳</option>
-                <option value="৮৫০">১০৮০ ডায়মন্ড - ৮৫০৳</option>
-            </select>
-            <button onclick="openForm('Free Fire', document.getElementById('ff-opt'))" style="width: 100%; background: #ff9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold;">টপ-আপ করুন</button>
-        </div>
-
+    <div id="admin-panel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; padding: 20px; overflow-y: auto;">
+        <button onclick="closeAdmin()" style="float: right; background: #ff4d4d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">ড্যাশবোর্ড বন্ধ করুন</button>
+        <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">অর্ডার কন্ট্রোল সেন্টার</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <thead style="background: #2c3e50; color: white;">
+                <tr>
+                    <th style="padding: 12px; border: 1px solid #ddd;">সার্ভিস</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">লিঙ্ক/আইডি</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">বিল</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Transaction ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">স্ট্যাটাস</th>
+                </tr>
+            </thead>
+            <tbody id="admin-rows" style="text-align: center;"></tbody>
+        </table>
     </div>
 
-    <div id="payment-panel" style="display: none; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #eee;">
-        <h3 id="order-title" style="color: #333; margin-bottom: 10px;">অর্ডার ডিটেইলস</h3>
-        <p style="font-size: 20px; color: #28a745; font-weight: bold;">বিল: <span id="order-price"></span> টাকা</p>
-        <div style="background: #fff9c4; padding: 15px; border-radius: 8px; font-size: 14px; margin: 20px 0;">
-            পেমেন্ট বিকাশ/নগদ (পার্সোনাল): <strong>01766380931</strong> নাম্বারে টাকা পাঠিয়ে নিচের বক্স পূরণ করুন।
-        </div>
-        <input type="text" id="link-field" placeholder="লিঙ্ক বা গেম আইডি (UID) দিন" style="width: 90%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px;">
-        <input type="text" id="txn-field" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 12px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px;">
-        <button onclick="confirmAndSend()" style="width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">হোয়াটসঅ্যাপে অর্ডার পাঠান</button>
-    </div>
-</section>
+    <script>
+        function openForm(service, sel) {
+            document.getElementById('payment-panel').style.display = 'block';
+            document.getElementById('order-title').innerText = service + " - " + sel.options[sel.selectedIndex].text;
+            document.getElementById('order-price').innerText = sel.value;
+            window.scrollTo({ top: document.getElementById('payment-panel').offsetTop - 20, behavior: 'smooth' });
+        }
 
-<script>
-function openForm(service, selectElement) {
-    const optionText = selectElement.options[selectElement.selectedIndex].text;
-    const price = selectElement.value;
-    
-    document.getElementById('payment-panel').style.display = 'block';
-    document.getElementById('order-title').innerText = service + " - " + optionText;
-    document.getElementById('order-price').innerText = price;
-    
-    window.scrollTo({ top: document.getElementById('payment-panel').offsetTop - 20, behavior: 'smooth' });
-}
+        function checkAdmin() {
+            const pass = prompt("অ্যাডমিন পাসওয়ার্ড দিন:");
+            if(pass === "atiq123") {
+                document.getElementById('admin-panel').style.display = 'block';
+                loadAdminOrders();
+            } else {
+                alert("ভুল পাসওয়ার্ড!");
+            }
+        }
 
-function confirmAndSend() {
-    const link = document.getElementById('link-field').value;
-    const txn = document.getElementById('txn-field').value;
-    const title = document.getElementById('order-title').innerText;
-    const bill = document.getElementById('order-price').innerText;
-
-    if(!link || !txn) {
-        alert("সবগুলো তথ্য দিন।");
-        return;
-    }
-
-    const waMsg = `*নতুন অর্ডার*%0A------------------%0A*সার্ভিস:* ${title}%0A*লিঙ্ক/UID:* ${link}%0A*বিল:* ${bill} টাকা%0A*Transaction ID:* ${txn}%0A------------------`;
-    window.open(`https://wa.me/8801766380931?text=${waMsg}`, '_blank');
-}
-</script>
+        function closeAdmin() {
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
