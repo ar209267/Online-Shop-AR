@@ -1,0 +1,22 @@
+<?php
+// ১. ইনপুট ফিল্টারিং (যাতে কেউ ভুল কোড ঢুকাতে না পারে)
+function clean_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+// ২. সেশন সিকিউরিটি (লগইন হাইজ্যাকিং বন্ধ করতে)
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// ৩. ডাটাবেস সিকিউরিটি (SQL Injection প্রতিরোধ)
+// সব সময় Prepared Statements ব্যবহার করবেন
+$stmt = $conn->prepare("INSERT INTO orders (user_id, service_id, quantity, link) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("iiss", $user_id, $service_id, $quantity, $link);
+$stmt->execute();
+?>
