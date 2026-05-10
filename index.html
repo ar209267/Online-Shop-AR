@@ -3,107 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Professional SMM Panel</title>
-    <!-- Google Fonts & Icons -->
+    <title>Online Shop AR - SMM & Game Topup</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <!-- Google Login API -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
-    <!-- নেভিগেশন বার -->
     <nav>
         <div class="logo">Online Shop <span>AR</span></div>
-        <div class="auth-box">
-            <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
-            <div class="g_id_signin" data-type="standard"></div>
-        </div>
+        <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
+        <div class="g_id_signin" data-type="standard"></div>
     </nav>
 
     <div class="container">
         <header>
-            <h1>সোশ্যাল মিডিয়া বুস্টিং সার্ভিস</h1>
-            <p>আপনার প্রোফাইলকে প্রফেশনাল ভাবে সাজিয়ে নিন আমাদের সাথে</p>
+            <h1>Online Shop <span>AR</span></h1>
+            <p>সেরা দামে ফেসবুক বুস্ট এবং ফ্রি ফায়ার ডায়মন্ড টপ-আপ</p>
         </header>
 
-        <!-- সার্ভিস সেকশন -->
         <div class="grid">
-            <!-- ফেসবুক কার্ড -->
+            <!-- Facebook -->
             <div class="card">
-                <i class="fab fa-facebook-f fb-icon"></i>
-                <h3>Facebook Services</h3>
-                <p>ফলোয়ার, লাইক ও পেজ বুস্ট</p>
-                <button class="buy-btn" onclick="openPayment('Facebook Pack', 500)">অর্ডার করুন</button>
+                <div class="icon-circle fb-bg"><i class="fab fa-facebook-f"></i></div>
+                <h3>Facebook Boost</h3>
+                <p>ফলোয়ার ও লাইক সার্ভিস</p>
+                <button class="buy-btn" onclick="openPayment('Facebook Service')">অর্ডার করুন</button>
             </div>
 
-            <!-- ইউটিউব কার্ড -->
+            <!-- YouTube -->
             <div class="card">
-                <i class="fab fa-youtube yt-icon"></i>
-                <h3>YouTube Services</h3>
+                <div class="icon-circle yt-bg"><i class="fab fa-youtube"></i></div>
+                <h3>YouTube Growth</h3>
                 <p>ওয়াচটাইম ও সাবস্ক্রাইবার</p>
-                <button class="buy-btn" onclick="openPayment('YouTube Pack', 1200)">অর্ডার করুন</button>
+                <button class="buy-btn" onclick="openPayment('YouTube Service')">অর্ডার করুন</button>
             </div>
 
-            <!-- টিকটক কার্ড -->
+            <!-- Free Fire Diamond -->
             <div class="card">
-                <i class="fab fa-tiktok tt-icon"></i>
-                <h3>TikTok Services</h3>
-                <p>ফলোয়ার ও ভিডিও ভিউ</p>
-                <button class="buy-btn" onclick="openPayment('TikTok Pack', 300)">অর্ডার করুন</button>
+                <div class="icon-circle ff-bg"><i class="fas fa-gem"></i></div>
+                <h3>FF Diamond</h3>
+                <select id="ff-pack" class="package-select">
+                    <option value="115 Diamond - 85 TK">115 Diamond - 85 TK</option>
+                    <option value="240 Diamond - 165 TK">240 Diamond - 165 TK</option>
+                    <option value="610 Diamond - 430 TK">610 Diamond - 430 TK</option>
+                </select>
+                <button class="buy-btn" onclick="buyFF()">টপ-আপ করুন</button>
             </div>
 
-            <!-- ইনস্টাগ্রাম কার্ড -->
+            <!-- ID Sale -->
             <div class="card">
-                <i class="fab fa-instagram ig-icon"></i>
-                <h3>Instagram Services</h3>
-                <p>ফলোয়ার ও লাইক বৃদ্ধি</p>
-                <button class="buy-btn" onclick="openPayment('Instagram Pack', 450)">অর্ডার করুন</button>
+                <div class="icon-circle id-bg"><i class="fas fa-user-shield"></i></div>
+                <h3>ID Sale & Buy</h3>
+                <p>পুরাতন ও ভেরিফাইড আইডি</p>
+                <button class="buy-btn" onclick="openPayment('FF ID Sale')">আইডি দেখুন</button>
             </div>
         </div>
     </div>
 
-    <!-- পেমেন্ট পপআপ (Modal) -->
+    <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h3>অর্ডার কনফার্ম করুন</h3>
-            <p id="selectedItem" style="font-weight: bold; color: #555;"></p>
+            <h3>পেমেন্ট সম্পন্ন করুন</h3>
+            <p id="selectedItem" style="font-weight: bold;"></p>
             
-            <div class="payment-details">
-                <p>নিচের নাম্বারে টাকা পাঠিয়ে TrxID দিন:</p>
-                <div class="number-box">০১৭৬৬৩৮০৯৩১</div>
-                <p style="font-size: 12px; color: #666;">(বিকাশ, নগদ, উপায় - পার্সোনাল)</p>
+            <input type="text" id="targetLink" placeholder="প্লেয়ার আইডি বা প্রোফাইল লিংক">
+            <input type="text" id="userPhone" placeholder="আপনার ফোন নম্বর">
+            
+            <div class="number-box">
+                <small>বিকাশ/নগদ/উপায় (Personal)</small><br>
+                01766380931
             </div>
-
-            <input type="text" id="userPhone" placeholder="আপনার মোবাইল নম্বর">
+            
             <input type="text" id="trxId" placeholder="TrxID (ট্রানজেকশন আইডি)">
-            <button class="confirm-btn" onclick="submitOrder()">সাবমিট করুন</button>
+            <button class="confirm-btn" onclick="submitOrder()">অর্ডার কনফার্ম</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html> 
-<!-- Free Fire Section -->
-<div class="card">
-    <i class="fas fa-gamepad ff-icon" style="color: #ff8c00;"></i>
-    <h3>Free Fire Top-up</h3>
-    <p>ID Code / Player ID</p>
-    <select id="ff-package" class="package-select">
-        <option value="115 Diamond - 85 TK">115 Diamond - 85 TK</option>
-        <option value="240 Diamond - 165 TK">240 Diamond - 165 TK</option>
-        <option value="610 Diamond - 430 TK">610 Diamond - 430 TK</option>
-        <option value="Weekly Membership - 160 TK">Weekly Membership - 160 TK</option>
-        <option value="Monthly Membership - 800 TK">Monthly Membership - 800 TK</option>
-    </select>
-    <button class="buy-btn" onclick="buyFF()">অর্ডার করুন</button>
-</div>
-
-<!-- ID Sale Section -->
-<div class="card">
-    <i class="fas fa-id-badge" style="color: #6f42c1;"></i>
-    <h3>Free Fire ID Sale</h3>
-    <p>লেভেল ৬০+ ইভো গান আইডি</p>
-    <button class="buy-btn" style="background: #6f42c1;" onclick="openPayment('Free Fire ID Purchase', 'আলোচনা সাপেক্ষে')">আইডি লিস্ট দেখুন</button>
-</div>
+</html>
