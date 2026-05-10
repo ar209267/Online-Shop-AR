@@ -182,3 +182,30 @@
         </div>
     </div>
 </template>
+<nav>
+    <div class="logo">Online Shop <span>AR</span></div>
+    
+    <!-- প্রোফাইল সেকশন: লগইন করার পর এটি দেখাবে -->
+    <div id="user-profile" class="user-profile" style="display:none;">
+        <div class="balance-display">
+            <span>ব্যালেন্স: ৳ <span id="current-balance">০.০০</span></span>
+        </div>
+        <div class="user-details" onclick="toggleMenu()">
+            <span id="display-name">Atiqur Rahman</span>
+            <img src="https://via.placeholder.com/30" id="user-img">
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <!-- ড্রপডাউন মেনু -->
+        <div id="dropdown-menu" class="dropdown">
+            <a href="#" onclick="openAddFund()"><i class="fas fa-wallet"></i> টাকা অ্যাড করুন</a>
+            <a href="#"><i class="fas fa-list"></i> অর্ডার হিস্ট্রি</a>
+            <hr>
+            <a href="#" onclick="logout()" style="color:red;"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+        </div>
+    </div>
+
+    <!-- লগইন বাটন: যদি লগইন না থাকে -->
+    <button id="login-btn" class="login-btn" onclick="loginSimulate()">
+        <i class="fab fa-google"></i> Login
+    </button>
+</nav>
