@@ -42,3 +42,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+function buyFF() {
+    const selectedPackage = document.getElementById('ff-package').value;
+    openPayment('Free Fire: ' + selectedPackage);
+}
