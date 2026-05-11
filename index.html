@@ -3,149 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq SMM V10 - Cyber Quantum</title>
+    <title>Atiq rocky Master V10 - Ultra Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --yellow: #f1c40f; --dark: #070b14; --card: #121826; --text: #e2e8f0; --accent: #3b82f6; }
-        body { font-family: 'Inter', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
-        .container { max-width: 480px; margin: auto; padding: 15px; }
+        :root {
+            --primary: #f1c40f;
+            --bg: #070912;
+            --card-bg: #111421;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
 
-        /* V10 Modern Header */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--card); border-radius: 20px; border: 1px solid #1e293b; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .user-meta { display: flex; align-items: center; gap: 12px; }
-        .user-meta img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--yellow); padding: 2px; }
-        .balance-box { background: rgba(241, 196, 15, 0.1); border: 1px solid var(--yellow); color: var(--yellow); padding: 2px 12px; border-radius: 30px; font-weight: 800; font-size: 13px; margin-top: 4px; display: inline-block; }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
 
-        /* Category Tabs */
-        .tab-wrapper { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .tab-wrapper::-webkit-scrollbar { display: none; }
-        .tab { background: var(--card); padding: 8px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; border: 1px solid #1e293b; transition: 0.3s; }
-        .tab.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-        /* Service List Modern */
-        .service-container { margin-top: 10px; }
-        .service-item { background: var(--card); border-radius: 18px; padding: 15px; margin-bottom: 12px; border: 1px solid #1e293b; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .service-item:hover { border-color: var(--yellow); transform: scale(1.02); }
-        .s-detail b { display: block; font-size: 14px; color: #fff; }
-        .s-detail span { font-size: 11px; color: #94a3b8; display: block; margin-top: 2px; }
-        .s-price { text-align: right; }
-        .s-price .amt { color: var(--yellow); font-weight: 800; font-size: 15px; display: block; }
-        .buy-btn { background: #fff; color: #000; border: none; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
 
-        /* Payment Section V10 */
-        .pay-card { background: #fff; color: #000; border-radius: 20px; padding: 20px; text-align: center; margin-top: 20px; border: 4px solid var(--yellow); position: relative; }
-        .pay-card h3 { margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #444; }
-        .pay-number { font-size: 28px; font-weight: 900; display: block; margin: 10px 0; color: #000; letter-spacing: 1px; }
-        .txn-input { width: 100%; box-sizing: border-box; padding: 12px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 14px; margin-top: 10px; outline: none; }
-        .add-btn { background: #000; color: #fff; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 15px; }
+        /* Top Bar & Profile */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--card-bg); border-radius: 20px; border: 1px solid #1e293b; margin-bottom: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
+        .user-profile { display: flex; align-items: center; gap: 15px; }
+        .user-profile img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); padding: 2px; background: #000; }
+        .user-details h4 { margin: 0; font-size: 16px; letter-spacing: 0.5px; }
+        .balance-badge { display: inline-block; background: rgba(241, 196, 15, 0.15); color: var(--primary); padding: 4px 12px; border-radius: 50px; font-size: 13px; font-weight: 800; border: 1px solid var(--primary); margin-top: 5px; }
 
-        /* Bottom Menu */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 480px; background: rgba(18, 24, 38, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #1e293b; left: 50%; transform: translateX(-50%); z-index: 1000; }
-        .nav-link { text-align: center; color: #64748b; text-decoration: none; font-size: 10px; font-weight: 600; }
-        .nav-link i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-link.active { color: var(--yellow); }
+        /* Tab Switcher */
+        .tabs-container { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px; scrollbar-width: none; }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn { background: var(--card-bg); color: var(--text-dim); padding: 10px 25px; border-radius: 15px; border: 1px solid #1e293b; cursor: pointer; white-space: nowrap; font-weight: 600; font-size: 13px; }
+        .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3); }
 
-        /* Support Floating */
-        .wa-btn { position: fixed; bottom: 85px; right: 20px; background: #25d366; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; color: #fff; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); text-decoration: none; z-index: 999; }
+        /* Service Section */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 15px; }
+        .section-header h3 { font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin: 0; }
+        
+        .service-list { display: flex; flex-direction: column; gap: 15px; }
+        .service-card { background: var(--card-bg); border-radius: 20px; border: 1px solid #1e293b; padding: 20px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; }
+        .service-card::after { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: var(--primary); }
+        .service-card:hover { border-color: var(--primary); transform: translateX(5px); }
+        
+        .s-info b { font-size: 15px; display: block; color: #fff; margin-bottom: 4px; }
+        .s-info span { font-size: 11px; color: var(--text-dim); display: block; }
+        .s-price-action { text-align: right; }
+        .s-price-action .price { font-size: 18px; font-weight: 800; color: var(--primary); display: block; }
+        .order-btn { background: #fff; color: #000; border: none; padding: 6px 15px; border-radius: 8px; font-size: 12px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+
+        /* Gaming Special Section */
+        .gaming-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .game-card { background: linear-gradient(145deg, #1e293b, #111827); border-radius: 20px; padding: 20px; border: 1px solid #334155; text-align: center; }
+        .game-card i { font-size: 30px; margin-bottom: 10px; color: #ff8c00; }
+        .game-card h4 { margin: 5px 0; font-size: 14px; }
+        .game-card .tag { font-size: 10px; background: var(--primary); color: #000; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+
+        /* Mega Payment Box */
+        .payment-mega-box { background: #fff; border-radius: 25px; padding: 30px 20px; margin-top: 30px; color: #000; text-align: center; border: 5px solid var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .payment-methods { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .payment-methods img { width: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .pay-number { font-size: 32px; font-weight: 900; color: #000; letter-spacing: 2px; background: #fef9c3; padding: 15px; border-radius: 15px; border: 3px dashed #f1c40f; margin: 15px 0; display: block; }
+        .input-group { position: relative; margin-top: 15px; }
+        .input-group input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; outline: none; font-size: 16px; }
+        .confirm-btn { background: #000; color: #fff; width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 18px; margin-top: 15px; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* Fixed Footer Nav */
+        .footer-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; background: rgba(17, 20, 33, 0.96); backdrop-filter: blur(15px); border-top: 1px solid #1e293b; display: flex; justify-content: space-around; padding: 15px 0; left: 50%; transform: translateX(-50%); z-index: 2000; border-radius: 25px 25px 0 0; }
+        .nav-link { text-align: center; text-decoration: none; color: var(--text-dim); font-size: 11px; font-weight: 600; }
+        .nav-link i { font-size: 22px; display: block; margin-bottom: 5px; }
+        .nav-link.active { color: var(--primary); }
+
+        /* Floating WA */
+        .whatsapp-float { position: fixed; bottom: 100px; right: 25px; background: var(--success); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; box-shadow: 0 10px 20px rgba(46, 204, 113, 0.4); text-decoration: none; z-index: 1000; }
+        
+        /* Stats Box */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-card small { font-size: 10px; color: var(--text-dim); text-transform: uppercase; }
+        .stat-card div { font-size: 18px; font-weight: bold; color: var(--primary); margin-top: 5px; }
+
+        /* Simple Animation */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .service-card { animation: fadeIn 0.4s ease forwards; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header class="header">
-        <div class="user-meta" onclick="alert('নাম: আতিক\nআইডি: AT-10931\nস্ট্যাটাস: ভেরিফাইড')">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User">
-            <div>
-                <div style="font-size: 15px; font-weight: 700;">Atiq Edition V10</div>
-                <div class="balance-box">৳ 540.00</div>
+    <div class="top-bar">
+        <div class="user-profile" onclick="showProfile()">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Atiq">
+            <div class="user-details">
+                <h4>Atiq SMM Master</h4>
+                <div class="balance-badge">৳ ৫৪০.০০ <i class="fas fa-plus-circle"></i></div>
             </div>
         </div>
-        <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px;">
-            <i class="fas fa-bell" style="color: var(--yellow);"></i>
-        </div>
-    </header>
-
-    <div class="tab-wrapper">
-        <div class="tab active" onclick="changeTab('fb')">Facebook</div>
-        <div class="tab" onclick="changeTab('game')">Gaming & ID</div>
-        <div class="tab" onclick="changeTab('yt')">YouTube</div>
-        <div class="tab" onclick="changeTab('other')">Other SMM</div>
+        <div style="font-size: 20px; color: var(--primary);"><i class="fas fa-shield-halved"></i></div>
     </div>
 
-    <div class="service-container" id="service-list">
-        <div class="service-item">
-            <div class="s-detail">
-                <b>FB Profile Followers</b>
-                <span>Quality Non-Drop | 1h Start</span>
+    <div class="stats-grid">
+        <div class="stat-card"><small>মোট অর্ডার</small><div>৪৫৭</div></div>
+        <div class="stat-card"><small>ব্যবহৃত ব্যালেন্স</small><div>৳ ৮,৪২০</div></div>
+    </div>
+
+    <div class="tabs-container" id="tabScroll">
+        <div class="tab-btn active" onclick="filterS('fb')">Facebook Pro</div>
+        <div class="tab-btn" onclick="filterS('game')">Gaming & ID</div>
+        <div class="tab-btn" onclick="filterS('yt')">YouTube Boost</div>
+        <div class="tab-btn" onclick="filterS('insta')">Instagram</div>
+        <div class="tab-btn" onclick="filterS('other')">Others</div>
+    </div>
+
+    <div id="service-content">
+        <div class="section-header">
+            <h3>Facebook Master Services</h3>
+            <span style="font-size: 10px; color: var(--success);"><i class="fas fa-bolt"></i> Instant Start</span>
+        </div>
+        
+        <div class="service-list">
+            <div class="service-card">
+                <div class="s-info">
+                    <b>FB Profile Followers</b>
+                    <span>High Quality | Lifetime Non-Drop</span>
+                    <small style="color: var(--success);"><i class="fas fa-check-double"></i> 5k Package Available</small>
+                </div>
+                <div class="s-price-action">
+                    <span class="price">৳ ১৩০</span>
+                    <button class="order-btn" onclick="openOrder('Facebook Followers')">অর্ডার করুন</button>
+                </div>
             </div>
-            <div class="s-price">
-                <span class="amt">৳ ১৩০</span>
-                <button class="buy-btn">অর্ডার</button>
+
+            <div class="service-card">
+                <div class="s-info">
+                    <b>FB Page Likes + Follow</b>
+                    <span>Organic Growth | Real IDs</span>
+                </div>
+                <div class="s-price-action">
+                    <span class="price">৳ ১৫০</span>
+                    <button class="order-btn">অর্ডার করুন</button>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="s-info">
+                    <b>FB 60k Min Watchtime</b>
+                    <span>For Ads on Reels/In-Stream</span>
+                </div>
+                <div class="s-price-action">
+                    <span class="price">৳ ৪৫০</span>
+                    <button class="order-btn">কিনুন</button>
+                </div>
             </div>
         </div>
-        <div class="service-item">
-            <div class="s-detail">
-                <b>FB Page Likes + Follow</b>
-                <span>Organic Growth | Lifetime</span>
-            </div>
-            <div class="s-price">
-                <span class="amt">৳ ১৫০</span>
-                <button class="buy-btn">অর্ডার</button>
-            </div>
+
+        <div class="section-header" style="margin-top: 30px;">
+            <h3>Gaming & ID Sell Center</h3>
         </div>
-        <div class="service-item">
-            <div class="s-detail">
-                <b>FB Post Reactions</b>
-                <span>Mix Reacts | Super Fast</span>
+        <div class="gaming-grid">
+            <div class="game-card">
+                <i class="fas fa-fire"></i>
+                <h4>FF Diamond</h4>
+                <span class="tag">Instant UID</span>
             </div>
-            <div class="s-price">
-                <span class="amt">৳ ৫০</span>
-                <button class="buy-btn">অর্ডার</button>
+            <div class="game-card">
+                <i class="fas fa-id-card"></i>
+                <h4>Free Fire ID</h4>
+                <span class="tag">Verified Sell</span>
             </div>
         </div>
     </div>
 
-    <div class="pay-card">
-        <h3>বিকাশ / নগদ পেমেন্ট (পার্সোনাল)</h3>
-        <span class="pay-number">০১৭৬৬ ৩৮০ ৯৩১</span>
-        <input type="text" class="txn-input" placeholder="Transaction ID (TxnID) দিন">
-        <button class="add-btn">ব্যালেন্স অ্যাড করুন</button>
+    <div class="payment-mega-box">
+        <div class="payment-methods">
+            <img src="https://logodownload.org/wp-content/uploads/2022/11/bkash-logo.png" alt="bkash">
+            <img src="https://seeklogo.com/images/N/nagad-logo-7A70BB6666-seeklogo.com.png" alt="nagad">
+        </div>
+        <h3>বিকাশ / নগদ (পার্সোনাল)</h3>
+        <span class="pay-number">০১৭৬৬৩৮০৯৩১</span>
+        <div class="input-group">
+            <input type="text" id="txnId" placeholder="Transaction ID (TxnID) দিন">
+        </div>
+        <button class="confirm-btn" onclick="confirmPayment()">ব্যালেন্স আপডেট করুন</button>
+        <p style="font-size: 10px; margin-top: 15px; opacity: 0.6;">টাকা পাঠানোর ১০ মিনিটের মধ্যে ব্যালেন্স যোগ হবে।</p>
     </div>
 </div>
 
-<nav class="nav-bar">
-    <a href="#" class="nav-link active"><i class="fas fa-th-large"></i>হোম</a>
-    <a href="#" class="nav-link" onclick="alert('অর্ডার হিস্টরি খালি')"><i class="fas fa-shopping-bag"></i>অর্ডার</a>
-    <a href="#" class="nav-item nav-link"><i class="fas fa-plus-circle" style="font-size: 28px; color: var(--yellow);"></i>অ্যাড</a>
+<div class="footer-nav">
+    <a href="#" class="nav-link active"><i class="fas fa-house-chimney"></i>হোম</a>
+    <a href="#" class="nav-link" onclick="alert('অর্ডার হিস্টরি')"><i class="fas fa-box-open"></i>অর্ডার</a>
+    <a href="#" class="nav-link" style="margin-top: -15px;"><i class="fas fa-circle-plus" style="font-size: 40px; color: var(--primary);"></i>অ্যাড ফান্ড</a>
     <a href="#" class="nav-link" onclick="alert('সাপোর্ট সেন্টার')"><i class="fas fa-headset"></i>সাপোর্ট</a>
-    <a href="#" class="nav-link"><i class="fas fa-user-circle"></i>প্রোফাইল</a>
-</nav>
+    <a href="#" class="nav-link"><i class="fas fa-circle-user"></i>প্রোফাইল</a>
+</div>
 
-<a href="https://wa.me/8801766380931" class="wa-btn" target="_blank">
+<a href="https://wa.me/8801766380931?text=Hello Atiq, I need help with my SMM order." class="whatsapp-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
 
 <script>
-    function changeTab(type) {
-        // ট্যাব ডিজাইন পরিবর্তনের লজিক (ভবিষ্যতে এখানে API ডাটা বসাতে পারবে)
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => tab.classList.remove('active'));
+    function filterS(type) {
+        // Tab switching logic
+        const btns = document.querySelectorAll('.tab-btn');
+        btns.forEach(b => b.classList.remove('active'));
         event.target.classList.add('active');
         
+        // ডাইনামিক কন্টেন্ট লোডিং লজিক এখানে অ্যাড করা যাবে
         if(type === 'game') {
-            document.getElementById('service-list').innerHTML = `
-                <div class="service-item">
-                    <div class="s-detail"><b>Free Fire Diamond</b><span>UID Top-up | Instant</span></div>
-                    <div class="s-price"><span class="amt">৳ ৮০ থেকে শুরু</span><button class="buy-btn">কিনুন</button></div>
-                </div>
-                <div class="service-item">
-                    <div class="s-detail"><b>Verified FF ID Sell</b><span>Safe & Secure ID</span></div>
-                    <div class="s-price"><span class="amt">৳ ৫০০+</span><button class="buy-btn">লিস্ট</button></div>
+            document.getElementById('service-content').innerHTML = `
+                <div class="section-header"><h3>Gaming Top-up</h3></div>
+                <div class="gaming-grid">
+                    <div class="game-card"><i>🔥</i><h4>FF Diamond</h4><span class="tag">৳ ৮০+</span><button class="order-btn" style="width:100%">কিনুন</button></div>
+                    <div class="game-card"><i>🎮</i><h4>PUBG UC</h4><span class="tag">৳ ১২০+</span><button class="order-btn" style="width:100%">কিনুন</button></div>
+                    <div class="game-card"><i>👕</i><h4>FF Wardrobe</h4><span class="tag">৳ ২৫০+</span><button class="order-btn" style="width:100%">কিনুন</button></div>
+                    <div class="game-card"><i>🆔</i><h4>ID Sell</h4><span class="tag">লিস্ট</span><button class="order-btn" style="width:100%">দেখুন</button></div>
                 </div>
             `;
-        } else if(type === 'fb') {
-            location.reload(); // ফেসবুক ডিফল্ট
+        } else {
+            // Re-load default for demo
+            location.reload();
         }
+    }
+
+    function confirmPayment() {
+        const txn = document.getElementById('txnId').value;
+        if(txn.length < 5) {
+            alert("দয়া করে সঠিক Transaction ID দিন।");
+        } else {
+            alert("আপনার আবেদন জমা হয়েছে। দ্রুত ব্যালেন্স চেক করা হবে।");
+        }
+    }
+
+    function showProfile() {
+        alert("ইউজার: আতিক\nব্যালেন্স: ৳ ৫৪০.০০\nসর্বশেষ লগইন: আজ ৩:১৫ PM");
     }
 </script>
 
