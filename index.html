@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Master - Enterprise Digital V6.0</title>
+    <title>Atiq Master - Enterprise V6.0</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
@@ -16,108 +16,41 @@
 <body>
 
     <div id="preloader">
-        <div class="loader-ring"></div>
-        <p style="color: #00ff88; margin-top: 20px; font-family: 'Orbitron';">BOOTING SYSTEM...</p>
+        <div class="ring"></div>
+        <h2 style="color: #00ff88; margin-top: 20px; font-family: 'Orbitron';">SYSTEM BOOTING...</h2>
     </div>
 
     <div id="auth-portal">
         <div class="auth-card">
-            <div class="brand">
-                <h1>ATIQ MASTER</h1>
-                <p>SECURE ENTERPRISE V6.0</p>
-            </div>
+            <h1 style="font-family: 'Orbitron'; font-size: 28px; margin-bottom: 5px;">ATIQ MASTER</h1>
+            <p style="color: #666; margin-bottom: 30px;">Premium Digital Services</p>
 
             <div id="login-form">
-                <div class="input-box">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" placeholder="আপনার ইমেইল">
-                </div>
-                <div class="input-box">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="pass" placeholder="পাসওয়ার্ড">
-                </div>
-                <button class="cta-btn" onclick="handleAuth('login')">লগইন করুন</button>
-                <p class="switch-text">নতুন ইউজার? <span onclick="toggleAuth(true)">রেজিস্ট্রেশন করুন</span></p>
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="email" placeholder="Email"></div>
+                <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="pass" placeholder="Password"></div>
+                <button class="main-btn" onclick="handleAuth('login')">LOGIN</button>
+                <p class="toggle-text">নতুন? <span onclick="toggleAuth(true)">একাউন্ট খুলুন</span></p>
             </div>
 
             <div id="signup-form" style="display: none;">
-                <div class="input-box">
-                    <i class="fas fa-user-plus"></i>
-                    <input type="email" id="s_email" placeholder="নতুন ইমেইল দিন">
-                </div>
-                <div class="input-box">
-                    <i class="fas fa-key"></i>
-                    <input type="password" id="s_pass" placeholder="পাসওয়ার্ড তৈরি করুন">
-                </div>
-                <button class="cta-btn" onclick="handleAuth('signup')">একাউন্ট তৈরি করুন</button>
-                <p class="switch-text">আগের একাউন্ট আছে? <span onclick="toggleAuth(false)">লগইন</span></p>
+                <div class="input-group"><i class="fas fa-user-plus"></i><input type="email" id="s_email" placeholder="New Email"></div>
+                <div class="input-group"><i class="fas fa-key"></i><input type="password" id="s_pass" placeholder="New Password"></div>
+                <button class="main-btn" onclick="handleAuth('signup')">SIGN UP</button>
+                <p class="toggle-text">আগের আইডি আছে? <span onclick="toggleAuth(false)">লগইন</span></p>
             </div>
         </div>
     </div>
 
-    <div id="dashboard-ui" style="display: none;">
-        <nav class="navbar">
-            <div class="user-info">
-                <div class="avatar"><i class="fas fa-user-shield"></i></div>
-                <div>
-                    <span id="u-name">USER</span>
-                    <small>Official Member</small>
-                </div>
+    <div id="main-ui" style="display: none;">
+        <div class="top-nav">
+            <div class="user-box">
+                <div class="user-icon"><i class="fas fa-user"></i></div>
+                <div><b id="user-display">USER</b><p>Verified Partner</p></div>
             </div>
-            <button class="logout-btn" onclick="firebase.auth().signOut()"><i class="fas fa-sign-out-alt"></i></button>
-        </nav>
+            <button onclick="firebase.auth().signOut()" class="off-btn"><i class="fas fa-power-off"></i></button>
+        </div>
 
         <div class="hero">
             <div class="balance-card">
-                <p>বর্তমান ব্যালেন্স</p>
-                <h1 id="balance-val">৳ ০.০০</h1>
-                <div class="hero-actions">
-                    <button onclick="showModal('dep-modal')">এড মানি +</button>
-                    <button onclick="alert('History coming soon!')"><i class="fas fa-history"></i></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid-container">
-            <div class="service-card" onclick="startOrder('FF 115 Diamonds', 85, 'fas fa-fire', '#ff8c00')">
-                <i class="fas fa-fire" style="color:#ff8c00"></i>
-                <b>FF Diamond</b>
-                <span>৳ ৮৫</span>
-            </div>
-            <div class="service-card" onclick="startOrder('FB 1K Follower', 130, 'fab fa-facebook', '#1877f2')">
-                <i class="fab fa-facebook" style="color:#1877f2"></i>
-                <b>FB Follower</b>
-                <span>৳ ১৩০</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="order-modal">
-        <div class="modal">
-            <h3 id="m-title">অর্ডার করুন</h3>
-            <h2 id="m-cost">৳ ০.০০</h2>
-            <input type="text" id="target-id" placeholder="প্লেয়ার আইডি / লিংক">
-            <input type="text" id="txn-id" placeholder="বিকাশ/নগদ TxnID">
-            <button class="cta-btn" onclick="confirmOrder()">কনফার্ম অর্ডার</button>
-            <button class="close-btn" onclick="hideModals()">বাতিল</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="dep-modal">
-        <div class="modal">
-            <h3>টাকা এড করুন</h3>
-            <div class="payment-info">
-                <p>বিকাশ/নগদ (পার্সোনাল)</p>
-                <b>01766380931</b>
-            </div>
-            <input type="number" id="dep-amt" placeholder="টাকার পরিমাণ">
-            <input type="text" id="dep-txn" placeholder="ট্রানজেকশন আইডি">
-            <button class="cta-btn" onclick="requestDeposit()">রিকুয়েস্ট পাঠান</button>
-            <button class="close-btn" onclick="hideModals()">বন্ধ করুন</button>
-        </div>
-    </div>
-
-    <a href="https://wa.me/8801766380931" class="wa-float"><i class="fab fa-whatsapp"></i></a>
-    <script src="script.js"></script>
-</body>
-</html>
+                <p>ব্যালেন্স দেখুন</p>
+                <h1 id="user-bal">৳ ০.০০</h1>
