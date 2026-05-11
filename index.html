@@ -187,3 +187,23 @@
 </script>
 </body>
 </html>
+<script>
+    const firebaseConfig = {
+        // ওস্তাদ, এখানে আপনার Firebase Console -> Project Settings থেকে পাওয়া 
+        // সঠিক API Key-টি এই কোটেশনের (" ") ভেতর বসিয়ে দিন।
+        apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-N5S4lUv_M", 
+        authDomain: "online-shop-ar.firebaseapp.com",
+        databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com",
+        projectId: "online-shop-ar",
+        storageBucket: "online-shop-ar.appspot.com",
+        messagingSenderId: "913434308973",
+        appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
+    };
+    
+    // বাকি সব কোড আগের মতোই থাকবে...
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    // ... (বাকি ফাংশনগুলো আগের কোড থেকেই থাকবে)
+</script>
