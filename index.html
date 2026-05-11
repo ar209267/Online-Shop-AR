@@ -1,58 +1,192 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Master - Enterprise V6.0</title>
+    <title>Online Shop AR - Professional Login</title>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <style>
+        /* CSS: Professional & Modern UI */
+        :root {
+            --primary-color: #00ff88;
+            --bg-dark: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-white: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Loading Screen (System Booting) */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .booting-text {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            letter-spacing: 5px;
+            animation: blink 1s infinite;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .btn-github {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .btn-github:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+
+        #user-profile {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .user-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="ring"></div>
-        <h2 style="color: #00ff88; margin-top: 20px; font-family: 'Orbitron';">SYSTEM BOOTING...</h2>
+    <div id="loader">
+        <div class="booting-text">SYSTEM BOOTING...</div>
     </div>
 
-    <div id="auth-portal">
-        <div class="auth-card">
-            <h1 style="font-family: 'Orbitron'; font-size: 28px; margin-bottom: 5px;">ATIQ MASTER</h1>
-            <p style="color: #666; margin-bottom: 30px;">Premium Digital Services</p>
+    <div class="container">
+        <div class="login-card" id="login-section">
+            <h1>Online Shop AR</h1>
+            <p>Please login to continue</p>
+            <button class="btn-github" id="btn-login">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" style="filter: invert(1);">
+                Sign in with GitHub
+            </button>
+        </div>
 
-            <div id="login-form">
-                <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="email" placeholder="Email"></div>
-                <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="pass" placeholder="Password"></div>
-                <button class="main-btn" onclick="handleAuth('login')">LOGIN</button>
-                <p class="toggle-text">নতুন? <span onclick="toggleAuth(true)">একাউন্ট খুলুন</span></p>
-            </div>
-
-            <div id="signup-form" style="display: none;">
-                <div class="input-group"><i class="fas fa-user-plus"></i><input type="email" id="s_email" placeholder="New Email"></div>
-                <div class="input-group"><i class="fas fa-key"></i><input type="password" id="s_pass" placeholder="New Password"></div>
-                <button class="main-btn" onclick="handleAuth('signup')">SIGN UP</button>
-                <p class="toggle-text">আগের আইডি আছে? <span onclick="toggleAuth(false)">লগইন</span></p>
-            </div>
+        <div id="user-profile">
+            <img id="user-avatar" class="user-img" src="" alt="Avatar">
+            <h2 id="user-name">User Name</h2>
+            <p id="user-email">Email</p>
+            <button onclick="location.reload()" style="background:none; border:1px solid red; color:red; cursor:pointer; padding:5px 10px;">Logout</button>
         </div>
     </div>
 
-    <div id="main-ui" style="display: none;">
-        <div class="top-nav">
-            <div class="user-box">
-                <div class="user-icon"><i class="fas fa-user"></i></div>
-                <div><b id="user-display">USER</b><p>Verified Partner</p></div>
-            </div>
-            <button onclick="firebase.auth().signOut()" class="off-btn"><i class="fas fa-power-off"></i></button>
-        </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, GithubAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-        <div class="hero">
-            <div class="balance-card">
-                <p>ব্যালেন্স দেখুন</p>
-                <h1 id="user-bal">৳ ০.০০</h1>
-<button id="github-login">Login with GitHub</button>
-<div id="user-info"></div>
+        // ১. আপনার নিজের ফায়ারবেস কনফিগারেশন এখানে বসান
+        const firebaseConfig = {
+            apiKey: "YOUR_ACTUAL_API_KEY",
+            authDomain: "online-shop-ar.firebaseapp.com",
+            projectId: "online-shop-ar",
+            storageBucket: "online-shop-ar.appspot.com",
+            messagingSenderId: "YOUR_ACTUAL_SENDER_ID",
+            appId: "YOUR_ACTUAL_APP_ID"
+        };
+
+        // Firebase ইনিশিয়ালাইজেশন
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GithubAuthProvider();
+
+        // লোডার হ্যান্ডলিং
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+            }, 2000); // ২ সেকেন্ড পর লোডার চলে যাবে
+        });
+
+        // লগইন লজিক
+        const loginBtn = document.getElementById('btn-login');
+        const loginSection = document.getElementById('login-section');
+        const profileSection = document.getElementById('user-profile');
+
+        loginBtn.onclick = async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                console.log("Success!", result.user);
+            } catch (error) {
+                console.error("Error during login:", error.message);
+                alert("Login Failed: " + error.message);
+            }
+        };
+
+        // ইউজার লগইন আছে কি না তা চেক করা
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginSection.style.display = 'none';
+                profileSection.style.display = 'block';
+                document.getElementById('user-name').innerText = user.displayName;
+                document.getElementById('user-email').innerText = user.email || "Public email not provided";
+                document.getElementById('user-avatar').src = user.photoURL;
+            }
+        });
+    </script>
+</body>
+</html>
