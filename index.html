@@ -3,176 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq SMM Master - Ultra Pro V16</title>
+    <title>Atiq Master SMM - Enterprise Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #1dbf73; --bg: #05070a; --card-bg: #11151c; --card-border: #1e2530; --text-main: #ffffff; --text-dim: #94a3b8; --danger: #ff4757; }
-        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
+        :root {
+            --primary: #1dbf73;
+            --primary-dark: #19a463;
+            --bg: #05070a;
+            --card-bg: #11151c;
+            --card-border: #1e2530;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --danger: #ff4757;
+            --gold: #f3ad1b;
+        }
 
-        /* Auth */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; }
-        .auth-card { background: var(--card-bg); padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--card-border); }
-        .input-field { width: 100%; padding: 16px; border-radius: 15px; border: 1px solid var(--card-border); background: #000; color: #fff; outline: none; margin-top: 10px; margin-bottom: 15px; }
-        .order-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
 
-        /* UI Elements */
-        .top-header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border-bottom: 1px solid var(--card-border); }
-        .balance-chip { background: var(--primary); padding: 5px 15px; border-radius: 50px; font-weight: 800; }
-        .container { padding: 20px; }
-        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .cat-card { background: var(--card-bg); padding: 25px; border-radius: 25px; border: 1px solid var(--card-border); text-align: center; cursor: pointer; }
+        /* --- Full Screen Auth Section --- */
+        #auth-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #11151c 0%, #05070a 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .auth-card {
+            background: var(--card-bg); padding: 45px 35px; border-radius: 40px;
+            width: 90%; max-width: 420px; text-align: center; border: 1px solid var(--card-border);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+        .input-group { text-align: left; margin-bottom: 15px; }
+        .input-group label { font-size: 11px; color: var(--primary); font-weight: 800; margin-left: 10px; text-transform: uppercase; }
+        .input-field {
+            width: 100%; padding: 18px; border-radius: 18px; border: 1px solid var(--card-border);
+            background: #000; color: #fff; outline: none; margin-top: 8px; font-size: 15px;
+        }
+        .auth-btn {
+            width: 100%; padding: 18px; background: var(--primary); border: none;
+            border-radius: 18px; color: white; font-weight: 800; cursor: pointer; font-size: 16px;
+            box-shadow: 0 10px 20px rgba(29, 191, 115, 0.2);
+        }
+
+        /* --- Header & Top Stats --- */
+        .header { padding: 30px 20px; background: var(--card-bg); border-bottom: 1px solid var(--card-border); border-radius: 0 0 30px 30px; }
+        .user-profile { display: flex; align-items: center; gap: 15px; }
+        .user-info h3 { margin: 0; font-size: 18px; }
+        .user-info p { margin: 0; font-size: 12px; color: var(--text-dim); }
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            margin: 20px; padding: 25px; border-radius: 25px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 15px 30px rgba(29, 191, 115, 0.2);
+        }
+
+        /* --- Service Category UI --- */
+        .section-title { padding: 0 20px; font-size: 14px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; }
+        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+        .cat-card {
+            background: var(--card-bg); padding: 30px 20px; border-radius: 30px; border: 1px solid var(--card-border);
+            text-align: center; cursor: pointer; position: relative;
+        }
         .cat-card i { font-size: 40px; margin-bottom: 15px; display: block; }
+        .cat-card b { font-size: 15px; display: block; }
+        .cat-card .badge { position: absolute; top: 15px; right: 15px; background: var(--danger); font-size: 9px; padding: 3px 7px; border-radius: 10px; }
 
-        /* Service View */
-        #service-view { display: none; padding: 20px; animation: slideUp 0.4s ease; }
-        .service-row { background: var(--card-bg); padding: 20px; border-radius: 20px; margin-bottom: 12px; border: 1px solid var(--card-border); }
-        .service-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        /* --- Services List View --- */
+        #service-view { display: none; padding: 20px; animation: slideUp 0.5s ease forwards; }
+        .service-list-card { background: var(--card-bg); border-radius: 30px; padding: 20px; border: 1px solid var(--card-border); }
+        .service-item {
+            padding: 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
+        }
+        .service-item:last-child { border: none; }
+        .service-name { font-weight: 700; font-size: 15px; }
+        .service-price { color: var(--primary); font-weight: 900; font-size: 16px; }
 
-        /* Payment Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; z-index: 1001; }
-        #payment-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); border: 2px solid var(--primary); border-radius: 30px; padding: 30px; width: 90%; max-width: 400px; z-index: 1002; display: none; }
+        /* --- Advanced Payment & Order Modal --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 10001; backdrop-filter: blur(10px); }
+        .order-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--card-bg); border: 1px solid var(--primary); border-radius: 35px;
+            padding: 35px; width: 95%; max-width: 420px; z-index: 10002; display: none;
+        }
+        .payment-methods { display: flex; gap: 10px; margin: 20px 0; }
+        .method { flex: 1; padding: 10px; border: 1px solid var(--card-border); border-radius: 12px; text-align: center; cursor: pointer; font-size: 12px; }
+        .method.selected { border-color: var(--primary); background: rgba(29, 191, 115, 0.1); }
 
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%); background: #11151c; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--card-border); border-radius: 25px 25px 0 0; }
-        .nav-item { color: var(--text-dim); text-align: center; font-size: 11px; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-        
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- Navigation --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px;
+            background: rgba(17, 21, 28, 0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--card-border);
+            display: flex; justify-content: space-around; padding: 15px 0; border-radius: 30px 30px 0 0; z-index: 1000;
+        }
+        .nav-link { color: var(--text-dim); text-align: center; text-decoration: none; font-size: 11px; font-weight: 700; flex: 1; }
+        .nav-link.active { color: var(--primary); }
+        .nav-link i { font-size: 24px; display: block; margin-bottom: 5px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div id="auth-screen">
     <div class="auth-card">
-        <h2 style="color:var(--primary)">Atiq Master SMM</h2>
-        <input type="email" id="email" class="input-field" placeholder="আপনার জিমেইল">
-        <input type="password" id="pass" class="input-field" placeholder="পাসওয়ার্ড (৮+ অক্ষর)">
-        <button class="order-btn" style="width:100%" onclick="handleLogin()">DASHBOARD এ প্রবেশ করুন</button>
-        <p id="err" style="color:var(--danger); font-size:12px; margin-top:10px;"></p>
+        <div style="background: var(--primary); width: 60px; height: 60px; border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+            <i class="fas fa-shield-alt" style="font-size: 30px; color: white;"></i>
+        </div>
+        <h2 style="margin: 0;">Server Access</h2>
+        <p style="color: var(--text-dim); font-size: 13px; margin-top: 10px;">Security ID: online-shop-ar</p>
+        
+        <div class="input-group" style="margin-top: 30px;">
+            <label>Master Gmail</label>
+            <input type="email" id="login-email" class="input-field" placeholder="yourname@gmail.com">
+        </div>
+        <div class="input-group">
+            <label>Private Key (Password)</label>
+            <input type="password" id="login-pass" class="input-field" placeholder="••••••••">
+        </div>
+        
+        <button class="auth-btn" onclick="appLogin()">INITIALIZE SYSTEM</button>
+        <p id="login-err" style="color: var(--danger); font-size: 12px; margin-top: 15px; font-weight: bold;"></p>
     </div>
 </div>
 
-<div id="main-app" style="display:none;">
-    <div class="top-header">
-        <b id="user-name">USER</b>
-        <div class="balance-chip">৳ ৫৪০</div>
+<div id="app-main" style="display:none;">
+    <div class="header">
+        <div class="user-profile">
+            <div style="width: 50px; height: 50px; background: var(--card-border); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user" style="font-size: 20px; color: var(--primary);"></i>
+            </div>
+            <div class="user-info">
+                <h3 id="display-name">ATIQUE</h3>
+                <p>Premium Account Verified</p>
+            </div>
+        </div>
     </div>
 
-    <div id="home-view" class="container">
+    <div class="balance-card">
+        <div>
+            <p style="margin:0; font-size: 12px; opacity: 0.8;">Available Balance</p>
+            <h2 style="margin:5px 0 0 0; font-size: 32px;">৳ ৫৪০.০০</h2>
+        </div>
+        <button onclick="switchTab('security')" style="background: white; color: var(--primary); border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800;">RECHARGE</button>
+    </div>
+
+    <div id="home-tab" class="tab-content active-section">
+        <div class="section-title">Gaming Services</div>
         <div class="category-grid">
-            <div class="cat-card" onclick="openCat('fb')"><i class="fab fa-facebook" style="color:#1877f2"></i>Facebook</div>
-            <div class="cat-card" onclick="openCat('yt')"><i class="fab fa-youtube" style="color:#ff0000"></i>YouTube</div>
-            <div class="cat-card" onclick="openCat('ff')"><i class="fas fa-fire" style="color:#ff8c00"></i>Free Fire</div>
-            <div class="cat-card" onclick="openCat('pubg')"><i class="fas fa-gun" style="color:#f3ad1b"></i>PUBG</div>
+            <div class="cat-card" onclick="openServiceList('ff')">
+                <span class="badge">HOT</span>
+                <i class="fas fa-fire" style="color: #ff8c00;"></i><b>Free Fire</b>
+            </div>
+            <div class="cat-card" onclick="openServiceList('pubg')">
+                <i class="fas fa-gun" style="color: #f3ad1b;"></i><b>PUBG Mobile</b>
+            </div>
+            <div class="cat-card" onclick="openServiceList('cod')">
+                <i class="fas fa-helmet-safety" style="color: #fff;"></i><b>COD Mobile</b>
+            </div>
+        </div>
+
+        <div class="section-title">Social Media Boost</div>
+        <div class="category-grid">
+            <div class="cat-card" onclick="openServiceList('fb')">
+                <i class="fab fa-facebook" style="color: #1877f2;"></i><b>Facebook</b>
+            </div>
+            <div class="cat-card" onclick="openServiceList('yt')">
+                <i class="fab fa-youtube" style="color: #ff0000;"></i><b>YouTube</b>
+            </div>
+            <div class="cat-card" onclick="openServiceList('tt')">
+                <i class="fab fa-tiktok" style="color: #fff;"></i><b>TikTok</b>
+            </div>
         </div>
     </div>
 
     <div id="service-view">
         <div class="container">
-            <button onclick="showHome()" style="background:none; border:1px solid #333; color:white; padding:8px; border-radius:8px; margin-bottom:15px;">← ফিরে যান</button>
-            <h3 id="view-title" style="color:var(--primary)">Services</h3>
-            <div id="service-list-content"></div>
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <button onclick="closeServiceList()" style="background: var(--card-bg); border: 1px solid var(--card-border); color: white; width: 45px; height: 45px; border-radius: 15px;"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="cat-title" style="margin: 0;">Services</h2>
+            </div>
+            <div id="render-list" class="service-list-card"></div>
         </div>
+    </div>
+
+    <div id="security-tab" class="tab-content" style="display:none; padding: 20px;">
+        <h3>System Security</h3>
+        <div style="background: #000; padding: 25px; border-radius: 25px; border: 1px solid var(--primary);">
+            <p style="color: var(--primary); font-weight: bold;"><i class="fas fa-shield-virus"></i> FIREWALL ACTIVE</p>
+            <div style="font-family: monospace; font-size: 12px; line-height: 2;">
+                IP: 103.147.xx.xx (Bangladesh)<br>
+                Encryption: AES-256 Bit<br>
+                Server: online-shop-ar.firebase<br>
+                Device: Secure Android Node
+            </div>
+        </div>
+        <button onclick="location.reload()" style="width: 100%; margin-top: 30px; padding: 20px; background: var(--danger); border: none; border-radius: 20px; color: white; font-weight: bold;">FORCE TERMINATE SESSION</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay"></div>
-<div id="payment-modal">
-    <h3 id="modal-service-name" style="color:var(--primary); margin-top:0;">Order Service</h3>
+<div class="modal-overlay" id="modal-overlay"></div>
+<div class="order-modal" id="order-modal">
+    <h3 id="modal-item-name" style="margin-top: 0;">Order Details</h3>
+    <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 20px 0;">
     
-    <label style="font-size:12px; color:var(--text-dim)" id="input-label">Player ID / Account Link:</label>
-    <input type="text" id="target-id" class="input-field" placeholder="এখানে আইডি বা লিঙ্ক দিন">
-    
-    <div style="background:#000; padding:15px; border-radius:12px; text-align:center; margin-bottom:15px; border:1px dashed var(--primary);">
-        <small>বিকাশ/নগদ পার্সোনাল:</small><br>
-        <b style="font-size:18px; color:var(--primary)">01766380931</b>
+    <div class="input-group">
+        <label id="target-label">Player ID / Account Link</label>
+        <input type="text" id="target-input" class="input-field" placeholder="Enter correctly...">
     </div>
-    
-    <input type="text" id="txnid" class="input-field" placeholder="Transaction ID (TxnID) দিন">
-    
-    <button class="order-btn" style="width:100%" onclick="finalOrder()">অর্ডার কনফার্ম করুন</button>
-    <button onclick="closePay()" style="background:none; border:none; color:var(--danger); width:100%; margin-top:10px; cursor:pointer;">বাতিল করুন</button>
+
+    <p style="font-size: 12px; color: var(--text-dim);">Select Payment Method:</p>
+    <div class="payment-methods">
+        <div class="method selected">bKash</div>
+        <div class="method">Nagad</div>
+        <div class="method">Rocket</div>
+    </div>
+
+    <div style="background: #000; padding: 15px; border-radius: 15px; text-align: center; border: 1px dashed var(--primary); margin-bottom: 20px;">
+        <span style="font-size: 11px; opacity: 0.7;">Send Money (Personal)</span><br>
+        <b style="font-size: 20px; color: var(--primary);">01766380931</b>
+    </div>
+
+    <div class="input-group">
+        <label>Transaction ID (TxnID)</label>
+        <input type="text" id="txn-input" class="input-field" placeholder="Enter Transaction ID">
+    </div>
+
+    <button class="auth-btn" style="width: 100%;" onclick="confirmFinalOrder()">PLACE ORDER NOW</button>
+    <button onclick="closeOrderModal()" style="width: 100%; background: transparent; border: none; color: var(--danger); margin-top: 15px; cursor: pointer; font-weight: bold;">CANCEL ORDER</button>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="showHome()"><i class="fas fa-home"></i>Home</div>
-    <div class="nav-item"><i class="fas fa-history"></i>History</div>
-    <div class="nav-item"><i class="fas fa-user-shield"></i>Security</div>
+    <div class="nav-link active" onclick="switchTab('home', this)"><i class="fas fa-home"></i>Home</div>
+    <div class="nav-link" onclick="switchTab('history', this)"><i class="fas fa-history"></i>History</div>
+    <div class="nav-link" onclick="switchTab('security', this)"><i class="fas fa-user-shield"></i>Security</div>
 </div>
 
-<script>
-    const data = {
-        fb: { title: "Facebook Services", label: "প্রোফাইল বা পেজ লিঙ্ক দিন", items: [{n: "Profile Followers", p: "৳ ১৩০"}, {n: "Page Like/Follow", p: "৳ ১৬০"}]},
-        yt: { title: "YouTube Services", label: "চ্যানেল বা ভিডিও লিঙ্ক দিন", items: [{n: "1k Subscribers", p: "৳ ৪৮০"}, {n: "Watch Time", p: "৳ ১৬০০"}]},
-        ff: { title: "Free Fire Diamonds", label: "Player UID দিন", items: [{n: "115 Diamonds", p: "৳ ৮৫"}, {n: "240 Diamonds", p: "৳ ১৬৫"}]},
-        pubg: { title: "PUBG Mobile UC", label: "Character ID দিন", items: [{n: "60 UC", p: "৳ ৯৫"}, {n: "325 UC", p: "৳ ৪১০"}]}
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-",
+        authDomain: "online-shop-ar.firebaseapp.com",
+        projectId: "online-shop-ar",
+        storageBucket: "online-shop-ar.firebasestorage.app",
+        messagingSenderId: "913434308973",
+        appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
     };
-
-    let selectedCat = '';
-
-    function handleLogin() {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-        if (email.includes('@gmail.com') && pass.length >= 8) {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            document.getElementById('user-name').innerText = email.split('@')[0].toUpperCase();
-        } else {
-            document.getElementById('err').innerText = "ভুল জিমেইল বা পাসওয়ার্ড (৮+ অক্ষর) দিন!";
-        }
-    }
-
-    function openCat(cat) {
-        selectedCat = cat;
-        const catData = data[cat];
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('service-view').style.display = 'block';
-        document.getElementById('view-title').innerText = catData.title;
-        
-        let html = '';
-        catData.items.forEach(item => {
-            html += `<div class="service-row">
-                <div class="service-info"><b>${item.n}</b><b>${item.p}</b></div>
-                <button class="order-btn" style="width:100%" onclick="openPay('${item.n}')">অর্ডার শুরু করুন</button>
-            </div>`;
-        });
-        document.getElementById('service-list-content').innerHTML = html;
-    }
-
-    function openPay(name) {
-        document.getElementById('modal-service-name').innerText = name;
-        document.getElementById('input-label').innerText = data[selectedCat].label;
-        document.getElementById('payment-modal').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
-
-    function closePay() {
-        document.getElementById('payment-modal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
-
-    function finalOrder() {
-        const target = document.getElementById('target-id').value;
-        const txn = document.getElementById('txnid').value;
-        
-        if(target.length < 5) {
-            alert("সঠিক ID বা লিঙ্ক প্রদান করুন!");
-            return;
-        }
-        if(txn.length < 6) {
-            alert("সঠিক Transaction ID দিন!");
-            return;
-        }
-
-        alert("অর্ডার সফল!\nসার্ভিস: " + document.getElementById('modal-service-name').innerText + "\nটার্গেট: " + target + "\nভেরিফিকেশনের পর সার্ভিস পাঠানো হবে।");
-        closePay();
-    }
-
-    function showHome() {
-        document.getElementById('home-view').style.display = 'block';
-        document.getElementById('service-view').style.display = 'none';
-    }
+    const app = initializeApp(firebaseConfig);
 </script>
 
-</body>
-</html>
+<script>
+    const serviceData = {
+        ff: { title: "Free Fire Topup", label: "Enter Player UID", items: [{n: "115 Diamonds", p: "৳ ৮৫"}, {n: "240 Diamonds", p: "৳ ১৬৫"}, {n: "Weekly", p: "৳ ১৬০"}]},
+        pubg: { title: "PUBG Mobile UC", label: "Enter Character ID", items: [{n: "60 UC", p: "৳ ৯৫"}, {n: "325 UC", p: "৳ ৪১০"}]},
+        fb: { title: "Facebook Boost", label: "Profile/Page Link", items: [{n: "1k Followers", p: "৳ ১৩০"}, {n: "Video Views", p: "৳ ৬০"}]},
+        yt: { title: "YouTube Boost", label: "Channel/Video Link", items: [{n: "1k Subs", p: "৳ ৪৮০"}, {n: "4k Watchtime", p: "৳ ১৬০০"}]}
+    };
+
+    let currentCat = '';
+
+    function appLogin() {
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-pass').value;
+        const err = document.getElementById('login-err');
+
+        if(email.includes('@gmail.com') && pass.length >= 8) {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-main').style.display = 'block';
+            document.getElementById('display-name').innerText = email.split('@')[0].toUpperCase();
+        } else {
+            err.innerText = "ACCESS DENIED: Check Gmail Format & Password (8+ chars)";
+        }
+    }
+
+    function switchTab(tab, el) {
+        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+        
+        if(tab === 'home') {
+            document.getElementById('home-tab').style.display = 'block';
+            document.getElementById('service-view').style.display = 'none';
+        } else if(tab === 'security') {
+            document.getElementById('security-tab').style.display = 'block';
+            document.getElementById('service-view').style.display = 'none';
+            document.getElementById('home-tab').style.display = 'none';
+        }
+        if(el) el.classList.add('active');
+    }
+
+    function openServiceList(cat) {
+        currentCat = cat;
+        const data =
