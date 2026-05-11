@@ -1,43 +1,18 @@
-:root { --primary: #0084ff; --dark: #111; --gray: #f4f7f6; --orange: #ff8c00; }
-body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--gray); }
+:root {
+    --neon-green: #00ff88;
+    --deep-dark: #05070a;
+    --card-dark: #11151c;
+    --text: #f8fafc;
+}
 
-/* Navigation */
-nav { background: var(--dark); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; position: sticky; top: 0; z-index: 1000; }
-.logo { font-size: 20px; font-weight: bold; }
-.logo span { color: var(--orange); }
+body { background: var(--deep-dark); color: var(--text); margin: 0; font-family: sans-serif; }
 
-.top-profile { display: flex; align-items: center; gap: 15px; }
-.top-wallet { background: #222; border: 1px solid var(--orange); padding: 5px 12px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: bold; color: var(--orange); font-size: 14px; }
-.top-wallet button { background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
+.auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
 
-.user-info-box { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
-.user-info-box img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--orange); }
-.user-info-box span { font-size: 14px; }
+.auth-card { background: var(--card-dark); padding: 40px; border-radius: 30px; text-align: center; width: 350px; }
 
-.dropdown { display: none; position: absolute; top: 40px; right: 0; background: white; border-radius: 8px; width: 150px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-.dropdown a { display: block; padding: 12px; color: #333; text-decoration: none; font-size: 14px; }
+.input-box { width: 100%; padding: 15px; margin-top: 10px; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; }
 
-/* Login Screen */
-.full-screen-center { height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; }
-.login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 400px; width: 100%; }
-.google-btn { background: #4285F4; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
-.footer-text { font-size: 12px; color: #777; margin-top: 20px; }
+.btn-main { width: 100%; padding: 15px; background: var(--neon-green); border: none; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; }
 
-/* Dashboard Cards */
-.container { max-width: 1100px; margin: auto; padding: 30px 20px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-
-.icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px; color: white; font-size: 22px; }
-.fb-bg { background: #1877F2; } .yt-bg { background: #FF0000; } .ff-bg { background: #ff8c00; } .tt-bg { background: #000; }
-
-.package-select { width: 100%; padding: 10px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; }
-.buy-btn { background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-
-/* Modal */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; }
-.modal-content { background: white; width: 90%; max-width: 380px; margin: 100px auto; padding: 25px; border-radius: 20px; text-align: center; position: relative; }
-.number-box { background: #fff3cd; padding: 12px; border-radius: 8px; margin: 15px 0; font-weight: bold; color: #d9534f; border: 2px dashed var(--orange); }
-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-.confirm-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-.close { position: absolute; right: 20px; top: 15px; font-size: 25px; cursor: pointer; }
+.balance-card { background: linear-gradient(135deg, #00ff88, #00a3cc); padding: 30px; margin: 20px; border-radius: 20px; color: #000; }
