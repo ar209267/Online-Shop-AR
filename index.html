@@ -3,74 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABR SMM Panel</title>
+    <title>ABR SMM Panel - Secured by Fiverr</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #121212; color: white; font-family: 'Segoe UI', sans-serif; }
-        .payment-banner {
-            background: linear-gradient(90deg, #28a745, #1e7e34); color: white; padding: 15px;
-            border-radius: 12px; text-align: center; cursor: pointer; font-weight: bold;
-            margin: 20px 0; display: block; text-decoration: none; border: none; width: 100%;
+        body { background-color: #0b0e11; color: #e9ecef; font-family: 'Inter', sans-serif; }
+        
+        /* আধুনিক ফাইবার স্টাইল পেমেন্ট ব্যানার */
+        .fiverr-banner {
+            background: linear-gradient(135deg, #1dbf73 0%, #19a463 100%);
+            color: white; padding: 20px; border-radius: 15px;
+            text-align: center; cursor: pointer; font-weight: bold;
+            margin: 20px 0; display: block; text-decoration: none;
+            border: none; box-shadow: 0 8px 20px rgba(29, 191, 115, 0.3);
         }
+        .fiverr-banner:hover { transform: scale(1.02); color: white; }
+        
         .service-card { 
-            background: #1e1e1e; border-radius: 15px; padding: 20px; text-align: center; 
-            transition: 0.3s; cursor: pointer; border: 1px solid #333;
+            background: #161a1e; border-radius: 15px; padding: 25px; text-align: center; 
+            transition: 0.3s; cursor: pointer; border: 1px solid #2d3436;
         }
-        .service-card:hover { border-color: #ff8c00; transform: translateY(-5px); }
-        .order-box { background: #1e1e1e; padding: 25px; border-radius: 15px; border: 1px solid #333; margin-top: 20px; }
-        .form-control, .form-select { background: #2a2a2a; border: 1px solid #444; color: white; }
-        .form-control:focus { background: #2a2a2a; color: white; border-color: #ff8c00; }
-        .btn-order { background: #ff8c00; color: white; font-weight: bold; padding: 15px; border-radius: 10px; }
+        .service-card:hover { border-color: #1dbf73; background: #1c2127; }
+        .service-card i { font-size: 45px; margin-bottom: 15px; }
+
+        .order-box { background: #161a1e; padding: 30px; border-radius: 20px; border: 1px solid #2d3436; margin-top: 25px; }
+        
+        .btn-fiverr { 
+            background-color: #1dbf73; color: white; font-weight: bold; 
+            padding: 18px; width: 100%; border: none; border-radius: 12px; 
+            font-size: 18px; transition: 0.3s;
+        }
+        .btn-fiverr:hover { background-color: #19a463; box-shadow: 0 5px 15px rgba(29, 191, 115, 0.4); }
+        
+        .security-tag { font-size: 12px; color: #1dbf73; margin-top: 10px; display: block; }
     </style>
 </head>
 <body>
 
-<div class="container pb-5">
-    <a href="add-funds.html" class="payment-banner shadow-lg">
-        <i class="fas fa-wallet"></i> অ্যাড ফান্ড: ব্যালেন্স যোগ করতে এখানে ক্লিক করুন
+<div class="container py-4">
+    <a href="https://www.fiverr.com/your_username" target="_blank" class="fiverr-banner">
+        <i class="fas fa-shield-alt"></i> পেমেন্ট এখন আরও নিরাপদ! <br>
+        <span style="font-size: 14px; font-weight: normal;">আমাদের অফিসিয়াল ফাইবার (Fiverr) সার্ভারের মাধ্যমে পেমেন্ট করুন</span>
     </a>
 
-    <h3 class="fw-bold mb-4">আমাদের সার্ভিসসমূহ</h3>
-    <div class="row g-3">
+    <h3 class="fw-bold mb-4">প্যাকেজ সিলেক্ট করুন</h3>
+    <div class="row g-4">
         <div class="col-6 col-md-3" onclick="showForm('Facebook')">
-            <div class="service-card"><i class="fab fa-facebook text-primary fa-2x"></i><h6>Facebook</h6></div>
+            <div class="service-card"><i class="fab fa-facebook text-primary"></i><h6>Facebook</h6></div>
         </div>
         <div class="col-6 col-md-3" onclick="showForm('YouTube')">
-            <div class="service-card"><i class="fab fa-youtube text-danger fa-2x"></i><h6>YouTube</h6></div>
+            <div class="service-card"><i class="fab fa-youtube text-danger"></i><h6>YouTube</h6></div>
         </div>
         <div class="col-6 col-md-3" onclick="showForm('Free Fire')">
-            <div class="service-card"><i class="fas fa-gamepad text-warning fa-2x"></i><h6>Free Fire</h6></div>
+            <div class="service-card"><i class="fas fa-bolt text-warning"></i><h6>Free Fire</h6></div>
         </div>
         <div class="col-6 col-md-3" onclick="showForm('ID Sale')">
-            <div class="service-card"><i class="fas fa-user-shield text-success fa-2x"></i><h6>ID Sale</h6></div>
+            <div class="service-card"><i class="fas fa-check-circle text-success"></i><h6>ID Sale</h6></div>
         </div>
     </div>
 
-    <div id="order-form" class="order-box shadow-lg" style="display:none;">
-        <h4 id="service-title" class="text-warning fw-bold mb-3">Service Name</h4>
-        <div class="mb-3">
-            <label class="form-label">প্যাকেজ বেছে নিন</label>
-            <select id="package" class="form-select" onchange="calc()"></select>
+    <div id="order-form" class="order-box" style="display:none;">
+        <h4 id="service-title" class="text-success fw-bold mb-4">Service</h4>
+        
+        <div class="mb-4">
+            <label class="form-label text-secondary">প্যাকেজ বেছে নিন</label>
+            <select id="package" class="form-select bg-dark text-white border-secondary" style="padding: 12px;" onchange="calc()"></select>
         </div>
-        <div class="mb-3">
-            <label class="form-label">লিঙ্ক অথবা প্লেয়ার আইডি</label>
-            <input type="text" id="target" class="form-control" placeholder="এখানে দিন...">
+
+        <div class="p-3 mb-4" style="background: #0b0e11; border-radius: 10px;">
+            <div class="d-flex justify-content-between">
+                <span>সার্ভার ফি (USD):</span>
+                <strong id="usd" class="text-success">$0.00</strong>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <span>মোট টাকা (BDT):</span>
+                <strong id="bdt" class="text-white">৳0.00</strong>
+            </div>
         </div>
-        <div class="p-3 bg-dark rounded d-flex justify-content-between mb-3">
-            <div><span>Total:</span> <h4 id="usd" class="text-primary">$0.00</h4></div>
-            <div class="text-end"><span>In BDT:</span> <h4 id="bdt" class="text-success">৳0.00</h4></div>
-        </div>
-        <button onclick="placeOrder()" class="btn btn-order w-100">অর্ডার কনফার্ম এবং পেমেন্ট করুন</button>
+
+        <button onclick="redirectToFiverr()" class="btn-fiverr">
+            <i class="fas fa-shopping-cart"></i> অর্ডার করুন (Fiverr Server)
+        </button>
+        <span class="security-tag text-center"><i class="fas fa-lock"></i> Secured & Verified by Fiverr Payment Gateway</span>
     </div>
 </div>
 
 <script>
     const data = {
-        'Facebook': [{n: "Followers (Premium)", p: 1.5}, {n: "Video Views", p: 0.8}],
-        'YouTube': [{n: "Subscribers", p: 5.0}, {n: "Watch Time", p: 12.0}],
-        'Free Fire': [{n: "115 Diamonds", p: 0.85}, {n: "Weekly", p: 1.65}],
-        'ID Sale': [{n: "Level 60 ID", p: 20.0}, {n: "Gmail Pack", p: 2.0}]
+        'Facebook': [{n: "Facebook Follower (1K)", p: 5}, {n: "Video Views (10K)", p: 10}],
+        'YouTube': [{n: "1000 Subscribers", p: 15}, {n: "4000 Hours WatchTime", p: 40}],
+        'Free Fire': [{n: "1000 Diamonds", p: 8}, {n: "Weekly Membership", p: 2}],
+        'ID Sale': [{n: "Level 60+ ID", p: 25}, {n: "Old FB Account", p: 5}]
     };
 
     function showForm(cat) {
@@ -79,16 +102,18 @@
         let s = document.getElementById('package'); s.innerHTML = '';
         data[cat].forEach(o => { let e = document.createElement('option'); e.text = o.n; e.value = o.p; s.add(e); });
         calc();
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
     function calc() {
         let p = document.getElementById('package').value;
         document.getElementById('usd').innerText = '$' + parseFloat(p).toFixed(2);
-        document.getElementById('bdt').innerText = '৳' + (p * 120).toFixed(2);
+        document.getElementById('bdt').innerText = '৳' + (p * 125).toFixed(2);
     }
 
-    function placeOrder() {
-        window.location.href = 'add-funds.html';
+    function redirectToFiverr() {
+        // এখানে আপনার ফাইবার প্রোফাইল বা গিগ লিঙ্কটি বসাবেন
+        window.open('https://www.fiverr.com/your_username', '_blank');
     }
 </script>
 </body>
