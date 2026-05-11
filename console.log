@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atiq SMM V12 - Fixed Version</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <style>
+        :root { --primary: #f1c40f; --bg: #05080d; --glass: rgba(255, 255, 255, 0.05); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; }
+
+        /* Login Screen */
+        #login-screen { position: fixed; inset: 0; background: #05080d; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 40px 25px; border-radius: 25px; width: 100%; max-width: 400px; backdrop-filter: blur(10px); text-align: center; }
+        .login-card h2 { color: var(--primary); margin-bottom: 20px; font-size: 24px; }
+        .login-card input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid #333; background: #000; color: #fff; outline: none; display: block; }
+        .login-btn { width: 100%; padding: 15px; border-radius: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; cursor: pointer; margin-top: 15px; font-size: 16px; }
+        .login-btn:active { transform: scale(0.98); }
+        #msg { color: #ff4757; font-size: 12px; margin-top: 10px; min-height: 20px; }
+
+        /* Dashboard */
+        #dashboard { display: none; padding: 20px; max-width: 500px; margin: auto; }
+        .header { background: var(--glass); padding: 20px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .app-item { background: var(--glass); padding: 20px; border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .app-item:hover { border-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-card">
+        <i class="fas fa-shield-alt fa-3x" style="color:var(--primary); margin-bottom:15px;"></i>
+        <h2>সার্ভার লগইন</h2>
+        <input type="email" id="email" placeholder="example@gmail.com" required>
+        <input type="password" id="pass" placeholder="Password" required>
+        <button class="login-btn" id="loginBtn">লগইন করুন</button>
+        <p id="msg"></p>
+    </div>
+</div>
+
+<div id="dashboard">
+    <div class="header">
+        <div>
+            <h3 id="user-display">User</h3>
+            <span style="color:var(--primary); font-size:12px;">ব্যালেন্স: ৳ ৫৪০.০০</span>
+        </div>
+        <i class="fas fa-fingerprint fa-2x" style="color:var(--primary)"></i>
+    </div>
+
+    <div class="app-item" onclick="placeOrder('FB Follower', 130)">
+        <span><b>Facebook Follower</b></span>
+        <b style="color:var(--primary)">৳১৩০</b>
+    </div>
+
+    <div class="app-item" onclick="placeOrder('FF Diamond', 80)">
+        <span><b>Free Fire Diamond</b></span>
+        <b style="color:var(--primary)">৳৮০</b>
+    </div>
+
+    <div style="text-align:center; margin-top:20px; opacity:0.6; font-size:12px;">
+        বিকাশ/নগদ: ০১৭৬৬৩৮০৯৩১
+    </div>
+</div>
+
+<script>
+    // ১. Firebase Configuration - এখানে তোমার databaseURL একদম সঠিক হতে হবে
+    const firebaseConfig = {
+        databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com" 
+    };
+
+    // ২. Initialize Firebase with Error Handling
+    try {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        var database = firebase.database();
+        console.log("Firebase Connection Successful!");
+    } catch (error) {
+        console.error("Firebase Initialization Error:", error);
+        alert("সার্ভার কানেকশন এরর! আপনার ইন্টারনেট চেক করুন।");
+    }
+
+    // ৩. Login Logic
+    document.getElementById('loginBtn').addEventListener('click', function() {
+        const email = document.getElementById('email').value.trim();
+        const pass = document.getElementById('pass').value.trim();
+        const msg = document.getElementById('msg');
+
+        console.log("Login button clicked for:", email);
+
+        if(!email || !pass) {
+            msg.innerText = "সবগুলো ঘর পূরণ করুন!";
+            return;
+        }
+
+        if(!email.includes('@gmail.com')) {
+            msg.innerText = "সঠিক জিমেইল দিন (@gmail.com)!";
+            return;
+        }
+
+        // Firebase-এ ডট (.) কী হিসেবে ব্যবহার করা যায় না, তাই রিপ্লেস করা হয়েছে
+        const emailKey = email.replace(/\./g, ',');
+
+        msg.innerText = "সার্ভার চেক করা হচ্ছে...";
+        msg.style.color = "var(--primary)";
+
+        database.ref('users/' + emailKey).once('value').then((snapshot) => {
+            if (snapshot.exists()) {
+                // ইউজার যদি আগে রেজিস্টার করা থাকে
+                if (snapshot.val().password === pass) {
+                    enterApp(email);
+                } else {
+                    msg.innerText = "ভুল পাসওয়ার্ড! আগের পাসওয়ার্ড দিন।";
+                    msg.style.color = "red";
+                }
+            } else {
+                // নতুন ইউজার হলে অটো রেজিস্টার
+                database.ref('users/' + emailKey).set({
+                    password: pass,
+                    time: new Date().toLocaleString()
+                }).then(() => {
+                    enterApp(email);
+                });
+            }
+        }).catch((err) => {
+            console.error("Database Read Error:", err);
+            msg.innerText = "সার্ভার এরর! ফায়ারবেস রুলস চেক করুন।";
+            msg.style.color = "red";
+        });
+    });
+
+    function enterApp(email) {
+        window.userEmail = email;
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('user-display').innerText = email.split('@')[0];
+    }
+
+    function placeOrder(service, price) {
+        if(!window.userEmail) return;
+        const orderId = Date.now();
+        
+        database.ref('orders/' + orderId).set({
+            user: window.userEmail,
+            service: service,
+            price: price,
+            time: new Date().toLocaleString(),
+            status: "Pending"
+        }).then(() => {
+            alert(service + " অর্ডার সফল হয়েছে!");
+        });
+    }
+</script>
+
+</body>
+</html>
