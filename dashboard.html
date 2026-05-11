@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>ABR SMM - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0b0e11; color: white; padding: 20px; }
+        .balance-card { background: linear-gradient(135deg, #1dbf73, #19a463); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .service-box { background: #161a1e; border: 1px solid #2d3436; padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .service-box:hover { border-color: #1dbf73; transform: scale(1.05); }
+        .order-form { background: #161a1e; padding: 25px; border-radius: 20px; display: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="balance-card d-flex justify-content-between align-items-center">
+            <div><h5>বর্তমান ব্যালেন্স</h5><h2 id="myBal">$0.00</h2></div>
+            <button onclick="window.location.href='add-funds.html'" class="btn btn-light fw-bold">টাকা অ্যাড করুন</button>
+        </div>
+
+        <h4>সার্ভিস ক্যাটাগরি</h4>
+        <div class="row g-3">
+            <div class="col-4 col-md-2" onclick="load('FB')"><div class="service-box"><i class="fab fa-facebook fa-2x mb-2 text-primary"></i><br>FB</div></div>
+            <div class="col-4 col-md-2" onclick="load('YT')"><div class="service-box"><i class="fab fa-youtube fa-2x mb-2 text-danger"></i><br>YouTube</div></div>
+            <div class="col-4 col-md-2" onclick="load('FF')"><div class="service-box"><i class="fas fa-gamepad fa-2x mb-2 text-warning"></i><br>Free Fire</div></div>
+            <div class="col-4 col-md-2" onclick="load('Insta')"><div class="service-box"><i class="fab fa-instagram fa-2x mb-2 text-info"></i><br>Insta</div></div>
+            <div class="col-4 col-md-2" onclick="load('TikTok')"><div class="service-box"><i class="fab fa-tiktok fa-2x mb-2"></i><br>TikTok</div></div>
+            <div class="col-4 col-md-2" onclick="load('X')"><div class="service-box"><i class="fab fa-twitter fa-2x mb-2 text-primary"></i><br>Twitter</div></div>
+        </div>
+
+        <div id="orderForm" class="order-form border border-secondary">
+            <h4 id="catTitle">অর্ডার করুন</h4>
+            <select id="pkg" class="form-select bg-dark text-white mb-3" onchange="calc()"></select>
+            <input type="text" placeholder="লিঙ্ক বা প্লেয়ার আইডি দিন" class="form-control bg-dark text-white mb-3">
+            <div class="d-flex justify-content-between mb-3">
+                <span>মূল্য (USD): <strong id="uText" class="text-success">$0.00</strong></span>
+                <span>(BDT): <strong id="bText">৳0.00</strong></span>
+            </div>
+            <button onclick="orderNow()" class="btn btn-success w-100 py-3 fw-bold">অর্ডার কনফার্ম করুন</button>
+        </div>
+    </div>
+
+<script>
+    const services = {
+        'FB': [{n: "Follower (1K)", p: 2.5}, {n: "Like (1K)", p: 1.2}],
+        'YT': [{n: "Subscriber (1K)", p: 12}, {n: "Watchtime 4K", p: 35}],
+        'FF': [{n: "1000 Diamond", p: 8.5}, {n: "ID Level 60+", p: 25}],
+        'Insta': [{n: "Follower", p: 3}, {n: "Like", p: 1}],
+        'TikTok': [{n: "View", p: 0.5}, {n: "Follower", p: 4}],
+        'X': [{n: "Follower", p: 6}]
+    };
+
+    function load(c) {
+        document.getElementById('orderForm').style.display = 'block';
+        document.getElementById('catTitle').innerText = c + " Service";
+        let s = document.getElementById('pkg'); s.innerHTML = '';
+        services[c].forEach(o => { let e = document.createElement('option'); e.text = o.n; e.value = o.p; s.add(e); });
+        calc();
+    }
+
+    function calc() {
+        let p = document.getElementById('pkg').value;
+        document.getElementById('uText').innerText = '$' + parseFloat(p).toFixed(2);
+        document.getElementById('bText').innerText = '৳' + (p * 125).toFixed(2);
+    }
+
+    function orderNow() {
+        alert("আপনার ব্যালেন্স পর্যাপ্ত নয়! দয়া করে টাকা অ্যাড করুন।");
+        window.location.href = "add-funds.html";
+    }
+</script>
+</body>
+</html>
