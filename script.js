@@ -81,3 +81,12 @@ function confirmOrder() {
 
 function showModal(id) { document.getElementById(id).style.display = 'flex'; }
 function hideModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display='none'); }
+const firebaseConfig = {
+    apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-N5S4lUv_M4", // শেষের '4' অক্ষরটি চেক করুন
+    authDomain: "online-shop-ar.firebaseapp.com",
+    databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com",
+    projectId: "online-shop-ar",
+    storageBucket: "online-shop-ar.appspot.com",
+    messagingSenderId: "913434308973",
+    appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
+};
