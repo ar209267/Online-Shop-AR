@@ -3,36 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Master - Enterprise V6.0</title>
-    
+    <title>Atiq SMM Master V12 - Ultimate Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <style>
+        :root { --primary: #f1c40f; --bg: #05080d; --glass: rgba(255, 255, 255, 0.05); }
+        * { box-sizing: border-box; transition: 0.3s; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding-bottom: 80px; overflow-x: hidden; }
+
+        /* Login Security Screen */
+        #login-screen { position: fixed; inset: 0; background: #05080d; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 35px 25px; border-radius: 25px; width: 100%; max-width: 400px; backdrop-filter: blur(15px); text-align: center; }
+        .login-card h2 { color: var(--primary); margin-bottom: 20px; }
+        .login-card input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 12px; border: 1px solid #334155; background: rgba(0,0,0,0.5); color: #fff; outline: none; }
+        .login-btn { width: 100%; padding: 15px; border-radius: 12px; background: var(--primary); color: #000; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
+
+        /* Dashboard Header */
+        .container { max-width: 500px; margin: auto; padding: 15px; }
+        .header { background: var(--glass); padding: 15px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .user-info img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary); }
+        .balance-box { background: rgba(241, 196, 15, 0.1); color: var(--primary); padding: 2px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; margin-top: 3px; }
+
+        /* App Item List */
+        .app-list { display: flex; flex-direction: column; gap: 12px; }
+        .app-card { background: var(--glass); border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .app-header { display: flex; align-items: center; padding: 15px; cursor: pointer; }
+        .app-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 15px; }
+        
+        .bg-fb { background: #1877f2; }
+        .bg-yt { background: #ff0000; }
+        .bg-game { background: #ff8c00; }
+        .bg-insta { background: #e4405f; }
+
+        .app-header b { flex: 1; font-size: 15px; }
+        .chevron { font-size: 12px; transition: 0.3s; }
+        .app-card.open .chevron { transform: rotate(180deg); }
+
+        /* Dropdown Service Table */
+        .service-list { display: none; padding: 5px 15px 15px; background: rgba(0,0,0,0.2); }
+        .app-card.open .service-list { display: block; }
+        .service-row { display: flex; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+        .service-row:last-child { border-bottom: none; }
+        .price { color: var(--primary); font-weight: bold; }
+
+        /* Payment Box */
+        .pay-box { background: #fff; color: #000; border-radius: 20px; padding: 25px; margin-top: 25px; border: 4px solid var(--primary); text-align: center; }
+        .pay-num { font-size: 26px; font-weight: 900; background: #fff9c4; padding: 10px; border-radius: 10px; display: block; margin: 10px 0; border: 2px dashed #000; }
+
+        /* Footer Nav */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%); background: #0a0f1a; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .nav-item { color: #64748b; text-decoration: none; font-size: 10px; text-align: center; }
+        .nav-item.active { color: var(--primary); }
+    </style>
 </head>
 <body>
-    <div id="preloader"><div class="ring"></div></div>
 
-    <div id="auth-area" class="auth-screen">
-        <div class="auth-card" id="login-panel">
-            <h1>ATIQ MASTER</h1>
-            <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="email" class="input-box" placeholder="Email"></div>
-            <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="pass" class="input-box" placeholder="Password"></div>
-            <button class="btn-main" onclick="handleLogin()">Login</button>
-            <p onclick="toggleAuth(true)">নতুন একাউন্ট খুলুন</p>
+<div id="login-screen">
+    <div class="login-card">
+        <h2>SECURITY LOGIN</h2>
+        <input type="email" id="email" placeholder="আপনার জিমেইল (example@gmail.com)">
+        <input type="password" id="pass" placeholder="পাসওয়ার্ড">
+        <button class="login-btn" onclick="handleLogin()">প্রবেশ করুন</button>
+        <p id="msg" style="color: #ff4757; font-size: 11px; margin-top: 10px;"></p>
+    </div>
+</div>
+
+<div id="dashboard" style="display:none;">
+    <div class="container">
+        <div class="header">
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Atiq">
+                <div>
+                    <b id="user-name">User</b>
+                    <div class="balance-box">৳ ৫৪০.০০</div>
+                </div>
+            </div>
+            <i class="fas fa-fingerprint fa-2x" style="color: var(--primary);"></i>
+        </div>
+
+        <div class="app-list">
+            <div class="app-card" onclick="toggleApp(this)">
+                <div class="app-header">
+                    <div class="app-icon bg-fb"><i class="fab fa-facebook-f"></i></div>
+                    <b>Facebook Services</b>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="service-list">
+                    <div class="service-row"><span>FB Profile Follower (5k)</span> <span class="price">৳ ১৩০</span></div>
+                    <div class="service-row"><span>FB Post Reactions</span> <span class="price">৳ ৫০</span></div>
+                    <div class="service-row"><span>FB Page Likes</span> <span class="price">৳ ১৫০</span></div>
+                </div>
+            </div>
+
+            <div class="app-card" onclick="toggleApp(this)">
+                <div class="app-header">
+                    <div class="app-icon bg-yt"><i class="fab fa-youtube"></i></div>
+                    <b>YouTube Growth</b>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="service-list">
+                    <div class="service-row"><span>1k Subscribers</span> <span class="price">৳ ৮৫০</span></div>
+                    <div class="service-row"><span>4k Hours Watchtime</span> <span class="price">৳ ২৪০০</span></div>
+                </div>
+            </div>
+
+            <div class="app-card" onclick="toggleApp(this)">
+                <div class="app-header">
+                    <div class="app-icon bg-game"><i class="fas fa-fire"></i></div>
+                    <b>Gaming & ID Sell</b>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="service-list">
+                    <div class="service-row"><span>FF Diamond Top-up</span> <span class="price">৳ ৮০+</span></div>
+                    <div class="service-row"><span>Verified ID Sell</span> <span class="price">৳ ৫০০+</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pay-box">
+            <h4 style="margin:0;">বিকাশ / নগদ (পার্সোনাল)</h4>
+            <span class="pay-num">০১৭৬৬ ৩৮০ ৯৩১</span>
+            <button class="login-btn">ব্যালেন্স অ্যাড করুন</button>
         </div>
     </div>
+</div>
 
-    <div id="app-ui" style="display:none;">
-        <div class="header">
-            <b>ATIQ MASTER</b>
-            <button onclick="firebase.auth().signOut()"><i class="fas fa-power-off"></i></button>
-        </div>
-        <div class="balance-card">
-            <p>বর্তমান ব্যালেন্স</p>
-            <h1 id="bal-val">৳ ০.০০</h1>
-        </div>
-        </div>
+<nav class="nav-bar">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i><br>হোম</a>
+    <a href="https://wa.me/8801766380931" class="nav-item"><i class="fab fa-whatsapp"></i><br>সাপোর্ট</a>
+    <a href="#" class="nav-item"><i class="fas fa-user-circle"></i><br>প্রোফাইল</a>
+</nav>
 
-    <script src="script.js"></script> </body>
+<script>
+    function handleLogin() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+        const msg = document.getElementById('msg');
+
+        // Email verification
+        if(!email.includes('@gmail.com')) {
+            msg.innerText = "দয়া করে সঠিক জিমেইল দিন (@gmail.com)।";
+            return;
+        }
+
+        const savedPass = localStorage.getItem(email);
+        if(!savedPass) {
+            localStorage.setItem(email, pass);
+            enterApp(email);
+        } else {
+            if(savedPass === pass) {
+                enterApp(email);
+            } else {
+                msg.innerText = "ভুল পাসওয়ার্ড! আগের পাসওয়ার্ড দিন।";
+            }
+        }
+    }
+
+    function enterApp(email) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('user-name').innerText = email.split('@')[0];
+    }
+
+    function toggleApp(el) {
+        el.classList.toggle('open');
+    }
+</script>
+
+</body>
 </html>
