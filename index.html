@@ -3,151 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq SMM V9.2 - Premium Cyber Panel</title>
+    <title>atik rocky & Gaming V9.3</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --yellow: #f1c40f;
-            --dark-bg: #0d1117;
-            --card-bg: #161b22;
-            --white: #ffffff;
-        }
+        :root { --yellow: #f1c40f; --dark: #0f172a; --card: #1e293b; --white: #ffffff; --green: #25d366; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: #fff; margin: 0; padding-bottom: 80px; }
+        .container { max-width: 500px; margin: auto; padding: 15px; }
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--dark-bg); color: #c9d1d9; margin: 0; padding: 0; }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        /* Profile Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--card); border-radius: 15px; margin-bottom: 15px; border: 1px solid #334155; }
+        .profile-info { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .profile-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--yellow); }
+        .balance-chip { background: var(--yellow); color: #000; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 3px; }
 
-        /* Header Section */
-        .header { background: var(--card-bg); padding: 25px; border-radius: 15px; border-bottom: 4px solid var(--yellow); display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .logo-text { font-size: 28px; font-weight: 800; color: var(--yellow); text-transform: uppercase; }
+        /* Section Title */
+        .section-title { font-size: 14px; font-weight: bold; color: var(--yellow); margin: 15px 0 10px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 
-        /* Service Cards Grid */
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .service-card { background: var(--card-bg); border-radius: 15px; padding: 20px; border: 1px solid #30363d; text-align: center; transition: 0.3s; }
-        .service-card:hover { border-color: var(--yellow); transform: translateY(-5px); }
-        
-        .platform-logo { width: 60px; height: 60px; margin-bottom: 15px; object-fit: contain; }
-        .service-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; color: var(--white); border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        
-        .price-list { text-align: left; font-size: 14px; }
-        .price-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
-        .price-val { color: var(--yellow); font-weight: bold; }
+        /* Compact Service Grid */
+        .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .s-card { background: var(--card); padding: 10px 5px; border-radius: 12px; text-align: center; border: 1px solid #334155; cursor: pointer; transition: 0.2s; }
+        .s-card:hover { border-color: var(--yellow); transform: scale(1.05); }
+        .s-card i { font-size: 20px; margin-bottom: 5px; display: block; }
+        .s-card span { font-size: 10px; font-weight: 600; display: block; white-space: nowrap; overflow: hidden; }
 
-        /* V9 Premium Payment Section */
-        .payment-section { 
-            background: var(--white); 
-            color: #000; 
-            border-radius: 20px; 
-            padding: 50px 20px; 
-            text-align: center; 
-            margin-top: 40px; 
-            position: relative; 
-            overflow: hidden;
-            border: 6px solid var(--yellow);
-        }
-        
-        /* Background Text "BIKASH NAGAD" */
-        .bg-watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 100px;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.05);
-            white-space: nowrap;
-            z-index: 1;
-            pointer-events: none;
-            text-transform: uppercase;
-        }
+        /* Icon Colors */
+        .fa-facebook { color: #1877f2; }
+        .fa-youtube { color: #ff0000; }
+        .fa-instagram { color: #e4405f; }
+        .fa-tiktok { color: #00f2ea; }
+        .fa-gamepad { color: #00ff00; }
+        .fa-fire { color: #ff8c00; }
+        .fa-u { color: #f1c40f; }
 
-        .payment-content { position: relative; z-index: 2; }
-        .payment-content h2 { margin: 0; font-size: 24px; color: #333; }
-        
-        .big-number { 
-            font-size: 50px; 
-            font-weight: 900; 
-            color: #000; 
-            margin: 20px 0; 
-            letter-spacing: 3px;
-            background: #fff9c4;
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 10px;
-            border: 3px dashed #000;
-        }
+        /* Payment Box (Compact) */
+        .pay-box { background: var(--white); color: #000; border-radius: 15px; padding: 15px; text-align: center; border: 3px solid var(--yellow); margin-top: 20px; }
+        .pay-box h4 { margin: 0; font-size: 12px; opacity: 0.8; }
+        .pay-num { font-size: 22px; font-weight: 800; display: block; margin: 5px 0; color: #000; letter-spacing: 1px; }
+        .pay-btn { background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
 
-        .btn-confirm { background: #000; color: #fff; width: 100%; max-width: 400px; padding: 18px; border: none; border-radius: 12px; font-weight: bold; font-size: 20px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
-        .btn-confirm:hover { background: #333; transform: scale(1.02); }
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; left: 50%; transform: translateX(-50%); z-index: 1000; }
+        .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 10px; }
+        .nav-item i { font-size: 18px; display: block; margin-bottom: 3px; }
+        .nav-item.active { color: var(--yellow); }
 
-        /* Support Button */
-        .support-fixed { margin-top: 30px; text-align: center; }
-        .wa-link { background: #25D366; color: white; padding: 15px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 18px; border: 2px solid #1eaa5e; }
+        /* Floating Support */
+        .wa-float { position: fixed; bottom: 80px; right: 20px; background: var(--green); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <div class="logo-text">Atiq SMM <span style="color:#fff">V9.2</span></div>
-        <div style="text-align: right">
-            <small>ইউজার ব্যালেন্স</small>
-            <div style="font-size: 20px; font-weight: bold; color: var(--yellow);">৳ ৫৪০.০০</div>
+    <div class="header" onclick="alert('প্রোফাইল: আতিক\nইউজার আইডি: #AT931\nব্যালেন্স: ৳ ৫৪০.০০')">
+        <div class="profile-info">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
+            <div>
+                <div style="font-size: 14px; font-weight: bold;">Atiq SMM Pro</div>
+                <div class="balance-chip">৳ 540.00</div>
+            </div>
         </div>
+        <i class="fas fa-cog" style="color: #94a3b8;"></i>
     </div>
 
+    <div class="section-title"><i class="fas fa-gamepad"></i> Gaming Top-up & ID Sell</div>
     <div class="service-grid">
-        <div class="service-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" class="platform-logo" alt="FB">
-            <div class="service-title">Facebook Services</div>
-            <div class="price-list">
-                <div class="price-item"><span>5k Profile Followers</span> <span class="price-val">৳ ১৩০</span></div>
-                <div class="price-item"><span>1k Post Likes</span> <span class="price-val">৳ ৪৫</span></div>
-                <div class="price-item"><span>50 Real Comments</span> <span class="price-val">৳ ৬০</span></div>
-                <div class="price-item"><span>10k Video Views</span> <span class="price-val">৳ ৯০</span></div>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" class="platform-logo" alt="YT" style="width: 80px;">
-            <div class="service-title">YouTube Services</div>
-            <div class="price-list">
-                <div class="price-item"><span>1k Subscribers</span> <span class="price-val">৳ ৮৫০</span></div>
-                <div class="price-item"><span>4k Hours Watchtime</span> <span class="price-val">৳ ২৪০০</span></div>
-                <div class="price-item"><span>1k Video Likes</span> <span class="price-val">৳ ১১০</span></div>
-            </div>
-        </div>
-
-        <div class="service-card">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" class="platform-logo" alt="IG">
-            <div class="service-title">Instagram & TikTok</div>
-            <div class="price-list">
-                <div class="price-item"><span>IG 1k Followers</span> <span class="price-val">৳ ৯৫</span></div>
-                <div class="price-item"><span>TikTok 10k Views</span> <span class="price-val">৳ ৮০</span></div>
-                <div class="price-item"><span>TikTok 1k Followers</span> <span class="price-val">৳ ১২০</span></div>
-            </div>
-        </div>
+        <div class="s-card"><i class="fas fa-fire"></i><span>FF Diamond</span></div>
+        <div class="s-card"><i class="fas fa-id-badge"></i><span>FF ID Sell</span></div>
+        <div class="s-card"><i class="fas fa-u"></i><span>PUBG UC</span></div>
+        <div class="s-card"><i class="fas fa-tshirt"></i><span>Wardrobe</span></div>
     </div>
 
-    <div class="payment-section">
-        <div class="bg-watermark">BIKASH NAGAD</div>
-        <div class="payment-content">
-            <h2>বিকাশ / নগদ পেমেন্ট (পার্সোনাল)</h2>
-            <p>টাকা পাঠিয়ে Transaction ID দিন।</p>
-            <div class="big-number">০১৭৬৬৩৮০৯৩১</div>
-            <br>
-            <input type="text" placeholder="ট্রানজেকশন আইডি (TxnID) লিখুন" style="width: 80%; max-width: 400px; padding: 15px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;">
-            <br>
-            <button class="btn-confirm">অর্ডার কনফার্ম করুন</button>
-        </div>
+    <div class="section-title"><i class="fas fa-share-nodes"></i> Social Media Services</div>
+    <div class="service-grid">
+        <div class="s-card"><i class="fab fa-facebook"></i><span>FB Follower</span></div>
+        <div class="s-card"><i class="fab fa-facebook"></i><span>FB Like/Com</span></div>
+        <div class="s-card"><i class="fab fa-youtube"></i><span>YT Subs</span></div>
+        <div class="s-card"><i class="fab fa-youtube"></i><span>YT Watch</span></div>
+        <div class="s-card"><i class="fab fa-instagram"></i><span>Insta Pro</span></div>
+        <div class="s-card"><i class="fab fa-tiktok"></i><span>TikTok</span></div>
+        <div class="s-card"><i class="fab fa-telegram"></i><span>Telegram</span></div>
+        <div class="s-card"><i class="fas fa-globe"></i><span>Web Traffic</span></div>
     </div>
 
-    <div class="support-fixed">
-        <a href="https://wa.me/8801766380931?text=Hello Atiq, I need help with my SMM order." target="_blank" class="wa-link">
-            <i class="fab fa-whatsapp"></i> সরাসরি হোয়াটসঅ্যাপ সাপোর্ট (Live)
-        </a>
+    <div class="pay-box">
+        <h4>বিকাশ / নগদ পেমেন্ট (পার্সোনাল)</h4>
+        <span class="pay-num">০১৭৬৬৩৮০৯৩১</span>
+        <input type="text" placeholder="Transaction ID (TxnID)" style="width: 90%; padding: 8px; border-radius: 5px; border: 1px solid #ddd; outline: none;">
+        <button class="pay-btn">টাকা যোগ করুন</button>
     </div>
 </div>
 
+<div class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i>হোম</a>
+    <a href="#" class="nav-item"><i class="fas fa-history"></i>হিস্টরি</a>
+    <a href="#" class="nav-item"><i class="fas fa-wallet"></i>অ্যাড ফান্ড</a>
+    <a href="#" class="nav-item"><i class="fas fa-users"></i>রেফার</a>
+</div>
+
+<a href="https://wa.me/8801766380931" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
 </body>
-</html></body>
 </html>
