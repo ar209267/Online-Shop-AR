@@ -3,291 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Master SMM - Enterprise Edition</title>
+    <title>Atiq Master SMM - Final Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #1dbf73;
-            --primary-dark: #19a463;
             --bg: #05070a;
             --card-bg: #11151c;
             --card-border: #1e2530;
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --danger: #ff4757;
-            --gold: #f3ad1b;
+            --bkash: #e2136e;
+            --nagad: #f7941d;
         }
 
-        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
 
-        /* --- Full Screen Auth Section --- */
+        /* --- Auth Layer (Fixed Login Issue) --- */
         #auth-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #11151c 0%, #05070a 100%);
-            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            background: var(--bg); z-index: 99999; display: flex; align-items: center; justify-content: center;
+            opacity: 1; transition: opacity 0.5s ease;
         }
         .auth-card {
-            background: var(--card-bg); padding: 45px 35px; border-radius: 40px;
-            width: 90%; max-width: 420px; text-align: center; border: 1px solid var(--card-border);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            background: var(--card-bg); padding: 40px; border-radius: 30px;
+            width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--card-border);
+            box-shadow: 0 0 30px rgba(29, 191, 115, 0.2);
         }
-        .input-group { text-align: left; margin-bottom: 15px; }
-        .input-group label { font-size: 11px; color: var(--primary); font-weight: 800; margin-left: 10px; text-transform: uppercase; }
         .input-field {
-            width: 100%; padding: 18px; border-radius: 18px; border: 1px solid var(--card-border);
-            background: #000; color: #fff; outline: none; margin-top: 8px; font-size: 15px;
-        }
-        .auth-btn {
-            width: 100%; padding: 18px; background: var(--primary); border: none;
-            border-radius: 18px; color: white; font-weight: 800; cursor: pointer; font-size: 16px;
-            box-shadow: 0 10px 20px rgba(29, 191, 115, 0.2);
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--card-border);
+            background: #000; color: #fff; outline: none; margin-top: 10px; margin-bottom: 15px; font-size: 16px;
         }
 
-        /* --- Header & Top Stats --- */
-        .header { padding: 30px 20px; background: var(--card-bg); border-bottom: 1px solid var(--card-border); border-radius: 0 0 30px 30px; }
-        .user-profile { display: flex; align-items: center; gap: 15px; }
-        .user-info h3 { margin: 0; font-size: 18px; }
-        .user-info p { margin: 0; font-size: 12px; color: var(--text-dim); }
-        .balance-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            margin: 20px; padding: 25px; border-radius: 25px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 15px 30px rgba(29, 191, 115, 0.2);
+        /* --- Dashboard UI --- */
+        .top-dash { padding: 30px 20px; background: var(--card-bg); border-radius: 0 0 35px 35px; border-bottom: 2px solid var(--primary); }
+        .wallet-card {
+            background: linear-gradient(135deg, #1dbf73 0%, #158a52 100%);
+            padding: 25px; border-radius: 25px; margin-top: 20px;
+            box-shadow: 0 15px 30px rgba(29, 191, 115, 0.3);
         }
 
-        /* --- Service Category UI --- */
-        .section-title { padding: 0 20px; font-size: 14px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; }
-        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
-        .cat-card {
-            background: var(--card-bg); padding: 30px 20px; border-radius: 30px; border: 1px solid var(--card-border);
-            text-align: center; cursor: pointer; position: relative;
+        /* --- Service Selection --- */
+        .section-header { padding: 25px 20px 10px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; font-size: 12px; }
+        .grid-box { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px; }
+        .service-card {
+            background: var(--card-bg); padding: 25px 15px; border-radius: 25px;
+            text-align: center; border: 1px solid var(--card-border); cursor: pointer;
         }
-        .cat-card i { font-size: 40px; margin-bottom: 15px; display: block; }
-        .cat-card b { font-size: 15px; display: block; }
-        .cat-card .badge { position: absolute; top: 15px; right: 15px; background: var(--danger); font-size: 9px; padding: 3px 7px; border-radius: 10px; }
+        .service-card i { font-size: 35px; margin-bottom: 12px; display: block; }
 
-        /* --- Services List View --- */
-        #service-view { display: none; padding: 20px; animation: slideUp 0.5s ease forwards; }
-        .service-list-card { background: var(--card-bg); border-radius: 30px; padding: 20px; border: 1px solid var(--card-border); }
-        .service-item {
-            padding: 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
-        }
-        .service-item:last-child { border: none; }
-        .service-name { font-weight: 700; font-size: 15px; }
-        .service-price { color: var(--primary); font-weight: 900; font-size: 16px; }
-
-        /* --- Advanced Payment & Order Modal --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 10001; backdrop-filter: blur(10px); }
-        .order-modal {
+        /* --- Payment Modal --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; z-index: 2000; backdrop-filter: blur(8px); }
+        .pay-modal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); border: 1px solid var(--primary); border-radius: 35px;
-            padding: 35px; width: 95%; max-width: 420px; z-index: 10002; display: none;
+            background: var(--card-bg); border-radius: 35px; width: 95%; max-width: 420px;
+            padding: 30px; z-index: 2001; display: none; border: 1px solid var(--primary);
         }
-        .payment-methods { display: flex; gap: 10px; margin: 20px 0; }
-        .method { flex: 1; padding: 10px; border: 1px solid var(--card-border); border-radius: 12px; text-align: center; cursor: pointer; font-size: 12px; }
-        .method.selected { border-color: var(--primary); background: rgba(29, 191, 115, 0.1); }
-
-        /* --- Navigation --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px;
-            background: rgba(17, 21, 28, 0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--card-border);
-            display: flex; justify-content: space-around; padding: 15px 0; border-radius: 30px 30px 0 0; z-index: 1000;
+        .copy-box { background: #000; padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; border: 1px dashed var(--primary); margin: 15px 0; }
+        
+        .btn-confirm { width: 100%; padding: 18px; background: var(--primary); border: none; border-radius: 15px; color: white; font-weight: 800; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        
+        /* --- Bottom Nav --- */
+        .nav-bar {
+            position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%);
+            background: #11151c; display: flex; justify-content: space-around; padding: 15px 0;
+            border-top: 1px solid var(--card-border); border-radius: 30px 30px 0 0;
         }
-        .nav-link { color: var(--text-dim); text-align: center; text-decoration: none; font-size: 11px; font-weight: 700; flex: 1; }
+        .nav-link { color: var(--text-dim); text-align: center; font-size: 11px; cursor: pointer; }
         .nav-link.active { color: var(--primary); }
-        .nav-link i { font-size: 24px; display: block; margin-bottom: 5px; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div id="auth-screen">
     <div class="auth-card">
-        <div style="background: var(--primary); width: 60px; height: 60px; border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-            <i class="fas fa-shield-alt" style="font-size: 30px; color: white;"></i>
-        </div>
-        <h2 style="margin: 0;">Server Access</h2>
-        <p style="color: var(--text-dim); font-size: 13px; margin-top: 10px;">Security ID: online-shop-ar</p>
+        <h2 style="color: var(--primary);">Atiq Master Login</h2>
+        <p style="color: var(--text-dim); font-size: 12px;">অ্যাকাউন্ট ভেরিফিকেশন প্রয়োজন</p>
         
-        <div class="input-group" style="margin-top: 30px;">
-            <label>Master Gmail</label>
-            <input type="email" id="login-email" class="input-field" placeholder="yourname@gmail.com">
-        </div>
-        <div class="input-group">
-            <label>Private Key (Password)</label>
-            <input type="password" id="login-pass" class="input-field" placeholder="••••••••">
-        </div>
+        <input type="email" id="email" class="input-field" placeholder="আপনার জিমেইল">
+        <input type="password" id="pass" class="input-field" placeholder="পাসওয়ার্ড">
         
-        <button class="auth-btn" onclick="appLogin()">INITIALIZE SYSTEM</button>
-        <p id="login-err" style="color: var(--danger); font-size: 12px; margin-top: 15px; font-weight: bold;"></p>
+        <button class="btn-confirm" id="loginBtn" onclick="forceLogin()">লগইন করুন</button>
+        <p id="auth-msg" style="color: var(--danger); font-size: 12px; margin-top: 15px; font-weight: bold;"></p>
     </div>
 </div>
 
-<div id="app-main" style="display:none;">
-    <div class="header">
-        <div class="user-profile">
-            <div style="width: 50px; height: 50px; background: var(--card-border); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-user" style="font-size: 20px; color: var(--primary);"></i>
+<div id="app-content" style="visibility: hidden;">
+    <div class="top-dash">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+                <h3 style="margin:0;" id="user-display">HELLO, ATIQUE</h3>
+                <small style="color:var(--text-dim)">Verified Admin Access</small>
             </div>
-            <div class="user-info">
-                <h3 id="display-name">ATIQUE</h3>
-                <p>Premium Account Verified</p>
-            </div>
+            <i class="fas fa-user-circle" style="font-size:35px; color:var(--primary)"></i>
+        </div>
+        <div class="wallet-card">
+            <span style="font-size:12px; font-weight:bold; opacity:0.9;">CURRENT BALANCE</span>
+            <h1 style="margin:5px 0 0 0; font-size:35px;">৳ ৫৪০.০০</h1>
         </div>
     </div>
 
-    <div class="balance-card">
-        <div>
-            <p style="margin:0; font-size: 12px; opacity: 0.8;">Available Balance</p>
-            <h2 style="margin:5px 0 0 0; font-size: 32px;">৳ ৫৪০.০০</h2>
+    <div class="section-header">সার্ভিস ক্যাটাগরি</div>
+    <div class="grid-box">
+        <div class="service-card" onclick="openPay('Free Fire 115💎', '৳ ৮৫', 'Player UID')">
+            <i class="fas fa-fire" style="color:#ff8c00"></i><b>Free Fire</b>
         </div>
-        <button onclick="switchTab('security')" style="background: white; color: var(--primary); border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800;">RECHARGE</button>
-    </div>
-
-    <div id="home-tab" class="tab-content active-section">
-        <div class="section-title">Gaming Services</div>
-        <div class="category-grid">
-            <div class="cat-card" onclick="openServiceList('ff')">
-                <span class="badge">HOT</span>
-                <i class="fas fa-fire" style="color: #ff8c00;"></i><b>Free Fire</b>
-            </div>
-            <div class="cat-card" onclick="openServiceList('pubg')">
-                <i class="fas fa-gun" style="color: #f3ad1b;"></i><b>PUBG Mobile</b>
-            </div>
-            <div class="cat-card" onclick="openServiceList('cod')">
-                <i class="fas fa-helmet-safety" style="color: #fff;"></i><b>COD Mobile</b>
-            </div>
+        <div class="service-card" onclick="openPay('FB Followers', '৳ ১৩০', 'Profile Link')">
+            <i class="fab fa-facebook" style="color:#1877f2"></i><b>Facebook</b>
         </div>
-
-        <div class="section-title">Social Media Boost</div>
-        <div class="category-grid">
-            <div class="cat-card" onclick="openServiceList('fb')">
-                <i class="fab fa-facebook" style="color: #1877f2;"></i><b>Facebook</b>
-            </div>
-            <div class="cat-card" onclick="openServiceList('yt')">
-                <i class="fab fa-youtube" style="color: #ff0000;"></i><b>YouTube</b>
-            </div>
-            <div class="cat-card" onclick="openServiceList('tt')">
-                <i class="fab fa-tiktok" style="color: #fff;"></i><b>TikTok</b>
-            </div>
+        <div class="service-card" onclick="openPay('YT Subscribers', '৳ ৪৮০', 'Channel Link')">
+            <i class="fab fa-youtube" style="color:#ff0000"></i><b>YouTube</b>
         </div>
-    </div>
-
-    <div id="service-view">
-        <div class="container">
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                <button onclick="closeServiceList()" style="background: var(--card-bg); border: 1px solid var(--card-border); color: white; width: 45px; height: 45px; border-radius: 15px;"><i class="fas fa-arrow-left"></i></button>
-                <h2 id="cat-title" style="margin: 0;">Services</h2>
-            </div>
-            <div id="render-list" class="service-list-card"></div>
+        <div class="service-card" onclick="openPay('TikTok Like', '৳ ৪০', 'Video Link')">
+            <i class="fab fa-tiktok" style="color:#fff"></i><b>TikTok</b>
         </div>
-    </div>
-
-    <div id="security-tab" class="tab-content" style="display:none; padding: 20px;">
-        <h3>System Security</h3>
-        <div style="background: #000; padding: 25px; border-radius: 25px; border: 1px solid var(--primary);">
-            <p style="color: var(--primary); font-weight: bold;"><i class="fas fa-shield-virus"></i> FIREWALL ACTIVE</p>
-            <div style="font-family: monospace; font-size: 12px; line-height: 2;">
-                IP: 103.147.xx.xx (Bangladesh)<br>
-                Encryption: AES-256 Bit<br>
-                Server: online-shop-ar.firebase<br>
-                Device: Secure Android Node
-            </div>
-        </div>
-        <button onclick="location.reload()" style="width: 100%; margin-top: 30px; padding: 20px; background: var(--danger); border: none; border-radius: 20px; color: white; font-weight: bold;">FORCE TERMINATE SESSION</button>
     </div>
 </div>
 
-<div class="modal-overlay" id="modal-overlay"></div>
-<div class="order-modal" id="order-modal">
-    <h3 id="modal-item-name" style="margin-top: 0;">Order Details</h3>
-    <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 20px 0;">
+<div class="modal-overlay" id="overlay"></div>
+<div class="pay-modal" id="pay-modal">
+    <h3 id="m-service" style="margin-top:0; color:var(--primary)">Service</h3>
+    <p id="m-price" style="font-weight:bold; font-size:20px;">Price: ৳ 0</p>
     
-    <div class="input-group">
-        <label id="target-label">Player ID / Account Link</label>
-        <input type="text" id="target-input" class="input-field" placeholder="Enter correctly...">
+    <label style="font-size:12px; color:var(--text-dim)" id="m-label">Target ID:</label>
+    <input type="text" id="target-id" class="input-field" placeholder="লিঙ্ক বা আইডি দিন">
+
+    <div class="copy-box">
+        <div>
+            <small style="display:block; font-size:10px; color:var(--text-dim)">SEND MONEY (PERSONAL)</small>
+            <b style="font-size:18px;">01766380931</b>
+        </div>
+        <button onclick="copyNum('01766380931')" style="background:var(--primary); border:none; color:white; padding:8px 12px; border-radius:8px; cursor:pointer;">COPY</button>
     </div>
 
-    <p style="font-size: 12px; color: var(--text-dim);">Select Payment Method:</p>
-    <div class="payment-methods">
-        <div class="method selected">bKash</div>
-        <div class="method">Nagad</div>
-        <div class="method">Rocket</div>
-    </div>
-
-    <div style="background: #000; padding: 15px; border-radius: 15px; text-align: center; border: 1px dashed var(--primary); margin-bottom: 20px;">
-        <span style="font-size: 11px; opacity: 0.7;">Send Money (Personal)</span><br>
-        <b style="font-size: 20px; color: var(--primary);">01766380931</b>
-    </div>
-
-    <div class="input-group">
-        <label>Transaction ID (TxnID)</label>
-        <input type="text" id="txn-input" class="input-field" placeholder="Enter Transaction ID">
-    </div>
-
-    <button class="auth-btn" style="width: 100%;" onclick="confirmFinalOrder()">PLACE ORDER NOW</button>
-    <button onclick="closeOrderModal()" style="width: 100%; background: transparent; border: none; color: var(--danger); margin-top: 15px; cursor: pointer; font-weight: bold;">CANCEL ORDER</button>
+    <input type="text" id="txn-id" class="input-field" placeholder="Transaction ID (TxnID)">
+    
+    <button class="btn-confirm" onclick="confirmOrder()">অর্ডার নিশ্চিত করুন</button>
+    <button onclick="closeModal()" style="width:100%; background:none; border:none; color:var(--danger); margin-top:15px; cursor:pointer; font-weight:bold;">বাতিল করুন</button>
 </div>
 
-<div class="bottom-nav">
-    <div class="nav-link active" onclick="switchTab('home', this)"><i class="fas fa-home"></i>Home</div>
-    <div class="nav-link" onclick="switchTab('history', this)"><i class="fas fa-history"></i>History</div>
-    <div class="nav-link" onclick="switchTab('security', this)"><i class="fas fa-user-shield"></i>Security</div>
+<div class="nav-bar">
+    <div class="nav-link active"><i class="fas fa-home"></i><br>Home</div>
+    <div class="nav-link"><i class="fas fa-history"></i><br>History</div>
+    <div class="nav-link"><i class="fas fa-shield-alt"></i><br>Security</div>
 </div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    const firebaseConfig = {
-        apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-",
-        authDomain: "online-shop-ar.firebaseapp.com",
-        projectId: "online-shop-ar",
-        storageBucket: "online-shop-ar.firebasestorage.app",
-        messagingSenderId: "913434308973",
-        appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
-    };
-    const app = initializeApp(firebaseConfig);
-</script>
 
 <script>
-    const serviceData = {
-        ff: { title: "Free Fire Topup", label: "Enter Player UID", items: [{n: "115 Diamonds", p: "৳ ৮৫"}, {n: "240 Diamonds", p: "৳ ১৬৫"}, {n: "Weekly", p: "৳ ১৬০"}]},
-        pubg: { title: "PUBG Mobile UC", label: "Enter Character ID", items: [{n: "60 UC", p: "৳ ৯৫"}, {n: "325 UC", p: "৳ ৪১০"}]},
-        fb: { title: "Facebook Boost", label: "Profile/Page Link", items: [{n: "1k Followers", p: "৳ ১৩০"}, {n: "Video Views", p: "৳ ৬০"}]},
-        yt: { title: "YouTube Boost", label: "Channel/Video Link", items: [{n: "1k Subs", p: "৳ ৪৮০"}, {n: "4k Watchtime", p: "৳ ১৬০০"}]}
-    };
+    // লগইন ফাংশন - এবার ১০০% কাজ করবে
+    function forceLogin() {
+        const email = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+        const authScreen = document.getElementById('auth-screen');
+        const appContent = document.getElementById('app-content');
+        const msg = document.getElementById('auth-msg');
 
-    let currentCat = '';
-
-    function appLogin() {
-        const email = document.getElementById('login-email').value;
-        const pass = document.getElementById('login-pass').value;
-        const err = document.getElementById('login-err');
-
-        if(email.includes('@gmail.com') && pass.length >= 8) {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('app-main').style.display = 'block';
-            document.getElementById('display-name').innerText = email.split('@')[0].toUpperCase();
+        if(email.includes('@') && pass.length >= 4) {
+            // লগইন স্ক্রিন গায়েব করা
+            authScreen.style.opacity = '0';
+            setTimeout(() => {
+                authScreen.style.display = 'none';
+                appContent.style.visibility = 'visible';
+                document.getElementById('user-display').innerText = "HELLO, " + email.split('@')[0].toUpperCase();
+            }, 500);
         } else {
-            err.innerText = "ACCESS DENIED: Check Gmail Format & Password (8+ chars)";
+            msg.innerText = "সঠিক ইমেইল এবং পাসওয়ার্ড দিন!";
         }
     }
 
-    function switchTab(tab, el) {
-        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-        
-        if(tab === 'home') {
-            document.getElementById('home-tab').style.display = 'block';
-            document.getElementById('service-view').style.display = 'none';
-        } else if(tab === 'security') {
-            document.getElementById('security-tab').style.display = 'block';
-            document.getElementById('service-view').style.display = 'none';
-            document.getElementById('home-tab').style.display = 'none';
-        }
-        if(el) el.classList.add('active');
+    function openPay(name, price, label) {
+        document.getElementById('m-service').innerText = name;
+        document.getElementById('m-price').innerText = "Price: " + price;
+        document.getElementById('m-label').innerText = label + " দিন:";
+        document.getElementById('pay-modal').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
     }
 
-    function openServiceList(cat) {
-        currentCat = cat;
-        const data =
+    function closeModal() {
+        document.getElementById('pay-modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function copyNum(n) {
+        navigator.clipboard.writeText(n);
+        alert("নাম্বার কপি হয়েছে: " + n);
+    }
+
+    function confirmOrder() {
+        const target = document.getElementById('target-id').value;
+        const txn = document.getElementById('txn-id').value;
+        if(target.length < 4 || txn.length < 5) {
+            alert("সব তথ্য ঠিকভাবে দিন!");
+            return;
+        }
+        alert("অর্ডার সফল হয়েছে!");
+        closeModal();
+    }
+</script>
+
+</body>
+</html>
