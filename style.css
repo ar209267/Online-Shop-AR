@@ -1,18 +1,33 @@
 :root {
-    --neon-green: #00ff88;
-    --deep-dark: #05070a;
-    --card-dark: #11151c;
+    --primary: #00ff88;
+    --secondary: #00d4ff;
+    --bg: #080a0f;
+    --surface: #12161f;
     --text: #f8fafc;
 }
 
-body { background: var(--deep-dark); color: var(--text); margin: 0; font-family: sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
+body { background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-.auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+#preloader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.loader-ring { width: 60px; height: 60px; border: 4px solid #111; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
 
-.auth-card { background: var(--card-dark); padding: 40px; border-radius: 30px; text-align: center; width: 350px; }
+#auth-portal { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.auth-card { background: var(--surface); width: 100%; max-width: 400px; padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
+.input-box { position: relative; margin-bottom: 15px; }
+.input-box i { position: absolute; left: 15px; top: 16px; color: var(--primary); }
+.input-box input { width: 100%; background: #000; border: 1px solid #222; padding: 15px 15px 15px 45px; border-radius: 12px; color: #fff; outline: none; }
 
-.input-box { width: 100%; padding: 15px; margin-top: 10px; border-radius: 10px; border: 1px solid #333; background: #000; color: #fff; }
+.cta-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; border-radius: 12px; color: #000; font-weight: 800; cursor: pointer; }
 
-.btn-main { width: 100%; padding: 15px; background: var(--neon-green); border: none; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+.navbar { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid #222; }
+.balance-card { background: linear-gradient(135deg, #00ff88, #0088ff); padding: 30px; border-radius: 25px; margin: 20px; color: #000; position: relative; }
 
-.balance-card { background: linear-gradient(135deg, #00ff88, #00a3cc); padding: 30px; margin: 20px; border-radius: 20px; color: #000; }
+.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+.service-card { background: var(--surface); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #222; }
+.service-card i { font-size: 30px; margin-bottom: 10px; display: block; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; }
+.modal { background: var(--surface); width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; text-align: center; }
+.wa-float { position: fixed; bottom: 30px; right: 25px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
