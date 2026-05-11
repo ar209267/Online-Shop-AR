@@ -3,243 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq SMM Master - Enterprise V17</title>
+    <title>Atiq Master - Ultimate Digital Hub V20</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
     <style>
         :root {
             --primary: #00ff88;
-            --primary-dark: #00b35f;
-            --bg: #0a0c10;
-            --card-bg: #161b22;
-            --card-border: #30363d;
-            --text-main: #f0f6fc;
-            --text-dim: #8b949e;
-            --danger: #ff4d4d;
-            --gold: #ffcc00;
+            --bg: #05070a;
+            --card: #11151c;
+            --border: #1e2530;
+            --text: #ffffff;
+            --dim: #94a3b8;
+            --danger: #ff4757;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { box-sizing: border-box; transition: 0.3s; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
 
-        /* --- Advanced Glassmorphism Auth --- */
-        #auth-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at top right, #1dbf73, #05070a);
-            z-index: 99999; display: flex; align-items: center; justify-content: center;
-        }
-        .auth-card {
-            background: rgba(22, 27, 34, 0.9); backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 40px; width: 90%; max-width: 420px;
-            text-align: center; border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
+        /* --- Auth Section (Sign In / Sign Up) --- */
+        #auth-view { position: fixed; inset: 0; background: var(--bg); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: var(--card); padding: 40px 30px; border-radius: 40px; width: 100%; max-width: 420px; text-align: center; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .input-wrap { text-align: left; margin-bottom: 15px; }
+        .input-wrap label { font-size: 11px; color: var(--primary); font-weight: bold; margin-left: 10px; text-transform: uppercase; }
+        .input-box { width: 100%; padding: 18px; border-radius: 20px; border: 1px solid var(--border); background: #000; color: #fff; margin-top: 5px; font-size: 15px; }
+        .btn-main { width: 100%; padding: 18px; border-radius: 20px; border: none; font-weight: 800; cursor: pointer; background: var(--primary); color: #000; font-size: 16px; margin-top: 20px; box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2); }
 
-        /* --- Premium Dashboard --- */
-        .top-nav-bar { padding: 25px; display: flex; justify-content: space-between; align-items: center; }
-        .user-tag { display: flex; align-items: center; gap: 12px; }
-        .user-tag img { width: 45px; height: 45px; border-radius: 15px; border: 2px solid var(--primary); }
+        /* --- Main Dashboard UI --- */
+        #app-view { display: none; }
+        .header { padding: 30px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--card); border-radius: 0 0 35px 35px; border-bottom: 1px solid var(--border); }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .user-info .avatar { width: 45px; height: 45px; background: var(--primary); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold; }
 
-        .balance-card {
-            background: linear-gradient(135deg, #00ff88 0%, #006636 100%);
-            margin: 0 20px; padding: 30px; border-radius: 35px;
-            position: relative; overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 255, 136, 0.2);
-        }
-        .balance-card::after {
-            content: ''; position: absolute; top: -50%; right: -20%; width: 150px; height: 150px;
-            background: rgba(255,255,255,0.1); border-radius: 50%;
-        }
+        .balance-hero { background: linear-gradient(135deg, #00ff88 0%, #006636 100%); margin: 25px 20px; padding: 35px; border-radius: 40px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0, 255, 136, 0.2); }
+        .balance-hero h1 { margin: 10px 0; font-size: 42px; letter-spacing: -1px; }
 
-        /* --- Dynamic Stats Bar --- */
-        .stats-bar { display: flex; gap: 10px; padding: 20px; }
-        .stat-item { flex: 1; background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid var(--card-border); text-align: center; }
-        .stat-item i { color: var(--primary); margin-bottom: 5px; font-size: 18px; }
+        /* --- Category Tabs --- */
+        .tabs { display: flex; gap: 10px; padding: 10px 20px; overflow-x: auto; scrollbar-width: none; }
+        .tab { padding: 12px 25px; background: var(--card); border-radius: 20px; border: 1px solid var(--border); white-space: nowrap; font-size: 13px; font-weight: bold; cursor: pointer; color: var(--dim); }
+        .tab.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        /* --- Service Cards --- */
-        .section-title { padding: 10px 25px; font-size: 14px; color: var(--text-dim); font-weight: bold; letter-spacing: 1px; }
-        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px 20px; }
-        .feature-card {
-            background: var(--card-bg); border-radius: 30px; padding: 25px 15px; border: 1px solid var(--card-border);
-            text-align: center; position: relative; cursor: pointer;
-        }
-        .feature-card:active { transform: scale(0.9); }
-        .feature-card i { font-size: 35px; margin-bottom: 12px; display: block; }
-        .hot-tag { position: absolute; top: 15px; right: 15px; background: var(--danger); font-size: 8px; padding: 4px 8px; border-radius: 20px; font-weight: bold; }
+        /* --- Service Grid --- */
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 20px; }
+        .service-card { background: var(--card); padding: 25px 15px; border-radius: 30px; text-align: center; border: 1px solid var(--border); position: relative; }
+        .service-card i { font-size: 35px; margin-bottom: 12px; display: block; }
+        .price-tag { font-size: 12px; color: var(--primary); font-weight: bold; margin-top: 5px; display: block; }
 
-        /* --- Pro Modal System --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 100000; }
-        .order-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); border-radius: 40px; width: 95%; max-width: 430px;
-            padding: 35px; z-index: 100001; display: none; border: 1px solid var(--primary);
-        }
+        /* --- Bottom Nav --- */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%); background: rgba(17, 21, 28, 0.95); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--border); border-radius: 35px 35px 0 0; z-index: 999; }
+        .nav-item { color: var(--dim); text-align: center; font-size: 11px; flex: 1; cursor: pointer; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 5px; }
 
-        .input-field {
-            width: 100%; padding: 18px; border-radius: 18px; border: 1px solid var(--card-border);
-            background: #000; color: #fff; outline: none; margin-top: 10px; margin-bottom: 15px; font-size: 15px;
-        }
-        .input-field:focus { border-color: var(--primary); }
-
-        .btn-action {
-            width: 100%; padding: 18px; background: var(--primary); border: none; border-radius: 20px;
-            color: #000; font-weight: 800; font-size: 16px; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
-        }
-
-        /* --- Footer Nav --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%);
-            background: rgba(22, 27, 34, 0.95); backdrop-filter: blur(10px);
-            display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--card-border);
-            border-radius: 30px 30px 0 0; z-index: 999;
-        }
-        .nav-link { color: var(--text-dim); text-align: center; font-size: 11px; text-decoration: none; }
-        .nav-link.active { color: var(--primary); }
-        .nav-link i { font-size: 22px; display: block; margin-bottom: 5px; }
-
-        /* Animation */
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .live-dot { height: 8px; width: 8px; background: var(--primary); border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
+        /* Order Modal */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 10001; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: var(--card); padding: 40px 30px; border-radius: 40px; width: 92%; max-width: 420px; border: 1px solid var(--primary); text-align: center; }
     </style>
 </head>
 <body>
 
-<div id="auth-screen">
-    <div class="auth-card">
-        <h1 style="margin:0; color:var(--primary); font-size: 28px;">Atiq Master</h1>
-        <p style="color:var(--text-dim); font-size: 13px; margin-top: 5px;">SMM & Gaming Enterprise V17</p>
+<div id="auth-view">
+    <div class="auth-card" id="login-panel">
+        <h2 style="color:var(--primary); margin:0;">ATIQ MASTER</h2>
+        <p style="color:var(--dim); font-size:13px; margin-top:5px;">আপনার ডিজিটাল যাত্রা শুরু করুন</p>
         
-        <div style="margin-top: 30px; text-align: left;">
-            <label style="font-size: 11px; color: var(--primary); font-weight: bold; margin-left: 10px;">GMAIL ADDRESS</label>
-            <input type="email" id="email" class="input-field" placeholder="example@gmail.com">
-            
-            <label style="font-size: 11px; color: var(--primary); font-weight: bold; margin-left: 10px;">SECURITY KEY</label>
-            <input type="password" id="pass" class="input-field" placeholder="••••••••">
+        <div class="input-wrap" style="margin-top:25px;">
+            <label>Gmail Address</label>
+            <input type="email" id="email-in" class="input-box" placeholder="example@gmail.com">
+        </div>
+        <div class="input-wrap">
+            <label>Password</label>
+            <input type="password" id="pass-in" class="input-box" placeholder="••••••••">
         </div>
         
-        <button class="btn-action" onclick="unlockApp()">UNLOCK DASHBOARD</button>
-        <p id="err" style="color:var(--danger); font-size: 12px; margin-top: 15px;"></p>
+        <button class="btn-main" onclick="processLogin()">LOGIN TO ACCOUNT</button>
+        <p class="switch-text" style="margin-top:20px; font-size:13px; color:var(--dim);">একাউন্ট নেই? <b style="color:var(--primary); cursor:pointer;" onclick="toggleAuth(true)">Sign Up করুন</b></p>
+    </div>
+
+    <div class="auth-card" id="signup-panel" style="display:none;">
+        <h2 style="color:var(--primary); margin:0;">CREATE ACCOUNT</h2>
+        <p style="color:var(--dim); font-size:13px;">নতুন একাউন্ট খুলুন একদম ফ্রি</p>
+        
+        <div class="input-wrap" style="margin-top:25px;">
+            <label>Full Gmail</label>
+            <input type="email" id="email-up" class="input-box" placeholder="example@gmail.com">
+        </div>
+        <div class="input-wrap">
+            <label>New Password</label>
+            <input type="password" id="pass-up" class="input-box" placeholder="অ্যটলিস্ট ৬ সংখ্যার">
+        </div>
+        
+        <button class="btn-main" onclick="processSignup()">CREATE MY ACCOUNT</button>
+        <p class="switch-text" style="margin-top:20px; font-size:13px; color:var(--dim);">ইতিমধ্যে একাউন্ট আছে? <b style="color:var(--primary); cursor:pointer;" onclick="toggleAuth(false)">লগইন করুন</b></p>
     </div>
 </div>
 
-<div id="main-content" style="display:none;">
-    <div class="top-nav-bar">
-        <div class="user-tag">
-            <img src="https://ui-avatars.com/api/?name=Atiq&background=00ff88&color=000" alt="Avatar">
+<div id="app-view">
+    <div class="header">
+        <div class="user-info">
+            <div class="avatar" id="u-avatar">A</div>
             <div>
-                <b id="u-name">USER</b><br>
-                <small style="color:var(--text-dim)"><span class="live-dot"></span>Online</small>
+                <b id="u-name-display">USER</b><br>
+                <small style="color:var(--primary); font-size:10px;"><i class="fas fa-check-circle"></i> Digital Partner</small>
             </div>
         </div>
-        <i class="fas fa-bell" style="font-size: 22px; color: var(--text-dim);"></i>
+        <i class="fas fa-bell" style="font-size:22px; color:var(--dim);"></i>
     </div>
 
-    <div class="balance-card">
-        <p style="margin:0; font-size: 13px; font-weight: bold; opacity: 0.8;">CURRENT ASSETS</p>
-        <h1 style="margin:10px 0 0 0; font-size: 40px; letter-spacing: -1px;">৳ ৫৪০.০০</h1>
-        <div style="margin-top: 15px; font-size: 11px; background: rgba(0,0,0,0.2); display: inline-block; padding: 5px 12px; border-radius: 10px;">
-            <i class="fas fa-arrow-up"></i> +12% this month
-        </div>
+    <div class="balance-hero">
+        <div style="position:absolute; top:20px; right:20px; font-size:10px; background:rgba(0,0,0,0.2); padding:5px 12px; border-radius:20px;">LIVE ASSETS</div>
+        <small style="font-weight:bold; opacity:0.8;">CURRENT BALANCE</small>
+        <h1>৳ ৫৪০.০০</h1>
+        <button style="background:#fff; color:#000; border:none; padding:8px 18px; border-radius:12px; font-weight:800; font-size:11px; margin-top:10px;">ADD MONEY +</button>
     </div>
 
-    <div class="stats-bar">
-        <div class="stat-item"><i class="fas fa-shopping-cart"></i><br><small>১২ অর্ডার</small></div>
-        <div class="stat-item"><i class="fas fa-wallet"></i><br><small>রিচার্জ</small></div>
-        <div class="stat-item"><i class="fas fa-headset"></i><br><small>সাপোর্ট</small></div>
+    <div class="tabs">
+        <div class="tab active">All Services</div>
+        <div class="tab">Gaming</div>
+        <div class="tab">Social</div>
+        <div class="tab">Premium ID</div>
     </div>
 
-    <div class="section-title">Gaming Zone</div>
-    <div class="grid-container">
-        <div class="feature-card" onclick="openOrder('FF Diamond 💎', '৳ ৮৫', 'UID')">
-            <span class="hot-tag">HOT</span>
-            <i class="fas fa-fire" style="color:#ff8c00"></i><b>Free Fire</b>
+    <div class="service-grid">
+        <div class="service-card" onclick="openOrderModal('Free Fire 115💎', '৳ ৮৫', 'UID')">
+            <i class="fas fa-fire" style="color:#ff8c00;"></i>
+            <b>Free Fire</b>
+            <span class="price-tag">৳ ৮৫</span>
         </div>
-        <div class="feature-card" onclick="openOrder('PUBG UC 🔫', '৳ ৯৫', 'Character ID')">
-            <i class="fas fa-gun" style="color:#f3ad1b"></i><b>PUBG Mobile</b>
+        <div class="service-card" onclick="openOrderModal('Facebook Follower', '৳ ১৩০', 'Link')">
+            <i class="fab fa-facebook" style="color:#1877f2;"></i>
+            <b>Facebook</b>
+            <span class="price-tag">৳ ১৩০</span>
         </div>
-    </div>
-
-    <div class="section-title">Social Boost</div>
-    <div class="grid-container">
-        <div class="feature-card" onclick="openOrder('FB Followers', '৳ ১৩০', 'Link')">
-            <i class="fab fa-facebook" style="color:#1877f2"></i><b>Facebook</b>
+        <div class="service-card" onclick="openOrderModal('PUBG 60 UC', '৳ ৯৫', 'ID')">
+            <i class="fas fa-gun" style="color:#f3ad1b;"></i>
+            <b>PUBG UC</b>
+            <span class="price-tag">৳ ৯৫</span>
         </div>
-        <div class="feature-card" onclick="openOrder('YT Subscriber', '৳ ৪৮০', 'Link')">
-            <i class="fab fa-youtube" style="color:#ff0000"></i><b>YouTube</b>
+        <div class="service-card" onclick="openOrderModal('YouTube Subs', '৳ ৪৮০', 'Link')">
+            <i class="fab fa-youtube" style="color:#ff0000;"></i>
+            <b>YouTube</b>
+            <span class="price-tag">৳ ৪৮০</span>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay"></div>
-<div class="order-modal" id="order-modal">
-    <h2 id="m-title" style="margin-top:0; color:var(--primary)">Service</h2>
-    <p id="m-price" style="font-size: 24px; font-weight: 800; margin-bottom: 25px;">৳ 0.00</p>
-    
-    <label id="m-label" style="font-size: 12px; color: var(--text-dim); font-weight: bold;"></label>
-    <input type="text" id="target-id" class="input-field" placeholder="Enter here...">
+<div class="modal" id="order-modal">
+    <div class="modal-content">
+        <h3 id="m-item" style="margin:0; color:var(--primary); font-size:24px;">Service Name</h3>
+        <p id="m-price" style="font-size:28px; font-weight:800; margin:10px 0 25px 0;">৳ 0.00</p>
+        
+        <input type="text" id="target-data" class="input-box" placeholder="আইডি বা লিঙ্ক দিন">
+        <input type="text" id="txn-data" class="input-box" placeholder="পেমেন্ট TxnID দিন">
+        
+        <div style="background:#000; padding:15px; border-radius:18px; border:1px dashed var(--primary); margin:20px 0; font-size:13px;">
+            বিকাশ/নগদ (পার্সোনাল): <b>01766380931</b>
+        </div>
 
-    <div style="background: #000; padding: 20px; border-radius: 20px; border: 1px dashed var(--primary); margin-bottom: 20px;">
-        <p style="margin:0 0 10px 0; font-size: 11px; color: var(--text-dim);">PAYMENT NUMBER (BKASH/NAGAD)</p>
-        <b style="font-size: 22px; letter-spacing: 1px;">01766380931</b>
-        <button onclick="copyAdminNum()" style="background:var(--primary); border:none; border-radius:8px; padding:5px 10px; margin-left:10px; cursor:pointer; font-weight:bold;">COPY</button>
+        <button class="btn-main" onclick="confirmFinalOrder()">CONFIRM ORDER</button>
+        <button onclick="closeOrderModal()" style="background:none; border:none; color:var(--danger); margin-top:15px; font-weight:bold; cursor:pointer;">CANCEL</button>
     </div>
-
-    <label style="font-size: 12px; color: var(--text-dim); font-weight: bold;">TRANSACTION ID</label>
-    <input type="text" id="txn-id" class="input-field" placeholder="TRX889XX...">
-    
-    <button class="btn-action" onclick="submitOrder()">CONFIRM PURCHASE</button>
-    <button onclick="closeOrder()" style="width:100%; background:none; border:none; color:var(--danger); margin-top:15px; cursor:pointer; font-weight:bold;">CANCEL</button>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-link active"><i class="fas fa-home"></i>Home</div>
-    <div class="nav-link"><i class="fas fa-history"></i>History</div>
-    <div class="nav-link"><i class="fas fa-user-shield"></i>Security</div>
+    <div class="nav-item active"><i class="fas fa-home"></i>Home</div>
+    <div class="nav-item"><i class="fas fa-shopping-cart"></i>History</div>
+    <div class="nav-item" onclick="initiateLogout()"><i class="fas fa-user-circle"></i>Logout</div>
 </div>
 
 <script>
-    function unlockApp() {
-        const mail = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-        if(mail.includes('@') && pass.length >= 4) {
-            document.getElementById('auth-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('u-name').innerText = mail.split('@')[0].toUpperCase();
-            }, 500);
-        } else {
-            document.getElementById('err').innerText = "প্রবেশাধিকার সংরক্ষিত: সঠিক তথ্য দিন!";
-        }
+    // --- Firebase Logic ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-",
+        authDomain: "online-shop-ar.firebaseapp.com",
+        databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com",
+        projectId: "online-shop-ar",
+        storageBucket: "online-shop-ar.appspot.com",
+        messagingSenderId: "913434308973",
+        appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    // --- Authentication Flow ---
+    function toggleAuth(showSignup) {
+        document.getElementById('login-panel').style.display = showSignup ? 'none' : 'block';
+        document.getElementById('signup-panel').style.display = showSignup ? 'block' : 'none';
     }
 
-    function openOrder(name, price, label) {
-        document.getElementById('m-title').innerText = name;
+    function processSignup() {
+        const e = document.getElementById('email-up').value;
+        const p = document.getElementById('pass-up').value;
+        if(e && p.length >= 6) {
+            auth.createUserWithEmailAndPassword(e, p).then(() => alert("একাউন্ট তৈরি সফল!")).catch(err => alert(err.message));
+        } else { alert("সঠিক তথ্য দিন (পাসওয়ার্ড অন্তত ৬ সংখ্যার)"); }
+    }
+
+    function processLogin() {
+        const e = document.getElementById('email-in').value;
+        const p = document.getElementById('pass-in').value;
+        auth.signInWithEmailAndPassword(e, p).then(user => showApp(user.user)).catch(err => alert("লগইন ব্যর্থ!"));
+    }
+
+    // --- App Flow ---
+    function showApp(user) {
+        document.getElementById('auth-view').style.display = 'none';
+        document.getElementById('app-view').style.display = 'block';
+        const name = user.email.split('@')[0].toUpperCase();
+        document.getElementById('u-name-display').innerText = name;
+        document.getElementById('u-avatar').innerText = name[0];
+    }
+
+    function initiateLogout() {
+        auth.signOut().then(() => location.reload());
+    }
+
+    auth.onAuthStateChanged(user => { if(user) showApp(user); });
+
+    // --- Order Logic ---
+    function openOrderModal(name, price) {
+        document.getElementById('m-item').innerText = name;
         document.getElementById('m-price').innerText = price;
-        document.getElementById('m-label').innerText = label + " দিন:";
-        document.getElementById('order-modal').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('order-modal').style.display = 'flex';
     }
 
-    function closeOrder() {
-        document.getElementById('order-modal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
+    function closeOrderModal() { document.getElementById('order-modal').style.display = 'none'; }
 
-    function copyAdminNum() {
-        navigator.clipboard.writeText('01766380931');
-        alert("নাম্বার কপি হয়েছে!");
-    }
-
-    function submitOrder() {
-        const target = document.getElementById('target-id').value;
-        const txn = document.getElementById('txn-id').value;
-        if(target.length > 4 && txn.length > 5) {
-            alert("অর্ডার সফল! আপনার ডাটা প্রসেসিং হচ্ছে।");
-            closeOrder();
-        } else {
-            alert("দয়া করে সব তথ্য পূরণ করুন!");
-        }
+    function confirmFinalOrder() {
+        const target = document.getElementById('target-data').value;
+        const txn = document.getElementById('txn-data').value;
+        if(target && txn) {
+            const orderData = {
+                user: auth.currentUser.email,
+                item: document.getElementById('m-item').innerText,
+                target: target,
+                txn: txn,
+                status: 'Pending',
+                time: new Date().toLocaleString()
+            };
+            db.ref('orders/' + Date.now()).set(orderData).then(() => {
+                alert("অর্ডারটি সার্ভারে জমা হয়েছে!");
+                closeOrderModal();
+            });
+        } else { alert("সব তথ্য পূরণ করুন!"); }
     }
 </script>
 
