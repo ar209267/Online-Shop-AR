@@ -3,187 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Professional Login</title>
-    
+    <title>Online Shop AR - GitHub Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    
     <style>
-        /* CSS: Professional & Modern UI */
-        :root {
-            --primary-color: #00ff88;
-            --bg-dark: #0a0a0a;
-            --card-bg: #1a1a1a;
-            --text-white: #ffffff;
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Loading Screen (System Booting) */
-        #loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-
-        .booting-text {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-color);
-            letter-spacing: 5px;
-            animation: blink 1s infinite;
-        }
-
-        /* Main Container */
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid #333;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .btn-github {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            transition: transform 0.2s, background 0.3s;
-        }
-
-        .btn-github:hover {
-            background: #444;
-            transform: translateY(-2px);
-        }
-
-        #user-profile {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 0.5s forwards;
-        }
-
-        .user-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        :root { --primary-color: #00ff88; --bg-dark: #0a0a0a; --card-bg: #1a1a1a; --text-white: #ffffff; }
+        body, html { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; background-color: var(--bg-dark); color: var(--text-white); height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; overflow: hidden; }
+        .login-card { background: var(--card-bg); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; max-width: 350px; width: 90%; }
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--primary-color); margin-bottom: 20px; font-size: 24px; }
+        .btn-github { background: #333; color: white; border: none; padding: 12px; font-size: 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; transition: 0.3s; }
+        .btn-github:hover { background: #444; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,255,136,0.2); }
+        #user-profile { display: none; animation: fadeIn 0.5s forwards; }
+        .user-img { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-color); margin-bottom: 10px; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="booting-text">SYSTEM BOOTING...</div>
+    <div class="login-card" id="login-section">
+        <h1>Online Shop AR</h1>
+        <p style="color: #888; margin-bottom: 30px;">Secure Login with GitHub</p>
+        <button class="btn-github" id="btn-login">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" style="filter: invert(1);">
+            Sign in with GitHub
+        </button>
     </div>
 
-    <div class="container">
-        <div class="login-card" id="login-section">
-            <h1>Online Shop AR</h1>
-            <p>Please login to continue</p>
-            <button class="btn-github" id="btn-login">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" style="filter: invert(1);">
-                Sign in with GitHub
-            </button>
-        </div>
-
-        <div id="user-profile">
-            <img id="user-avatar" class="user-img" src="" alt="Avatar">
-            <h2 id="user-name">User Name</h2>
-            <p id="user-email">Email</p>
-            <button onclick="location.reload()" style="background:none; border:1px solid red; color:red; cursor:pointer; padding:5px 10px;">Logout</button>
-        </div>
+    <div id="user-profile">
+        <img id="user-avatar" class="user-img" src="" alt="Avatar">
+        <h2 id="user-name" style="color: var(--primary-color);"></h2>
+        <p id="user-email"></p>
+        <button onclick="location.reload()" style="background:none; border:1px solid #ff4444; color:#ff4444; cursor:pointer; padding:8px 20px; border-radius:5px; margin-top:20px;">Logout</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
         import { getAuth, GithubAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-        // ১. আপনার নিজের ফায়ারবেস কনফিগারেশন এখানে বসান
+        // আপনার প্রজেক্টের সঠিক কনফিগারেশন
         const firebaseConfig = {
-            apiKey: "YOUR_ACTUAL_API_KEY",
+            apiKey: "AIzaSyB" + "..." , // আপনি এখানে আপনার আসল API Key-টি পেস্ট করুন
             authDomain: "online-shop-ar.firebaseapp.com",
             projectId: "online-shop-ar",
             storageBucket: "online-shop-ar.appspot.com",
-            messagingSenderId: "YOUR_ACTUAL_SENDER_ID",
-            appId: "YOUR_ACTUAL_APP_ID"
+            messagingSenderId: "107149026402", // আপনার সঠিক সেন্ডার আইডি
+            appId: "1:107149026402:web:757e84..." // আপনার সঠিক অ্যাপ আইডি
         };
 
-        // Firebase ইনিশিয়ালাইজেশন
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GithubAuthProvider();
 
-        // লোডার হ্যান্ডলিং
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-            }, 2000); // ২ সেকেন্ড পর লোডার চলে যাবে
-        });
-
-        // লগইন লজিক
         const loginBtn = document.getElementById('btn-login');
         const loginSection = document.getElementById('login-section');
         const profileSection = document.getElementById('user-profile');
 
         loginBtn.onclick = async () => {
             try {
-                const result = await signInWithPopup(auth, provider);
-                console.log("Success!", result.user);
+                await signInWithPopup(auth, provider);
             } catch (error) {
-                console.error("Error during login:", error.message);
-                alert("Login Failed: " + error.message);
+                alert("এরর: " + error.message);
+                console.error(error);
             }
         };
 
-        // ইউজার লগইন আছে কি না তা চেক করা
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginSection.style.display = 'none';
                 profileSection.style.display = 'block';
                 document.getElementById('user-name').innerText = user.displayName;
-                document.getElementById('user-email').innerText = user.email || "Public email not provided";
+                document.getElementById('user-email').innerText = user.email || "Email Hidden";
                 document.getElementById('user-avatar').src = user.photoURL;
             }
         });
