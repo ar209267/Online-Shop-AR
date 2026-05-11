@@ -149,3 +149,154 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atiq SMM & Gaming V9.4 - Master Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --yellow: #f1c40f; --dark: #0f172a; --card: #1e293b; --white: #ffffff; --blue: #1877f2; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: #fff; margin: 0; padding-bottom: 90px; }
+        .container { max-width: 500px; margin: auto; padding: 15px; }
+
+        /* Profile Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--card); border-radius: 15px; border: 1px solid #334155; margin-bottom: 20px; }
+        .profile-info { display: flex; align-items: center; gap: 10px; }
+        .profile-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--yellow); }
+        .balance-chip { background: var(--yellow); color: #000; padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 3px; }
+
+        /* Unified Service Box */
+        .service-category { background: var(--card); border-radius: 15px; border: 1px solid #334155; margin-bottom: 20px; overflow: hidden; }
+        .category-header { background: rgba(255,255,255,0.05); padding: 12px 15px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #334155; }
+        .category-header i { font-size: 20px; color: var(--yellow); }
+        .category-header span { font-weight: bold; font-size: 15px; }
+
+        .service-list { padding: 5px 15px; }
+        .service-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .service-item:last-child { border-bottom: none; }
+        .service-info { display: flex; flex-direction: column; }
+        .service-info b { font-size: 13px; color: #e2e8f0; }
+        .service-info small { font-size: 11px; color: #94a3b8; }
+        
+        .order-btn { background: var(--yellow); color: #000; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; text-decoration: none; border: none; cursor: pointer; }
+
+        /* Gaming Color Theme */
+        .fb-theme i { color: #1877f2; }
+        .yt-theme i { color: #ff0000; }
+        .game-theme i { color: #ff8c00; }
+
+        /* Compact Payment Box */
+        .pay-box { background: var(--white); color: #000; border-radius: 15px; padding: 15px; text-align: center; border: 3px solid var(--yellow); margin-top: 10px; }
+        .pay-num { font-size: 22px; font-weight: 800; display: block; margin: 5px 0; color: #000; letter-spacing: 1px; }
+        .pay-btn { background: #000; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; left: 50%; transform: translateX(-50%); z-index: 1000; }
+        .nav-item { text-align: center; color: #94a3b8; text-decoration: none; font-size: 10px; }
+        .nav-item i { font-size: 18px; display: block; margin-bottom: 3px; }
+        .nav-item.active { color: var(--yellow); }
+
+        /* Floating Support */
+        .wa-float { position: fixed; bottom: 85px; right: 20px; background: #25d366; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header" onclick="alert('প্রোফাইল: আতিক\nব্যালেন্স: ৳ ৫৪০.০০')">
+        <div class="profile-info">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
+            <div>
+                <div style="font-size: 14px; font-weight: bold;">Atiq SMM Master</div>
+                <div class="balance-chip">৳ 540.00</div>
+            </div>
+        </div>
+        <i class="fas fa-wallet" style="color: var(--yellow);"></i>
+    </div>
+
+    <div class="service-category fb-theme">
+        <div class="category-header">
+            <i class="fab fa-facebook-square"></i>
+            <span>Facebook Master Package</span>
+        </div>
+        <div class="service-list">
+            <div class="service-item">
+                <div class="service-info"><b>FB Profile Follower</b><small>High Quality | Non-Drop</small></div>
+                <button class="order-btn" onclick="alert('Price: ৳ 130 per 5k')">অর্ডার</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>FB Post Like/React</b><small>Instant Start | All React</small></div>
+                <button class="order-btn">অর্ডার</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>FB Live Stream Views</b><small>30-180 Minutes Duration</small></div>
+                <button class="order-btn">অর্ডার</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>FB Video Watchtime</b><small>60k/600k Minutes Pack</small></div>
+                <button class="order-btn">অর্ডার</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="service-category yt-theme">
+        <div class="category-header">
+            <i class="fab fa-youtube"></i>
+            <span>YouTube Growth Pack</span>
+        </div>
+        <div class="service-list">
+            <div class="service-item">
+                <div class="service-info"><b>YT Subscriber</b><small>Organic Growth | No Drop</small></div>
+                <button class="order-btn">অর্ডার</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>YT Watchtime (Monetize)</b><small>4000 Hours Special</small></div>
+                <button class="order-btn">অর্ডার</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="service-category game-theme">
+        <div class="category-header">
+            <i class="fas fa-gamepad"></i>
+            <span>Gaming Top-up & ID Sell</span>
+        </div>
+        <div class="service-list">
+            <div class="service-item">
+                <div class="service-info"><b>FF Diamond Top-up</b><small>UID / In-Game Login</small></div>
+                <button class="order-btn">টপ-আপ</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>Free Fire ID Sell</b><small>Verified Safe ID Only</small></div>
+                <button class="order-btn">লিস্ট দেখুন</button>
+            </div>
+            <div class="service-item">
+                <div class="service-info"><b>PUBG UC / Wardrobe</b><small>Instant Delivery</small></div>
+                <button class="order-btn">টপ-আপ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pay-box">
+        <h4 style="margin:0; font-size: 12px; opacity: 0.6;">বিকাশ / নগদ পেমেন্ট (পার্সোনাল)</h4>
+        <span class="pay-num">০১৭৬৬৩৮০৯৩১</span>
+        <input type="text" placeholder="Transaction ID দিন" style="width: 90%; padding: 8px; border-radius: 5px; border: 1px solid #ddd; outline: none;">
+        <button class="pay-btn">টাকা যোগ করুন</button>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <a href="#" class="nav-item active"><i class="fas fa-home"></i>হোম</a>
+    <a href="#" class="nav-item"><i class="fas fa-history"></i>হিস্টরি</a>
+    <a href="#" class="nav-item"><i class="fas fa-plus-circle"></i>অ্যাড ফান্ড</a>
+    <a href="#" class="nav-item"><i class="fas fa-user"></i>প্রোফাইল</a>
+</div>
+
+<a href="https://wa.me/8801766380931" class="wa-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+</body>
+</html> 
