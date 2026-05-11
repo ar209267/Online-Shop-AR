@@ -3,75 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq SMM Master - Ultra Pro V15</title>
+    <title>Atiq SMM Master - Ultra Pro V16</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #1dbf73;
-            --bg: #05070a;
-            --card-bg: #11151c;
-            --card-border: #1e2530;
-            --text-main: #ffffff;
-            --text-dim: #94a3b8;
-            --danger: #ff4757;
-        }
-
-        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        :root { --primary: #1dbf73; --bg: #05070a; --card-bg: #11151c; --card-border: #1e2530; --text-main: #ffffff; --text-dim: #94a3b8; --danger: #ff4757; }
+        * { box-sizing: border-box; transition: 0.3s; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
 
-        /* Auth Screen */
-        #auth-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center;
-        }
-        .auth-card {
-            background: var(--card-bg); padding: 40px 30px; border-radius: 30px;
-            width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--card-border);
-        }
-        .input-field {
-            width: 100%; padding: 16px; border-radius: 15px; border: 1px solid var(--card-border);
-            background: #000; color: #fff; outline: none; margin-top: 10px; margin-bottom: 15px;
-        }
+        /* Auth */
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .auth-card { background: var(--card-bg); padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 400px; text-align: center; border: 1px solid var(--card-border); }
+        .input-field { width: 100%; padding: 16px; border-radius: 15px; border: 1px solid var(--card-border); background: #000; color: #fff; outline: none; margin-top: 10px; margin-bottom: 15px; }
+        .order-btn { background: var(--primary); color: #fff; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
 
-        /* App UI */
+        /* UI Elements */
         .top-header { padding: 25px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border-bottom: 1px solid var(--card-border); }
-        .balance-chip { background: var(--primary); padding: 5px 15px; border-radius: 50px; font-weight: 800; font-size: 18px; }
-
+        .balance-chip { background: var(--primary); padding: 5px 15px; border-radius: 50px; font-weight: 800; }
         .container { padding: 20px; }
-        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; }
-        .cat-card {
-            background: var(--card-bg); padding: 25px; border-radius: 25px; border: 1px solid var(--card-border);
-            text-align: center; cursor: pointer; transition: 0.2s;
-        }
-        .cat-card:active { transform: scale(0.95); background: #1e2530; }
+        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .cat-card { background: var(--card-bg); padding: 25px; border-radius: 25px; border: 1px solid var(--card-border); text-align: center; cursor: pointer; }
         .cat-card i { font-size: 40px; margin-bottom: 15px; display: block; }
 
-        /* Service List View */
+        /* Service View */
         #service-view { display: none; padding: 20px; animation: slideUp 0.4s ease; }
-        .service-row {
-            background: var(--card-bg); padding: 20px; border-radius: 20px; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--card-border);
-        }
-        .order-btn { background: var(--primary); color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+        .service-row { background: var(--card-bg); padding: 20px; border-radius: 20px; margin-bottom: 12px; border: 1px solid var(--card-border); }
+        .service-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
         /* Payment Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 1001; }
-        #payment-modal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: var(--card-bg); border: 2px solid var(--primary); border-radius: 30px;
-            padding: 30px; width: 90%; max-width: 400px; z-index: 1002; display: none; text-align: center;
-        }
-        .pay-number { background: #000; padding: 15px; border-radius: 12px; font-size: 20px; color: var(--primary); font-weight: bold; margin: 15px 0; border: 1px dashed var(--primary); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; z-index: 1001; }
+        #payment-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card-bg); border: 2px solid var(--primary); border-radius: 30px; padding: 30px; width: 90%; max-width: 400px; z-index: 1002; display: none; }
 
-        /* Navigation */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%);
-            background: rgba(17, 21, 28, 0.98); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--card-border); border-radius: 25px 25px 0 0;
-        }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 500px; left: 50%; transform: translateX(-50%); background: #11151c; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid var(--card-border); border-radius: 25px 25px 0 0; }
         .nav-item { color: var(--text-dim); text-align: center; font-size: 11px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 5px; }
-
+        
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -79,54 +44,54 @@
 
 <div id="auth-screen">
     <div class="auth-card">
-        <h2 style="color:var(--primary)">Atiq Master Access</h2>
-        <p style="color:var(--text-dim); font-size:12px;">লগইন করার জন্য জিমেইল ও পাসওয়ার্ড দিন</p>
+        <h2 style="color:var(--primary)">Atiq Master SMM</h2>
         <input type="email" id="email" class="input-field" placeholder="আপনার জিমেইল">
-        <input type="password" id="pass" class="input-field" placeholder="পাসওয়ার্ড (মিনিমাম ৮ অক্ষর)">
-        <button class="order-btn" style="width:100%; padding:18px;" onclick="handleLogin()">DASHBOARD এ প্রবেশ করুন</button>
-        <p id="err" style="color:var(--danger); font-size:12px; margin-top:15px; font-weight:bold;"></p>
+        <input type="password" id="pass" class="input-field" placeholder="পাসওয়ার্ড (৮+ অক্ষর)">
+        <button class="order-btn" style="width:100%" onclick="handleLogin()">DASHBOARD এ প্রবেশ করুন</button>
+        <p id="err" style="color:var(--danger); font-size:12px; margin-top:10px;"></p>
     </div>
 </div>
 
 <div id="main-app" style="display:none;">
     <div class="top-header">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="35">
-            <b id="user-name">User</b>
-        </div>
+        <b id="user-name">USER</b>
         <div class="balance-chip">৳ ৫৪০</div>
     </div>
 
     <div id="home-view" class="container">
-        <p style="color:var(--text-dim); font-weight:bold; margin-bottom:20px;">সার্ভিস বেছে নিন</p>
         <div class="category-grid">
             <div class="cat-card" onclick="openCat('fb')"><i class="fab fa-facebook" style="color:#1877f2"></i>Facebook</div>
             <div class="cat-card" onclick="openCat('yt')"><i class="fab fa-youtube" style="color:#ff0000"></i>YouTube</div>
             <div class="cat-card" onclick="openCat('ff')"><i class="fas fa-fire" style="color:#ff8c00"></i>Free Fire</div>
             <div class="cat-card" onclick="openCat('pubg')"><i class="fas fa-gun" style="color:#f3ad1b"></i>PUBG</div>
-            <div class="cat-card" onclick="openCat('tt')"><i class="fab fa-tiktok" style="color:#fff"></i>TikTok</div>
-            <div class="cat-card" onclick="openCat('wa')"><i class="fab fa-whatsapp" style="color:#25d366"></i>WhatsApp</div>
         </div>
     </div>
 
     <div id="service-view">
         <div class="container">
-            <button onclick="showHome()" style="background:none; border:1px solid var(--text-dim); color:white; padding:8px 15px; border-radius:10px; cursor:pointer; margin-bottom:20px;"><i class="fas fa-chevron-left"></i> পিছে যান</button>
-            <h3 id="view-title" style="color:var(--primary); margin:0;">Services</h3>
-            <hr style="border:0; border-top:1px solid var(--card-border); margin:15px 0;">
+            <button onclick="showHome()" style="background:none; border:1px solid #333; color:white; padding:8px; border-radius:8px; margin-bottom:15px;">← ফিরে যান</button>
+            <h3 id="view-title" style="color:var(--primary)">Services</h3>
             <div id="service-list-content"></div>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="overlay" onclick="closePay()"></div>
+<div class="modal-overlay" id="overlay"></div>
 <div id="payment-modal">
-    <h3>পেমেন্ট সম্পন্ন করুন</h3>
-    <p style="font-size:12px; color:var(--text-dim)">বিকাশ/নগদ (Personal) নাম্বারে টাকা পাঠিয়ে নিচে TxnID দিন</p>
-    <div class="pay-number">01766380931</div>
-    <input type="text" id="txnid" class="input-field" placeholder="Transaction ID (যেমন: 8N45X2...)">
-    <button class="order-btn" style="width:100%; padding:15px;" onclick="confirmOrder()">অর্ডার কনফার্ম করুন</button>
-    <button onclick="closePay()" style="background:none; border:none; color:var(--danger); margin-top:15px; cursor:pointer; font-weight:bold;">বাতিল করুন</button>
+    <h3 id="modal-service-name" style="color:var(--primary); margin-top:0;">Order Service</h3>
+    
+    <label style="font-size:12px; color:var(--text-dim)" id="input-label">Player ID / Account Link:</label>
+    <input type="text" id="target-id" class="input-field" placeholder="এখানে আইডি বা লিঙ্ক দিন">
+    
+    <div style="background:#000; padding:15px; border-radius:12px; text-align:center; margin-bottom:15px; border:1px dashed var(--primary);">
+        <small>বিকাশ/নগদ পার্সোনাল:</small><br>
+        <b style="font-size:18px; color:var(--primary)">01766380931</b>
+    </div>
+    
+    <input type="text" id="txnid" class="input-field" placeholder="Transaction ID (TxnID) দিন">
+    
+    <button class="order-btn" style="width:100%" onclick="finalOrder()">অর্ডার কনফার্ম করুন</button>
+    <button onclick="closePay()" style="background:none; border:none; color:var(--danger); width:100%; margin-top:10px; cursor:pointer;">বাতিল করুন</button>
 </div>
 
 <div class="bottom-nav">
@@ -136,33 +101,29 @@
 </div>
 
 <script>
-    // Firebase Config (Screen-shot base)
-    const firebaseConfig = { apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-" };
-
     const data = {
-        fb: { title: "Facebook Services", items: [{n: "Profile Followers", p: "৳ ১৩০"}, {n: "Page Like/Follow", p: "৳ ১৬০"}]},
-        yt: { title: "YouTube Services", items: [{n: "1k Subscribers", p: "৳ ৪৮০"}, {n: "Watch Time", p: "৳ ১৬০০"}]},
-        ff: { title: "Free Fire Diamonds", items: [{n: "115 Diamonds", p: "৳ ৮৫"}, {n: "Weekly", p: "৳ ১৬০"}]},
-        pubg: { title: "PUBG Mobile UC", items: [{n: "60 UC", p: "৳ ৯৫"}, {n: "325 UC", p: "৳ ৪১০"}]},
-        tt: { title: "TikTok Services", items: [{n: "Followers", p: "৳ ১৯০"}, {n: "Video Views", p: "৳ ২০"}]},
-        wa: { title: "WhatsApp Services", items: [{n: "Channel Boost", p: "৳ ৩০০"}, {n: "Message Pack", p: "৳ ১২০"}]}
+        fb: { title: "Facebook Services", label: "প্রোফাইল বা পেজ লিঙ্ক দিন", items: [{n: "Profile Followers", p: "৳ ১৩০"}, {n: "Page Like/Follow", p: "৳ ১৬০"}]},
+        yt: { title: "YouTube Services", label: "চ্যানেল বা ভিডিও লিঙ্ক দিন", items: [{n: "1k Subscribers", p: "৳ ৪৮০"}, {n: "Watch Time", p: "৳ ১৬০০"}]},
+        ff: { title: "Free Fire Diamonds", label: "Player UID দিন", items: [{n: "115 Diamonds", p: "৳ ৮৫"}, {n: "240 Diamonds", p: "৳ ১৬৫"}]},
+        pubg: { title: "PUBG Mobile UC", label: "Character ID দিন", items: [{n: "60 UC", p: "৳ ৯৫"}, {n: "325 UC", p: "৳ ৪১০"}]}
     };
+
+    let selectedCat = '';
 
     function handleLogin() {
         const email = document.getElementById('email').value;
         const pass = document.getElementById('pass').value;
-        const emailReg = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-        if (emailReg.test(email) && pass.length >= 8) {
+        if (email.includes('@gmail.com') && pass.length >= 8) {
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             document.getElementById('user-name').innerText = email.split('@')[0].toUpperCase();
         } else {
-            document.getElementById('err').innerText = "ভুল জিমেইল বা পাসওয়ার্ড! (পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে)";
+            document.getElementById('err').innerText = "ভুল জিমেইল বা পাসওয়ার্ড (৮+ অক্ষর) দিন!";
         }
     }
 
     function openCat(cat) {
+        selectedCat = cat;
         const catData = data[cat];
         document.getElementById('home-view').style.display = 'none';
         document.getElementById('service-view').style.display = 'block';
@@ -171,35 +132,45 @@
         let html = '';
         catData.items.forEach(item => {
             html += `<div class="service-row">
-                <div><b>${item.n}</b><br><small style="color:var(--text-dim)">Instant Delivery</small></div>
-                <button class="order-btn" onclick="openPay()">${item.p}</button>
+                <div class="service-info"><b>${item.n}</b><b>${item.p}</b></div>
+                <button class="order-btn" style="width:100%" onclick="openPay('${item.n}')">অর্ডার শুরু করুন</button>
             </div>`;
         });
         document.getElementById('service-list-content').innerHTML = html;
     }
 
+    function openPay(name) {
+        document.getElementById('modal-service-name').innerText = name;
+        document.getElementById('input-label').innerText = data[selectedCat].label;
+        document.getElementById('payment-modal').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closePay() {
+        document.getElementById('payment-modal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function finalOrder() {
+        const target = document.getElementById('target-id').value;
+        const txn = document.getElementById('txnid').value;
+        
+        if(target.length < 5) {
+            alert("সঠিক ID বা লিঙ্ক প্রদান করুন!");
+            return;
+        }
+        if(txn.length < 6) {
+            alert("সঠিক Transaction ID দিন!");
+            return;
+        }
+
+        alert("অর্ডার সফল!\nসার্ভিস: " + document.getElementById('modal-service-name').innerText + "\nটার্গেট: " + target + "\nভেরিফিকেশনের পর সার্ভিস পাঠানো হবে।");
+        closePay();
+    }
+
     function showHome() {
         document.getElementById('home-view').style.display = 'block';
         document.getElementById('service-view').style.display = 'none';
-    }
-
-    function openPay() { 
-        document.getElementById('payment-modal').style.display = 'block'; 
-        document.getElementById('overlay').style.display = 'block'; 
-    }
-    function closePay() { 
-        document.getElementById('payment-modal').style.display = 'none'; 
-        document.getElementById('overlay').style.display = 'none'; 
-    }
-
-    function confirmOrder() {
-        const txn = document.getElementById('txnid').value;
-        if(txn.length >= 6) {
-            alert("অর্ডার সফল! আপনার TxnID: " + txn + "\nঅপেক্ষা করুন, ভেরিফাই করা হচ্ছে।");
-            closePay();
-        } else {
-            alert("সঠিক Transaction ID দিন!");
-        }
     }
 </script>
 
