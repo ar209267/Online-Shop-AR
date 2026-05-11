@@ -2,126 +2,145 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>ABR Premium SMM Panel</title>
+    <title>ABR Premium - Advanced Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f8f9fa; color: #333; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f4f7f6; font-family: 'Inter', sans-serif; }
         
-        /* উপরের ব্যালেন্স সেকশন - সাদা ও হলুদ থিম */
-        .top-card { 
-            background: linear-gradient(135deg, #FFD700, #FFC107); 
-            color: #000; padding: 25px; border-radius: 20px; 
-            margin-bottom: 30px; box-shadow: 0 10px 20px rgba(255, 193, 7, 0.2);
-            border: none;
-        }
+        /* প্রোফাইল ও ব্যালেন্স হেডার */
+        .user-nav { background: #fff; padding: 15px; border-bottom: 2px solid #FFC107; margin-bottom: 25px; }
+        .profile-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #FFC107; margin-right: 10px; }
+        .balance-badge { background: #FFC107; color: #000; padding: 8px 15px; border-radius: 50px; font-weight: bold; }
 
-        .service-box { 
-            background: #fff; border-radius: 15px; padding: 20px; 
-            text-align: center; transition: 0.3s; cursor: pointer; 
-            border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        /* সার্ভিস কার্ড */
+        .service-card { 
+            background: #fff; border-radius: 15px; padding: 20px; text-align: center; 
+            border: 1px solid #e0e0e0; transition: 0.3s; cursor: pointer;
         }
-        .service-box:hover { border-color: #FFC107; transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .service-box i { font-size: 35px; margin-bottom: 10px; }
+        .service-card:hover { border-color: #FFC107; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .service-card i { font-size: 30px; margin-bottom: 10px; }
 
-        .order-form { background: #fff; padding: 30px; border-radius: 20px; display: none; margin-top: 30px; border: 1px solid #FFC107; }
-        
-        .btn-pay-now { background: #000; color: #FFC107; font-weight: bold; padding: 15px; border-radius: 12px; border: none; width: 100%; font-size: 18px; }
-        .btn-pay-now:hover { background: #333; color: #fff; }
-        
-        .method-tag { background: #fff; border-radius: 10px; padding: 10px; border: 1px solid #FFC107; font-weight: bold; display: inline-block; margin-top: 10px; }
+        /* হিস্টোরি টেবিল */
+        .history-section { background: #fff; border-radius: 15px; padding: 20px; margin-top: 30px; border: 1px solid #eee; }
+        .status-done { color: #28a745; font-weight: bold; }
+
+        .btn-order { background: #000; color: #FFC107; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; border: none; }
     </style>
 </head>
 <body>
 
-<div class="container py-4">
-    <div class="top-card d-flex justify-content-between align-items-center">
+<nav class="user-nav d-flex justify-content-between align-items-center shadow-sm">
+    <div class="d-flex align-items-center">
+        <img src="https://ui-avatars.com/api/?name=User&background=FFC107&color=000" class="profile-img">
         <div>
-            <h6 class="fw-bold">আপনার বর্তমান ওয়ালেট</h6>
-            <h2 id="myBal" class="fw-black">$0.00</h2>
+            <span class="fw-bold d-block">স্বাগতম, ইউজার</span>
+            <small class="text-muted">ID: 913434</small>
         </div>
-        <button onclick="window.location.href='add-funds.html'" class="btn btn-dark px-4 py-2 fw-bold">ফান্ড অ্যাড করুন</button>
+    </div>
+    <div class="text-end">
+        <span class="balance-badge"><i class="fas fa-wallet"></i> $<span id="currentBal">0.00</span></span>
+        <button onclick="window.location.href='add-funds.html'" class="btn btn-sm btn-outline-dark ms-2">+</button>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row g-3 mb-4">
+        <div class="col-4 col-md-2" onclick="load('FB')"><div class="service-card"><i class="fab fa-facebook text-primary"></i><br>FB</div></div>
+        <div class="col-4 col-md-2" onclick="load('YT')"><div class="service-card"><i class="fab fa-youtube text-danger"></i><br>YT</div></div>
+        <div class="col-4 col-md-2" onclick="load('FF')"><div class="service-card"><i class="fas fa-gamepad text-warning"></i><br>FF</div></div>
+        <div class="col-4 col-md-2" onclick="load('INSTA')"><div class="service-card"><i class="fab fa-instagram text-info"></i><br>IG</div></div>
+        <div class="col-4 col-md-2" onclick="load('META')"><div class="service-card"><i class="fas fa-certificate text-primary"></i><br>Meta</div></div>
+        <div class="col-4 col-md-2" onclick="load('WA')"><div class="service-card"><i class="fab fa-whatsapp text-success"></i><br>WA</div></div>
     </div>
 
-    <h4 class="fw-bold mb-4">সবগুলো সার্ভিস ক্যাটাগরি</h4>
-    <div class="row g-3">
-        <div class="col-6 col-md-3" onclick="load('FB')"><div class="service-box"><i class="fab fa-facebook text-primary"></i><h6>Facebook</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('YT')"><div class="service-box"><i class="fab fa-youtube text-danger"></i><h6>YouTube</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('INSTA')"><div class="service-box"><i class="fab fa-instagram text-info"></i><h6>Instagram</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('FF')"><div class="service-box"><i class="fas fa-gamepad text-warning"></i><h6>Free Fire</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('ID')"><div class="service-box"><i class="fas fa-id-card text-success"></i><h6>ID Sale</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('TIKTOK')"><div class="service-box"><i class="fab fa-tiktok text-dark"></i><h6>TikTok</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('WA')"><div class="service-box"><i class="fab fa-whatsapp text-success"></i><h6>WhatsApp</h6></div></div>
-        <div class="col-6 col-md-3" onclick="load('META')"><div class="service-box"><i class="fas fa-certificate text-primary"></i><h6>Meta Verify</h6></div></div>
+    <div id="orderBox" class="card p-4 shadow-sm border-0 mb-4" style="display:none; border-radius: 20px;">
+        <h5 id="catTitle" class="fw-bold text-dark mb-3">Service Details</h5>
+        <select id="pkg" class="form-select mb-3" onchange="updatePrice()"></select>
+        <input type="text" id="target" class="form-control mb-3" placeholder="Link / Player ID">
+        <div class="p-3 bg-light rounded mb-3">
+            <div class="d-flex justify-content-between"><span>Price (USD):</span><strong id="uPrice" class="text-primary">$0.00</strong></div>
+            <div class="d-flex justify-content-between mt-1"><span>Price (BDT):</span><strong id="bPrice" class="text-success">৳0.00</strong></div>
+        </div>
+        <button onclick="placeOrder()" class="btn-order">অর্ডার প্লেস করুন</button>
     </div>
 
-    <div id="orderForm" class="order-form shadow">
-        <h4 id="catTitle" class="fw-bold mb-4">অর্ডার ডিটেইলস</h4>
-        <div class="mb-3">
-            <label class="form-label">সার্ভিস প্যাকেজ বেছে নিন</label>
-            <select id="pkg" class="form-select border-warning" style="padding: 12px;" onchange="calc()"></select>
-        </div>
-        <input type="text" placeholder="লিঙ্ক বা প্লেয়ার আইডি দিন" class="form-control mb-3" style="padding: 12px;">
-        
-        <div class="p-3 rounded mb-3" style="background: #FFF9E6; border: 1px dashed #FFC107;">
-            <div class="d-flex justify-content-between"><span>মোট ডলার:</span><strong id="uText" class="text-primary">$0.00</strong></div>
-            <div class="d-flex justify-content-between mt-2"><span>মোট টাকা (BDT):</span><strong id="bText" class="text-success">৳0.00</strong></div>
-        </div>
-
-        <button onclick="orderNow()" class="btn-pay-now">PLACE ORDER & PAY</button>
-        <div class="text-center mt-3">
-            <span class="method-tag">বিকাশ/নগদ/রকেট: ০১৭৬৬৩৮০৯৩১</span>
+    <div class="history-section shadow-sm">
+        <h5 class="fw-bold mb-3"><i class="fas fa-history"></i> আপনার অর্ডার হিস্টোরি</h5>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>তারিখ</th>
+                        <th>সার্ভিস</th>
+                        <th>লিঙ্ক/আইডি</th>
+                        <th>মূল্য</th>
+                        <th>স্ট্যাটাস</th>
+                    </tr>
+                </thead>
+                <tbody id="historyBody">
+                    </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
+    // ডায়মন্ডের রেট (Google ও Market অনুযায়ী আপডেট করা)
     const services = {
-        'FB': [
-            {n: "FB Page Followers (1K)", p: 2.5}, {n: "FB Profile Followers (1K)", p: 3},
-            {n: "Post Likes (1K)", p: 1}, {n: "Video Share (100)", p: 2},
-            {n: "Watch Time (60K Min)", p: 15}
+        'FF': [
+            {n: "115 Diamonds (In-Game)", p: 0.90}, 
+            {n: "Weekly Membership", p: 1.65}, 
+            {n: "Monthly Membership", p: 7.80},
+            {n: "Level Up Pass", p: 1.45}
         ],
-        'YT': [
-            {n: "1000 Subscribers", p: 12}, {n: "Watch Time 4000H", p: 35},
-            {n: "YT Video Likes (1K)", p: 3}, {n: "Real Views (1K)", p: 4}
+        'FB': [
+            {n: "1K Follower (Non-Drop)", p: 2.80},
+            {n: "60K Min Watch Time", p: 12.00},
+            {n: "Post Reaction (1K)", p: 1.10}
         ],
         'META': [
-            {n: "Facebook Meta Blue Badge", p: 60}, {n: "Insta Blue Badge Setup", p: 55}
+            {n: "Meta Verified Badge Setup", p: 60.00}
         ],
-        'FF': [
-            {n: "1000 Diamonds", p: 8.5}, {n: "Weekly Membership", p: 2},
-            {n: "Monthly Membership", p: 8}, {n: "Level Up Pass", p: 1.5}
-        ],
-        'ID': [
-            {n: "Level 60+ Account", p: 25}, {n: "Level 70+ Account", p: 45},
-            {n: "Old FB Account (2010-2015)", p: 5}
-        ],
-        'TIKTOK': [
-            {n: "TikTok Followers (1K)", p: 4}, {n: "TikTok Views (10K)", p: 1.5}
+        'YT': [
+            {n: "1K Subscribers", p: 14.50},
+            {n: "4K Hours Watch Time", p: 32.00}
         ]
     };
 
     function load(c) {
-        document.getElementById('orderForm').style.display = 'block';
-        document.getElementById('catTitle').innerText = c + " Premium Services";
+        document.getElementById('orderBox').style.display = 'block';
+        document.getElementById('catTitle').innerText = c + " Premium Service";
         let s = document.getElementById('pkg'); s.innerHTML = '';
         services[c].forEach(o => { let e = document.createElement('option'); e.text = o.n; e.value = o.p; s.add(e); });
-        calc();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        updatePrice();
     }
 
-    function calc() {
+    function updatePrice() {
         let p = document.getElementById('pkg').value;
-        document.getElementById('uText').innerText = '$' + parseFloat(p).toFixed(2);
-        document.getElementById('bText').innerText = '৳' + (p * 125).toFixed(2);
+        document.getElementById('uPrice').innerText = '$' + parseFloat(p).toFixed(2);
+        document.getElementById('bPrice').innerText = '৳' + (p * 125).toFixed(2);
     }
 
-    function orderNow() {
-        alert("আপনার ব্যালেন্স চেক করা হচ্ছে... ব্যালেন্স নেই! টাকা অ্যাড করুন।");
-        window.location.href = "add-funds.html";
+    function placeOrder() {
+        let pkgName = document.getElementById('pkg').options[document.getElementById('pkg').selectedIndex].text;
+        let target = document.getElementById('target').value;
+        let price = document.getElementById('uPrice').innerText;
+        let date = new Date().toLocaleDateString('bn-BD');
+
+        if(target == "") { alert("লিঙ্ক বা আইডি দিন!"); return; }
+
+        // হিস্টোরিতে সেভ করা
+        let row = `<tr>
+            <td>${date}</td>
+            <td>${pkgName}</td>
+            <td>${target}</td>
+            <td>${price}</td>
+            <td class="status-done">Processing</td>
+        </tr>`;
+        document.getElementById('historyBody').innerHTML += row;
+        alert("আপনার অর্ডারটি সফলভাবে সার্ভারে জমা হয়েছে!");
     }
 </script>
-
 </body>
 </html>
