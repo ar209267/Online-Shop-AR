@@ -3,74 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABR SMM Panel - Powered by Firebase & Fiverr</title>
+    <title>ABR Panel - Fiverr Server Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0b0e11; color: #e9ecef; font-family: 'Inter', sans-serif; }
+        body { background-color: #0b0e11; color: #fff; font-family: 'Inter', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
         
-        /* ফাইবার সিকিউরিটি ব্যানার */
-        .fiverr-banner {
-            background: linear-gradient(135deg, #1dbf73 0%, #19a463 100%);
-            color: white; padding: 15px; border-radius: 12px;
-            text-align: center; cursor: pointer; font-weight: bold;
-            margin: 20px 0; display: block; text-decoration: none;
-            box-shadow: 0 4px 15px rgba(29, 191, 115, 0.3);
-        }
-
-        .service-card { 
-            background: #161a1e; border-radius: 12px; padding: 20px; text-align: center; 
-            transition: 0.3s; cursor: pointer; border: 1px solid #2d3436;
-        }
-        .service-card:hover { border-color: #1dbf73; background: #1c2127; transform: translateY(-5px); }
+        .login-box { background: #161a1e; padding: 40px; border-radius: 20px; border: 1px solid #1dbf73; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(29, 191, 115, 0.1); }
         
-        .btn-pay { 
-            background-color: #1dbf73; color: white; font-weight: bold; 
-            padding: 15px; width: 100%; border: none; border-radius: 10px; 
-            margin-top: 15px; transition: 0.3s;
-        }
-        .btn-pay:hover { background-color: #19a463; }
-
-        .local-payment-tag {
-            font-size: 13px; color: #ff8c00; margin-top: 10px; display: block;
-            text-align: center; font-weight: bold;
-        }
+        .fiverr-logo { color: #1dbf73; font-size: 50px; font-weight: 900; margin-bottom: 10px; }
+        .server-status { font-size: 12px; color: #1dbf73; background: rgba(29, 191, 115, 0.1); padding: 5px 15px; border-radius: 50px; display: inline-block; margin-bottom: 25px; }
+        
+        .form-control { background: #0b0e11; border: 1px solid #2d3436; color: white; padding: 12px; border-radius: 10px; margin-bottom: 15px; }
+        .form-control:focus { background: #0b0e11; color: white; border-color: #1dbf73; box-shadow: none; }
+        
+        .btn-login { background: #1dbf73; color: white; font-weight: bold; padding: 12px; width: 100%; border: none; border-radius: 10px; transition: 0.3s; }
+        .btn-login:hover { background: #19a463; transform: translateY(-2px); }
+        
+        .footer-text { font-size: 12px; color: #636e72; margin-top: 20px; }
+        .highlight { color: #ff8c00; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container py-4">
-    <div class="fiverr-banner">
-        <i class="fas fa-shield-alt"></i> Secured by Firebase & Fiverr Payment Server
-    </div>
-
-    <h3 class="fw-bold mb-4">Select Your Service</h3>
-    <div class="row g-3">
-        <div class="col-6 col-md-3" onclick="showForm('Facebook')">
-            <div class="service-card"><i class="fab fa-facebook text-primary fa-2x mb-2"></i><h6>Facebook</h6></div>
-        </div>
-        <div class="col-6 col-md-3" onclick="showForm('YouTube')">
-            <div class="service-card"><i class="fab fa-youtube text-danger fa-2x mb-2"></i><h6>YouTube</h6></div>
-        </div>
-        <div class="col-6 col-md-3" onclick="showForm('Free Fire')">
-            <div class="service-card"><i class="fas fa-bolt text-warning fa-2x mb-2"></i><h6>Free Fire</h6></div>
-        </div>
-        <div class="col-6 col-md-3" onclick="showForm('ID Sale')">
-            <div class="service-card"><i class="fas fa-id-badge text-success fa-2x mb-2"></i><h6>ID Sale</h6></div>
-        </div>
-    </div>
-
-    <div id="order-section" class="mt-5 p-4" style="background: #161a1e; border-radius: 15px; display: none; border: 1px solid #2d3436;">
-        <h4 id="cat-title" class="text-success mb-4">Service Details</h4>
-        <select id="pkg-select" class="form-select bg-dark text-white border-secondary mb-3" onchange="calc()"></select>
+<div class="login-box shadow-lg">
+    <div class="fiverr-logo">fiverr<span style="color:white;">.</span></div>
+    <div class="server-status"><i class="fas fa-circle"></i> Fiverr Server Online</div>
+    
+    <h4 class="mb-4">সার্ভার লগইন</h4>
+    
+    <form id="loginForm">
+        <input type="text" id="username" class="form-control" placeholder="আপনার ইউজারনেম" required>
+        <input type="password" id="password" class="form-control" placeholder="পাসওয়ার্ড" required>
         
-        <div class="p-3 mb-3" style="background: #0b0e11; border-radius: 8px;">
-            <div class="d-flex justify-content-between"><span>Price (USD):</span><strong id="usd-text" class="text-primary">$0.00</strong></div>
-            <div class="d-flex justify-content-between mt-2"><span>In BDT:</span><strong id="bdt-text" class="text-success">৳0.00</strong></div>
-        </div>
+        <button type="submit" class="btn-login">LOGIN VIA FIVERR SERVER</button>
+    </form>
 
-        <button onclick="processPayment()" class="btn-pay">Pay & Order Now</button>
-        <span class="local-payment-tag">বিকাশ, নগদ, রকেট বা উপায়ের জন্য নম্বর: ০১৭৬৬৩৮০৯৩১</span>
+    <div class="footer-text">
+        <p>পেমেন্ট ও অর্ডার ভেরিফিকেশন: <br><span class="highlight">বিকাশ/নগদ: ০১৭৬৬৩৮০৯৩১</span></p>
+        <i class="fas fa-shield-alt"></i> Secured by Firebase & Fiverr SSL
     </div>
 </div>
 
@@ -78,7 +49,7 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   
   const firebaseConfig = {
-    apiKey: "AIzaSyC5i7SOEJeF08NsO7VbIU63r...", // আপনার স্ক্রিনশটের কী
+    apiKey: "AIzaSyC5i7SOEJeF08NsO7VbIU63r...", 
     authDomain: "online-shop-ar.firebaseapp.com",
     projectId: "online-shop-ar",
     storageBucket: "online-shop-ar.firebasestorage.app",
@@ -88,34 +59,14 @@
   };
 
   const app = initializeApp(firebaseConfig);
-</script>
 
-<script>
-    const services = {
-        'Facebook': [{n: "1K Followers", p: 5}, {n: "Video Views", p: 2}],
-        'YouTube': [{n: "1K Subscribers", p: 15}, {n: "WatchTime 4K", p: 40}],
-        'Free Fire': [{n: "1000 Diamonds", p: 8}, {n: "Weekly Membership", p: 2}],
-        'ID Sale': [{n: "Level 60 ID", p: 30}, {n: "Verified Account", p: 10}]
-    };
-
-    function showForm(cat) {
-        document.getElementById('order-section').style.display = 'block';
-        document.getElementById('cat-title').innerText = cat;
-        let s = document.getElementById('pkg-select'); s.innerHTML = '';
-        services[cat].forEach(o => { let e = document.createElement('option'); e.text = o.n; e.value = o.p; s.add(e); });
-        calc();
-    }
-
-    function calc() {
-        let p = document.getElementById('pkg-select').value;
-        document.getElementById('usd-text').innerText = '$' + parseFloat(p).toFixed(2);
-        document.getElementById('bdt-text').innerText = '৳' + (p * 125).toFixed(2);
-    }
-
-    function processPayment() {
-        // ফাইবার বা হোয়াটসঅ্যাপে পাঠানোর লজিক
-        window.location.href = "add-funds.html"; 
-    }
+  // লগইন হ্যান্ডলার
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    // সফল লগইন হলে ড্যাশবোর্ডে নিয়ে যাবে
+    alert("লগইন সফল! ফাইভার সার্ভারের সাথে কানেক্ট হচ্ছে...");
+    window.location.href = "dashboard.html"; // আপনার ড্যাশবোর্ড ফাইলের নাম
+  });
 </script>
 
 </body>
