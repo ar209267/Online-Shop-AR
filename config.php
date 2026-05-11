@@ -7,7 +7,8 @@ $db_pass = 'আপনার_পাসওয়ার্ড';
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name", $db_user, $db_pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    session_start();
 } catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    die("Connection Error: " . $e->getMessage());
 }
 ?>
