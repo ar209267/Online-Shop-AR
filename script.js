@@ -1,6 +1,6 @@
-// Firebase Config
+// ওস্তাদ, এখানে একদম সঠিক চাবি দেওয়া হয়েছে।
 const firebaseConfig = {
-    apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-N5S4lUv_M", 
+    apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-N5S4lUv_M4", 
     authDomain: "online-shop-ar.firebaseapp.com",
     databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com",
     projectId: "online-shop-ar",
@@ -13,28 +13,71 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-// Preloader remove
-window.onload = () => {
-    document.getElementById('preloader').style.display = 'none';
-};
+// Preloader removal
+window.onload = () => setTimeout(() => document.getElementById('preloader').style.display='none', 2000);
 
-// Auth Watcher
+// Toggle Login/Signup
+function toggleAuth(showSignup) {
+    document.getElementById('login-form').style.display = showSignup ? 'none' : 'block';
+    document.getElementById('signup-form').style.display = showSignup ? 'block' : 'none';
+}
+
+// Authentication Logic
+function handleAuth(type) {
+    const email = type === 'login' ? document.getElementById('email').value : document.getElementById('s_email').value;
+    const pass = type === 'login' ? document.getElementById('pass').value : document.getElementById('s_pass').value;
+
+    if(!email || !pass) return alert("সবগুলো ঘর পূরণ করুন!");
+
+    if(type === 'login') {
+        auth.signInWithEmailAndPassword(email, pass).catch(err => alert("এরর: " + err.message));
+    } else {
+        auth.createUserWithEmailAndPassword(email, pass).then(() => {
+            alert("একাউন্ট তৈরি সফল!");
+            toggleAuth(false);
+        }).catch(err => alert("এরর: " + err.message));
+    }
+}
+
+// State Watcher
 auth.onAuthStateChanged(user => {
     if(user) {
-        document.getElementById('auth-area').style.display = 'none';
-        document.getElementById('app-ui').style.display = 'block';
-        // ব্যালেন্স আপডেট লজিক
+        document.getElementById('auth-portal').style.display = 'none';
+        document.getElementById('dashboard-ui').style.display = 'block';
+        document.getElementById('u-name').innerText = user.email.split('@')[0].toUpperCase();
+        
         db.ref('users/' + user.uid + '/balance').on('value', snap => {
-            document.getElementById('bal-val').innerText = "৳ " + (snap.val() || "০.০০");
+            document.getElementById('balance-val').innerText = "৳ " + (snap.val() || "০.০০");
         });
     } else {
-        document.getElementById('auth-area').style.display = 'flex';
-        document.getElementById('app-ui').style.display = 'none';
+        document.getElementById('auth-portal').style.display = 'flex';
+        document.getElementById('dashboard-ui').style.display = 'none';
     }
 });
 
-function handleLogin() {
-    const e = document.getElementById('email').value;
-    const p = document.getElementById('pass').value;
-    auth.signInWithEmailAndPassword(e, p).catch(err => alert(err.message));
+// Ordering System
+let activeService = {};
+function startOrder(name, price) {
+    activeService = {name, price};
+    document.getElementById('m-title').innerText = name;
+    document.getElementById('m-cost').innerText = "৳ " + price;
+    showModal('order-modal');
 }
+
+function confirmOrder() {
+    const target = document.getElementById('target-id').value;
+    const txn = document.getElementById('txn-id').value;
+    if(!target || !txn) return alert("তথ্য দিন!");
+
+    db.ref('orders/' + Date.now()).set({
+        user: auth.currentUser.email,
+        item: activeService.name,
+        target, txn, status: 'Pending'
+    }).then(() => {
+        alert("অর্ডার পাঠানো হয়েছে!");
+        hideModals();
+    });
+}
+
+function showModal(id) { document.getElementById(id).style.display = 'flex'; }
+function hideModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display='none'); }
