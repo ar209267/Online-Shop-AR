@@ -3,181 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Digital SMM Panel</title>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyC5i7S0EJeFO8NsO7VbiU63rfRBrGwBWQY",
-            authDomain: "online-shop-ar.firebaseapp.com",
-            projectId: "online-shop-ar",
-            storageBucket: "online-shop-ar.firebasestorage.app",
-            messagingSenderId: "913434308973",
-            appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
-            measurementId: "G-T20TRS2F59"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.confirmAndSend = async () => {
-            const link = document.getElementById('link-field').value;
-            const txn = document.getElementById('txn-field').value;
-            const title = document.getElementById('order-title').innerText;
-            const bill = document.getElementById('order-price').innerText;
-
-            if(!link || !txn) { alert("সব তথ্য দিন!"); return; }
-
-            try {
-                const docRef = await addDoc(collection(db, "all_orders"), {
-                    service: title, link: link, amount: bill, transaction_id: txn,
-                    status: "Pending", order_date: serverTimestamp()
-                });
-                alert("অর্ডার সফল! ডাটাবেসে সেভ হয়েছে।");
-                window.open(`https://wa.me/8801766380931?text=*নতুন অর্ডার*%0A*সার্ভিস:* ${title}%0A*লিঙ্ক:* ${link}%0A*বিল:* ${bill}৳%0A*Txn ID:* ${txn}`, '_blank');
-            } catch (e) { alert("ত্রুটি হয়েছে!"); }
-        };
-
-        window.loadAdminOrders = () => {
-            const q = query(collection(db, "all_orders"), orderBy("order_date", "desc"));
-            onSnapshot(q, (snapshot) => {
-                const tbody = document.getElementById('admin-rows');
-                tbody.innerHTML = "";
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    tbody.innerHTML += `<tr style="border-bottom: 1px solid #ddd;">
-                        <td style="padding: 10px;">${data.service}</td>
-                        <td style="padding: 10px; font-size:12px;">${data.link}</td>
-                        <td style="padding: 10px;">${data.amount}৳</td>
-                        <td style="padding: 10px;">${data.transaction_id}</td>
-                        <td style="padding: 10px; color: orange;">${data.status}</td>
-                    </tr>`;
-                });
-            });
-        };
-    </script>
-
+    <title>ABR SMM Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { margin:0; font-family: 'Poppins', sans-serif; background:#f0f2f5; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .card { background: white; border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .card img { width: 60px; height: 60px; margin-bottom: 15px; border-radius: 12px; }
-        .card h3 { margin: 10px 0; font-size: 20px; color: #333; }
-        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 15px; outline: none; background: #fafafa; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .fb { border-top: 6px solid #1877f2; } .fb-btn { background: #1877f2; }
-        .yt { border-top: 6px solid #ff0000; } .yt-btn { background: #ff0000; }
-        .tk { border-top: 6px solid #000000; } .tk-btn { background: #000000; }
-        .ig { border-top: 6px solid #e1306c; } .ig-btn { background: #e1306c; }
-        .tw { border-top: 6px solid #1da1f2; } .tw-btn { background: #1da1f2; }
-        .ff { border-top: 6px solid #ff9800; } .ff-btn { background: #ff9800; }
+        body { background-color: #121212; color: white; font-family: 'Segoe UI', sans-serif; }
+        .payment-banner {
+            background: linear-gradient(90deg, #28a745, #1e7e34); color: white; padding: 15px;
+            border-radius: 12px; text-align: center; cursor: pointer; font-weight: bold;
+            margin: 20px 0; display: block; text-decoration: none; border: none; width: 100%;
+        }
+        .service-card { 
+            background: #1e1e1e; border-radius: 15px; padding: 20px; text-align: center; 
+            transition: 0.3s; cursor: pointer; border: 1px solid #333;
+        }
+        .service-card:hover { border-color: #ff8c00; transform: translateY(-5px); }
+        .order-box { background: #1e1e1e; padding: 25px; border-radius: 15px; border: 1px solid #333; margin-top: 20px; }
+        .form-control, .form-select { background: #2a2a2a; border: 1px solid #444; color: white; }
+        .form-control:focus { background: #2a2a2a; color: white; border-color: #ff8c00; }
+        .btn-order { background: #ff8c00; color: white; font-weight: bold; padding: 15px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <header style="padding: 50px 20px; text-align: center; background: linear-gradient(135deg, #2c3e50, #4ca1af); color: white;">
-        <h1 style="margin:0; font-size: 32px;">Atiq Digital Panel</h1>
-        <p style="opacity: 0.9;">নির্ভরযোগ্য সোশ্যাল মিডিয়া সার্ভিস - 01766380931</p>
-    </header>
+<div class="container pb-5">
+    <a href="add-funds.html" class="payment-banner shadow-lg">
+        <i class="fas fa-wallet"></i> অ্যাড ফান্ড: ব্যালেন্স যোগ করতে এখানে ক্লিক করুন
+    </a>
 
-    <div class="grid-container">
-        <div class="card fb">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png" alt="FB">
-            <h3>Facebook</h3>
-            <select id="fb-opt">
-                <option value="130">৫০০০ ফলোয়ার - ১৩০৳</option>
-                <option value="২৫০">১০০০০ ফলোয়ার - ২৫০৳</option>
-            </select>
-            <button class="btn fb-btn" onclick="openForm('Facebook', document.getElementById('fb-opt'))">অর্ডার করুন</button>
+    <h3 class="fw-bold mb-4">আমাদের সার্ভিসসমূহ</h3>
+    <div class="row g-3">
+        <div class="col-6 col-md-3" onclick="showForm('Facebook')">
+            <div class="service-card"><i class="fab fa-facebook text-primary fa-2x"></i><h6>Facebook</h6></div>
         </div>
-
-        <div class="card yt">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YT">
-            <h3>YouTube</h3>
-            <select id="yt-opt">
-                <option value="২৫০">১০০০ সাবস্ক্রাইবার - ২৫০৳</option>
-                <option value="১০০">৫০০০ ভিউস - ১০০৳</option>
-            </select>
-            <button class="btn yt-btn" onclick="openForm('YouTube', document.getElementById('yt-opt'))">অর্ডার করুন</button>
+        <div class="col-6 col-md-3" onclick="showForm('YouTube')">
+            <div class="service-card"><i class="fab fa-youtube text-danger fa-2x"></i><h6>YouTube</h6></div>
         </div>
-
-        <div class="card tk">
-            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TK">
-            <h3>TikTok</h3>
-            <select id="tt-opt">
-                <option value="১৩০">৫০০০ ফলোয়ার - ১৩০৳</option>
-                <option value="১০০">১০০০০ ভিউস - ১০০৳</option>
-            </select>
-            <button class="btn tk-btn" onclick="openForm('TikTok', document.getElementById('tt-opt'))">অর্ডার করুন</button>
+        <div class="col-6 col-md-3" onclick="showForm('Free Fire')">
+            <div class="service-card"><i class="fas fa-gamepad text-warning fa-2x"></i><h6>Free Fire</h6></div>
         </div>
-
-        <div class="card ig">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="IG">
-            <h3>Instagram</h3>
-            <select id="ig-opt">
-                <option value="১৫০">৫০০০ ফলোয়ার - ১৫০৳</option>
-                <option value="৮০">১০০০ লাইক - ৮০৳</option>
-            </select>
-            <button class="btn ig-btn" onclick="openForm('Instagram', document.getElementById('ig-opt'))">অর্ডার করুন</button>
-        </div>
-
-        <div class="card tw">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="TW">
-            <h3>Twitter (X)</h3>
-            <select id="tw-opt">
-                <option value="২০০">১০০০ ফলোয়ার - ২০০৳</option>
-                <option value="১০০">৫০০০ রিটুইট - ১০০৳</option>
-            </select>
-            <button class="btn tw-btn" onclick="openForm('Twitter', document.getElementById('tw-opt'))">অর্ডার করুন</button>
-        </div>
-
-        <div class="card ff">
-            <img src="https://cdn-icons-png.flaticon.com/512/10543/10543162.png" alt="FF">
-            <h3>Free Fire</h3>
-            <select id="ff-opt">
-                <option value="৮৫">১০০ ডায়মন্ড - ৮৫৳</option>
-                <option value="৪৩০">৫০৫ ডায়মন্ড - ৪৩০৳</option>
-            </select>
-            <button class="btn ff-btn" onclick="openForm('Free Fire', document.getElementById('ff-opt'))">অর্ডার করুন</button>
+        <div class="col-6 col-md-3" onclick="showForm('ID Sale')">
+            <div class="service-card"><i class="fas fa-user-shield text-success fa-2x"></i><h6>ID Sale</h6></div>
         </div>
     </div>
 
-    <div id="payment-panel" style="display: none; background: white; padding: 30px; border-radius: 20px; max-width: 450px; margin: 40px auto; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 1px solid #eee; text-align: center;">
-        <h4 id="order-title" style="margin: 0; font-size: 22px;"></h4>
-        <p style="font-size: 24px; font-weight: bold; color: #28a745; margin: 15px 0;">বিল: <span id="order-price"></span>৳</p>
-        <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 14px;">
-            পেমেন্ট: <strong>01766380931</strong> (বিকাশ/নগদ)
+    <div id="order-form" class="order-box shadow-lg" style="display:none;">
+        <h4 id="service-title" class="text-warning fw-bold mb-3">Service Name</h4>
+        <div class="mb-3">
+            <label class="form-label">প্যাকেজ বেছে নিন</label>
+            <select id="package" class="form-select" onchange="calc()"></select>
         </div>
-        <input type="text" id="link-field" placeholder="লিঙ্ক বা আইডি দিন" style="width: 90%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px;">
-        <input type="text" id="txn-field" placeholder="Transaction ID লিখুন" style="width: 90%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px;">
-        <button onclick="confirmAndSend()" style="width: 100%; padding: 15px; background: #28a745; color: white;
-<div class="card">
-    <h3><i class="fab fa-fiverr" style="color: #1dbf73;"></i> ফাইভার স্পেশাল সার্ভিস লিস্ট</h3>
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background: #1dbf73; color: white;">
-                <th style="padding: 12px; text-align: left;">ফাইভার গিগ সার্ভিস</th>
-                <th style="padding: 12px;">রেট (১০০০)</th>
-                <th style="padding: 12px;">ডেলিভারি টাইম</th>
-                <th style="padding: 12px;">অ্যাকশন</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 12px;">Fiverr Gig Promotion & Marketing</td>
-                <td style="padding: 12px; text-align: center;">৳২৫০</td>
-                <td style="padding: 12px; text-align: center;">২৪ ঘণ্টা</td>
-                <td><button class="btn-order">অর্ডার</button></td>
-            </tr>
-            <tr>
-                <td style="padding: 12px;">Targeted Social Media Traffic (HQ)</td>
-                <td style="padding: 12px; text-align: center;">৳১৫০</td>
-                <td style="padding: 12px; text-align: center;">১২ ঘণ্টা</td>
-                <td><button class="btn-order">অর্ডার</button></td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="mb-3">
+            <label class="form-label">লিঙ্ক অথবা প্লেয়ার আইডি</label>
+            <input type="text" id="target" class="form-control" placeholder="এখানে দিন...">
+        </div>
+        <div class="p-3 bg-dark rounded d-flex justify-content-between mb-3">
+            <div><span>Total:</span> <h4 id="usd" class="text-primary">$0.00</h4></div>
+            <div class="text-end"><span>In BDT:</span> <h4 id="bdt" class="text-success">৳0.00</h4></div>
+        </div>
+        <button onclick="placeOrder()" class="btn btn-order w-100">অর্ডার কনফার্ম এবং পেমেন্ট করুন</button>
     </div>
+</div>
+
+<script>
+    const data = {
+        'Facebook': [{n: "Followers (Premium)", p: 1.5}, {n: "Video Views", p: 0.8}],
+        'YouTube': [{n: "Subscribers", p: 5.0}, {n: "Watch Time", p: 12.0}],
+        'Free Fire': [{n: "115 Diamonds", p: 0.85}, {n: "Weekly", p: 1.65}],
+        'ID Sale': [{n: "Level 60 ID", p: 20.0}, {n: "Gmail Pack", p: 2.0}]
+    };
+
+    function showForm(cat) {
+        document.getElementById('order-form').style.display = 'block';
+        document.getElementById('service-title').innerText = cat;
+        let s = document.getElementById('package'); s.innerHTML = '';
+        data[cat].forEach(o => { let e = document.createElement('option'); e.text = o.n; e.value = o.p; s.add(e); });
+        calc();
+    }
+
+    function calc() {
+        let p = document.getElementById('package').value;
+        document.getElementById('usd').innerText = '$' + parseFloat(p).toFixed(2);
+        document.getElementById('bdt').innerText = '৳' + (p * 120).toFixed(2);
+    }
+
+    function placeOrder() {
+        window.location.href = 'add-funds.html';
+    }
+</script>
+</body>
+</html>
