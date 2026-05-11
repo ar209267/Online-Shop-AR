@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atiq Master - Ultimate Pro V30</title>
+    <title>Atiq Master - Enterprise Ultimate V35</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -11,72 +11,117 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
     <style>
-        :root { --primary: #00ff88; --bg: #05070a; --card: #11151c; --border: #1e2530; --text: #ffffff; --dim: #94a3b8; --danger: #ff4757; }
+        :root { --primary: #00ff88; --bg: #05070a; --card: #11151c; --border: #1e2530; --text: #ffffff; --dim: #94a3b8; --danger: #ff4757; --warning: #f3ad1b; }
         * { box-sizing: border-box; transition: 0.3s; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 90px; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+
+        /* --- Notification & Marquee --- */
+        #notif-popup { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 15px 25px; border-radius: 20px; font-weight: bold; z-index: 1000000; box-shadow: 0 5px 20px rgba(0,255,136,0.4); }
+        .marquee-bar { background: var(--danger); color: #fff; padding: 8px; font-size: 12px; font-weight: bold; }
 
         /* --- Auth View --- */
         #auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 100000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .auth-card { background: var(--card); padding: 35px; border-radius: 35px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,255,136,0.1); }
+        .auth-card { background: var(--card); padding: 35px; border-radius: 35px; width: 100%; max-width: 400px; text-align: center; border: 1px solid var(--border); }
         .input-box { width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--border); background: #000; color: #fff; margin-top: 15px; outline: none; }
-        .btn-prime { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; background: var(--primary); color: #000; margin-top: 20px; cursor: pointer; }
+        .btn-prime { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; background: var(--primary); color: #000; margin-top: 20px; cursor: pointer; font-size: 16px; }
 
-        /* --- Dashboard --- */
+        /* --- Dashboard UI --- */
         #app-screen { display: none; }
         .header { padding: 20px; display: flex; justify-content: space-between; align-items: center; background: var(--card); border-bottom: 1px solid var(--border); }
-        .balance-card { background: linear-gradient(135deg, #00ff88, #006636); margin: 20px; padding: 30px; border-radius: 30px; box-shadow: 0 10px 25px rgba(0,255,136,0.2); }
+        .balance-hero { background: linear-gradient(135deg, #00ff88, #006636); margin: 20px; padding: 30px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,255,136,0.2); position: relative; }
         
-        /* Notification Popup */
-        #notif-popup { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #000; padding: 15px 25px; border-radius: 20px; font-weight: bold; z-index: 999999; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        
-        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: var(--card); padding: 25px 15px; border-radius: 25px; text-align: center; border: 1px solid var(--border); cursor: pointer; }
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .service-card { background: var(--card); padding: 25px 15px; border-radius: 25px; text-align: center; border: 1px solid var(--border); position: relative; cursor: pointer; }
+        .offer-tag { position: absolute; top: 10px; right: 10px; background: var(--danger); font-size: 9px; padding: 3px 8px; border-radius: 5px; font-weight: bold; }
+        .timer { font-size: 10px; color: var(--danger); margin-top: 8px; font-weight: bold; }
+
+        /* Support Button */
+        .wa-float { position: fixed; bottom: 90px; right: 20px; background: #25d366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 5px 20px rgba(0,0,0,0.4); z-index: 1000; }
+
+        /* Modals */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 10001; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card); padding: 30px; border-radius: 35px; width: 90%; max-width: 400px; border: 1px solid var(--primary); text-align: center; }
     </style>
 </head>
 <body>
 
-<div id="notif-popup">🔔 নতুন অফার: আজকের টপ-আপে ৫% বোনাস!</div>
+<div id="notif-popup">🔔 বিশেষ অফার: আজ রাত ১২টা পর্যন্ত ৫% ক্যাশব্যাক!</div>
 
 <div id="auth-screen">
     <div class="auth-card" id="login-form">
-        <h2 style="color:var(--primary); margin:0;">অ্যাক্সেস প্যানেল</h2>
-        <p style="color:var(--dim); font-size:12px;">আপনার জিমেইল ও পাসওয়ার্ড দিন</p>
+        <h2 style="color:var(--primary); margin:0;">লগইন করুন</h2>
         <input type="email" id="u-email" class="input-box" placeholder="আপনার জিমেইল">
         <input type="password" id="u-pass" class="input-box" placeholder="পাসওয়ার্ড">
-        <button class="btn-prime" onclick="handleLogin()">লগইন করুন</button>
-        <p id="err-msg" style="color:var(--danger); font-size:11px; margin-top:10px; font-weight:bold;"></p>
-        <span style="color:var(--dim); font-size:12px; margin-top:15px; display:block;">একাউন্ট নেই? <b style="color:var(--primary); cursor:pointer;" onclick="toggleAuth(true)">সাইন-আপ করুন</b></span>
+        <button class="btn-prime" onclick="handleLogin()">Login</button>
+        <p style="color:var(--dim); font-size:12px; margin-top:15px;">একাউন্ট নেই? <b style="color:var(--primary); cursor:pointer;" onclick="toggleAuth(true)">সাইন-আপ করুন</b></p>
     </div>
 
     <div class="auth-card" id="signup-form" style="display:none;">
         <h2 style="color:var(--primary); margin:0;">নতুন একাউন্ট</h2>
         <input type="email" id="s-email" class="input-box" placeholder="জিমেইল">
-        <input type="password" id="s-pass" class="input-box" placeholder="পাসওয়ার্ড (মিনিমাম ৬ সংখ্যা)">
-        <button class="btn-prime" onclick="handleSignup()">একাউন্ট খুলুন</button>
-        <span style="color:var(--dim); font-size:12px; margin-top:15px; display:block;" onclick="toggleAuth(false)">ইতিমধ্যে একাউন্ট আছে? <b>লগইন</b></span>
+        <input type="password" id="s-pass" class="input-box" placeholder="পাসওয়ার্ড (৬ সংখ্যা)">
+        <button class="btn-prime" onclick="handleSignup()">Sign Up</button>
+        <p style="color:var(--dim); font-size:12px; margin-top:15px;" onclick="toggleAuth(false)">ইতিমধ্যে একাউন্ট আছে? <b>লগইন</b></p>
     </div>
 </div>
 
 <div id="app-screen">
+    <div class="marquee-bar"><marquee>🔥 ধামাকা অফার: সকল গেমিং টপ-আপে বিশেষ ছাড়! অর্ডার করার সাথে সাথেই ডেলিভারি। 🔥</marquee></div>
+    
     <div class="header">
-        <b><i class="fas fa-bolt" style="color:var(--primary)"></i> ATIQ MASTER</b>
-        <button onclick="logout()" style="background:none; border:none; color:var(--danger); font-weight:bold;">Logout</button>
+        <b><i class="fas fa-shield-alt" style="color:var(--primary)"></i> ATIQ MASTER</b>
+        <i class="fas fa-sign-out-alt" onclick="logout()" style="color:var(--danger); cursor:pointer;"></i>
     </div>
 
-    <div class="balance-card">
-        <small style="font-weight:bold;">আপনার বর্তমান ব্যালেন্স</small>
+    <div class="balance-hero">
+        <small style="font-weight:bold; opacity:0.8;">আমার ওয়ালেট ব্যালেন্স</small>
         <h1 id="bal-text" style="margin:5px 0 0 0; font-size:40px;">৳ ০.০০</h1>
+        <button onclick="openModal('deposit-modal')" style="margin-top:15px; background:white; color:black; border:none; padding:8px 20px; border-radius:12px; font-weight:bold; font-size:12px;">ADD MONEY +</button>
     </div>
 
-    <div style="padding: 0 20px; color:var(--dim); font-size:12px; font-weight:bold;">বেস্ট সেলিং সার্ভিস</div>
-    <div class="service-grid">
-        <div class="card" onclick="alert('অর্ডার সিস্টেম ওপেন হচ্ছে...')"><i class="fas fa-fire" style="color:#ff8c00; font-size:30px;"></i><br><b>Free Fire</b></div>
-        <div class="card" onclick="alert('অর্ডার সিস্টেম ওপেন হচ্ছে...')"><i class="fab fa-facebook" style="color:#1877f2; font-size:30px;"></i><br><b>Facebook</b></div>
+    <div style="padding: 0 20px; color:var(--dim); font-size:12px; font-weight:bold;">অফার জোন</div>
+    <div class="grid">
+        <div class="service-card" onclick="openOrder('Free Fire 115💎', '৳ ৮৫')">
+            <span class="offer-tag">HOT</span>
+            <i class="fas fa-fire" style="color:#ff8c00; font-size:35px;"></i>
+            <b style="display:block; margin-top:10px;">Free Fire</b>
+            <span style="color:var(--primary); font-size:12px; font-weight:bold;">৳ ৮৫</span>
+            <div class="timer">শেষ হতে: ০২:১০:৪৫</div>
+        </div>
+        <div class="service-card" onclick="openOrder('Facebook Follower', '৳ ১৩০')">
+            <i class="fab fa-facebook" style="color:#1877f2; font-size:35px;"></i>
+            <b style="display:block; margin-top:10px;">Facebook</b>
+            <span style="color:var(--primary); font-size:12px; font-weight:bold;">৳ ১৩০</span>
+        </div>
     </div>
 </div>
 
+<div class="modal" id="order-modal">
+    <div class="modal-content">
+        <h3 id="m-title" style="color:var(--primary)">Service</h3>
+        <h2 id="m-price">৳ 0.00</h2>
+        <input type="text" id="target-id" class="input-box" placeholder="আইডি বা লিঙ্ক দিন">
+        <input type="text" id="txn-id" class="input-box" placeholder="পেমেন্ট TxnID দিন">
+        <button class="btn-prime" onclick="confirmOrder()">Confirm Order</button>
+        <button onclick="closeModal()" style="background:none; border:none; color:var(--danger); margin-top:15px; cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
+<div class="modal" id="deposit-modal">
+    <div class="modal-content">
+        <h3 style="color:var(--primary)">ডিপোজিট করুন</h3>
+        <p style="font-size:12px; color:var(--dim)">বিকাশ/নগদ (পার্সোনাল): 01766380931</p>
+        <input type="number" id="dep-amount" class="input-box" placeholder="টাকার পরিমাণ">
+        <input type="text" id="dep-txn" class="input-box" placeholder="Transaction ID">
+        <button class="btn-prime" onclick="requestDeposit()">Request Add Money</button>
+        <button onclick="closeModal()" style="background:none; border:none; color:var(--danger); margin-top:15px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<a href="https://wa.me/8801766380931" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
 <script>
-    // --- Firebase Configuration ---
     const firebaseConfig = {
         apiKey: "AIzaSyC5i7S0EJeF08NsO7VbiU63r-",
         authDomain: "online-shop-ar.firebaseapp.com",
@@ -90,54 +135,66 @@
     const auth = firebase.auth();
     const db = firebase.database();
 
-    // --- Authentication Logic ---
-    function toggleAuth(showSignup) {
-        document.getElementById('login-form').style.display = showSignup ? 'none' : 'block';
-        document.getElementById('signup-form').style.display = showSignup ? 'block' : 'none';
+    function toggleAuth(show) {
+        document.getElementById('login-form').style.display = show ? 'none' : 'block';
+        document.getElementById('signup-form').style.display = show ? 'block' : 'none';
     }
 
     function handleSignup() {
-        const email = document.getElementById('s-email').value;
-        const pass = document.getElementById('s-pass').value;
-        auth.createUserWithEmailAndPassword(email, pass)
-            .then(() => { alert("একাউন্ট খোলা সফল!"); toggleAuth(false); })
-            .catch(err => alert("এরর: " + err.message));
+        const e = document.getElementById('s-email').value;
+        const p = document.getElementById('s-pass').value;
+        auth.createUserWithEmailAndPassword(e, p).then(() => { alert("সফল!"); toggleAuth(false); }).catch(err => alert(err.message));
     }
 
     function handleLogin() {
-        const email = document.getElementById('u-email').value;
-        const pass = document.getElementById('u-pass').value;
-        auth.signInWithEmailAndPassword(email, pass)
-            .then(user => loadDashboard(user.user))
-            .catch(err => {
-                document.getElementById('err-msg').innerText = "ভুল জিমেইল বা পাসওয়ার্ড!";
-            });
+        const e = document.getElementById('u-email').value;
+        const p = document.getElementById('u-pass').value;
+        auth.signInWithEmailAndPassword(e, p).then(user => loadApp(user.user)).catch(err => alert("ভুল পাসওয়ার্ড!"));
     }
 
-    // --- Dashboard & Notification ---
-    function loadDashboard(user) {
+    function loadApp(user) {
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-screen').style.display = 'block';
         
-        // ব্যালেন্স রিয়েল-টাইম আপডেট (Firebase Database থেকে)
         db.ref('users/' + user.uid + '/balance').on('value', snap => {
-            const val = snap.val() || "০.০০";
-            document.getElementById('bal-text').innerText = "৳ " + val;
+            document.getElementById('bal-text').innerText = "৳ " + (snap.val() || "০.০০");
         });
 
-        // পুশ নোটিফিকেশন এনিমেশন
         setTimeout(() => {
             const pop = document.getElementById('notif-popup');
             pop.style.top = '20px';
-            setTimeout(() => { pop.style.top = '-100px'; }, 5000);
+            setTimeout(() => pop.style.top = '-100px', 5000);
         }, 2000);
     }
 
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function openOrder(n, p) {
+        document.getElementById('m-title').innerText = n;
+        document.getElementById('m-price').innerText = p;
+        openModal('order-modal');
+    }
+    function closeModal() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+
+    function confirmOrder() {
+        const target = document.getElementById('target-id').value;
+        const txn = document.getElementById('txn-id').value;
+        if(target && txn) {
+            db.ref('orders/' + Date.now()).set({ user: auth.currentUser.email, item: document.getElementById('m-title').innerText, target, txn, status: 'Pending' })
+            .then(() => { alert("অর্ডার সফল!"); closeModal(); });
+        }
+    }
+
+    function requestDeposit() {
+        const amount = document.getElementById('dep-amount').value;
+        const txn = document.getElementById('dep-txn').value;
+        if(amount && txn) {
+            db.ref('deposits/' + Date.now()).set({ user: auth.currentUser.email, amount, txn, status: 'Pending' })
+            .then(() => { alert("রিকোয়েস্ট সফল!"); closeModal(); });
+        }
+    }
+
     function logout() { auth.signOut().then(() => location.reload()); }
-
-    // অটো-লগইন চেক
-    auth.onAuthStateChanged(user => { if(user) loadDashboard(user); });
-
+    auth.onAuthStateChanged(user => { if(user) loadApp(user); });
 </script>
 </body>
 </html>
