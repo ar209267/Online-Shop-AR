@@ -187,3 +187,47 @@ function secureLogin() {
         }
     }
 }
+// পেমেন্ট ভেরিফিকেশন এবং অর্ডার লজিক
+function handleSecureOrder(serviceName, minPrice) {
+    Swal.fire({
+        title: serviceName + ' অর্ডার',
+        html: `
+            <div class="text-start">
+                <p class="text-warning small mb-3">বিকাশ/নগদ (01XXXXXXXXX) নাম্বারে ৳${minPrice} সেন্ড মানি করুন।</p>
+                <label class="small">লিঙ্ক বা প্লেয়ার আইডি:</label>
+                <input id="linkID" class="swal2-input bg-dark text-white border-info" placeholder="লিঙ্ক বা আইডি দিন">
+                <label class="small mt-2">Transaction ID (বিকাশ/নগদ):</label>
+                <input id="trxID" class="swal2-input bg-dark text-white border-info" placeholder="8-10 ডিজিটের আইডি">
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'ভেরিফাই করুন',
+        background: '#0d1117', color: '#fff',
+        confirmButtonColor: '#00f2fe'
+    }).then((res) => {
+        if(res.isConfirmed) {
+            const link = document.getElementById('linkID').value;
+            const trx = document.getElementById('trxID').value;
+
+            if(!link || trx.length < 8) {
+                Swal.fire('ভুল!', 'সঠিক তথ্য এবং ভ্যালিড ট্রানজেকশন আইডি দিন।', 'error');
+                return;
+            }
+
+            // পেমেন্ট প্রসেসিং সিমুলেশন
+            Swal.fire({
+                title: 'পেমেন্ট ভেরিফাই হচ্ছে...',
+                text: 'অনুগ্রহ করে অপেক্ষা করুন, সার্ভার ট্রানজেকশন চেক করছে।',
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            setTimeout(() => {
+                Swal.fire('অর্ডার পেন্ডিং!', 'আপনার পেমেন্ট আইডি গ্রহণ করা হয়েছে। আমরা চেক করে ৫ মিনিটে কাজ শুরু করবো।', 'success');
+                // এখানে আপনি হিস্ট্রিতে নতুন রো অ্যাড করার লজিক দিতে পারেন
+            }, 3000);
+        }
+    });
+}
+
+// জিমেইল ডিসপ্লে লজিক
+document.getElementById('displayEmail').innerText = localStorage.getItem('nexus_email') || "User Not Found";
