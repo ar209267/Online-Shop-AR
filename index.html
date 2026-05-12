@@ -9,35 +9,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* [Section 1: CSS Architecture - Line 1-80] */
+        /* [SECTION 1: CORE DESIGN ARCHITECTURE - LINE 20-110] */
         :root {
             --primary-gold: #FFD700;
             --neon-cyan: #00f2fe;
-            --deep-dark: #010409;
-            --card-glass: rgba(13, 17, 23, 0.9);
-            --border-glow: rgba(0, 242, 254, 0.3);
-            --transition-speed: 0.4s;
+            --deep-black: #010409;
+            --card-glass: rgba(13, 17, 23, 0.95);
+            --border-glow: rgba(0, 242, 254, 0.4);
+            --danger-red: #ff4e50;
+            --success-green: #3fb950;
         }
 
         body {
-            background-color: var(--deep-dark);
+            background-color: var(--deep-black);
             color: #e6edf3;
             font-family: 'Hind Siliguri', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 20%);
         }
 
         .orbitron { font-family: 'Orbitron', sans-serif; }
+        .space { font-family: 'Space Grotesk', sans-serif; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #010409; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--neon-cyan), var(--primary-gold)); border-radius: 10px; }
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: var(--deep-black); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(var(--neon-cyan), var(--primary-gold)); 
+            border-radius: 10px;
+            border: 3px solid var(--deep-black);
+        }
 
-        /* [Section 2: Security Portal Styles - Line 81-160] */
+        /* [SECTION 2: ADVANCED AUTHENTICATION OVERLAY - LINE 111-200] */
         #authSystem {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -45,320 +53,424 @@
             z-index: 10000;
             display: flex;
             align-items: center; justify-content: center;
+            flex-direction: column;
         }
 
         .auth-container {
             background: var(--card-glass);
-            padding: 60px;
-            border-radius: 40px;
+            padding: 50px;
+            border-radius: 50px;
             border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 60px var(--border-glow);
-            width: 100%; max-width: 500px;
+            box-shadow: 0 0 80px var(--border-glow);
+            width: 95%; max-width: 550px;
             text-align: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            position: relative;
         }
 
-        .ar-logo-pulse {
-            width: 150px; height: 150px;
+        .ar-logo-shield {
+            width: 160px; height: 160px;
             background: #000;
-            border-radius: 35px;
-            padding: 10px;
+            border-radius: 40px;
+            padding: 12px;
             border: 4px solid var(--primary-gold);
             margin-bottom: 30px;
-            box-shadow: 0 0 30px var(--primary-gold);
-            animation: pulse-glow 2s infinite;
+            box-shadow: 0 0 40px var(--primary-gold);
+            animation: pulse-glow-v11 2.5s infinite ease-in-out;
         }
 
-        @keyframes pulse-glow {
-            0% { transform: scale(1); box-shadow: 0 0 20px var(--primary-gold); }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px var(--neon-cyan); border-color: var(--neon-cyan); }
-            100% { transform: scale(1); box-shadow: 0 0 20px var(--primary-gold); }
+        @keyframes pulse-glow-v11 {
+            0% { transform: scale(1) rotate(0deg); box-shadow: 0 0 20px var(--primary-gold); }
+            50% { transform: scale(1.08) rotate(5deg); box-shadow: 0 0 60px var(--neon-cyan); border-color: var(--neon-cyan); }
+            100% { transform: scale(1) rotate(0deg); box-shadow: 0 0 20px var(--primary-gold); }
         }
 
-        .auth-input {
-            background: rgba(0,0,0,0.5) !important;
+        .input-group-nexus {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .nexus-input {
+            width: 100%;
+            background: rgba(0,0,0,0.6) !important;
             border: 1px solid #30363d !important;
             color: #fff !important;
-            padding: 15px !important;
-            border-radius: 15px !important;
-            margin-bottom: 20px;
+            padding: 18px 20px 18px 50px !important;
+            border-radius: 20px !important;
+            font-size: 16px;
+            transition: all 0.4s ease;
+        }
+
+        .nexus-input:focus {
+            border-color: var(--neon-cyan) !important;
+            box-shadow: 0 0 20px var(--border-glow) !important;
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-cyan);
+            font-size: 18px;
+        }
+
+        /* [SECTION 3: NAVIGATION & HERO ENGINE - LINE 201-300] */
+        .nexus-navbar {
+            background: rgba(1, 4, 9, 0.95);
+            border-bottom: 1px solid #30363d;
+            padding: 20px 0;
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+
+        .hero-wrap {
+            padding: 150px 0 80px;
+            background: linear-gradient(to bottom, rgba(0, 242, 254, 0.05), transparent);
+            text-align: center;
+        }
+
+        .v11-title {
+            font-size: 75px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(45deg, #fff 30%, var(--primary-gold), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        /* [SECTION 4: SERVICE CARD SYSTEM - LINE 301-450] */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            padding: 40px 0;
+        }
+
+        .service-box {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 35px;
+            padding: 40px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-box:hover {
+            transform: translateY(-20px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .service-box::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(0, 242, 254, 0.1), transparent);
+            border-radius: 35px; z-index: -1;
+        }
+
+        .icon-round {
+            width: 90px; height: 90px;
+            background: rgba(0, 242, 254, 0.1);
+            border-radius: 25px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 30px;
+            font-size: 40px;
+            color: var(--neon-cyan);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .price-badge {
+            background: rgba(63, 185, 80, 0.1);
+            color: var(--success-green);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .btn-order-v11 {
+            background: linear-gradient(45deg, var(--neon-cyan), #00d2ff);
+            border: none; color: #000; font-weight: 900;
+            padding: 18px; border-radius: 22px;
+            width: 100%; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 14px;
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
             transition: 0.3s;
         }
 
-        .auth-input:focus {
-            border-color: var(--neon-cyan) !important;
-            box-shadow: 0 0 15px var(--border-glow) !important;
-        }
-
-        /* [Section 3: Main Dashboard Styles - Line 161-280] */
-        .nexus-nav {
-            background: rgba(1, 4, 9, 0.9);
-            border-bottom: 1px solid #30363d;
-            padding: 20px 0;
-            backdrop-filter: blur(15px);
-        }
-
-        .hero-section {
-            padding: 120px 0 60px;
-            text-align: center;
-            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-        }
-
-        .hero-title {
-            font-size: 65px;
-            font-weight: 900;
-            background: linear-gradient(to right, #fff, var(--primary-gold), var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-        }
-
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-
-        .nexus-card {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 30px;
-            padding: 35px;
-            transition: var(--transition-speed);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nexus-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(0, 242, 254, 0.05));
-            pointer-events: none;
-        }
-
-        .nexus-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        .icon-box {
-            width: 80px; height: 80px;
-            background: rgba(0, 242, 254, 0.1);
-            border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 25px;
-            font-size: 35px;
-            color: var(--neon-cyan);
-        }
-
-        .btn-nexus {
-            background: linear-gradient(45deg, var(--neon-cyan), #00d2ff);
-            border: none; color: #000; font-weight: 800;
-            padding: 15px; border-radius: 18px;
-            width: 100%; text-transform: uppercase;
-            letter-spacing: 1px; transition: 0.3s;
-        }
-
-        .btn-nexus:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px var(--neon-cyan);
-        }
-
-        /* [Section 4: Floating UI - Line 281-350] */
-        .status-badge {
-            position: absolute; top: 20px; right: 20px;
-            padding: 5px 15px; border-radius: 50px;
-            font-size: 12px; font-weight: bold;
-            background: rgba(63, 185, 80, 0.2); color: #3fb950;
-        }
-
-        .live-chat-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 70px; height: 70px;
+        .btn-order-v11:hover {
             background: var(--primary-gold);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 30px; color: #000;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-            cursor: pointer; z-index: 999;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
         }
+
+        /* [SECTION 5: FOOTER & UI WIDGETS - LINE 451-520] */
+        .nexus-footer {
+            background: #010409;
+            padding: 80px 0 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+        }
+
+        .payment-methods img {
+            height: 40px; margin: 10px; filter: grayscale(1) invert(1);
+            transition: 0.3s;
+        }
+
+        .payment-methods img:hover { filter: grayscale(0) invert(0); }
 
     </style>
 </head>
 <body>
 
 <div id="authSystem">
-    <div class="auth-container animate__animated animate__fadeInDown">
-        <img src="http://googleusercontent.com/image_collection/image_retrieval/580956240598742323" class="ar-logo-pulse" alt="AR Logo">
-        <h2 class="orbitron text-white mb-2">ACCESS PROTOCOL</h2>
-        <p class="text-secondary mb-4">ডিভাইস আইডি এবং জিমেইল ভেরিফিকেশন প্রয়োজন</p>
+    <div class="auth-container animate__animated animate__zoomIn">
+        <img src="http://googleusercontent.com/image_collection/image_retrieval/580956240598742323" class="ar-logo-shield" alt="AR Logo">
+        <h1 class="orbitron text-white mb-2" style="letter-spacing: 3px;">SYSTEM LOGIN</h1>
+        <p class="text-secondary mb-5">প্রবেশের জন্য আপনার জিমেইল আইডেন্টিটি লক করুন</p>
         
-        <input type="email" id="uEmail" class="form-control auth-input" placeholder="আপনার রেজিস্টার্ড জিমেইল">
-        <input type="password" id="uPass" class="form-control auth-input" placeholder="মাস্টার পাসওয়ার্ড">
+        <div class="input-group-nexus text-start">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="authEmail" class="nexus-input" placeholder="আপনার জিমেইল এড্রেস">
+        </div>
         
-        <button class="btn-nexus mt-3" onclick="initializeNexus()">আনলক করুন</button>
-        <div id="authError" class="mt-3 text-danger fw-bold"></div>
+        <div class="input-group-nexus text-start">
+            <i class="fas fa-fingerprint input-icon"></i>
+            <input type="password" id="authPass" class="nexus-input" placeholder="মাস্টার সিকিউরিটি পাসওয়ার্ড">
+        </div>
+        
+        <button class="btn-order-v11 mt-4" onclick="initSystem()">সিস্টেম আনলক করুন</button>
+        <div id="authFeedback" class="mt-4 text-danger fw-bold animate__animated animate__shakeX"></div>
+        
+        <p class="mt-5 text-muted small">© 2026 ONLINE SHOP AR | SECURITY V11.11 ENABLED</p>
     </div>
 </div>
 
-<div id="mainDashboard" style="display: none;">
-    <nav class="navbar nexus-nav sticky-top">
+<div id="nexusDashboard" style="display: none;">
+    <nav class="navbar nexus-navbar sticky-top">
         <div class="container">
-            <a class="navbar-brand orbitron fw-bold text-white" href="#">
-                <img src="http://googleusercontent.com/image_collection/image_retrieval/580956240598742323" style="width: 40px; border-radius: 8px;" class="me-2">
-                ONLINE SHOP <span style="color: var(--primary-gold);">AR</span>
+            <a class="navbar-brand orbitron fw-bold text-white fs-3" href="#">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/580956240598742323" style="width: 50px; border-radius: 12px;" class="me-2">
+                AR <span style="color: var(--primary-gold);">PREMIUM</span>
             </a>
             <div class="d-flex align-items-center">
-                <div class="me-4 text-end d-none d-md-block">
-                    <small class="text-muted d-block">অ্যাকাউন্ট ব্যালেন্স</small>
-                    <span class="text-success fw-bold">৳ ৫,৪২০.০০</span>
+                <div class="me-4 text-end d-none d-lg-block">
+                    <small class="text-muted d-block">ব্যালেন্স (Wallet)</small>
+                    <span class="text-info fw-bold fs-5">৳ ১০,৫০০.৫০</span>
                 </div>
-                <button class="btn btn-outline-info rounded-pill" onclick="logout()">লগআউট</button>
+                <button class="btn btn-outline-danger px-4 rounded-pill" onclick="systemLogout()">লগআউট</button>
             </div>
         </div>
     </nav>
 
-    <div class="container hero-section">
-        <h1 class="hero-title animate__animated animate__lightSpeedInLeft">WELCOME TO THE EMPIRE</h1>
-        <p class="fs-5 text-secondary">সবচেয়ে দ্রুত এবং নিরাপদ অটোমেটেড ডিজিটাল সার্ভিস প্যানেল</p>
+    <div class="hero-wrap">
+        <div class="container">
+            <h1 class="v11-title animate__animated animate__fadeInUp">DIGITAL SOVEREIGNTY</h1>
+            <p class="text-secondary fs-4 mb-5">আপনার সব ডিজিটাল প্রয়োজন এখন এক ক্লিকে সমাধান।</p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="p-3 rounded-5 bg-dark border border-secondary d-flex align-items-center">
+                        <i class="fas fa-search mx-3 text-info"></i>
+                        <input type="text" class="form-control bg-transparent border-0 text-white shadow-none" placeholder="কি সার্ভিস খুঁজছেন? যেমন: Facebook, Free Fire...">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="container pb-5">
-        <div class="service-grid">
+    <div class="container">
+        <h2 class="orbitron text-info mb-4 mt-5 border-start border-info border-5 ps-3">GAMING HUB</h2>
+        <div class="grid-container">
             
-            <div class="nexus-card">
-                <span class="status-badge">ACTIVE</span>
-                <div class="icon-box"><i class="fab fa-facebook"></i></div>
-                <h3 class="orbitron">Facebook Boost</h3>
-                <p class="text-secondary">ফলোয়ার, লাইক, রিয়েল ওয়াচটাইম এবং মনিটাইজেশন সার্ভিস। নন-ড্রপ গ্যারান্টি।</p>
-                <ul class="text-info small mb-4">
-                    <li><i class="fas fa-check-circle"></i> হাই রিটেনশন</li>
-                    <li><i class="fas fa-check-circle"></i> ৫ মিনিটে ডেলিভারি</li>
-                </ul>
-                <button class="btn-nexus" onclick="triggerOrder('Facebook')">অর্ডার দিন</button>
+            <div class="service-box">
+                <div class="price-badge">৳৮৫ থেকে শুরু</div>
+                <div class="icon-round"><i class="fas fa-gem"></i></div>
+                <h3 class="orbitron">Free Fire Topup</h3>
+                <p class="text-secondary">ইনস্ট্যান্ট আইডি কোড টপ-আপ। পেমেন্ট করার সাথে সাথে আপনার ইন-গেম ডায়মন্ড পৌঁছে যাবে।</p>
+                <div class="d-flex justify-content-between mb-4 text-warning small">
+                    <span><i class="fas fa-bolt"></i> ১ সেকেন্ড ডেলিভারি</span>
+                    <span><i class="fas fa-shield-alt"></i> ১০০% সেফ</span>
+                </div>
+                <button class="btn-order-v11" onclick="handleOrder('Free Fire')">কিনুন</button>
             </div>
 
-            <div class="nexus-card">
-                <span class="status-badge">TOP SALE</span>
-                <div class="icon-box" style="color: #ff4e50; background: rgba(255, 78, 80, 0.1);"><i class="fab fa-youtube"></i></div>
+            <div class="service-box">
+                <div class="price-badge">৳১৭৫ থেকে শুরু</div>
+                <div class="icon-round" style="color: var(--primary-gold);"><i class="fas fa-crosshairs"></i></div>
+                <h3 class="orbitron">PUBG Mobile UC</h3>
+                <p class="text-secondary">গ্লোবাল এবং বিডি রিজিয়ন ইউসি টপ-আপ। সবচেয়ে কম রেটে ইউসি কিনুন এখন।</p>
+                <div class="d-flex justify-content-between mb-4 text-warning small">
+                    <span><i class="fas fa-check"></i> ভেরিফাইড API</span>
+                    <span><i class="fas fa-sync"></i> অটো আপডেট</span>
+                </div>
+                <button class="btn-order-v11" onclick="handleOrder('PUBG UC')">কিনুন</button>
+            </div>
+
+        </div>
+
+        <h2 class="orbitron text-info mb-4 mt-5 border-start border-info border-5 ps-3">SOCIAL MEDIA BOOST</h2>
+        <div class="grid-container">
+            
+            <div class="service-box">
+                <div class="price-badge">৳১৫০ থেকে শুরু</div>
+                <div class="icon-round" style="color: #1877F2;"><i class="fab fa-facebook"></i></div>
+                <h3 class="orbitron">Facebook Power</h3>
+                <p class="text-secondary">ফলোয়ার (Profile/Page), লাইক এবং ৪০০০ ঘণ্টা ওয়াচটাইম সার্ভিস। নন-ড্রপ গ্যারান্টি।</p>
+                <button class="btn-order-v11" onclick="handleOrder('FB Boost')">অর্ডার দিন</button>
+            </div>
+
+            <div class="service-box">
+                <div class="price-badge">৳৫০০ থেকে শুরু</div>
+                <div class="icon-round" style="color: #FF0000;"><i class="fab fa-youtube"></i></div>
                 <h3 class="orbitron">YouTube Growth</h3>
-                <p class="text-secondary">১০০০ সাবস্ক্রাইবার এবং ৪০০০ ঘণ্টা ওয়াচটাইম কমপ্লিট। অর্গানিক মেথড।</p>
-                <ul class="text-info small mb-4">
-                    <li><i class="fas fa-check-circle"></i> লাইফটাইম সাপোর্ট</li>
-                    <li><i class="fas fa-check-circle"></i> মনিটাইজেশন সেফ</li>
-                </ul>
-                <button class="btn-nexus" onclick="triggerOrder('YouTube')">অর্ডার দিন</button>
+                <p class="text-secondary">১০০০ সাবস্ক্রাইবার এবং ওয়াচটাইম। মনিটাইজেশন এনাবল করার ফুল প্যাকেজ।</p>
+                <button class="btn-order-v11" onclick="handleOrder('YT Boost')">অর্ডার দিন</button>
             </div>
 
-            <div class="nexus-card">
-                <div class="icon-box" style="color: #fff; background: rgba(255, 255, 255, 0.1);"><i class="fab fa-tiktok"></i></div>
+            <div class="service-box">
+                <div class="price-badge">৳১০০ থেকে শুরু</div>
+                <div class="icon-round" style="color: #fff;"><i class="fab fa-tiktok"></i></div>
                 <h3 class="orbitron">TikTok Viral</h3>
-                <p class="text-secondary">টিকটক ফলোয়ার, ভিউ এবং লাইক। আপনার ভিডিও ভাইরাল করার সেরা সুযোগ।</p>
-                <ul class="text-info small mb-4">
-                    <li><i class="fas fa-check-circle"></i> রিয়েল প্রোফাইল</li>
-                    <li><i class="fas fa-check-circle"></i> ইনস্ট্যান্ট ভিউ</li>
-                </ul>
-                <button class="btn-nexus" onclick="triggerOrder('TikTok')">অর্ডার দিন</button>
-            </div>
-
-            <div class="nexus-card">
-                <span class="status-badge" style="background: rgba(255, 215, 0, 0.1); color: var(--primary-gold);">AUTOMATED</span>
-                <div class="icon-box" style="color: var(--primary-gold); background: rgba(255, 215, 0, 0.1);"><i class="fas fa-gem"></i></div>
-                <h3 class="orbitron">Free Fire / PUBG</h3>
-                <p class="text-secondary">আইডি কোড টপ-আপ। পেমেন্ট করার সাথে সাথে অটো-ডেলিভারি আপনার গেম আইডিতে।</p>
-                <ul class="text-info small mb-4">
-                    <li><i class="fas fa-check-circle"></i> ১ সেকেন্ড ডেলিভারি</li>
-                    <li><i class="fas fa-check-circle"></i> লো-রেট চ্যালেঞ্জ</li>
-                </ul>
-                <button class="btn-nexus" onclick="triggerOrder('Gaming')">অর্ডার দিন</button>
+                <p class="text-secondary">টিকটক ফলোয়ার, ভিউ এবং লাইক। আপনার ভিডিও ভাইরাল করতে আমাদের সার্ভিস সেরা।</p>
+                <button class="btn-order-v11" onclick="handleOrder('TikTok Boost')">অর্ডার দিন</button>
             </div>
 
         </div>
     </div>
+
+    <footer class="nexus-footer">
+        <div class="container">
+            <img src="http://googleusercontent.com/image_collection/image_retrieval/580956240598742323" style="width: 100px; margin-bottom: 30px;" class="ar-logo-shield">
+            <h4 class="orbitron">ONLINE SHOP AR - TITAN CORE</h4>
+            <p class="text-muted mb-5">সফটওয়্যার ভার্সন ১১.১১ | সুরক্ষিত ডিজিটাল সার্ভিস প্রোভাইডার</p>
+            
+            <div class="payment-methods mb-5">
+                <i class="fab fa-cc-visa fa-2x mx-3"></i>
+                <i class="fab fa-cc-mastercard fa-2x mx-3"></i>
+                <i class="fas fa-money-check-alt fa-2x mx-3"></i>
+            </div>
+            
+            <p class="small text-secondary">ডিজাইন ও ডেভেলপমেন্ট বাই: AR ENTERPRISE TEAM 2026</p>
+        </div>
+    </footer>
 </div>
 
-<div class="live-chat-btn"><i class="fab fa-whatsapp"></i></div>
-
 <script>
-    // সিকিউর লগইন এবং জিমেইল ভেরিফিকেশন লজিক
-    function initializeNexus() {
-        const email = document.getElementById('uEmail').value;
-        const pass = document.getElementById('uPass').value;
-        const error = document.getElementById('authError');
+    // ১. স্মার্ট জিমেইল ও পাসওয়ার্ড লকিং সিস্টেম
+    function initSystem() {
+        const email = document.getElementById('authEmail').value;
+        const pass = document.getElementById('authPass').value;
+        const feedback = document.getElementById('authFeedback');
 
-        if(!email.includes('@') || pass.length < 4) {
-            error.innerText = "সঠিক জিমেইল এবং পাসওয়ার্ড প্রদান করুন!";
+        if(email === "" || !email.includes('@')) {
+            feedback.innerText = "ওস্তাদ, একটি বৈধ জিমেইল দিন!";
+            return;
+        }
+        if(pass.length < 5) {
+            feedback.innerText = "পাসওয়ার্ড অন্তত ৫ ডিজিটের হতে হবে!";
             return;
         }
 
-        const savedEmail = localStorage.getItem('ar_secure_email');
-        const savedPass = localStorage.getItem('ar_secure_pass');
+        // ব্রাউজার মেমোরিতে চেক (একবার সেট হলে আর বদলানো যাবে না)
+        const lockedEmail = localStorage.getItem('v11_lock_email');
+        const lockedPass = localStorage.getItem('v11_lock_pass');
 
-        if(!savedEmail) {
-            // প্রথমবার রেজিস্ট্রেশন - লকড
-            localStorage.setItem('ar_secure_email', email);
-            localStorage.setItem('ar_secure_pass', pass);
-            successTransition();
+        if(!lockedEmail) {
+            // প্রথমবার রেজিস্ট্রেশন - এই জিমেইলই এই ডিভাইসের জন্য লক
+            localStorage.setItem('v11_lock_email', email);
+            localStorage.setItem('v11_lock_pass', pass);
+            openDashboard();
         } else {
-            if(email === savedEmail && pass === savedPass) {
-                successTransition();
+            // পরবর্তী সময়ে মিলিয়ে দেখা
+            if(email === lockedEmail && pass === lockedPass) {
+                openDashboard();
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'এক্সেস ডিনাইড!',
-                    text: 'এই জিমেইলটি এই ডিভাইসে সংরক্ষিত জিমেইলের সাথে মিলছে না।',
-                    background: '#0d1117', color: '#fff'
+                    title: 'সিকিউরিটি অ্যালার্ট!',
+                    text: 'এই জিমেইলটি এই ডিভাইসে লক করা জিমেইলের সাথে মিলছে না। আপনার সঠিক তথ্য দিন।',
+                    background: '#0d1117', color: '#fff',
+                    confirmButtonColor: '#00f2fe'
                 });
             }
         }
     }
 
-    function successTransition() {
-        document.getElementById('authSystem').classList.add('animate__animated', 'animate__zoomOut');
+    function openDashboard() {
+        document.getElementById('authSystem').classList.add('animate__animated', 'animate__fadeOutUp');
         setTimeout(() => {
             document.getElementById('authSystem').style.display = 'none';
-            document.getElementById('mainDashboard').style.display = 'block';
+            document.getElementById('nexusDashboard').style.display = 'block';
             Swal.fire({
+                title: 'স্বাগতম ওস্তাদ আতিক!',
+                text: 'আপনার সাম্রাজ্য এখন আনলকড।',
                 icon: 'success',
-                title: 'স্বাগতম ওস্তাদ!',
-                text: 'সিস্টেম এখন আপনার নিয়ন্ত্রণে।',
-                timer: 1500, showConfirmButton: false
+                timer: 2500, showConfirmButton: false,
+                background: '#0d1117', color: '#fff'
             });
-        }, 600);
+        }, 800);
     }
 
-    function triggerOrder(service) {
+    // ২. অটোমেটেড অর্ডার এবং ডেলিভারি লজিক
+    function handleOrder(product) {
         Swal.fire({
-            title: service + ' অর্ডার কনফার্ম করুন',
+            title: product + ' অর্ডার করুন',
             html: `
                 <div class="text-start">
-                    <label class="small">লিঙ্ক বা আইডি কোড:</label>
-                    <input id="link" class="swal2-input mt-1" placeholder="https://...">
-                    <label class="small mt-2">প্যাকেজ নির্বাচন করুন:</label>
-                    <select id="pkg" class="swal2-input mt-1">
-                        <option>১০০ টাকা - বেসিক</option>
-                        <option>৫০০ টাকা - স্ট্যান্ডার্ড</option>
-                        <option>১০০০ টাকা - প্রিমিয়াম (অটো)</option>
+                    <label class="text-info small">প্লেয়ার আইডি বা লিঙ্ক:</label>
+                    <input id="target" class="swal2-input bg-dark text-white border-secondary mt-1" placeholder="ID/Link লিখুন">
+                    <label class="text-info small mt-3">প্যাকেজ বাছাই করুন:</label>
+                    <select id="pckg" class="swal2-input bg-dark text-white border-secondary mt-1">
+                        <option value="85">বেসিক প্যাক (৳৮৫)</option>
+                        <option value="500">স্ট্যান্ডার্ড প্যাক (৳৫০০)</option>
+                        <option value="1500">ভিআইপি অটো প্যাক (৳১৫০০)</option>
                     </select>
                 </div>
             `,
-            confirmButtonText: 'পেমেন্ট করুন',
             showCancelButton: true,
+            confirmButtonText: 'পেমেন্ট করুন',
+            cancelButtonText: 'বাতিল',
             background: '#0d1117', color: '#fff'
-        }).then((res) => {
-            if(res.isConfirmed) {
-                Swal.fire({
-                    title: 'প্রসেসিং...',
-                    text: 'সার্ভার থেকে আপনার আইডি ভেরিফাই করা হচ্ছে।',
-                    didOpen: () => { Swal.showLoading(); }
-                });
-                setTimeout(() => {
-                    Swal.fire('অর্ডার সফল!', 'পেমেন্ট গ্রহণ করা হয়েছে। আপনার কাজ শুরু হয়ে গেছে।', 'success');
-                }, 2500);
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const target = document.getElementById('target').value;
+                if(!target) {
+                    Swal.fire('ভুল!', 'লিঙ্ক বা আইডি না দিলে ডেলিভারি হবে না ওস্তাদ!', 'warning');
+                    return;
+                }
+                processAutoDelivery(product, target);
             }
         });
     }
 
-    function logout() {
+    function processAutoDelivery(p, t) {
+        Swal.fire({
+            title: 'ভেরিফাই হচ্ছে...',
+            text: 'আমাদের সার্ভার আপনার ' + p + ' আইডি চেক করছে।',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading(); }
+        });
+
+        // ৫৫০ লাইনের লজিকের অংশ: অটো-ডেলিভারি সিমুলেশন
+        setTimeout(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'অর্ডার সফল!',
+                text: t + ' আইডিতে সার্ভিসটি পাঠিয়ে দেওয়া হয়েছে। পেমেন্ট কনফার্ম।',
+                background: '#0d1117', color: '#fff'
+            });
+        }, 4000);
+    }
+
+    function systemLogout() {
         location.reload();
     }
 </script>
 
 </body>
-                    </html>
+                </html> 
