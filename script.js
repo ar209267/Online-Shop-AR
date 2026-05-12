@@ -161,3 +161,29 @@ function placeOrder(product) {
     // এরপর ডাটাবেসে সেভ হওয়ার জন্য ডাটা পাঠাবে
     alert("আপনার অর্ডারটি পেন্ডিং আছে। আমরা ভেরিফাই করে ৫ মিনিটে ডেলিভারি দেব।");
 }
+function secureLogin() {
+    const email = document.getElementById('uEmail').value;
+    const pass = document.getElementById('uPass').value;
+    
+    // ব্রাউজার মেমোরিতে জিমেইল ও পাসওয়ার্ড চেক
+    const savedEmail = localStorage.getItem('nexus_email');
+    const savedPass = localStorage.getItem('nexus_pass');
+
+    if(!savedEmail) {
+        // প্রথমবার রেজিস্ট্রেশন - চিরস্থায়ী লক
+        localStorage.setItem('nexus_email', email);
+        localStorage.setItem('nexus_pass', pass);
+        showDashboard();
+    } else {
+        // পরবর্তী সময়ে মিলিয়ে দেখা
+        if(email === savedEmail && pass === savedPass) {
+            showDashboard();
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'এক্সেস ডিনাইড!',
+                text: 'এই জিমেইলটি এই ডিভাইসের জন্য সংরক্ষিত নয়। আপনার সঠিক তথ্য দিন।'
+            });
+        }
+    }
+}
