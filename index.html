@@ -253,3 +253,114 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Empire | V11.11 Firebase</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+    <style>
+        body { background: #010409; color: white; font-family: sans-serif; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        #mainPanel { display: none; padding: 20px; }
+        .service-card { background: #0d1117; border: 1px solid #00f2fe; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .btn-nexus { background: #00f2fe; color: black; font-weight: bold; border-radius: 10px; width: 100%; border: none; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="authArea" class="container mt-5 pt-5 text-center">
+    <h2 class="orbitron text-info mb-4">SYSTEM ACCESS</h2>
+    <input type="email" id="email" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="আপনার জিমেইল">
+    <input type="password" id="pass" class="form-control mb-4 bg-dark text-white border-secondary" placeholder="পাসওয়ার্ড">
+    <button class="btn btn-nexus" onclick="login()">আনলক করুন</button>
+</div>
+
+<div id="mainPanel" class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="orbitron">AR SHOP</h3>
+        <span class="badge bg-success">Balance: ৳ ৯৫০</span>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="service-card">
+                <h6>FF Diamond</h6>
+                <button class="btn btn-nexus btn-sm" onclick="order('Free Fire')">অর্ডার</button>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="service-card">
+                <h6>FB Follower</h6>
+                <button class="btn btn-nexus btn-sm" onclick="order('FB Follower')">অর্ডার</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // আপনার দেওয়া Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
+      authDomain: "online-shop-ar.firebaseapp.com",
+      projectId: "online-shop-ar",
+      storageBucket: "online-shop-ar.firebasestorage.app",
+      messagingSenderId: "913434308973",
+      appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function login() {
+        const mail = document.getElementById('email').value;
+        const pass = document.getElementById('pass').value;
+        if(mail && pass) {
+            localStorage.setItem('ar_user', mail);
+            launch();
+        }
+    }
+
+    function launch() {
+        document.getElementById('authArea').style.display = 'none';
+        document.getElementById('mainPanel').style.display = 'block';
+    }
+
+    function order(service) {
+        Swal.fire({
+            title: service,
+            html: `<input id="target" class="swal2-input" placeholder="আইডি/লিঙ্ক">
+                   <input id="trx" class="swal2-input" placeholder="TrxID">`,
+            showCancelButton: true,
+            confirmButtonText: 'অর্ডার দিন'
+        }).then((res) => {
+            if(res.isConfirmed) {
+                const target = document.getElementById('target').value;
+                const trx = document.getElementById('trx').value;
+                const orderId = "AR-" + Date.now();
+
+                // সরাসরি Firebase Database এ ডাটা সেভ
+                db.ref('orders/' + orderId).set({
+                    service: service,
+                    target: target,
+                    trx: trx,
+                    status: 'Pending',
+                    time: new Date().toLocaleString()
+                }).then(() => {
+                    Swal.fire('সফল!', 'অর্ডারটি অ্যাডমিন প্যানেলে পাঠানো হয়েছে।', 'success');
+                });
+            }
+        });
+    }
+
+    window.onload = () => { if(localStorage.getItem('ar_user')) launch(); }
+</script>
+</body>
+</html>
