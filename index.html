@@ -3,329 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ULTIMATE HUB | Next-Gen Monochrome v11.0</title>
+    <title>AR ULTIMATE | Pro Wallet OS v12.0</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --primary: #ffffff; /* হোয়াইট */
-            --secondary: #e1e1e1; /* লাইট গ্রে */
-            --bg-dark: #000000; /* পিওর ব্ল্যাক */
-            --glass: rgba(10, 10, 10, 0.95); /* ডার্ক গ্লাস */
-            --border: rgba(255, 255, 255, 0.1); /* লাইট বর্ডার */
-        }
+        :root { --white: #ffffff; --dark: #000000; --gray: #1a1a1a; --border: rgba(255,255,255,0.1); }
+        body { background: var(--dark); color: var(--white); font-family: 'Hind Siliguri', sans-serif; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--primary);
-            font-family: 'Hind Siliguri', sans-serif;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-                              radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+        /* --- AUTH & PROFILE HUD --- */
+        .profile-bar { 
+            background: var(--gray); border-radius: 15px; border: 1px solid var(--border);
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
         }
+        .balance-tag { background: var(--white); color: var(--dark); padding: 5px 15px; border-radius: 50px; font-weight: 900; font-size: 18px; }
 
-        /* --- STAGE 1: SUPER-POWERFUL AUTH LAYER (সাদাকালো) --- */
-        #secure-auth-layer {
-            position: fixed; inset: 0; background: #000; z-index: 99999;
-            display: flex; align-items: center; justify-content: center;
+        /* --- CARDS & UI --- */
+        .glass-card { 
+            background: var(--gray); border: 1px solid var(--border); border-radius: 20px; 
+            transition: 0.3s; cursor: pointer; overflow: hidden;
         }
-        .auth-terminal {
-            background: var(--glass); padding: 50px; border-radius: 30px;
-            border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-            width: 100%; max-width: 420px; text-align: center;
-        }
-        .terminal-text { font-family: 'Urbanist', sans-serif; letter-spacing: 2px; font-weight: 900; }
+        .glass-card:hover { border-color: var(--white); transform: translateY(-5px); }
+        .img-box { height: 120px; background: #080808; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* --- STAGE 2: NAVIGATION & HUD (সাদাকালো) --- */
-        .master-nav {
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border); padding: 15px 0;
-        }
-        .nav-brand { font-family: 'Urbanist', sans-serif; font-weight: 900; font-size: 24px; color: var(--primary); }
-
-        /* --- STAGE 3: REALISTIC SERVICE GRID (সাদাকালো) --- */
-        .category-tab {
-            background: var(--glass); padding: 12px 25px; border-radius: 50px;
-            border: 1px solid var(--border); margin-right: 12px; cursor: pointer;
-            font-size: 14px; transition: 0.3s; color: var(--primary); font-weight: 600;
-        }
-        .category-tab.active, .category-tab:hover { background: var(--primary); color: #000; border-color: #fff; }
-
-        .service-card {
-            background: var(--glass); border-radius: 20px; border: 1px solid var(--border);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden;
-            position: relative; height: 100%;
-        }
-        .service-card:hover { transform: translateY(-10px); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1); }
-        .service-img { height: 140px; background: #0a0a0a; display: flex; align-items: center; justify-content: center; padding: 25px; border-bottom: 1px solid var(--border); }
-        .service-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .service-name { padding: 15px; font-weight: 700; text-align: center; color: var(--primary); }
-        .status-dot { height: 8px; width: 8px; background: #fff; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #fff; }
-
-        /* --- STAGE 4: PAYMENT GATEWAY (REALISTIC UX - সাদাকালো) --- */
-        #gateway-overlay {
+        /* --- MODALS --- */
+        .full-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 10000; align-items: center; justify-content: center;
+            z-index: 10000; align-items: center; justify-content: center; padding: 20px;
         }
-        .gateway-container { background: #fff; color: #000; border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; }
-        .bkash-head { background: #000; color: #fff; padding: 30px; text-align: center; } /* ব্ল্যাক bKash Color */
-
-        /* --- STAGE 5: INVOICE & LOGS (সাদাকালো) --- */
-        .log-section { background: rgba(10, 10, 10, 0.95); border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; margin-top: 50px; }
-        .order-id-tag { color: var(--primary); font-family: 'Urbanist', sans-serif; font-weight: bold; }
+        .modal-content-box { background: #fff; color: #000; border-radius: 25px; width: 100%; max-width: 400px; padding: 30px; }
         
-        .badge-pending { background: #fff; color: #000; padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: bold; }
+        .btn-master { background: #000; color: #fff; padding: 12px; border-radius: 50px; font-weight: bold; width: 100%; border: none; }
+        .btn-add-money { background: #d12053; color: #fff; border: none; padding: 8px 15px; border-radius: 50px; font-size: 13px; }
     </style>
 </head>
 <body>
 
-<div id="secure-auth-layer">
-    <div class="auth-terminal">
-        <div class="mb-4"><i class="fas fa-lock fa-4x text-white"></i></div>
-        <h2 class="terminal-text text-white">SYSTEM ACCESS</h2>
-        <p class="text-secondary small mb-5">AR Hub Monochrome v11.0 | v2026.12</p>
-        <div class="mb-3">
-            <input type="password" id="master-pin" class="form-control bg-dark text-white border-white text-center py-3 rounded-pill" placeholder="Enter System PIN">
-        </div>
-        <button class="btn btn-light w-100 py-3 fw-bold rounded-pill" onclick="AuthEngine.verify()">Unlock System</button>
+<div id="auth-layer" style="position:fixed; inset:0; background:#000; z-index:20000; display:flex; align-items:center; justify-content:center;">
+    <div class="text-center p-5 border border-white rounded-5" style="max-width:400px; width:90%;">
+        <i class="fas fa-user-shield fa-4x mb-4"></i>
+        <h2 class="fw-900 mb-4">AR SYSTEM ACCESS</h2>
+        <input type="password" id="sys-pin" class="form-control bg-dark text-white border-white text-center py-3 mb-3 rounded-pill" placeholder="System PIN">
+        <button class="btn btn-light w-100 py-3 fw-bold rounded-pill" onclick="Engine.login()">UNLOCK HUB</button>
     </div>
 </div>
 
-<div id="main-hub" style="display:none;">
-    <nav class="master-nav sticky-top">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="nav-brand text-white">AR <span class="text-primary">ULTIMATE</span></div>
-            <div class="d-flex align-items-center">
-                <span class="small me-3 text-secondary d-none d-md-block"><i class="fas fa-circle status-dot"></i> Server: Online</span>
-                <button class="btn btn-sm btn-outline-light rounded-pill px-3" onclick="location.reload()">Logout</button>
+<div id="app-content" style="display:none;" class="container py-4">
+    <div class="profile-bar mb-4">
+        <div class="d-flex align-items-center">
+            <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center me-3" style="width:45px; height:45px;">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>
+                <small class="text-secondary d-block">স্বাগতম, আতিক</small>
+                <span class="fw-bold">My Wallet</span>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-5">
-        <div id="home-view">
-            <div class="d-flex mb-5 overflow-auto pb-2" id="cat-filter">
-                <div class="category-tab active" onclick="AppEngine.filter('all')">সব সার্ভিস</div>
-                <div class="category-tab" onclick="AppEngine.filter('game')">গেমিং</div>
-                <div class="category-tab" onclick="AppEngine.filter('social')">সোশ্যাল SMM</div>
-                <div class="category-tab" onclick="AppEngine.filter('software')">সফটওয়্যার</div>
-            </div>
-
-            <div class="row g-4" id="service-grid">
-                </div>
+        <div class="text-end">
+            <div class="balance-tag mb-1">৳ <span id="user-balance">0.00</span></div>
+            <button class="btn-add-money" onclick="Wallet.showAdd()">+ টাকা অ্যাড করুন</button>
         </div>
+    </div>
 
-        <div id="order-panel" style="display:none;">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="service-card p-4">
-                        <button class="btn btn-sm text-secondary mb-3" onclick="AppEngine.goHome()"><i class="fas fa-arrow-left"></i> ফিরে যান</button>
-                        <h2 id="order-title" class="fw-900 text-primary mb-4"></h2>
-                        <div id="pkg-list" class="row g-3"></div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="service-card p-4">
-                        <h5 class="fw-bold mb-4 text-white">অর্ডার ডিটেইলস</h5>
-                        <div class="mb-3">
-                            <label class="small text-secondary mb-1">প্লেয়ার আইডি / টার্গেট লিঙ্ক</label>
-                            <input type="text" id="target-id" class="form-control bg-dark text-white border-secondary py-3">
-                        </div>
-                        <button class="btn btn-light w-100 py-3 fw-bold mt-2" onclick="PaymentEngine.open()">পেমেন্ট প্রসেস করুন</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="d-flex gap-2 overflow-auto pb-3 mb-4" id="cat-list">
+        <button class="btn btn-outline-light rounded-pill px-4 active" onclick="Engine.filter('all')">All</button>
+        <button class="btn btn-outline-light rounded-pill px-4" onclick="Engine.filter('game')">Gaming</button>
+        <button class="btn btn-outline-light rounded-pill px-4" onclick="Engine.filter('social')">SMM</button>
+    </div>
 
-        <div class="log-section mt-5">
-            <h6 class="text-secondary mb-4 fw-bold"><i class="fas fa-code-branch me-2"></i> MASTER TRANSACTION DATABASE</h6>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover align-middle small">
-                    <thead><tr class="text-secondary"><th>ORDER_ID</th><th>TIME</th><th>SERVICE</th><th>TARGET</th><th>TrxID</th><th>STATUS</th></tr></thead>
-                    <tbody id="master-log-body"></tbody>
-                </table>
-            </div>
-        </div>
+    <div class="row g-3" id="service-grid"></div>
+
+    <div class="mt-5 p-4 border border-secondary rounded-4">
+        <h6 class="text-secondary mb-3"><i class="fas fa-history"></i> সাম্প্রতিক লেনদেন</h6>
+        <div id="log-list" class="small"></div>
     </div>
 </div>
 
-<div id="gateway-overlay">
-    <div class="gateway-container shadow-lg">
-        <div class="bkash-head">
-            <h5 class="m-0 fw-bold">AR Secure Payment</h5>
-            <p class="small m-0 mt-1">Monochrome Secure Gateway v11.0</p>
+<div id="add-money-modal" class="full-overlay">
+    <div class="modal-content-box">
+        <h4 class="fw-bold text-center mb-4">Add Money to Wallet</h4>
+        <div class="p-3 bg-light rounded mb-3 text-center">
+            বিকাশ/নগদ পার্সোনাল: <br> <strong class="fs-5">01766 380 931</strong>
         </div>
-        <div class="p-4">
-            <div class="alert alert-secondary py-2 small">পেমেন্ট নম্বর: <strong class="text-dark">01766 380 931</strong> ( Personal )</div>
-            <div class="d-flex justify-content-between mb-3"><span>প্রদেয় টাকা:</span><strong id="final-price" class="text-dark"></strong></div>
-            <label class="small text-dark mb-1">ট্রানজেকশন আইডি (TrxID) দিন:</label>
-            <input type="text" id="trx-field" class="form-control mb-3 py-3" placeholder="Ex: 8XJ92KLA">
-            <button class="btn btn-dark w-100 py-3 fw-bold" onclick="PaymentEngine.verify()">CONFIRM TRANSACTION</button>
-            <button class="btn btn-link w-100 text-decoration-none text-secondary btn-sm mt-2" onclick="PaymentEngine.close()">Cancel</button>
-        </div>
+        <input type="number" id="add-amount" class="form-control mb-2 py-3" placeholder="টাকার পরিমাণ">
+        <input type="text" id="add-trx" class="form-control mb-3 py-3" placeholder="TrxID (Ex: 8XLA92)">
+        <p class="small text-muted text-center">টাকা পাঠিয়ে TrxID দিন, অটোমেটিক ব্যালেন্স যোগ হবে।</p>
+        <button class="btn-master" onclick="Wallet.processAdd()">CONFIRM ADD MONEY</button>
+        <button class="btn btn-link w-100 text-secondary mt-2" onclick="Wallet.close()">Cancel</button>
+    </div>
+</div>
+
+<div id="order-modal" class="full-overlay">
+    <div class="modal-content-box">
+        <h4 id="ord-name" class="fw-bold mb-3"></h4>
+        <div id="pkg-options" class="mb-3"></div>
+        <input type="text" id="ord-target" class="form-control mb-3 py-3" placeholder="ID বা লিঙ্ক দিন">
+        <div class="d-flex justify-content-between mb-4"><span>Total:</span><strong id="ord-price">৳0</strong></div>
+        <button class="btn-master" onclick="Engine.confirmOrder()">BUY NOW</button>
+        <button class="btn btn-link w-100 text-secondary mt-2" onclick="Engine.closeOrder()">Close</button>
     </div>
 </div>
 
 <script>
 /**
- * AR CORE ENGINE v11.0 Monochrome
- * Architecture: Object-Oriented JS
- * Features: Database Mockup, Persistence, Anti-Inspect
+ * AR PRO WALLET ENGINE v12.0
  */
 
-const Database = {
-    services: [
-        { id: 1, cat: 'game', name: 'Free Fire Diamond', img: 'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', pkgs: [{n: '115 Diamond', p: 85}, {n: '505 Diamond', p: 340}, {n: 'Weekly', p: 165}] },
-        { id: 2, cat: 'game', name: 'PUBG Mobile UC', img: 'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png', pkgs: [{n: '60 UC', p: 80}, {n: '325 UC', p: 420}] },
-        { id: 3, cat: 'social', name: 'Facebook Services', img: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', pkgs: [{n: '1K Follower', p: 150}, {n: '1K Like', p: 90}] },
-        { id: 4, cat: 'social', name: 'TikTok Services', img: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', pkgs: [{n: '1K Follower', p: 120}, {n: '10K Views', p: 50}] },
-        { id: 5, cat: 'software', name: 'Canva Pro 1 Year', img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg', pkgs: [{n: 'Private Account', p: 450}, {n: 'Team Invite', p: 150}] },
-        { id: 6, cat: 'software', name: 'Windows Keys', img: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Windows_11_logo.svg', pkgs: [{n: 'Windows 11 Pro', p: 800}, {n: 'Windows 10 Pro', p: 650}] }
-    ]
-};
+const DB = [
+    { id:1, c:'game', n:'Free Fire Diamond', i:'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', p:[{n:'115💎',p:85},{n:'505💎',p:340}] },
+    { id:2, c:'social', n:'Facebook Follower', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', p:[{n:'1K',p:150}] }
+];
 
-const AuthEngine = {
-    verify: function() {
-        const pin = document.getElementById('master-pin').value;
-        if(pin === "1234") {
-            document.getElementById('secure-auth-layer').style.display = 'none';
-            document.getElementById('main-hub').style.display = 'block';
-            AppEngine.init();
-        } else { alert("ACCESS DENIED: INVALID SYSTEM PIN"); }
-    }
-};
+let state = { balance: 0, currentService: null, selectedPkg: null };
 
-const AppEngine = {
-    currentPkg: null,
-    currentService: null,
-
-    init: function() {
-        this.render('all');
-        this.loadLogs();
+const Engine = {
+    login: () => {
+        if(document.getElementById('sys-pin').value === "1234") {
+            document.getElementById('auth-layer').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            Engine.init();
+        } else { alert("ভুল পিন!"); }
     },
 
-    render: function(filter) {
+    init: () => {
+        state.balance = parseFloat(localStorage.getItem('ar_bal')) || 0;
+        document.getElementById('user-balance').innerText = state.balance.toFixed(2);
+        Engine.render('all');
+        Engine.loadLogs();
+    },
+
+    render: (cat) => {
         const grid = document.getElementById('service-grid');
         grid.innerHTML = '';
-        const items = filter === 'all' ? Database.services : Database.services.filter(s => s.cat === filter);
-        
+        const items = cat === 'all' ? DB : DB.filter(x => x.c === cat);
         items.forEach(s => {
             grid.innerHTML += `
-                <div class="col-6 col-lg-3">
-                    <div class="service-card" onclick="AppEngine.openOrder(${s.id})">
-                        <div class="service-img"><img src="${s.img}"></div>
-                        <div class="service-name">
-                            <span class="small text-secondary fw-bold text-uppercase">${s.cat}</span><br>
-                            <span class="text-white fw-bold">${s.name}</span>
-                        </div>
+            <div class="col-6 col-md-3">
+                <div class="glass-card" onclick="Engine.openOrder(${s.id})">
+                    <div class="img-box"><img src="${s.i}"></div>
+                    <div class="p-3 text-center">
+                        <small class="text-secondary fw-bold text-uppercase">${s.c}</small>
+                        <h6 class="m-0 fw-bold">${s.n}</h6>
                     </div>
-                </div>`;
+                </div>
+            </div>`;
         });
     },
 
-    filter: function(cat) {
-        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        this.render(cat);
-    },
-
-    openOrder: function(id) {
-        const s = Database.services.find(x => x.id === id);
-        this.currentService = s;
-        document.getElementById('order-title').innerText = s.name;
-        const list = document.getElementById('pkg-list');
-        list.innerHTML = '';
-        s.pkgs.forEach(p => {
-            const div = document.createElement('div');
-            div.className = "col-12 col-md-6";
-            div.innerHTML = `
-                <div class="p-3 service-card d-flex justify-content-between" onclick="AppEngine.selectPkg(this, '${p.n}', '${p.p}')">
-                    <span class="text-white fw-bold">${p.n}</span><strong class="text-white">৳${p.p}</strong>
-                </div>`;
-            div.onclick = () => AppEngine.selectPkg(div.children[0], p.n, p.p);
-            list.appendChild(div);
+    openOrder: (id) => {
+        state.currentService = DB.find(x => x.id === id);
+        document.getElementById('ord-name').innerText = state.currentService.n;
+        const opt = document.getElementById('pkg-options');
+        opt.innerHTML = '';
+        state.currentService.p.forEach(p => {
+            opt.innerHTML += `<div class="p-3 border rounded mb-2 d-flex justify-content-between" onclick="Engine.selectPkg(this, '${p.n}', ${p.p})">
+                <span>${p.n}</span><strong>৳${p.p}</strong>
+            </div>`;
         });
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('order-panel').style.display = 'block';
-        window.scrollTo(0,0);
+        document.getElementById('order-modal').style.display = 'flex';
     },
 
-    selectPkg: function(el, name, price) {
-        this.currentPkg = { name, price };
-        document.querySelectorAll('#pkg-list .service-card').forEach(c => c.style.borderColor = 'rgba(255,255,255,0.1)');
-        el.style.borderColor = '#ffffff';
+    selectPkg: (el, n, p) => {
+        state.selectedPkg = { n, p };
+        document.querySelectorAll('#pkg-options div').forEach(d => d.style.borderColor = '#dee2e6');
+        el.style.borderColor = '#000';
+        document.getElementById('ord-price').innerText = "৳" + p;
     },
 
-    goHome: function() {
-        document.getElementById('home-view').style.display = 'block';
-        document.getElementById('order-panel').style.display = 'none';
+    confirmOrder: () => {
+        const target = document.getElementById('ord-target').value;
+        if(!state.selectedPkg || !target) return alert("তথ্য দিন!");
+        if(state.balance < state.selectedPkg.p) return alert("ব্যালেন্স নেই! টাকা অ্যাড করুন।");
+
+        state.balance -= state.selectedPkg.p;
+        Engine.updateBalance();
+        Engine.saveLog(`Service: ${state.currentService.n} (${state.selectedPkg.n}) - Success`);
+        alert("অর্ডার সফল! ব্যালেন্স থেকে টাকা কাটা হয়েছে।");
+        location.reload();
     },
 
-    loadLogs: function() {
-        const logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
-        const body = document.getElementById('master-log_body');
-        body.innerHTML = logs.map(l => `
-            <tr>
-                <td class="order-id-tag">${l.id}</td>
-                <td class="small text-secondary">${l.time}</td>
-                <td class="text-white">${l.service}</td>
-                <td><code>${l.target}</code></td>
-                <td><span class="text-primary">${l.trx}</span></td>
-                <td><span class="badge-pending">PENDING</span></td>
-            </tr>`).join('') || '<tr><td colspan="6" class="text-center py-5 text-secondary">NO DATA IN DATABASE</td></tr>';
-    }
+    saveLog: (msg) => {
+        let logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
+        logs.unshift({ time: new Date().toLocaleString(), msg });
+        localStorage.setItem('ar_logs', JSON.stringify(logs));
+    },
+
+    loadLogs: () => {
+        const logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
+        document.getElementById('log-list').innerHTML = logs.map(l => `<div class="mb-2 pb-2 border-bottom border-secondary text-secondary">${l.time}: ${l.msg}</div>`).join('');
+    },
+
+    updateBalance: () => {
+        localStorage.setItem('ar_bal', state.balance);
+        document.getElementById('user-balance').innerText = state.balance.toFixed(2);
+    },
+
+    closeOrder: () => { document.getElementById('order-modal').style.display = 'none'; }
 };
 
-const PaymentEngine = {
-    open: function() {
-        const target = document.getElementById('target-id').value;
-        if(!AppEngine.currentPkg || !target) return alert("Error: Select Package & Input Target ID");
-        document.getElementById('final-price').innerText = "৳" + AppEngine.currentPkg.price;
-        document.getElementById('gateway-overlay').style.display = 'flex';
-    },
+const Wallet = {
+    showAdd: () => { document.getElementById('add-money-modal').style.display = 'flex'; },
+    close: () => { document.getElementById('add-money-modal').style.display = 'none'; },
+    processAdd: () => {
+        const amt = parseFloat(document.getElementById('add-amount').value);
+        const trx = document.getElementById('add-trx').value;
+        if(!amt || trx.length < 6) return alert("সঠিক তথ্য দিন!");
 
-    close: function() {
-        document.getElementById('gateway-overlay').style.display = 'none';
-    },
-
-    verify: function() {
-        const trx = document.getElementById('trx-field').value;
-        if(trx.length < 8) return alert("INVALID TRX_ID: Verification Failed.");
-        
-        const orderId = "#ARM-" + Math.floor(100000 + Math.random() * 900000);
-        const log = {
-            id: orderId,
-            time: new Date().toLocaleTimeString(),
-            service: AppEngine.currentService.name + " (" + AppEngine.currentPkg.name + ")",
-            target: document.getElementById('target-id').value,
-            trx: trx
-        };
-
-        let allLogs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
-        allLogs.unshift(log);
-        localStorage.setItem('ar_master_logs', JSON.stringify(allLogs));
-
-        alert("ENCRYPTED DATA SENT TO SERVER.\nOrder ID: " + orderId);
-        AppEngine.goHome();
-        this.close();
-        AppEngine.loadLogs();
-        
-        document.getElementById('target-id').value = "";
-        document.getElementById('trx-field').value = "";
+        // অটো-চেকিং লজিক সিমুলেশন (টাকা অ্যাড হওয়া)
+        state.balance += amt;
+        Engine.updateBalance();
+        Engine.saveLog(`Wallet Recharge: +৳${amt} (Trx: ${trx}) - Auto Verified`);
+        alert(`অভিনন্দন! আপনার ওয়ালেটে ৳${amt} যোগ করা হয়েছে।`);
+        Wallet.close();
     }
-};
-
-// Anti-Inspect Security
-document.addEventListener('contextmenu', event => event.preventDefault());
-document.onkeydown = function(e) {
-    if(e.keyCode == 123) return false;
-    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
 };
 </script>
-
 </body>
-    </html>
+</html> 
