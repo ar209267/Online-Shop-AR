@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ULTIMATE DIGITAL HUB | Secure OS</title>
+    <title>AR ULTIMATE HUB | Next-Gen Monochrome v11.0</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -11,263 +11,321 @@
 
     <style>
         :root {
-            --primary: #8a2be2;
-            --secondary: #00e5ff;
-            --bg: #030508;
-            --card: #0d1117;
-            --neon: 0 0 20px rgba(138, 43, 226, 0.4);
+            --primary: #ffffff; /* হোয়াইট */
+            --secondary: #e1e1e1; /* লাইট গ্রে */
+            --bg-dark: #000000; /* পিওর ব্ল্যাক */
+            --glass: rgba(10, 10, 10, 0.95); /* ডার্ক গ্লাস */
+            --border: rgba(255, 255, 255, 0.1); /* লাইট বর্ডার */
         }
 
         body {
-            background: var(--bg);
-            color: #fff;
+            background-color: var(--bg-dark);
+            color: var(--primary);
             font-family: 'Hind Siliguri', sans-serif;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
         }
 
-        /* --- STAGE 1: MASTER AUTH SYSTEM --- */
-        #auth-layer {
+        /* --- STAGE 1: SUPER-POWERFUL AUTH LAYER (সাদাকালো) --- */
+        #secure-auth-layer {
             position: fixed; inset: 0; background: #000; z-index: 99999;
             display: flex; align-items: center; justify-content: center;
         }
-        .auth-card {
-            background: var(--card); padding: 50px; border-radius: 40px;
-            border: 2px solid var(--primary); box-shadow: var(--neon);
-            max-width: 450px; width: 90%; text-align: center;
+        .auth-terminal {
+            background: var(--glass); padding: 50px; border-radius: 30px;
+            border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            width: 100%; max-width: 420px; text-align: center;
         }
+        .terminal-text { font-family: 'Urbanist', sans-serif; letter-spacing: 2px; font-weight: 900; }
 
-        /* --- STAGE 2: PRE-LEVEL UI/UX --- */
-        .navbar { background: rgba(0,0,0,0.8); backdrop-filter: blur(25px); border-bottom: 1px solid #1f2937; }
-        .nav-title { font-family: 'Urbanist', sans-serif; font-weight: 900; letter-spacing: 2px; }
-
-        .category-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
-        .cat-btn { 
-            background: #161b22; border: 1px solid #30363d; padding: 12px 25px; 
-            border-radius: 50px; white-space: nowrap; cursor: pointer; transition: 0.3s;
+        /* --- STAGE 2: NAVIGATION & HUD (সাদাকালো) --- */
+        .master-nav {
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 15px 0;
         }
-        .cat-btn.active { background: var(--primary); border-color: #fff; box-shadow: var(--neon); }
+        .nav-brand { font-family: 'Urbanist', sans-serif; font-weight: 900; font-size: 24px; color: var(--primary); }
 
-        .service-box {
-            background: #161b22; border-radius: 25px; border: 1px solid #30363d;
-            transition: 0.5s; overflow: hidden; height: 100%; position: relative;
+        /* --- STAGE 3: REALISTIC SERVICE GRID (সাদাকালো) --- */
+        .category-tab {
+            background: var(--glass); padding: 12px 25px; border-radius: 50px;
+            border: 1px solid var(--border); margin-right: 12px; cursor: pointer;
+            font-size: 14px; transition: 0.3s; color: var(--primary); font-weight: 600;
         }
-        .service-box:hover { transform: scale(1.05); border-color: var(--secondary); }
-        .img-wrap { height: 150px; background: #000; display: flex; align-items: center; justify-content: center; padding: 25px; }
-        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .category-tab.active, .category-tab:hover { background: var(--primary); color: #000; border-color: #fff; }
 
-        /* --- STAGE 3: SECURE PAYMENT GATEWAY --- */
-        #gateway-modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+        .service-card {
+            background: var(--glass); border-radius: 20px; border: 1px solid var(--border);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden;
+            position: relative; height: 100%;
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1); }
+        .service-img { height: 140px; background: #0a0a0a; display: flex; align-items: center; justify-content: center; padding: 25px; border-bottom: 1px solid var(--border); }
+        .service-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .service-name { padding: 15px; font-weight: 700; text-align: center; color: var(--primary); }
+        .status-dot { height: 8px; width: 8px; background: #fff; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #fff; }
+
+        /* --- STAGE 4: PAYMENT GATEWAY (REALISTIC UX - সাদাকালো) --- */
+        #gateway-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
             z-index: 10000; align-items: center; justify-content: center;
         }
-        .gateway-box { background: #fff; color: #000; width: 95%; max-width: 420px; border-radius: 20px; overflow: hidden; }
-        .bkash-top { background: #d12053; color: #fff; padding: 30px; text-align: center; }
+        .gateway-container { background: #fff; color: #000; border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; }
+        .bkash-head { background: #000; color: #fff; padding: 30px; text-align: center; } /* ব্ল্যাক bKash Color */
 
-        /* --- STAGE 4: MASTER DATA LOGS (REALISTIC SERVER) --- */
-        .server-logs { background: #0d1117; padding: 30px; border-radius: 25px; border: 1px solid #238636; margin-top: 60px; }
-        .status-badge { padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
-        .status-pending { background: #d29922; color: #000; }
+        /* --- STAGE 5: INVOICE & LOGS (সাদাকালো) --- */
+        .log-section { background: rgba(10, 10, 10, 0.95); border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; margin-top: 50px; }
+        .order-id-tag { color: var(--primary); font-family: 'Urbanist', sans-serif; font-weight: bold; }
+        
+        .badge-pending { background: #fff; color: #000; padding: 5px 12px; border-radius: 50px; font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="auth-layer">
-    <div class="auth-card">
-        <div class="mb-4 text-primary"><i class="fas fa-fingerprint fa-4x"></i></div>
-        <h2 class="nav-title mb-1">AR SYSTEM <span class="text-secondary">X</span></h2>
-        <p class="text-secondary small mb-5">ENCRYPTED ACCESS ONLY</p>
-        <input type="password" id="sys-pin" class="form-control bg-dark text-white border-primary text-center py-3 mb-3 rounded-pill" placeholder="Enter System PIN">
-        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="runAuth()">UNLOCK SYSTEM</button>
+<div id="secure-auth-layer">
+    <div class="auth-terminal">
+        <div class="mb-4"><i class="fas fa-lock fa-4x text-white"></i></div>
+        <h2 class="terminal-text text-white">SYSTEM ACCESS</h2>
+        <p class="text-secondary small mb-5">AR Hub Monochrome v11.0 | v2026.12</p>
+        <div class="mb-3">
+            <input type="password" id="master-pin" class="form-control bg-dark text-white border-white text-center py-3 rounded-pill" placeholder="Enter System PIN">
+        </div>
+        <button class="btn btn-light w-100 py-3 fw-bold rounded-pill" onclick="AuthEngine.verify()">Unlock System</button>
     </div>
 </div>
 
-<div id="hub-container" style="display:none;">
-    <nav class="navbar navbar-dark p-3 sticky-top">
+<div id="main-hub" style="display:none;">
+    <nav class="master-nav sticky-top">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="nav-title h4 m-0">AR <span class="text-primary">ULTIMATE</span></div>
-            <div class="badge bg-success py-2 px-3"><i class="fas fa-shield-alt"></i> SERVER SECURED</div>
+            <div class="nav-brand text-white">AR <span class="text-primary">ULTIMATE</span></div>
+            <div class="d-flex align-items-center">
+                <span class="small me-3 text-secondary d-none d-md-block"><i class="fas fa-circle status-dot"></i> Server: Online</span>
+                <button class="btn btn-sm btn-outline-light rounded-pill px-3" onclick="location.reload()">Logout</button>
+            </div>
         </div>
     </nav>
 
     <div class="container mt-5">
         <div id="home-view">
-            <div class="category-scroll mb-5">
-                <div class="cat-btn active" onclick="Core.filter('all')">সব সার্ভিস</div>
-                <div class="cat-btn" onclick="Core.filter('game')">গেমিং টপ-আপ</div>
-                <div class="cat-btn" onclick="Core.filter('social')">সোশ্যাল মার্কেটিং</div>
-                <div class="cat-btn" onclick="Core.filter('premium')">প্রিমিয়াম সফটওয়্যার</div>
+            <div class="d-flex mb-5 overflow-auto pb-2" id="cat-filter">
+                <div class="category-tab active" onclick="AppEngine.filter('all')">সব সার্ভিস</div>
+                <div class="category-tab" onclick="AppEngine.filter('game')">গেমিং</div>
+                <div class="category-tab" onclick="AppEngine.filter('social')">সোশ্যাল SMM</div>
+                <div class="category-tab" onclick="AppEngine.filter('software')">সফটওয়্যার</div>
             </div>
 
-            <div class="row g-4" id="grid-render"></div>
+            <div class="row g-4" id="service-grid">
+                </div>
         </div>
 
-        <div id="package-panel" style="display:none;">
+        <div id="order-panel" style="display:none;">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="service-box p-4">
-                        <button class="btn btn-sm text-secondary mb-3" onclick="Core.back()"><i class="fas fa-chevron-left"></i> ফিরে যান</button>
-                        <h2 id="view-name" class="fw-bold text-primary mb-4"></h2>
-                        <div id="pkg-render" class="row g-3"></div>
+                    <div class="service-card p-4">
+                        <button class="btn btn-sm text-secondary mb-3" onclick="AppEngine.goHome()"><i class="fas fa-arrow-left"></i> ফিরে যান</button>
+                        <h2 id="order-title" class="fw-900 text-primary mb-4"></h2>
+                        <div id="pkg-list" class="row g-3"></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="service-box p-4">
-                        <h5 class="fw-bold mb-4">অর্ডার ডিটেইলস</h5>
-                        <input type="text" id="target-input" class="form-control bg-dark text-white border-secondary py-3 mb-4" placeholder="ID বা লিঙ্ক দিন">
-                        <button class="btn btn-primary w-100 py-3 fw-bold" onclick="Payment.init()">পেমেন্ট প্রসেস করুন</button>
+                    <div class="service-card p-4">
+                        <h5 class="fw-bold mb-4 text-white">অর্ডার ডিটেইলস</h5>
+                        <div class="mb-3">
+                            <label class="small text-secondary mb-1">প্লেয়ার আইডি / টার্গেট লিঙ্ক</label>
+                            <input type="text" id="target-id" class="form-control bg-dark text-white border-secondary py-3">
+                        </div>
+                        <button class="btn btn-light w-100 py-3 fw-bold mt-2" onclick="PaymentEngine.open()">পেমেন্ট প্রসেস করুন</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="server-logs">
-            <h5 class="text-success fw-bold mb-4"><i class="fas fa-terminal me-2"></i> MASTER TRANSACTION DATABASE</h5>
+        <div class="log-section mt-5">
+            <h6 class="text-secondary mb-4 fw-bold"><i class="fas fa-code-branch me-2"></i> MASTER TRANSACTION DATABASE</h6>
             <div class="table-responsive">
-                <table class="table table-dark table-hover align-middle">
-                    <thead><tr class="text-secondary small"><th>ID</th><th>TIME</th><th>SERVICE</th><th>TARGET</th><th>TrxID</th><th>STATUS</th></tr></thead>
-                    <tbody id="log-body"></tbody>
+                <table class="table table-dark table-hover align-middle small">
+                    <thead><tr class="text-secondary"><th>ORDER_ID</th><th>TIME</th><th>SERVICE</th><th>TARGET</th><th>TrxID</th><th>STATUS</th></tr></thead>
+                    <tbody id="master-log-body"></tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-<div id="gateway-modal">
-    <div class="gateway-box shadow-lg">
-        <div class="bkash-top">
-            <h4 class="m-0 fw-bold">AR Secure Gateway</h4>
-            <small>বিকাশ/নগদ/রকেট (Personal)</small>
+<div id="gateway-overlay">
+    <div class="gateway-container shadow-lg">
+        <div class="bkash-head">
+            <h5 class="m-0 fw-bold">AR Secure Payment</h5>
+            <p class="small m-0 mt-1">Monochrome Secure Gateway v11.0</p>
         </div>
         <div class="p-4">
-            <div class="d-flex justify-content-between mb-2"><span>মোট টাকা:</span><strong id="final-price" class="text-danger"></strong></div>
-            <div class="p-3 bg-light rounded border mb-4">
-                পেমেন্ট নম্বর: <strong class="text-dark">01766 380 931</strong>
-            </div>
-            <label class="small text-secondary mb-1">ট্রানজেকশন আইডি (TrxID)</label>
-            <input type="text" id="trx-input" class="form-control mb-3 py-3" placeholder="Ex: 9KLA8XJ">
-            <button class="btn btn-danger w-100 py-3 fw-bold" onclick="Payment.confirm()">CONFIRM PAYMENT</button>
-            <button class="btn btn-link w-100 text-secondary btn-sm mt-2 text-decoration-none" onclick="Payment.close()">Cancel</button>
+            <div class="alert alert-secondary py-2 small">পেমেন্ট নম্বর: <strong class="text-dark">01766 380 931</strong> ( Personal )</div>
+            <div class="d-flex justify-content-between mb-3"><span>প্রদেয় টাকা:</span><strong id="final-price" class="text-dark"></strong></div>
+            <label class="small text-dark mb-1">ট্রানজেকশন আইডি (TrxID) দিন:</label>
+            <input type="text" id="trx-field" class="form-control mb-3 py-3" placeholder="Ex: 8XJ92KLA">
+            <button class="btn btn-dark w-100 py-3 fw-bold" onclick="PaymentEngine.verify()">CONFIRM TRANSACTION</button>
+            <button class="btn btn-link w-100 text-decoration-none text-secondary btn-sm mt-2" onclick="PaymentEngine.close()">Cancel</button>
         </div>
     </div>
 </div>
 
 <script>
 /**
- * AR CORE v10.0 ENGINE
- * Logic: Hyper-Dynamic Framework
+ * AR CORE ENGINE v11.0 Monochrome
+ * Architecture: Object-Oriented JS
+ * Features: Database Mockup, Persistence, Anti-Inspect
  */
 
-const DATA = [
-    { id: 1, c: 'game', n: 'Free Fire Diamond', i: 'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', p: [{n:'115💎', p:85}, {n:'505💎', p:340}, {n:'Weekly', p:165}] },
-    { id: 2, c: 'game', n: 'PUBG UC', i: 'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png', p: [{n:'60 UC', p:80}, {n:'325 UC', p:420}] },
-    { id: 3, c: 'social', n: 'FB Follower', i: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', p: [{n:'1K Follower', p:150}, {n:'5K Follower', p:650}] },
-    { id: 4, c: 'social', n: 'TikTok Services', i: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', p: [{n:'1K Follower', p:120}, {n:'10K Views', p:45}] },
-    { id: 5, c: 'premium', n: 'Canva Pro', i: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg', p: [{n:'1 Year Private', p:450}] },
-    { id: 6, c: 'premium', n: 'Windows Key', i: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Windows_11_logo.svg', p: [{n:'Win 11 Retail', p:750}] }
-];
+const Database = {
+    services: [
+        { id: 1, cat: 'game', name: 'Free Fire Diamond', img: 'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', pkgs: [{n: '115 Diamond', p: 85}, {n: '505 Diamond', p: 340}, {n: 'Weekly', p: 165}] },
+        { id: 2, cat: 'game', name: 'PUBG Mobile UC', img: 'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png', pkgs: [{n: '60 UC', p: 80}, {n: '325 UC', p: 420}] },
+        { id: 3, cat: 'social', name: 'Facebook Services', img: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', pkgs: [{n: '1K Follower', p: 150}, {n: '1K Like', p: 90}] },
+        { id: 4, cat: 'social', name: 'TikTok Services', img: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', pkgs: [{n: '1K Follower', p: 120}, {n: '10K Views', p: 50}] },
+        { id: 5, cat: 'software', name: 'Canva Pro 1 Year', img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg', pkgs: [{n: 'Private Account', p: 450}, {n: 'Team Invite', p: 150}] },
+        { id: 6, cat: 'software', name: 'Windows Keys', img: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Windows_11_logo.svg', pkgs: [{n: 'Windows 11 Pro', p: 800}, {n: 'Windows 10 Pro', p: 650}] }
+    ]
+};
 
-let state = { selected: null, pkg: null, target: "" };
-
-function runAuth() {
-    if(document.getElementById('sys-pin').value === "1234") {
-        document.getElementById('auth-layer').style.display = 'none';
-        document.getElementById('hub-container').style.display = 'block';
-        Core.init();
-    } else { alert("ACCESS DENIED"); }
-}
-
-const Core = {
-    init: () => { Core.render('all'); Core.loadLogs(); },
-    render: (cat) => {
-        const grid = document.getElementById('grid-render');
-        grid.innerHTML = '';
-        const list = cat === 'all' ? DATA : DATA.filter(x => x.c === cat);
-        list.forEach(s => {
-            grid.innerHTML += `
-            <div class="col-6 col-lg-3">
-                <div class="service-box" onclick="Core.open(${s.id})">
-                    <div class="img-wrap"><img src="${s.i}"></div>
-                    <div class="p-3 text-center">
-                        <small class="text-primary fw-bold text-uppercase">${s.c}</small>
-                        <h6 class="fw-bold m-0 mt-1">${s.n}</h6>
-                    </div>
-                </div>
-            </div>`;
-        });
-    },
-    filter: (cat) => {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-        Core.render(cat);
-    },
-    open: (id) => {
-        state.selected = DATA.find(x => x.id === id);
-        document.getElementById('view-name').innerText = state.selected.n;
-        const pkgs = document.getElementById('pkg-render');
-        pkgs.innerHTML = '';
-        state.selected.p.forEach(p => {
-            pkgs.innerHTML += `
-            <div class="col-12 col-md-6">
-                <div class="p-3 service-box d-flex justify-content-between" onclick="Core.selectPkg(this, '${p.n}', '${p.p}')">
-                    <span>${p.n}</span><strong>৳${p.p}</strong>
-                </div>
-            </div>`;
-        });
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('package-panel').style.display = 'block';
-    },
-    selectPkg: (el, n, p) => {
-        state.pkg = { n, p };
-        document.querySelectorAll('#pkg-render .service-box').forEach(x => x.style.borderColor = '#30363d');
-        el.style.borderColor = '#00e5ff';
-    },
-    back: () => {
-        document.getElementById('home-view').style.display = 'block';
-        document.getElementById('package-panel').style.display = 'none';
-    },
-    loadLogs: () => {
-        const logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
-        document.getElementById('log-body').innerHTML = logs.map(l => `
-            <tr>
-                <td class="text-primary fw-bold">${l.id}</td>
-                <td class="small">${l.time}</td>
-                <td>${l.service}</td>
-                <td><code>${l.target}</code></td>
-                <td>${l.trx}</td>
-                <td><span class="status-badge status-pending">PENDING</span></td>
-            </tr>`).join('') || '<tr><td colspan="6" class="text-center py-5">No Database Logs Found</td></tr>';
+const AuthEngine = {
+    verify: function() {
+        const pin = document.getElementById('master-pin').value;
+        if(pin === "1234") {
+            document.getElementById('secure-auth-layer').style.display = 'none';
+            document.getElementById('main-hub').style.display = 'block';
+            AppEngine.init();
+        } else { alert("ACCESS DENIED: INVALID SYSTEM PIN"); }
     }
 };
 
-const Payment = {
-    init: () => {
-        state.target = document.getElementById('target-input').value;
-        if(!state.pkg || !state.target) return alert("প্যাকেজ এবং টার্গেট আইডি দিন!");
-        document.getElementById('final-price').innerText = "৳" + state.pkg.p;
-        document.getElementById('gateway-modal').style.display = 'flex';
+const AppEngine = {
+    currentPkg: null,
+    currentService: null,
+
+    init: function() {
+        this.render('all');
+        this.loadLogs();
     },
-    close: () => { document.getElementById('gateway-modal').style.display = 'none'; },
-    confirm: () => {
-        const trx = document.getElementById('trx-input').value;
-        if(trx.length < 8) return alert("সঠিক ট্রানজেকশন আইডি দিন!");
+
+    render: function(filter) {
+        const grid = document.getElementById('service-grid');
+        grid.innerHTML = '';
+        const items = filter === 'all' ? Database.services : Database.services.filter(s => s.cat === filter);
         
-        const order = {
-            id: "#AR-" + Math.floor(100000 + Math.random() * 900000),
-            time: new Date().toLocaleString(),
-            service: state.selected.n + " (" + state.pkg.n + ")",
-            target: state.target,
+        items.forEach(s => {
+            grid.innerHTML += `
+                <div class="col-6 col-lg-3">
+                    <div class="service-card" onclick="AppEngine.openOrder(${s.id})">
+                        <div class="service-img"><img src="${s.img}"></div>
+                        <div class="service-name">
+                            <span class="small text-secondary fw-bold text-uppercase">${s.cat}</span><br>
+                            <span class="text-white fw-bold">${s.name}</span>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    },
+
+    filter: function(cat) {
+        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        this.render(cat);
+    },
+
+    openOrder: function(id) {
+        const s = Database.services.find(x => x.id === id);
+        this.currentService = s;
+        document.getElementById('order-title').innerText = s.name;
+        const list = document.getElementById('pkg-list');
+        list.innerHTML = '';
+        s.pkgs.forEach(p => {
+            const div = document.createElement('div');
+            div.className = "col-12 col-md-6";
+            div.innerHTML = `
+                <div class="p-3 service-card d-flex justify-content-between" onclick="AppEngine.selectPkg(this, '${p.n}', '${p.p}')">
+                    <span class="text-white fw-bold">${p.n}</span><strong class="text-white">৳${p.p}</strong>
+                </div>`;
+            div.onclick = () => AppEngine.selectPkg(div.children[0], p.n, p.p);
+            list.appendChild(div);
+        });
+        document.getElementById('home-view').style.display = 'none';
+        document.getElementById('order-panel').style.display = 'block';
+        window.scrollTo(0,0);
+    },
+
+    selectPkg: function(el, name, price) {
+        this.currentPkg = { name, price };
+        document.querySelectorAll('#pkg-list .service-card').forEach(c => c.style.borderColor = 'rgba(255,255,255,0.1)');
+        el.style.borderColor = '#ffffff';
+    },
+
+    goHome: function() {
+        document.getElementById('home-view').style.display = 'block';
+        document.getElementById('order-panel').style.display = 'none';
+    },
+
+    loadLogs: function() {
+        const logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
+        const body = document.getElementById('master-log_body');
+        body.innerHTML = logs.map(l => `
+            <tr>
+                <td class="order-id-tag">${l.id}</td>
+                <td class="small text-secondary">${l.time}</td>
+                <td class="text-white">${l.service}</td>
+                <td><code>${l.target}</code></td>
+                <td><span class="text-primary">${l.trx}</span></td>
+                <td><span class="badge-pending">PENDING</span></td>
+            </tr>`).join('') || '<tr><td colspan="6" class="text-center py-5 text-secondary">NO DATA IN DATABASE</td></tr>';
+    }
+};
+
+const PaymentEngine = {
+    open: function() {
+        const target = document.getElementById('target-id').value;
+        if(!AppEngine.currentPkg || !target) return alert("Error: Select Package & Input Target ID");
+        document.getElementById('final-price').innerText = "৳" + AppEngine.currentPkg.price;
+        document.getElementById('gateway-overlay').style.display = 'flex';
+    },
+
+    close: function() {
+        document.getElementById('gateway-overlay').style.display = 'none';
+    },
+
+    verify: function() {
+        const trx = document.getElementById('trx-field').value;
+        if(trx.length < 8) return alert("INVALID TRX_ID: Verification Failed.");
+        
+        const orderId = "#ARM-" + Math.floor(100000 + Math.random() * 900000);
+        const log = {
+            id: orderId,
+            time: new Date().toLocaleTimeString(),
+            service: AppEngine.currentService.name + " (" + AppEngine.currentPkg.name + ")",
+            target: document.getElementById('target-id').value,
             trx: trx
         };
 
-        let logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
-        logs.unshift(order);
-        localStorage.setItem('ar_logs', JSON.stringify(logs));
+        let allLogs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
+        allLogs.unshift(log);
+        localStorage.setItem('ar_master_logs', JSON.stringify(allLogs));
 
-        alert("অর্ডার সফল! সার্ভারে তথ্য পাঠানো হয়েছে।\nঅর্ডার আইডি: " + order.id);
-        location.reload();
+        alert("ENCRYPTED DATA SENT TO SERVER.\nOrder ID: " + orderId);
+        AppEngine.goHome();
+        this.close();
+        AppEngine.loadLogs();
+        
+        document.getElementById('target-id').value = "";
+        document.getElementById('trx-field').value = "";
     }
+};
+
+// Anti-Inspect Security
+document.addEventListener('contextmenu', event => event.preventDefault());
+document.onkeydown = function(e) {
+    if(e.keyCode == 123) return false;
+    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
 };
 </script>
 
 </body>
-</html>
+    </html>
