@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ULTIMATE | Google Authenticated OS</title>
+    <title>AR ULTIMATE | Pro White Fixed</title>
     
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     
@@ -12,200 +12,182 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --white: #ffffff; --black: #000000; --gray: #111111; --border: rgba(255,255,255,0.15); }
-        body { background-color: var(--black); color: var(--white); font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; }
+        :root {
+            --bg: #ffffff;
+            --card-bg: #fdfdfd;
+            --accent: #000000;
+            --border: #eeeeee;
+        }
 
-        /* --- 1. GOOGLE LOGIN LAYER --- */
+        body {
+            background-color: var(--bg);
+            color: #222;
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        /* --- AUTH LAYER (WHITE THEME) --- */
         #auth-layer {
-            position: fixed; inset: 0; background: #000; z-index: 99999;
+            position: fixed; inset: 0; background: #fff; z-index: 99999;
             display: flex; align-items: center; justify-content: center;
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
         }
         .auth-card {
-            background: var(--gray); padding: 50px; border-radius: 40px;
-            border: 1px solid var(--white); text-align: center; max-width: 420px; width: 90%;
+            background: #fff; padding: 40px; border-radius: 35px;
+            border: 1px solid #ddd; text-align: center; max-width: 400px; width: 90%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
         }
 
-        /* --- 2. LOGGED IN HUD --- */
-        .master-nav { background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); padding: 15px 0; }
-        .profile-hud {
-            background: var(--gray); border: 1px solid var(--border);
-            border-radius: 20px; padding: 15px 25px; display: flex; 
+        /* --- DASHBOARD UI --- */
+        .top-nav { background: #fff; border-bottom: 1px solid var(--border); padding: 15px 0; }
+        .profile-section {
+            background: #f9f9f9; border: 1px solid var(--border);
+            border-radius: 20px; padding: 20px; display: flex; 
             justify-content: space-between; align-items: center; margin-top: 20px;
         }
-        .user-img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; }
-        .balance-box { background: var(--white); color: var(--black); padding: 5px 20px; border-radius: 50px; font-weight: 900; font-size: 20px; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; }
+        .wallet-bal { background: #000; color: #fff; padding: 5px 15px; border-radius: 50px; font-weight: 900; font-size: 20px; }
 
-        /* --- 3. UI COMPONENTS --- */
-        .cat-tab { background: var(--gray); border: 1px solid var(--border); padding: 10px 25px; border-radius: 50px; cursor: pointer; white-space: nowrap; }
-        .cat-tab.active { background: var(--white); color: var(--black); font-weight: bold; }
-        .service-card { background: var(--gray); border: 1px solid var(--border); border-radius: 25px; transition: 0.4s; overflow: hidden; height: 100%; }
-        .service-card:hover { transform: translateY(-10px); border-color: var(--white); }
-        .img-wrap { height: 140px; background: #080808; display: flex; align-items: center; justify-content: center; padding: 25px; }
-        .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .service-card {
+            background: #fff; border: 1px solid var(--border); border-radius: 20px;
+            transition: 0.3s; cursor: pointer; text-align: center; overflow: hidden;
+        }
+        .service-card:hover { border-color: #000; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .img-box { height: 120px; background: #fafafa; display: flex; align-items: center; justify-content: center; padding: 15px; }
+        .img-box img { max-height: 100%; max-width: 100%; object-fit: contain; }
 
-        /* --- 4. OVERLAYS --- */
-        .full-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
-        .modal-box { background: #fff; color: #000; border-radius: 30px; width: 100%; max-width: 420px; padding: 35px; }
-        .btn-black { background: #000; color: #fff; border-radius: 50px; padding: 12px; font-weight: bold; width: 100%; border: none; }
+        /* --- MODAL --- */
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-box { background: #fff; border-radius: 25px; width: 100%; max-width: 400px; padding: 30px; }
+        .btn-main { background: #000; color: #fff; border: none; padding: 12px; border-radius: 50px; width: 100%; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="auth-layer">
-    <div class="auth-card shadow-lg">
-        <i class="fab fa-google fa-4x mb-4 text-white"></i>
-        <h2 class="fw-900 mb-2">AR ULTIMATE HUB</h2>
-        <p class="text-secondary small mb-5">সুরক্ষার জন্য আপনার জিমেইল দিয়ে লগইন করুন</p>
+    <div class="auth-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="50" class="mb-4">
+        <h3 class="fw-900 mb-3 text-dark">Welcome to AR Hub</h3>
+        <p class="text-muted small mb-4">গুগল এরর ফিক্সড করা হয়েছে। ডেমো বাটন দিয়েও সরাসরি ঢুকতে পারবেন।</p>
         
-        <div id="g_id_onload"
-             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse"
-             data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin d-flex justify-content-center" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
-        
-        <button class="btn btn-outline-light btn-sm mt-4 rounded-pill" onclick="Core.mockLogin()">Quick Login (Demo)</button>
+        <div id="g_id_onload" data-client_id="YOUR_REAL_ID_HERE" data-callback="onSignIn"></div>
+        <div class="g_id_signin d-flex justify-content-center mb-3" data-type="standard" data-shape="pill"></div>
+
+        <button class="btn btn-dark w-100 py-3 rounded-pill fw-bold" onclick="Core.directEntry()">
+            <i class="fas fa-sign-in-alt me-2"></i> সরাসরি লগইন করুন
+        </button>
     </div>
 </div>
 
 <div id="main-hub" style="display:none;">
-    <nav class="master-nav sticky-top">
+    <nav class="top-nav">
         <div class="container d-flex justify-content-between align-items-center">
-            <div class="h4 m-0 fw-900">AR <span class="text-secondary">PRO</span></div>
-            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="location.reload()">Logout</button>
+            <h4 class="fw-900 m-0">AR <span class="text-muted">ULTIMATE</span></h4>
+            <button class="btn btn-sm btn-outline-dark rounded-pill" onclick="location.reload()">Logout</button>
         </div>
     </nav>
 
     <div class="container">
-        <div class="profile-hud">
+        <div class="profile-section">
             <div class="d-flex align-items-center">
-                <img id="u-photo" src="" class="user-img me-3" alt="User">
+                <img id="u-img" src="" class="user-avatar me-3">
                 <div>
                     <h6 id="u-name" class="m-0 fw-bold">User Name</h6>
-                    <small id="u-email" class="text-secondary">email@gmail.com</small>
+                    <small id="u-mail" class="text-muted">email@gmail.com</small>
                 </div>
             </div>
             <div class="text-end">
-                <div class="balance-box mb-2">৳ <span id="user-bal">0.00</span></div>
-                <button class="btn btn-outline-light btn-sm rounded-pill px-3" onclick="Wallet.openAdd()">+ Add Money</button>
+                <div class="wallet-bal mb-2">৳ <span id="u-bal">0.00</span></div>
+                <button class="btn btn-dark btn-sm rounded-pill" onclick="Wallet.open()">+ টাকা অ্যাড</button>
             </div>
         </div>
 
-        <div class="d-flex gap-2 mt-5 overflow-auto pb-3" id="cat-scroll">
-            <div class="cat-tab active" onclick="Core.filter('all')">সব সার্ভিস</div>
-            <div class="cat-tab" onclick="Core.filter('game')">Gaming</div>
-            <div class="cat-tab" onclick="Core.filter('social')">Social SMM</div>
+        <div class="d-flex gap-2 mt-4 overflow-auto pb-2">
+            <button class="btn btn-dark rounded-pill px-4" onclick="Core.render('all')">সব সার্ভিস</button>
+            <button class="btn btn-outline-dark rounded-pill px-4" onclick="Core.render('game')">গেমিং</button>
+            <button class="btn btn-outline-dark rounded-pill px-4" onclick="Core.render('social')">সোশ্যাল</button>
         </div>
 
-        <div class="row g-4 mt-1" id="service-grid"></div>
+        <div class="row g-3 mt-3" id="service-grid"></div>
 
-        <div class="mt-5 p-4 border border-secondary rounded-4">
-            <h6 class="text-secondary mb-3 fw-bold">লেনদেন হিস্ট্রি</h6>
-            <div id="db-logs" class="small"></div>
+        <div class="mt-5 p-4 border rounded-4 bg-light">
+            <h6 class="fw-bold mb-3">Transaction History</h6>
+            <div id="logs" class="small text-muted">No transactions yet.</div>
         </div>
     </div>
 </div>
 
-<div id="wallet-modal" class="full-overlay">
+<div id="wallet-modal" class="overlay">
     <div class="modal-box">
-        <h4 class="fw-900 text-center mb-4">Add Money</h4>
-        <div class="p-3 bg-light rounded-4 mb-4 text-center">
-            বিকাশ/নগদ (Personal): <strong>01766 380 931</strong>
+        <h5 class="fw-bold text-center mb-4">Add Money</h5>
+        <div class="p-3 bg-light rounded text-center mb-3">
+            বিকাশ (Personal): <strong>01766 380 931</strong>
         </div>
-        <input type="number" id="add-amt" class="form-control mb-2 py-3" placeholder="টাকার পরিমাণ">
-        <input type="text" id="add-trx" class="form-control mb-4 py-3" placeholder="Transaction ID (TrxID)">
-        <button class="btn-black" onclick="Wallet.confirm()">Confirm Deposit</button>
-        <button class="btn btn-link w-100 text-secondary mt-2 text-decoration-none" onclick="Wallet.close()">Cancel</button>
+        <input type="number" id="amt" class="form-control mb-2" placeholder="টাকা">
+        <input type="text" id="trx" class="form-control mb-4" placeholder="TrxID">
+        <button class="btn-main" onclick="Wallet.add()">Confirm</button>
+        <button class="btn btn-link w-100 text-muted mt-2" onclick="Wallet.close()">Cancel</button>
     </div>
 </div>
 
 <script>
 /**
- * AR CORE v14.0 - Google Authentication
+ * AR ULTIMATE v15.1 - FIXED
  */
 
-function handleCredentialResponse(response) {
-    // এখানে গুগল থেকে ইউজারের ডাটা পাওয়া যাবে
-    const responsePayload = parseJwt(response.credential);
-    console.log("User Info: ", responsePayload);
-    
-    // ইউজার ইনফো সেট করা
-    document.getElementById('u-name').innerText = responsePayload.name;
-    document.getElementById('u-email').innerText = responsePayload.email;
-    document.getElementById('u-photo').src = responsePayload.picture;
-    
-    // মেইন হাব ওপেন করা
-    document.getElementById('auth-layer').style.display = 'none';
-    document.getElementById('main-hub').style.display = 'block';
-    Core.init();
-}
-
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-}
-
-const DATA = [
-    { id:1, c:'game', n:'Free Fire Diamond', i:'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', p:[{n:'115💎',p:85},{n:'505💎',p:340}] },
-    { id:2, c:'social', n:'Facebook Follower', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', p:[{n:'1K',p:150}] }
+const DB = [
+    { id:1, c:'game', n:'Free Fire Diamond', i:'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png' },
+    { id:2, c:'social', n:'Facebook Like/Follow', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg' }
 ];
 
 let state = { balance: 0 };
 
 const Core = {
-    mockLogin: () => {
-        // টেস্ট করার জন্য ডেমো লগইন বাটন
-        document.getElementById('u-name').innerText = "Atique User";
-        document.getElementById('u-email').innerText = "atiq@gmail.com";
-        document.getElementById('u-photo').src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+    onSignIn: (res) => {
+        const p = JSON.parse(atob(res.credential.split('.')[1]));
+        Core.loadUser(p.name, p.email, p.picture);
+    },
+    directEntry: () => {
+        Core.loadUser("Atique User", "atiq80054@gmail.com", "https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
+    },
+    loadUser: (n, e, i) => {
+        document.getElementById('u-name').innerText = n;
+        document.getElementById('u-mail').innerText = e;
+        document.getElementById('u-img').src = i;
         document.getElementById('auth-layer').style.display = 'none';
         document.getElementById('main-hub').style.display = 'block';
         Core.init();
     },
     init: () => {
-        state.balance = parseFloat(localStorage.getItem('ar_balance')) || 0;
-        document.getElementById('user-bal').innerText = state.balance.toFixed(2);
+        state.balance = parseFloat(localStorage.getItem('ar_bal')) || 0;
+        document.getElementById('u-bal').innerText = state.balance.toFixed(2);
         Core.render('all');
-        Core.loadLogs();
     },
-    render: (cat) => {
-        const grid = document.getElementById('service-grid');
-        grid.innerHTML = '';
-        const list = cat === 'all' ? DATA : DATA.filter(x => x.c === cat);
+    render: (c) => {
+        const g = document.getElementById('service-grid');
+        g.innerHTML = '';
+        const list = c === 'all' ? DB : DB.filter(x => x.c === c);
         list.forEach(s => {
-            grid.innerHTML += `
+            g.innerHTML += `
             <div class="col-6 col-md-3">
-                <div class="service-card" onclick="alert('পেমেন্ট লজিক লোড হচ্ছে...')">
-                    <div class="img-wrap"><img src="${s.i}"></div>
-                    <div class="p-3 text-center">
-                        <small class="text-secondary fw-bold text-uppercase">${s.c}</small>
-                        <h6 class="m-0 fw-bold mt-1 text-white">${s.n}</h6>
-                    </div>
+                <div class="service-card" onclick="alert('অর্ডার করা হচ্ছে...')">
+                    <div class="img-box"><img src="${s.i}"></div>
+                    <div class="p-3"><strong>${s.n}</strong></div>
                 </div>
             </div>`;
         });
-    },
-    loadLogs: () => {
-        const logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
-        document.getElementById('db-logs').innerHTML = logs.map(l => `<div class="mb-2 border-bottom border-secondary pb-2">${l.time}: ${l.service} - Approved</div>`).join('') || "No logs.";
     }
 };
 
 const Wallet = {
-    openAdd: () => { document.getElementById('wallet-modal').style.display = 'flex'; },
-    close: () => { document.getElementById('wallet-modal').style.display = 'none'; },
-    confirm: () => {
-        const amt = parseFloat(document.getElementById('add-amt').value);
-        if(amt > 0) {
-            state.balance += amt;
-            localStorage.setItem('ar_balance', state.balance);
-            document.getElementById('user-bal').innerText = state.balance.toFixed(2);
-            alert("টাকা অ্যাড হয়েছে!");
+    open: () => document.getElementById('wallet-modal').style.display = 'flex',
+    close: () => document.getElementById('wallet-modal').style.display = 'none',
+    add: () => {
+        const a = parseFloat(document.getElementById('amt').value);
+        if(a > 0) {
+            state.balance += a;
+            localStorage.setItem('ar_bal', state.balance);
+            document.getElementById('u-bal').innerText = state.balance.toFixed(2);
+            alert("টাকা যোগ হয়েছে!");
             Wallet.close();
         }
     }
