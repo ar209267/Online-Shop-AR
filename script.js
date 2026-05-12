@@ -298,3 +298,55 @@ function confirmPayment(){
 }
 
 </script>
+function startOrder(service) {
+    const orderID = "AR-" + Math.floor(100000 + Math.random() * 900000); // অটো আইডি জেনারেশন
+    
+    Swal.fire({
+        title: 'অর্ডার কনফার্মেশন',
+        html: `
+            <div class="text-start p-2">
+                <p class="mb-1 text-info">অর্ডার আইডি: <b>${orderID}</b></p>
+                <p class="small text-secondary mb-3">সার্ভিস: ${service}</p>
+                <hr style="border-color: #333">
+                <label class="small">আপনার গেম আইডি/লিঙ্ক দিন:</label>
+                <input id="targetID" class="swal2-input bg-dark text-white" placeholder="আইডি বা লিঙ্ক">
+                <label class="small mt-2">পেমেন্ট করার TrxID দিন:</label>
+                <input id="trxID" class="swal2-input bg-dark text-white" placeholder="Transaction ID">
+            </div>
+        `,
+        background: '#0d1117',
+        color: '#fff',
+        confirmButtonText: 'অর্ডার জমা দিন',
+        confirmButtonColor: '#00f2fe',
+        showCancelButton: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const trx = document.getElementById('trxID').value;
+            if(trx.length < 8) {
+                Swal.fire('এরর!', 'সঠিক ট্রানজেকশন আইডি দিন।', 'error');
+            } else {
+                saveOrderToHistory(orderID, service, "Pending");
+                Swal.fire({
+                    title: 'অর্ডার সফল!',
+                    text: `আপনার অর্ডার আইডি ${orderID}। অ্যাডমিন ভেরিফাই করছে।`,
+                    icon: 'success',
+                    timer: 5000
+                });
+            }
+        }
+    });
+}
+
+function saveOrderToHistory(id, name, status) {
+    const list = document.getElementById('historyList');
+    const newOrder = `
+        <div class="history-box d-flex justify-content-between align-items-center animate__animated animate__fadeInDown">
+            <div>
+                <span class="d-block fw-bold">${id}</span>
+                <small class="text-secondary">${name}</small>
+            </div>
+            <span class="badge bg-warning">${status}</span>
+        </div>
+    `;
+    list.innerHTML = newOrder + list.innerHTML;
+}
