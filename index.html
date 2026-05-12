@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR EMPIRE | PRO DASHBOARD</title>
+    <title>AR NEXUS | ALL-IN-ONE DIGITAL HUB</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -19,111 +18,70 @@
 
 <section id="serverGate">
     <div class="auth-card glass-container animate__animated animate__fadeIn">
-        <img src="ar-logo.png" alt="AR Logo" class="logo-main" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
-        <h2 class="orbitron">AR NEXUS</h2>
-        <p class="small text-secondary">SYSTEM ACCESS V30.26</p>
+        <img src="ar-logo.png" class="logo-main" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
+        <h2 class="orbitron text-info">AR NEXUS</h2>
+        <p class="small text-secondary">ALL ONLINE SERVICES HUB</p>
         <div class="mt-4">
             <input type="email" id="masterEmail" class="nexus-input" placeholder="আপনার জিমেইল">
             <input type="password" id="masterPass" class="nexus-input" placeholder="পাসওয়ার্ড">
-            <button class="btn-nexus-main w-100" onclick="triggerAuth()">ACTIVATE CORE</button>
+            <button class="btn-nexus-main w-100" onclick="triggerAuth()">ACTIVATE SYSTEM</button>
         </div>
     </div>
 </section>
 
 <section id="mainApplication" style="display: none;">
-    <nav class="navbar navbar-dark bg-dark py-3 mb-0 border-bottom border-secondary">
+    <nav class="navbar navbar-dark bg-dark py-3 border-bottom border-secondary">
         <div class="container d-flex justify-content-between">
-            <h5 class="orbitron mb-0 text-info">AR EMPIRE PRO</h5>
-            <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="toggleAdminPanel()">ADMIN</button>
+            <h5 class="orbitron mb-0 text-info">AR NEXUS INFRASTRUCTURE</h5>
+            <button class="btn btn-sm btn-outline-warning rounded-pill px-3" onclick="toggleAdminPanel()">ADMIN PANEL</button>
         </div>
     </nav>
 
-    <div class="payment-banner animate__animated animate__fadeInDown">
-        <h1 class="orbitron display-4 fw-bold">01766380931</h1>
-        <p class="text-info">বিকাশ/নগদ পারসোনাল নম্বর (কপি করে টাকা পাঠান)</p>
+    <div class="payment-banner">
+        <p class="mb-1 text-secondary">বিকাশ/নগদ (Personal) নম্বর</p>
+        <h1 class="orbitron fw-bold">01766380931</h1>
         <button class="copy-btn" onclick="copyMasterNumber()">COPY NUMBER</button>
+        <p class="mt-2 small text-info"><i class="fas fa-info-circle"></i> নির্দিষ্ট ফি প্রদানের পর অর্ডার সাবমিট করুন।</p>
     </div>
 
     <div class="container mt-5">
-        <h4 class="orbitron text-danger mb-4"><i class="fas fa-fire me-2"></i> FREE FIRE DIAMOND</h4>
-        <div class="row g-4">
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-gem"></i>
-                    <h5>১১৫ ডায়মন্ড</h5>
-                    <h3 class="price">৳ ৮০</h3>
-                    <button class="order-btn" onclick="processOrder('115 Diamond', '80')">অর্ডার করুন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-gem"></i>
-                    <h5>২৪০ ডায়মন্ড</h5>
-                    <h3 class="price">৳ ১৬৫</h3>
-                    <button class="order-btn" onclick="processOrder('240 Diamond', '165')">অর্ডার করুন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h5>উইকলি মেম্বারশিপ</h5>
-                    <h3 class="price">৳ ১৯০</h3>
-                    <button class="order-btn" onclick="processOrder('Weekly', '190')">অর্ডার করুন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-crown"></i>
-                    <h5>মান্থলি মেম্বারশিপ</h5>
-                    <h3 class="price">৳ ৭৮০</h3>
-                    <button class="order-btn" onclick="processOrder('Monthly', '780')">অর্ডার করুন</button>
-                </div>
-            </div>
+        
+        <h4 class="orbitron text-info mb-4 border-start border-info ps-3">ONLINE APP SERVICES</h4>
+        <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-user-check"></i><h5>Account Verify</h5><p class="price">৳ ৫০০</p><button class="order-btn" onclick="processOrder('Account Verification', '500')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-unlock-alt"></i><h5>Password Recovery</h5><p class="price">৳ ৩০০</p><button class="order-btn" onclick="processOrder('Password Recovery', '300')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-google-play"></i><h5>App Premium</h5><p class="price">৳ ১৫০</p><button class="order-btn" onclick="processOrder('App Premium Sub', '150')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-code"></i><h5>Bug Fixing</h5><p class="price">৳ ৪০০</p><button class="order-btn" onclick="processOrder('Bug Fixing', '400')">অর্ডার</button></div></div>
         </div>
 
-        <h4 class="orbitron text-primary mt-5 mb-4"><i class="fas fa-share-alt me-2"></i> SOCIAL MEDIA SERVICES</h4>
-        <div class="row g-4 mb-5">
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fab fa-facebook"></i>
-                    <h5>১০০০ ফলোয়ার</h5>
-                    <h3 class="price">৳ ১৩৫</h3>
-                    <button class="order-btn" onclick="processOrder('1K FB Follower', '135')">অর্ডার করুন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fab fa-tiktok"></i>
-                    <h5>১০০০ ফলোয়ার</h5>
-                    <h3 class="price">৳ ৯৫</h3>
-                    <button class="order-btn" onclick="processOrder('1K TikTok Follower', '95')">অর্ডার করুন</button>
-                </div>
-            </div>
+        <h4 class="orbitron text-warning mt-5 mb-4 border-start border-warning ps-3">GROWTH & PROMOTION</h4>
+        <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-facebook-messenger"></i><h5>FB Auto Reply</h5><p class="price">৳ ২৫০</p><button class="order-btn" onclick="processOrder('FB Bot Setup', '250')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-bullhorn"></i><h5>Ad Campaign</h5><p class="price">৳ ৮০০</p><button class="order-btn" onclick="processOrder('Ad Campaign', '800')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-envelope-open-text"></i><h5>Email Marketing</h5><p class="price">৳ ৩৫০</p><button class="order-btn" onclick="processOrder('Email Marketing', '350')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-search-dollar"></i><h5>SEO Service</h5><p class="price">৳ ৯০০</p><button class="order-btn" onclick="processOrder('Basic SEO', '900')">অর্ডার</button></div></div>
+        </div>
+
+        <h4 class="orbitron text-danger mt-5 mb-4 border-start border-danger ps-3">GAMING & ENTERTAINMENT</h4>
+        <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-fire"></i><h5>FF Topup</h5><p class="price">Fee: ৳ ১০</p><button class="order-btn" onclick="processOrder('FF Topup Fee', '10')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-tv"></i><h5>Netflix Setup</h5><p class="price">৳ ১৮০</p><button class="order-btn" onclick="processOrder('Netflix Profile', '180')">অর্ডার</button></div></div>
         </div>
         
-        <h4 class="orbitron text-secondary mb-3 mt-5">SERVER LOGS</h4>
+        <h4 class="orbitron text-secondary mb-3 mt-5">TRANSACTION HISTORY</h4>
         <div id="userActivityArea" class="pb-5"></div>
     </div>
 </section>
 
-<section id="adminControlRoom" style="display: none; padding-top: 50px;">
+<section id="adminControlRoom" style="display: none; padding-top: 40px;">
     <div class="container">
         <div class="d-flex justify-content-between mb-4">
-            <h2 class="orbitron">ADMIN PANEL</h2>
-            <button class="btn btn-danger" onclick="toggleAdminPanel()">EXIT</button>
+            <h2 class="orbitron">SYSTEM ADMIN</h2>
+            <button class="btn btn-sm btn-danger px-4" onclick="toggleAdminPanel()">BACK</button>
         </div>
         <div class="table-responsive glass-container p-0">
             <table class="table table-dark mb-0">
-                <thead>
-                    <tr>
-                        <th>ইউজার</th>
-                        <th>প্যাকেজ</th>
-                        <th>টার্গেট</th>
-                        <th>TrxID</th>
-                        <th>স্ট্যাটাস</th>
-                        <th>অ্যাকশন</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>USER</th><th>SERVICE</th><th>TARGET</th><th>TRXID</th><th>STATUS</th><th>ACTION</th></tr></thead>
                 <tbody id="masterAdminTable"></tbody>
             </table>
         </div>
@@ -132,4 +90,4 @@
 
 <script src="script.js"></script>
 </body>
-</html>
+</html> 
