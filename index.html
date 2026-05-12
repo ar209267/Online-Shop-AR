@@ -1,154 +1,152 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Premium Top-Up</title>
+    <title>Online Shop AR - Pro Max v4.0</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #7d40ff; --dark-bg: #0b0e14; --card-bg: #161b22; }
-        body { background-color: var(--dark-bg); color: #c9d1d9; font-family: 'Hind Siliguri', sans-serif; }
+        :root { --primary: #7d40ff; --dark: #0b0e14; --card: #161b22; }
+        body { background-color: var(--dark); color: #c9d1d9; font-family: 'Hind Siliguri', sans-serif; }
+        
+        /* Login Overlay */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); z-index: 10000; display: flex; align-items: center; justify-content: center; }
         
         /* Navbar */
-        .navbar { background: #1a1d23; border-bottom: 2px solid var(--primary); padding: 15px; }
-        .navbar-brand { font-weight: 700; color: var(--primary) !important; }
+        .navbar { background: #1a1d23; border-bottom: 2px solid var(--primary); }
+        
+        /* EnjoyShop Sidebar/Nav Style */
+        .cat-nav { background: var(--card); padding: 15px; border-radius: 10px; margin-bottom: 20px; overflow-x: auto; white-space: nowrap; }
+        .cat-btn { padding: 8px 15px; color: #fff; text-decoration: none; border-radius: 5px; margin-right: 10px; border: 1px solid #30363d; transition: 0.3s; }
+        .cat-btn.active, .cat-btn:hover { background: var(--primary); border-color: var(--primary); }
 
-        /* EnjoyShop Style Category Navigation */
-        .category-nav { background: #161b22; padding: 10px; margin-bottom: 25px; border-radius: 8px; overflow-x: auto; white-space: nowrap; }
-        .nav-item-btn { display: inline-block; padding: 10px 20px; color: #fff; text-decoration: none; border-radius: 5px; margin-right: 10px; transition: 0.3s; }
-        .nav-item-btn:hover, .nav-item-btn.active { background: var(--primary); }
+        /* Product Cards */
+        .game-card { background: var(--card); border-radius: 12px; border: 1px solid #30363d; transition: 0.3s; cursor: pointer; text-align: center; overflow: hidden; height: 100%; }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .game-img { width: 100%; height: 150px; object-fit: cover; }
+        .game-title { padding: 10px; font-weight: 600; }
 
-        /* Game Card Design */
-        .game-card { background: var(--card-bg); border-radius: 12px; border: 1px solid #30363d; overflow: hidden; transition: 0.3s; cursor: pointer; height: 100%; }
-        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .game-img { width: 100%; height: 180px; object-fit: cover; }
-        .game-info { padding: 15px; text-align: center; }
-
-        /* Package Selection Area */
-        .package-box { background: #1a1d23; border: 1px solid var(--primary); border-radius: 10px; padding: 20px; display: none; }
-        .pkg-item { background: #21262d; border: 1px solid #30363d; padding: 10px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; }
-        .pkg-item:hover { border-color: var(--primary); background: #2b323b; }
-
-        /* Footer Info */
-        footer { background: #161b22; padding: 40px 0; margin-top: 50px; text-align: center; border-top: 1px solid #30363d; }
+        /* Selection Area */
+        .selection-panel { background: var(--card); border: 1px solid var(--primary); border-radius: 12px; padding: 20px; margin-top: 20px; display: none; }
+        .pkg-card { background: #21262d; border: 1px solid #30363d; padding: 15px; border-radius: 8px; cursor: pointer; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .pkg-card:hover { border-color: var(--primary); }
+        
+        .admin-view { background: #1c2128; border-top: 2px solid #238636; padding: 20px; margin-top: 40px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">ONLINE SHOP AR</a>
-        <div class="d-flex align-items-center">
-            <span class="me-3">Balance: ৳0.00</span>
-            <button class="btn btn-outline-primary btn-sm">Login</button>
+<div id="login-screen">
+    <div class="text-center p-5 border rounded bg-dark shadow-lg">
+        <h2 class="text-primary mb-4">ONLINE SHOP AR</h2>
+        <button class="btn btn-light btn-lg fw-bold" onclick="doLogin()">Continue with GitHub</button>
+    </div>
+</div>
+
+<div id="app-content" style="display:none;">
+    <nav class="navbar navbar-dark p-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">ONLINE SHOP AR</a>
+            <span class="text-white">Balance: <strong>৳0.00</strong></span>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="container mt-4">
-    <div class="category-nav">
-        <a href="#" class="nav-item-btn active">Game Top Up</a>
-        <a href="#" class="nav-item-btn">Gift Card</a>
-        <a href="#" class="nav-item-btn">Software</a>
-        <a href="#" class="nav-item-btn">Premium Subscription</a>
-    </div>
+    <div class="container mt-4">
+        <div class="cat-nav">
+            <a href="#" class="cat-btn active">Game Top Up</a>
+            <a href="#" class="cat-btn">Gift Card</a>
+            <a href="#" class="cat-btn">SMM Service</a>
+        </div>
 
-    <div class="row g-4" id="gameGrid">
-        <div class="col-6 col-md-3">
-            <div class="game-card" onclick="showPackages('ff')">
-                <img src="https://i.ibb.co/LhYpY0P/freefire-logo.png" class="game-img">
-                <div class="game-info"><h5>Free Fire Diamond</h5><span class="badge bg-primary">Fast Delivery</span></div>
+        <div class="row g-3" id="home-grid">
+            <div class="col-6 col-md-3" onclick="showGame('ff')">
+                <div class="game-card">
+                    <img src="https://i.ibb.co/LhYpY0P/freefire-logo.png" class="game-img">
+                    <div class="game-title">Free Fire Diamond</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" onclick="showGame('pubg')">
+                <div class="game-card">
+                    <img src="https://i.ibb.co/mH6G76M/pubg-logo.png" class="game-img">
+                    <div class="game-title">PUBG Mobile UC</div>
+                </div>
             </div>
         </div>
-        <div class="col-6 col-md-3">
-            <div class="game-card" onclick="showPackages('pubg')">
-                <img src="https://i.ibb.co/mH6G76M/pubg-logo.png" class="game-img">
-                <div class="game-info"><h5>PUBG Mobile UC</h5><span class="badge bg-primary">Global</span></div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="game-card" onclick="showPackages('mlbb')">
-                <img src="https://i.ibb.co/pWfSgSj/smm-logo.png" class="game-img">
-                <div class="game-info"><h5>MLBB Diamond</h5><span class="badge bg-primary">Instant</span></div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row mt-5" id="orderSection" style="display:none;">
-        <div class="col-md-7">
-            <div class="package-box" id="pkgBox" style="display:block;">
-                <h4 id="selectedGameName" class="text-primary mb-4">Select Package</h4>
-                <div id="pkgList">
+        <div id="order-panel" class="selection-panel">
+            <button class="btn btn-sm btn-outline-light mb-3" onclick="goHome()">← Back</button>
+            <h3 id="game-name" class="text-primary"></h3>
+            <div class="row mt-3">
+                <div class="col-md-7" id="pkg-list">
                     </div>
+                <div class="col-md-5">
+                    <div class="p-3 border rounded border-secondary">
+                        <h5>Checkout</h5>
+                        <input type="text" id="targetId" class="form-control mb-3" placeholder="Player ID / Link">
+                        <p class="small text-info">Bkash/Nagad: 01766 380 931</p>
+                        <input type="text" id="trxId" class="form-control mb-3" placeholder="Transaction ID (TrxID)">
+                        <button class="btn btn-primary w-100" onclick="submitOrder()">Submit Order</button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-5">
-            <div class="card bg-dark border-secondary p-4">
-                <h4>Checkout Details</h4>
-                <div class="mb-3">
-                    <label>Player ID / Link</label>
-                    <input type="text" id="playerId" class="form-control" placeholder="Enter ID here">
-                </div>
-                <div class="mb-3">
-                    <label>Payment Method</label>
-                    <div class="alert alert-info py-2 small">Send Money to: 01766 380 931 (bKash/Nagad)</div>
-                    <input type="text" id="trxId" class="form-control" placeholder="Enter TrxID">
-                </div>
-                <button class="btn btn-primary w-100 py-3 fw-bold" onclick="alert('অর্ডার সফল হয়েছে!')">Confirm Order</button>
+
+        <div class="admin-view mt-5">
+            <h4 class="text-success">Admin Order Panel (Owner Only)</h4>
+            <div class="table-responsive">
+                <table class="table table-dark small">
+                    <thead><tr><th>Time</th><th>User</th><th>Order</th><th>ID/Link</th><th>Status</th></tr></thead>
+                    <tbody id="admin-log">
+                        <tr><td colspan="5" class="text-center">No orders yet.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-<footer>
-    <div class="container">
-        <h5>ONLINE SHOP AR</h5>
-        <p>Your trusted gaming partner in Bangladesh.</p>
-        <div class="mt-3">
-            <a href="#" class="text-secondary mx-2">Home</a> | 
-            <a href="#" class="text-secondary mx-2">Terms</a> | 
-            <a href="#" class="text-secondary mx-2">Contact</a>
-        </div>
-    </div>
-</footer>
-
 <script>
-    const gameData = {
-        ff: {
-            name: "Free Fire Diamond",
-            items: [{n: "115 Diamond", p: 85}, {n: "240 Diamond", p: 175}, {n: "505 Diamond", p: 340}, {n: "Weekly", p: 160}]
-        },
-        pubg: {
-            name: "PUBG Mobile UC",
-            items: [{n: "60 UC", p: 75}, {n: "325 UC", p: 380}, {n: "660 UC", p: 730}]
-        },
-        mlbb: {
-            name: "MLBB Diamonds",
-            items: [{n: "86 Diamonds", p: 120}, {n: "172 Diamonds", p: 235}]
-        }
+    const data = {
+        ff: { name: "Free Fire", pkgs: [{n:"115 Diamond", p:85}, {n:"505 Diamond", p:340}, {n:"Weekly", p:160}] },
+        pubg: { name: "PUBG Mobile", pkgs: [{n:"60 UC", p:75}, {n:"325 UC", p:380}] }
     };
 
-    function showPackages(gameKey) {
-        const data = gameData[gameKey];
-        document.getElementById('selectedGameName').innerText = data.name;
-        const list = document.getElementById('pkgList');
+    function doLogin() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+    }
+
+    function showGame(key) {
+        const game = data[key];
+        document.getElementById('game-name').innerText = game.name;
+        const list = document.getElementById('pkg-list');
         list.innerHTML = '';
-        
-        data.items.forEach(pkg => {
-            list.innerHTML += `
-                <div class="pkg-item">
-                    <span>${pkg.n}</span>
-                    <strong class="text-primary">৳${pkg.p}</strong>
-                </div>
-            `;
+        game.pkgs.forEach(p => {
+            list.innerHTML += `<div class="pkg-card"><span>${p.n}</span><strong>৳${p.p}</strong></div>`;
         });
+        document.getElementById('home-grid').style.display = 'none';
+        document.getElementById('order-panel').style.display = 'block';
+    }
+
+    function goHome() {
+        document.getElementById('home-grid').style.display = 'flex';
+        document.getElementById('order-panel').style.display = 'none';
+    }
+
+    function submitOrder() {
+        const id = document.getElementById('targetId').value;
+        const trx = document.getElementById('trxId').value;
+        if(!id || !trx) return alert("Please fill all fields!");
         
-        document.getElementById('gameGrid').style.display = 'none';
-        document.getElementById('orderSection').style.display = 'flex';
-        window.scrollTo(0, 0);
+        alert("Order submitted! Owner will verify now.");
+        
+        // Admin লগে অর্ডার জমা হওয়া
+        const log = document.getElementById('admin-log');
+        if(log.innerText.includes("No orders")) log.innerHTML = "";
+        const row = `<tr><td>Now</td><td>Atiq</td><td>Diamond</td><td>${id}</td><td><span class="badge bg-warning">Pending</span></td></tr>`;
+        log.innerHTML = row + log.innerHTML;
     }
 </script>
-
 </body>
 </html>
