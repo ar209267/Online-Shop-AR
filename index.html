@@ -3,85 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ULTIMATE MASTER | v13.0 Ultimate Hub</title>
+    <title>AR ULTIMATE | Google Authenticated OS</title>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --white: #ffffff;
-            --black: #000000;
-            --gray: #111111;
-            --border: rgba(255, 255, 255, 0.15);
-        }
+        :root { --white: #ffffff; --black: #000000; --gray: #111111; --border: rgba(255,255,255,0.15); }
+        body { background-color: var(--black); color: var(--white); font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--black);
-            color: var(--white);
-            font-family: 'Hind Siliguri', sans-serif;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
-        }
-
-        /* --- 1. LOGIN LAYER (PIN SYSTEM) --- */
+        /* --- 1. GOOGLE LOGIN LAYER --- */
         #auth-layer {
             position: fixed; inset: 0; background: #000; z-index: 99999;
             display: flex; align-items: center; justify-content: center;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
         }
         .auth-card {
             background: var(--gray); padding: 50px; border-radius: 40px;
-            border: 2px solid var(--white); box-shadow: 0 0 30px rgba(255,255,255,0.1);
-            max-width: 420px; width: 90%; text-align: center;
+            border: 1px solid var(--white); text-align: center; max-width: 420px; width: 90%;
         }
 
-        /* --- 2. HEADER & PROFILE HUD --- */
-        .master-nav { background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); padding: 15px 0; sticky-top; }
+        /* --- 2. LOGGED IN HUD --- */
+        .master-nav { background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); padding: 15px 0; }
         .profile-hud {
             background: var(--gray); border: 1px solid var(--border);
             border-radius: 20px; padding: 15px 25px; display: flex; 
             justify-content: space-between; align-items: center; margin-top: 20px;
         }
+        .user-img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; }
         .balance-box { background: var(--white); color: var(--black); padding: 5px 20px; border-radius: 50px; font-weight: 900; font-size: 20px; }
 
-        /* --- 3. CATEGORY & CARDS --- */
-        .cat-tab {
-            background: var(--gray); border: 1px solid var(--border); padding: 10px 25px;
-            border-radius: 50px; cursor: pointer; transition: 0.3s; white-space: nowrap;
-        }
+        /* --- 3. UI COMPONENTS --- */
+        .cat-tab { background: var(--gray); border: 1px solid var(--border); padding: 10px 25px; border-radius: 50px; cursor: pointer; white-space: nowrap; }
         .cat-tab.active { background: var(--white); color: var(--black); font-weight: bold; }
-
-        .service-card {
-            background: var(--gray); border: 1px solid var(--border); border-radius: 25px;
-            transition: 0.4s; overflow: hidden; height: 100%;
-        }
+        .service-card { background: var(--gray); border: 1px solid var(--border); border-radius: 25px; transition: 0.4s; overflow: hidden; height: 100%; }
         .service-card:hover { transform: translateY(-10px); border-color: var(--white); }
-        .img-wrap { height: 140px; background: #080808; display: flex; align-items: center; justify-content: center; padding: 25px; border-bottom: 1px solid var(--border); }
+        .img-wrap { height: 140px; background: #080808; display: flex; align-items: center; justify-content: center; padding: 25px; }
         .img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* --- 4. MODALS (WALLET & ORDERS) --- */
-        .full-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px);
-        }
+        /* --- 4. OVERLAYS --- */
+        .full-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
         .modal-box { background: #fff; color: #000; border-radius: 30px; width: 100%; max-width: 420px; padding: 35px; }
-        .btn-black { background: #000; color: #fff; border-radius: 50px; padding: 12px; font-weight: bold; width: 100%; border: none; transition: 0.3s; }
-        .btn-black:hover { opacity: 0.8; }
-
-        /* --- 5. LOGS & DATABASE --- */
-        .log-section { background: #080808; border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-top: 50px; }
+        .btn-black { background: #000; color: #fff; border-radius: 50px; padding: 12px; font-weight: bold; width: 100%; border: none; }
     </style>
 </head>
 <body>
 
 <div id="auth-layer">
-    <div class="auth-card">
-        <i class="fas fa-fingerprint fa-4x mb-4"></i>
-        <h2 class="fw-900">AR SYSTEM</h2>
-        <p class="text-secondary small mb-5">MONOCHROME OS v13.0</p>
-        <input type="password" id="sys-pin" class="form-control bg-dark text-white border-white text-center py-3 mb-3 rounded-pill" placeholder="System PIN (1234)">
-        <button class="btn btn-light w-100 py-3 fw-bold rounded-pill" onclick="Core.login()">ACCESS HUB</button>
+    <div class="auth-card shadow-lg">
+        <i class="fab fa-google fa-4x mb-4 text-white"></i>
+        <h2 class="fw-900 mb-2">AR ULTIMATE HUB</h2>
+        <p class="text-secondary small mb-5">সুরক্ষার জন্য আপনার জিমেইল দিয়ে লগইন করুন</p>
+        
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin d-flex justify-content-center" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
+        
+        <button class="btn btn-outline-light btn-sm mt-4 rounded-pill" onclick="Core.mockLogin()">Quick Login (Demo)</button>
     </div>
 </div>
 
@@ -89,19 +73,17 @@
     <nav class="master-nav sticky-top">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="h4 m-0 fw-900">AR <span class="text-secondary">PRO</span></div>
-            <div class="small"><i class="fas fa-circle text-success small me-1"></i> Global Server Online</div>
+            <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="location.reload()">Logout</button>
         </div>
     </nav>
 
     <div class="container">
         <div class="profile-hud">
             <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center me-3" style="width:50px; height:50px;">
-                    <i class="fas fa-user-circle fa-2x"></i>
-                </div>
+                <img id="u-photo" src="" class="user-img me-3" alt="User">
                 <div>
-                    <h6 class="m-0 fw-bold">Atiq Verified</h6>
-                    <small class="text-secondary">UID: 931082</small>
+                    <h6 id="u-name" class="m-0 fw-bold">User Name</h6>
+                    <small id="u-email" class="text-secondary">email@gmail.com</small>
                 </div>
             </div>
             <div class="text-end">
@@ -112,84 +94,84 @@
 
         <div class="d-flex gap-2 mt-5 overflow-auto pb-3" id="cat-scroll">
             <div class="cat-tab active" onclick="Core.filter('all')">সব সার্ভিস</div>
-            <div class="cat-tab" onclick="Core.filter('game')">গেমিং টপ-আপ</div>
-            <div class="cat-tab" onclick="Core.filter('social')">সোশ্যাল মার্কেটিং</div>
-            <div class="cat-tab" onclick="Core.filter('software')">প্রিমিয়াম সফটওয়্যার</div>
+            <div class="cat-tab" onclick="Core.filter('game')">Gaming</div>
+            <div class="cat-tab" onclick="Core.filter('social')">Social SMM</div>
         </div>
 
         <div class="row g-4 mt-1" id="service-grid"></div>
 
-        <div class="log-section">
-            <h6 class="text-secondary mb-4 fw-bold"><i class="fas fa-database me-2"></i> MASTER TRANSACTION DATABASE</h6>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover small align-middle">
-                    <thead><tr class="text-secondary"><th>ID</th><th>TIME</th><th>SERVICE</th><th>TARGET</th><th>STATUS</th></tr></thead>
-                    <tbody id="db-logs"></tbody>
-                </table>
-            </div>
+        <div class="mt-5 p-4 border border-secondary rounded-4">
+            <h6 class="text-secondary mb-3 fw-bold">লেনদেন হিস্ট্রি</h6>
+            <div id="db-logs" class="small"></div>
         </div>
     </div>
 </div>
 
 <div id="wallet-modal" class="full-overlay">
-    <div class="modal-box shadow-lg">
-        <h4 class="fw-900 text-center mb-4">Add Money to Wallet</h4>
-        <div class="p-3 bg-light rounded-4 mb-4 text-center">
-            <small class="text-muted d-block mb-1">বিকাশ/নগদ পার্সোনাল (Send Money)</small>
-            <strong class="fs-4">01766 380 931</strong>
-        </div>
-        <input type="number" id="add-amt" class="form-control mb-2 py-3 rounded-3" placeholder="টাকার পরিমাণ">
-        <input type="text" id="add-trx" class="form-control mb-4 py-3 rounded-3" placeholder="ট্রানজেকশন আইডি (TrxID)">
-        <button class="btn-black" onclick="Wallet.confirm()">CONFIRM AUTO-DEPOSIT</button>
-        <button class="btn btn-link w-100 text-secondary mt-2 text-decoration-none" onclick="Wallet.close()">Cancel</button>
-    </div>
-</div>
-
-<div id="order-modal" class="full-overlay">
     <div class="modal-box">
-        <h4 id="ord-title" class="fw-900 mb-4"></h4>
-        <div id="pkg-area" class="mb-4"></div>
-        <input type="text" id="ord-target" class="form-control mb-4 py-3" placeholder="প্লেয়ার আইডি / প্রোফাইল লিঙ্ক">
-        <div class="d-flex justify-content-between h5 fw-bold mb-4"><span>Total Payable:</span><span id="ord-total">৳0</span></div>
-        <button class="btn-black" onclick="Core.processOrder()">BUY NOW (Wallet)</button>
-        <button class="btn btn-link w-100 text-secondary mt-2 text-decoration-none" onclick="Core.closeOrder()">Cancel</button>
+        <h4 class="fw-900 text-center mb-4">Add Money</h4>
+        <div class="p-3 bg-light rounded-4 mb-4 text-center">
+            বিকাশ/নগদ (Personal): <strong>01766 380 931</strong>
+        </div>
+        <input type="number" id="add-amt" class="form-control mb-2 py-3" placeholder="টাকার পরিমাণ">
+        <input type="text" id="add-trx" class="form-control mb-4 py-3" placeholder="Transaction ID (TrxID)">
+        <button class="btn-black" onclick="Wallet.confirm()">Confirm Deposit</button>
+        <button class="btn btn-link w-100 text-secondary mt-2 text-decoration-none" onclick="Wallet.close()">Cancel</button>
     </div>
 </div>
 
 <script>
 /**
- * AR ULTIMATE OS v13.0
- * All Features Unified
+ * AR CORE v14.0 - Google Authentication
  */
+
+function handleCredentialResponse(response) {
+    // এখানে গুগল থেকে ইউজারের ডাটা পাওয়া যাবে
+    const responsePayload = parseJwt(response.credential);
+    console.log("User Info: ", responsePayload);
+    
+    // ইউজার ইনফো সেট করা
+    document.getElementById('u-name').innerText = responsePayload.name;
+    document.getElementById('u-email').innerText = responsePayload.email;
+    document.getElementById('u-photo').src = responsePayload.picture;
+    
+    // মেইন হাব ওপেন করা
+    document.getElementById('auth-layer').style.display = 'none';
+    document.getElementById('main-hub').style.display = 'block';
+    Core.init();
+}
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
 
 const DATA = [
     { id:1, c:'game', n:'Free Fire Diamond', i:'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', p:[{n:'115💎',p:85},{n:'505💎',p:340}] },
-    { id:2, c:'game', n:'PUBG Mobile UC', i:'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png', p:[{n:'60 UC',p:80},{n:'325 UC',p:420}] },
-    { id:3, c:'social', n:'Facebook Follower', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', p:[{n:'1K Follower',p:150},{n:'5K Follower',p:650}] },
-    { id:4, c:'social', n:'TikTok Services', i:'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', p:[{n:'1K Follower',p:120}] },
-    { id:5, c:'software', n:'Canva Pro 1 Year', i:'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg', p:[{n:'Private Account',p:450}] },
-    { id:6, c:'software', n:'Windows 11 Key', i:'https://upload.wikimedia.org/wikipedia/commons/c/c1/Windows_11_logo.svg', p:[{n:'Retail License',p:750}] }
+    { id:2, c:'social', n:'Facebook Follower', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', p:[{n:'1K',p:150}] }
 ];
 
-let state = { balance: 0, current: null, pkg: null };
+let state = { balance: 0 };
 
 const Core = {
-    login: () => {
-        if(document.getElementById('sys-pin').value === "1234") {
-            document.getElementById('auth-layer').style.display = 'none';
-            document.getElementById('main-hub').style.display = 'block';
-            Core.init();
-        } else { alert("ACCESS DENIED!"); }
+    mockLogin: () => {
+        // টেস্ট করার জন্য ডেমো লগইন বাটন
+        document.getElementById('u-name').innerText = "Atique User";
+        document.getElementById('u-email').innerText = "atiq@gmail.com";
+        document.getElementById('u-photo').src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        document.getElementById('auth-layer').style.display = 'none';
+        document.getElementById('main-hub').style.display = 'block';
+        Core.init();
     },
     init: () => {
         state.balance = parseFloat(localStorage.getItem('ar_balance')) || 0;
-        Core.updateUI();
+        document.getElementById('user-bal').innerText = state.balance.toFixed(2);
         Core.render('all');
         Core.loadLogs();
-    },
-    updateUI: () => {
-        document.getElementById('user-bal').innerText = state.balance.toFixed(2);
-        localStorage.setItem('ar_balance', state.balance);
     },
     render: (cat) => {
         const grid = document.getElementById('service-grid');
@@ -198,7 +180,7 @@ const Core = {
         list.forEach(s => {
             grid.innerHTML += `
             <div class="col-6 col-md-3">
-                <div class="service-card" onclick="Core.openOrder(${s.id})">
+                <div class="service-card" onclick="alert('পেমেন্ট লজিক লোড হচ্ছে...')">
                     <div class="img-wrap"><img src="${s.i}"></div>
                     <div class="p-3 text-center">
                         <small class="text-secondary fw-bold text-uppercase">${s.c}</small>
@@ -208,56 +190,9 @@ const Core = {
             </div>`;
         });
     },
-    filter: (cat) => {
-        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        Core.render(cat);
-    },
-    openOrder: (id) => {
-        state.current = DATA.find(x => x.id === id);
-        document.getElementById('ord-title').innerText = state.current.n;
-        const area = document.getElementById('pkg-area');
-        area.innerHTML = '';
-        state.current.p.forEach(p => {
-            area.innerHTML += `<div class="p-3 border rounded-4 mb-2 d-flex justify-content-between" onclick="Core.selectPkg(this, '${p.n}', ${p.p})">
-                <span class="fw-bold">${p.n}</span><strong class="text-dark">৳${p.p}</strong>
-            </div>`;
-        });
-        document.getElementById('order-modal').style.display = 'flex';
-    },
-    selectPkg: (el, n, p) => {
-        state.pkg = { n, p };
-        document.querySelectorAll('#pkg-area div').forEach(d => d.style.background = '#fff');
-        el.style.background = '#f0f0f0';
-        document.getElementById('ord-total').innerText = "৳" + p;
-    },
-    processOrder: () => {
-        const target = document.getElementById('ord-target').value;
-        if(!state.pkg || !target) return alert("প্যাকেজ এবং টার্গেট দিন!");
-        if(state.balance < state.pkg.p) return alert("ব্যালেন্স নেই! টাকা অ্যাড করুন।");
-
-        state.balance -= state.pkg.p;
-        Core.updateUI();
-        Core.addLog(state.current.n + " (" + state.pkg.n + ")", target, "SUCCESS");
-        alert("অর্ডার সফল! ব্যালেন্স থেকে টাকা কাটা হয়েছে।");
-        location.reload();
-    },
-    closeOrder: () => { document.getElementById('order-modal').style.display = 'none'; },
-    addLog: (service, target, status) => {
-        let logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
-        logs.unshift({ id: "#AR-"+Math.floor(Math.random()*99999), time: new Date().toLocaleTimeString(), service, target, status });
-        localStorage.setItem('ar_master_logs', JSON.stringify(logs));
-    },
     loadLogs: () => {
         const logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
-        document.getElementById('db-logs').innerHTML = logs.map(l => `
-            <tr>
-                <td class="text-white fw-bold">${l.id}</td>
-                <td class="small text-secondary">${l.time}</td>
-                <td>${l.service}</td>
-                <td><code>${l.target}</code></td>
-                <td><span class="badge bg-light text-dark">APPROVED</span></td>
-            </tr>`).join('') || '<tr><td colspan="5" class="text-center py-5">No Data Found</td></tr>';
+        document.getElementById('db-logs').innerHTML = logs.map(l => `<div class="mb-2 border-bottom border-secondary pb-2">${l.time}: ${l.service} - Approved</div>`).join('') || "No logs.";
     }
 };
 
@@ -266,14 +201,13 @@ const Wallet = {
     close: () => { document.getElementById('wallet-modal').style.display = 'none'; },
     confirm: () => {
         const amt = parseFloat(document.getElementById('add-amt').value);
-        const trx = document.getElementById('add-trx').value;
-        if(!amt || trx.length < 6) return alert("সঠিক তথ্য দিন!");
-        
-        state.balance += amt;
-        Core.updateUI();
-        Core.addLog("Wallet Recharge", "N/A", "APPROVED");
-        alert(`৳${amt} আপনার ওয়ালেটে অটো-ডিপোজিট করা হয়েছে!`);
-        Wallet.close();
+        if(amt > 0) {
+            state.balance += amt;
+            localStorage.setItem('ar_balance', state.balance);
+            document.getElementById('user-bal').innerText = state.balance.toFixed(2);
+            alert("টাকা অ্যাড হয়েছে!");
+            Wallet.close();
+        }
     }
 };
 </script>
