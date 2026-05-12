@@ -3,142 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR NEXUS | ULTRASONIC SERVER</title>
+    <title>AR EMPIRE | ULTRASONIC V3</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --neon: #00f2fe; --gold: #FFD700; --dark: #010409; --card: rgba(13, 17, 23, 0.95);
-        }
-        body { background: var(--dark); color: #fff; font-family: 'Hind Siliguri', sans-serif; margin: 0; }
-        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
-
-        /* [MASTER GLASS DESIGN] */
-        .glass-panel { background: var(--card); border: 1px solid #30363d; border-radius: 30px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .btn-nexus { background: var(--neon); color: #000; font-weight: bold; border-radius: 12px; border: none; transition: 0.3s; }
-        .btn-nexus:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--neon); }
-
-        /* [PAYMENT BANNER] */
-        .payment-hub {
-            background: linear-gradient(90deg, #161b22, #0d1117);
-            border-left: 6px solid var(--neon); border-radius: 20px;
-            padding: 20px; margin-bottom: 30px; border-right: 6px solid var(--gold);
+            --neon-blue: #00f2fe;
+            --neon-purple: #bc13fe;
+            --gold: #FFD700;
+            --bg-dark: #02060c;
+            --glass: rgba(13, 17, 23, 0.8);
         }
 
-        /* [PRODUCT CARDS] */
-        .game-card {
-            background: #0d1117; border: 1px solid #30363d; border-radius: 20px;
-            padding: 15px; text-align: center; transition: 0.4s; height: 100%;
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            background-image: linear-gradient(135deg, #02060c 0%, #0a192f 100%);
         }
-        .game-card:hover { border-color: var(--neon); transform: translateY(-5px); }
-        .game-card i { font-size: 2.5rem; margin-bottom: 10px; display: block; }
 
-        #loginScreen { height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #0a192f 0%, #010409 100%); }
-        #appScreen { display: none; padding-top: 20px; }
+        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+
+        /* [ANIMATED BACKGROUND] */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.05), transparent);
+            z-index: -1; pointer-events: none;
+        }
+
+        /* [LOGIN GATE] */
+        #loginGate {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .login-card {
+            background: var(--glass); backdrop-filter: blur(25px);
+            padding: 50px; border-radius: 40px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            width: 100%; max-width: 450px; text-align: center;
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.1);
+        }
+
+        /* [DASHBOARD] */
+        #dashboard { display: none; padding-top: 30px; }
+
+        .ultra-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .ultra-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
+
+        .payment-banner {
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid var(--neon-blue); border-radius: 30px; padding: 30px;
+            margin-bottom: 40px; position: relative;
+        }
+
+        .btn-ultra {
+            background: var(--neon-blue); color: #000; font-weight: 800;
+            border: none; border-radius: 15px; padding: 12px 25px;
+            text-transform: uppercase; transition: 0.3s;
+        }
+        .btn-ultra:hover { box-shadow: 0 0 20px var(--neon-blue); transform: scale(1.05); }
+
+        .service-icon { font-size: 3rem; margin-bottom: 20px; color: var(--neon-blue); }
+
+        /* Status Badges */
+        .status-badge { font-size: 10px; padding: 5px 12px; border-radius: 20px; }
     </style>
 </head>
 <body>
 
-<div id="loginScreen">
-    <div class="glass-panel text-center" style="max-width: 420px; width: 90%;">
-        <img src="ar-logo.png" style="width: 120px; border-radius: 30px; border: 3px solid var(--gold); margin-bottom: 25px;">
-        <h3 class="orbitron text-white">AR NEXUS V20.26</h3>
-        <p class="text-secondary small mb-4">অ্যাডমিন কন্ট্রোল এবং ইউজার সার্ভার লগইন</p>
+<div class="bg-glow"></div>
+
+<div id="loginGate" class="animate__animated animate__zoomIn">
+    <div class="login-card">
+        <div class="mb-4">
+            <img src="ar-logo.png" style="width: 100px; border-radius: 20px; border: 2px solid var(--gold);">
+        </div>
+        <h2 class="orbitron text-white">AR NEXUS V3</h2>
+        <p class="text-secondary mb-4">স্বাগতম আতিক ওস্তাদ, সিস্টেমটি চালু করুন</p>
         
-        <input type="email" id="uMail" class="form-control bg-dark text-white border-secondary mb-3 py-2" placeholder="আপনার জিমেইল এড্রেস">
-        <input type="password" id="uPass" class="form-control bg-dark text-white border-secondary mb-4 py-2" placeholder="মাস্টার পাসওয়ার্ড">
+        <input type="email" id="userEmail" class="form-control bg-dark text-white border-secondary mb-3 py-2" placeholder="Gmail Address">
+        <input type="password" id="userPass" class="form-control bg-dark text-white border-secondary mb-4 py-2" placeholder="Master Password">
         
-        <button class="btn btn-nexus w-100 py-3" onclick="initializeServer()">ACCESS SERVER</button>
+        <button class="btn btn-ultra w-100" onclick="startSystem()">INITIALIZE CORE</button>
     </div>
 </div>
 
-<div id="appScreen">
+<div id="dashboard">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="d-flex align-items-center">
-                <img src="ar-logo.png" style="width: 50px; border-radius: 12px; margin-right: 15px; border: 1px solid var(--gold);">
-                <h4 class="orbitron mb-0 text-white">AR EMPIRE</h4>
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="orbitron mb-0 text-white fw-bold">AR EMPIRE</h2>
+                <span class="small text-info">SYSTEM STATUS: <span class="text-success">ONLINE</span></span>
             </div>
-            <button class="btn btn-outline-danger btn-sm rounded-pill" onclick="location.reload()">সার্ভার অফ করুন</button>
+            <button class="btn btn-outline-danger btn-sm rounded-pill px-4" onclick="location.reload()">OFFLINE</button>
         </div>
 
-        <div class="payment-hub animate__animated animate__pulse">
-            <h5 class="text-warning orbitron small mb-3"><i class="fas fa-wallet me-2"></i>OFFICIAL PAYMENT GATEWAY</h5>
+        <div class="payment-banner animate__animated animate__slideInLeft">
             <div class="row align-items-center">
-                <div class="col-8">
-                    <p class="mb-1 text-secondary">বিকাশ / নগদ (Personal):</p>
-                    <h4 class="text-white fw-bold">০১৭৬৬৩৮০৯৩১</h4>
+                <div class="col-md-8">
+                    <h5 class="orbitron text-warning small mb-2">OFFICIAL PAYMENT GATEWAY</h5>
+                    <h1 class="display-5 fw-bold mb-0">01766380931</h1>
+                    <p class="text-info mb-0 small mt-2">বিকাশ এবং নগদ (Personal) নম্বরে আগে টাকা পাঠিয়ে TrxID দিন।</p>
                 </div>
-                <div class="col-4 text-end">
-                    <button class="btn btn-dark btn-sm" onclick="copyNum()">Copy Number</button>
-                </div>
-            </div>
-            <p class="small text-info mt-3 mb-0"><i class="fas fa-info-circle me-1"></i> আগে টাকা পাঠিয়ে তারপর ট্রানজেকশন আইডি দিয়ে অর্ডার করুন।</p>
-        </div>
-
-        <h5 class="orbitron text-danger mb-4"><i class="fas fa-fire-alt me-2"></i>FREE FIRE ALL-IN-ONE</h5>
-        <div class="row g-3 mb-5">
-            <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fas fa-gem text-info"></i>
-                    <h6 class="fw-bold">ডায়মন্ড টপ-আপ</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('FF Diamond')">অর্ডার দিন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fas fa-id-card text-warning"></i>
-                    <h6 class="fw-bold">উইকলি মেম্বারশিপ</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('Weekly Member')">অর্ডার দিন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fas fa-crown text-primary"></i>
-                    <h6 class="fw-bold">মান্থলি মেম্বারশিপ</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('Monthly Member')">অর্ডার দিন</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fas fa-user-shield text-success"></i>
-                    <h6 class="fw-bold">ইন-গেম (পাসওয়ার্ড)</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('In-Game (Pass)')">অর্ডার দিন</button>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <button class="btn btn-ultra" onclick="copyNumber()">COPY NUMBER</button>
                 </div>
             </div>
         </div>
 
-        <h5 class="orbitron text-info mb-4"><i class="fas fa-share-alt me-2"></i>SOCIAL MEDIA SERVICES</h5>
-        <div class="row g-3 mb-5">
+        <h4 class="orbitron text-white mb-4"><i class="fas fa-layer-group me-2"></i>PREMIUM SERVICES</h4>
+        <div class="row g-4 mb-5">
             <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fab fa-facebook text-primary"></i>
-                    <h6 class="fw-bold">ফলোয়ার / লাইক</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('FB Service')">অর্ডার দিন</button>
+                <div class="ultra-card text-center">
+                    <div class="service-icon"><i class="fas fa-gem"></i></div>
+                    <h6 class="fw-bold">FF DIAMOND</h6>
+                    <button class="btn-ultra btn-sm mt-3 w-100" onclick="processOrder('FF Diamond')">ORDER</button>
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="game-card">
-                    <i class="fab fa-youtube text-danger"></i>
-                    <h6 class="fw-bold">ওয়াচটাইম / সাব</h6>
-                    <button class="btn btn-nexus btn-sm w-100 mt-2" onclick="startOrder('YT Service')">অর্ডার দিন</button>
+                <div class="ultra-card text-center">
+                    <div class="service-icon"><i class="fas fa-user-plus"></i></div>
+                    <h6 class="fw-bold">FB FOLLOWERS</h6>
+                    <button class="btn-ultra btn-sm mt-3 w-100" onclick="processOrder('FB Follower')">ORDER</button>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="ultra-card text-center">
+                    <div class="service-icon"><i class="fab fa-youtube"></i></div>
+                    <h6 class="fw-bold">YT SERVICES</h6>
+                    <button class="btn-ultra btn-sm mt-3 w-100" onclick="processOrder('YT Service')">ORDER</button>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="ultra-card text-center">
+                    <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h6 class="fw-bold">IN-GAME TOPUP</h6>
+                    <button class="btn-ultra btn-sm mt-3 w-100" onclick="processOrder('In-Game Topup')">ORDER</button>
                 </div>
             </div>
         </div>
 
-        <h5 class="orbitron text-secondary mb-3">আপনার বর্তমান অর্ডার স্ট্যাটাস</h5>
-        <div id="orderLogContainer" class="pb-5"></div>
+        <h4 class="orbitron text-secondary mb-4">LIVE SERVER LOGS</h4>
+        <div id="logList" class="pb-5"></div>
     </div>
 </div>
 
 <script>
-    // --- [FIREBASE SERVER CONFIG] ---
+    // Firebase Setup
     const firebaseConfig = {
         apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
         authDomain: "online-shop-ar.firebaseapp.com",
@@ -149,93 +171,84 @@
     };
 
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    const db = firebase.database();
 
-    function initializeServer() {
-        const mail = document.getElementById('uMail').value.trim();
-        const pass = document.getElementById('uPass').value;
+    function startSystem() {
+        const mail = document.getElementById('userEmail').value;
+        const pass = document.getElementById('userPass').value;
 
-        if(!mail || !pass) {
-            return Swal.fire('Error', 'জিমেইল এবং পাসওয়ার্ড দিন!', 'error');
-        }
+        if(!mail || !pass) return Swal.fire('Error', 'সবগুলো ঘর পূরণ করুন ওস্তাদ!', 'error');
 
-        // লগইন ডাটা সার্ভারে সেভ করা (Server Log Entry)
-        database.ref('server_logs/').push().set({
+        // সার্ভার লগ সেভ
+        db.ref('server_logs/').push({
             user: mail,
-            login_at: new Date().toLocaleString(),
-            device: navigator.platform
+            time: new Date().toLocaleString(),
+            action: 'Login'
         });
 
-        localStorage.setItem('ar_active_session', mail);
-        showDashboard();
+        localStorage.setItem('ar_active', mail);
+        launchDashboard();
     }
 
-    function showDashboard() {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('appScreen').style.display = 'block';
-        fetchLiveOrders();
+    function launchDashboard() {
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadLogs();
     }
 
-    function copyNum() {
+    function copyNumber() {
         navigator.clipboard.writeText('01766380931');
-        Swal.fire({ title: 'Copied!', text: 'নম্বর কপি হয়েছে ওস্তাদ।', icon: 'success', timer: 1000, showConfirmButton: false });
+        Swal.fire({ title: 'Copied!', icon: 'success', timer: 1000, showConfirmButton: false });
     }
 
-    function startOrder(service) {
+    function processOrder(service) {
         Swal.fire({
-            title: `<span class="orbitron">${service}</span>`,
-            html: `
-                <div class="text-start" style="color:#fff">
-                    <label class="small mb-1">প্লেয়ার আইডি / আইডি পাসওয়ার্ড:</label>
-                    <input id="p_id" class="swal2-input bg-dark text-white m-0 w-100 border-secondary mb-3" placeholder="Target Details">
-                    <label class="small mb-1">পেমেন্ট করার TrxID দিন:</label>
-                    <input id="p_trx" class="swal2-input bg-dark text-white m-0 w-100 border-secondary" placeholder="Transaction ID">
-                </div>
-            `,
+            title: `<span class="orbitron text-info">${service}</span>`,
             background: '#0d1117',
+            html: `
+                <input id="target" class="swal2-input bg-dark text-white" placeholder="ID Code / Link">
+                <input id="trx" class="swal2-input bg-dark text-white" placeholder="TrxID (Transaction ID)">
+            `,
             confirmButtonText: 'CONFIRM ORDER',
             confirmButtonColor: '#00f2fe',
             showCancelButton: true
         }).then((res) => {
             if(res.isConfirmed) {
-                const target = document.getElementById('p_id').value;
-                const trx = document.getElementById('p_trx').value;
-                const orderId = "AR-" + Date.now();
+                const target = document.getElementById('target').value;
+                const trx = document.getElementById('trx').value;
+                const oid = "AR-" + Math.floor(Math.random() * 999999);
 
-                if(!target || !trx) {
-                    return Swal.fire('Error', 'সব তথ্য পূরণ করুন!', 'error');
-                }
+                if(!target || !trx) return Swal.fire('Error', 'সঠিক তথ্য দিন!', 'error');
 
-                // সরাসরি ফায়ারবেস সার্ভারে ডাটা পাঠানো
-                database.ref('orders/' + orderId).set({
-                    customer: localStorage.getItem('ar_active_session'),
+                db.ref('orders/' + oid).set({
+                    user: localStorage.getItem('ar_active'),
                     service: service,
-                    target_info: target,
-                    transaction_id: trx,
+                    target: target,
+                    trx: trx,
                     status: 'Pending',
-                    timestamp: new Date().toLocaleString()
+                    time: new Date().toLocaleString()
                 }).then(() => {
-                    Swal.fire('Success', 'অর্ডার সার্ভারে জমা হয়েছে!', 'success');
+                    Swal.fire('Success!', 'অর্ডারটি সার্ভারে জমা হয়েছে।', 'success');
                 });
             }
         });
     }
 
-    function fetchLiveOrders() {
-        const myMail = localStorage.getItem('ar_active_session');
-        database.ref('orders/').on('value', (snap) => {
-            const container = document.getElementById('orderLogContainer');
-            container.innerHTML = "";
+    function loadLogs() {
+        const myMail = localStorage.getItem('ar_active');
+        db.ref('orders/').on('value', (snap) => {
+            const list = document.getElementById('logList');
+            list.innerHTML = "";
             snap.forEach((child) => {
-                const order = child.val();
-                if(order.customer === myMail) {
-                    container.innerHTML += `
-                        <div class="glass-panel mb-2 p-3 d-flex justify-content-between align-items-center">
+                const data = child.val();
+                if(data.user === myMail) {
+                    list.innerHTML += `
+                        <div class="ultra-card mb-2 d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-0 text-info">${order.service}</h6>
-                                <small class="text-secondary">TrxID: ${order.transaction_id}</small>
+                                <span class="fw-bold d-block text-info">${data.service}</span>
+                                <small class="text-secondary">#${child.key} | ${data.time}</small>
                             </div>
-                            <span class="badge bg-warning text-dark">${order.status}</span>
+                            <span class="badge bg-warning text-dark status-badge">${data.status}</span>
                         </div>
                     `;
                 }
@@ -243,7 +256,8 @@
         });
     }
 
-    window.onload = () => { if(localStorage.getItem('ar_active_session')) showDashboard(); };
+    window.onload = () => { if(localStorage.getItem('ar_active')) launchDashboard(); };
 </script>
+
 </body>
-    </html>
+</html>
