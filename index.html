@@ -1,64 +1,90 @@
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- PAYMENT MODAL -->
-<div class="modal fade" id="paymentModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white border-info">
-
-      <div class="modal-header border-secondary">
-        <h5 class="modal-title orbitron">
-          <i class="fas fa-shield-alt text-info"></i>
-          Secure Payment Gateway
-        </h5>
-
-        <button type="button" class="btn-close btn-close-white"
-        data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="alert alert-info small">
-          বিকাশ / নগদ এ পেমেন্ট করুন
-        </div>
-
-        <div class="text-center mb-3">
-          <h3 class="text-warning orbitron">018XXXXXXXX</h3>
-          <p class="small text-secondary">
-            Send Money Only
-          </p>
-        </div>
-
-        <label class="small mb-1">প্লেয়ার আইডি / লিংক</label>
-        <input type="text" id="playerID"
-        class="form-control bg-black text-white border-secondary mb-3">
-
-        <label class="small mb-1">Transaction ID</label>
-        <input type="text" id="trxID"
-        class="form-control bg-black text-white border-secondary mb-3">
-
-        <label class="small mb-1">Payment Method</label>
-
-        <select id="payMethod"
-        class="form-select bg-black text-white border-secondary">
-          <option>bKash</option>
-          <option>Nagad</option>
-          <option>Rocket</option>
-        </select>
-
-      </div>
-
-      <div class="modal-footer border-secondary">
-
-        <button class="btn btn-secondary"
-        data-bs-dismiss="modal">
-          Cancel
-        </button>
-
-        <button class="btn btn-info fw-bold"
-        onclick="confirmPayment()">
-          Confirm Payment
-        </button>
-
-      </div>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Online Shop | V12.0 Ultra Pro Max</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --nexus-cyan: #00f2fe; --nexus-gold: #FFD700; --bg-dark: #010409; --card-bg: rgba(13, 17, 23, 0.95); }
+        body { background: var(--bg-dark); color: #e6edf3; font-family: 'Space Grotesk', sans-serif; margin: 0; }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        #authSection { height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .login-card { background: var(--card-bg); padding: 40px; border-radius: 30px; border: 1px solid var(--nexus-cyan); width: 90%; max-width: 400px; text-align: center; }
+        .brand-logo { width: 130px; height: 130px; border-radius: 25px; border: 2px solid var(--nexus-gold); margin-bottom: 20px; }
+        #mainDashboard { display: none; padding: 15px; }
+        .wallet-card { background: #161b22; border-radius: 20px; padding: 25px; border: 1px solid #30363d; margin-bottom: 30px; }
+        .service-card { background: var(--card-bg); border: 1px solid #30363d; border-radius: 20px; padding: 20px; transition: 0.4s; height: 100%; position: relative; }
+        .price-badge { position: absolute; top: 15px; right: 15px; background: rgba(0, 242, 254, 0.1); color: var(--nexus-cyan); padding: 4px 12px; border-radius: 8px; font-size: 12px; }
+        .btn-nexus { background: var(--nexus-cyan); color: #000; font-weight: bold; border-radius: 12px; width: 100%; border: none; padding: 12px; }
+        .notice-bar { background: rgba(188, 19, 254, 0.1); color: #e0aaff; padding: 8px; border-radius: 10px; margin-bottom: 20px; }
+        .history-item { background: #0d1117; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--nexus-gold); display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+<div id="authSection">
+    <div class="login-card">
+        <img src="ar-logo.png" class="brand-logo">
+        <h3 class="orbitron fw-bold">AR NEXUS</h3>
+        <input type="email" id="uEmail" class="form-control bg-dark text-white mb-3" placeholder="জিমেইল এড্রেস">
+        <input type="password" id="uPass" class="form-control bg-dark text-white mb-4" placeholder="পাসওয়ার্ড">
+        <button class="btn btn-nexus" onclick="handleLogin()">আনলক করুন</button>
     </div>
-  </div>
 </div>
+<div id="mainDashboard">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+            <h4 class="orbitron fw-bold">AR SHOP</h4>
+            <button class="btn btn-outline-danger btn-sm" onclick="location.reload()">লগআউট</button>
+        </div>
+        <div class="notice-bar"><marquee>আজকের অফার: ১০০ ফলোয়ারে ১০টি বোনাস!</marquee></div>
+        <div class="wallet-card">
+            <p class="small mb-1">ব্যালেন্স</p>
+            <h2 class="orbitron fw-bold text-success">৳ ৫০০.০০</h2>
+        </div>
+        <div class="row g-3">
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳৮৫</span>
+                    <h6>FF Diamond</h6>
+                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('FF Diamond', 85)">অর্ডার</button>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳১৩০</span>
+                    <h6>FB Follower</h6>
+                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('FB Follower', 130)">অর্ডার</button>
+                </div>
+            </div>
+        </div>
+        <div id="historyList" class="mt-5">
+            <h5 class="orbitron">অর্ডার হিস্ট্রি</h5>
+        </div>
+    </div>
+</div>
+<script>
+    function handleLogin() {
+        const email = document.getElementById('uEmail').value;
+        const pass = document.getElementById('uPass').value;
+        if (!email || !pass) return Swal.fire('ভুল!', 'সব ঘর পূরণ করুন।', 'error');
+        localStorage.setItem('ar_user', email);
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('mainDashboard').style.display = 'block';
+    }
+    function startOrder(service, price) {
+        Swal.fire({
+            title: service,
+            html: `<input id="target" class="swal2-input" placeholder="ID/Link"><input id="trx" class="swal2-input" placeholder="TrxID">`,
+            confirmButtonText: 'অর্ডার দিন'
+        }).then((res) => {
+            if(res.isConfirmed) Swal.fire('সফল!', 'অর্ডার জমা হয়েছে।', 'success');
+        });
+    }
+    window.onload = () => { if(localStorage.getItem('ar_user')) handleLogin(); };
+</script>
+</body>
+</html>
