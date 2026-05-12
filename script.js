@@ -128,3 +128,36 @@ document.querySelector('.navbar-brand').addEventListener('click', function() {
         clickCount = 0; // রিসেট
     }
 });
+function loginSystem() {
+    const email = document.getElementById('uEmail').value;
+    const pass = document.getElementById('uPass').value;
+    
+    const savedEmail = localStorage.getItem('locked_email');
+    const savedPass = localStorage.getItem('locked_pass');
+
+    if (!savedEmail) {
+        // প্রথমবার রেজিস্ট্রেশন - চিরস্থায়ী লক
+        localStorage.setItem('locked_email', email);
+        localStorage.setItem('locked_pass', pass);
+        alert("আপনার একাউন্ট এই ডিভাইসে লক করা হলো!");
+        enterDashboard();
+    } else {
+        // পরেরবার চেক করা হবে
+        if (email === savedEmail && pass === savedPass) {
+            enterDashboard();
+        } else {
+            alert("ভুল তথ্য! এই জিমেইল দিয়ে অন্য পাসওয়ার্ড গ্রহণ করা হবে না।");
+        }
+    }
+}
+function placeOrder(product) {
+    let trxID = prompt("আপনার বিকাশ/নগদ Transaction ID দিন:");
+    
+    if (trxID === "" || trxID.length < 8) {
+        alert("সঠিক ট্রানজেকশন আইডি ছাড়া অর্ডার সম্ভব নয়!");
+        return; // অর্ডার প্রসেস বন্ধ করে দিবে
+    }
+
+    // এরপর ডাটাবেসে সেভ হওয়ার জন্য ডাটা পাঠাবে
+    alert("আপনার অর্ডারটি পেন্ডিং আছে। আমরা ভেরিফাই করে ৫ মিনিটে ডেলিভারি দেব।");
+}
