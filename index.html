@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Empire | V20.26 Absolute Control</title>
+    <title>AR EMPIRE | V20.26 PREVIEW</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,168 +12,164 @@
 
     <style>
         :root {
-            --neon-cyan: #00f2fe;
-            --neon-gold: #FFD700;
-            --deep-dark: #02040a;
-            --glass: rgba(255, 255, 255, 0.03);
+            --accent: #00f2fe;
+            --gold: #FFD700;
+            --dark: #010409;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
         body {
-            background: var(--deep-dark);
+            background-color: var(--dark);
             color: #e6edf3;
             font-family: 'Space Grotesk', sans-serif;
             margin: 0;
-            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
         }
 
-        .orbitron { font-family: 'Orbitron', sans-serif; }
+        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
 
-        /* [V20.26 LUXURY LOGIN] */
-        #authArea {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at center, #0a192f 0%, #02040a 100%);
+        /* [AUTH SYSTEM] */
+        #loginPage {
+            height: 100vh; display: flex; justify-content: center; align-items: center;
         }
 
-        .luxury-card {
-            background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(20px);
-            padding: 50px;
-            border-radius: 40px;
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            width: 420px;
-            text-align: center;
+        .login-card {
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 40px;
+            border: 1px solid var(--accent);
+            width: 100%; max-width: 400px;
+            text-align: center; box-shadow: 0 0 30px rgba(0, 242, 254, 0.1);
         }
 
-        .v-logo {
-            width: 120px; height: 120px;
-            border-radius: 30px;
-            border: 2px solid var(--neon-gold);
-            margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            animation: glow 3s infinite alternate;
+        .main-logo {
+            width: 120px; height: 120px; border-radius: 30px;
+            border: 2px solid var(--gold); margin-bottom: 25px;
+            box-shadow: 0 0 20px var(--gold);
         }
 
-        @keyframes glow {
-            from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
-            to { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+        /* [MAIN PANEL] */
+        #mainPage { display: none; padding: 15px; }
+
+        .nexus-header {
+            background: var(--glass); border-radius: 20px;
+            padding: 20px; border: 1px solid #30363d; margin-bottom: 25px;
         }
 
-        /* [DASHBOARD EVOLUTION] */
-        #mainPanel { display: none; padding: 25px; }
-
-        .stat-banner {
-            background: linear-gradient(90deg, #0d1117, #161b22);
-            border-radius: 25px; padding: 25px;
-            border: 1px solid #30363d;
-            margin-bottom: 35px;
+        .service-card {
+            background: var(--glass); border-radius: 25px;
+            padding: 20px; border: 1px solid #30363d;
+            transition: 0.4s; height: 100%; text-align: center;
+            position: relative; overflow: hidden;
         }
 
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 20px;
-        }
-
-        .nexus-card {
-            background: var(--glass);
-            border: 1px solid #30363d;
-            border-radius: 25px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .nexus-card:hover {
+        .service-card:hover {
+            border-color: var(--accent); transform: translateY(-10px);
             background: rgba(0, 242, 254, 0.05);
-            border-color: var(--neon-cyan);
-            transform: scale(1.05);
         }
 
-        .btn-order {
-            background: var(--neon-cyan);
-            color: #000; font-weight: 700;
-            border: none; border-radius: 12px;
-            padding: 10px 20px; width: 100%;
-            margin-top: 15px;
+        .price-badge {
+            background: var(--accent); color: #000;
+            padding: 2px 12px; border-radius: 8px;
+            font-weight: bold; font-size: 12px;
+            position: absolute; top: 15px; right: 15px;
         }
 
-        .history-row {
-            background: #0d1117;
-            border-radius: 15px; padding: 15px;
-            margin-bottom: 10px; border-left: 5px solid var(--neon-cyan);
-            display: flex; justify-content: space-between;
+        .btn-pay {
+            background: var(--accent); color: #000; font-weight: bold;
+            border: none; border-radius: 12px; padding: 10px; width: 100%;
+            margin-top: 15px; transition: 0.3s;
         }
+
+        .btn-pay:hover { opacity: 0.9; transform: scale(1.05); }
+
+        .history-box {
+            background: #0d1117; border-radius: 15px; padding: 15px;
+            margin-bottom: 10px; border-left: 5px solid var(--accent);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* [PAYMENT MODAL STYLE] */
+        .pay-icon { width: 45px; cursor: pointer; border-radius: 10px; margin: 10px; border: 2px solid transparent; }
+        .pay-icon:hover { border-color: var(--accent); }
     </style>
 </head>
 <body>
 
-<div id="authArea">
-    <div class="luxury-card">
-        <img src="ar-logo.png" class="v-logo">
-        <h2 class="orbitron fw-bold text-white">SYSTEM V20.26</h2>
-        <p class="text-secondary small mb-4">স্বাগতম আতিক ওস্তাদ, সিস্টেম আনলক করুন</p>
+<div id="loginPage">
+    <div class="login-card animate__animated animate__zoomIn">
+        <img src="ar-logo.png" class="main-logo">
+        <h3 class="orbitron fw-bold">NEXUS V20.26</h3>
+        <p class="text-secondary small mb-4">স্বাগতম আতিক ওস্তাদ! জিমেইল আইডি লক করুন</p>
         
-        <input type="email" id="email" class="form-control bg-dark text-white border-secondary mb-3 py-2" placeholder="জিমেইল এড্রেস">
-        <input type="password" id="pass" class="form-control bg-dark text-white border-secondary mb-4 py-2" placeholder="পাসওয়ার্ড">
+        <input type="email" id="userEmail" class="form-control bg-dark text-white border-secondary mb-3" placeholder="জিমেইল এড্রেস">
+        <input type="password" id="userPass" class="form-control bg-dark text-white border-secondary mb-4" placeholder="মাস্টার পাসওয়ার্ড">
         
-        <button class="btn btn-order" onclick="initSystem()">ACCESS SYSTEM</button>
+        <button class="btn btn-pay" onclick="authCheck()">সিস্টেম আনলক করুন</button>
     </div>
 </div>
 
-<div id="mainPanel">
+<div id="mainPage">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="nexus-header d-flex justify-content-between align-items-center mt-3">
             <div class="d-flex align-items-center">
-                <img src="ar-logo.png" style="width: 50px; margin-right: 15px; border-radius: 12px;">
+                <img src="ar-logo.png" style="width: 50px; border-radius: 10px; margin-right: 15px;">
                 <h4 class="orbitron mb-0">AR EMPIRE</h4>
             </div>
             <div class="text-end">
-                <span class="text-secondary small">BALANCE</span>
+                <span class="text-secondary small">WALLET</span>
                 <h4 class="text-success orbitron mb-0">৳ ৯৫০.০০</h4>
             </div>
         </div>
 
-        <div class="stat-banner">
-            <marquee class="text-info small">🔥 ২০.২৬ আপডেট: এখন থেকে বিকাশ ও নগদে অটো-ভেরিফিকেশন সিস্টেম সচল! কোনো প্রকার ফি ছাড়াই ডায়মন্ড কিনুন।</marquee>
-        </div>
+        <marquee class="text-info small mb-4">📢 অফার: প্রতিটি ১০০০ ফলোয়ারে ১০০টি বোনাস! পেমেন্ট করার ৫ মিনিটে কাজ শুরু হবে।</marquee>
 
-        <h5 class="orbitron mb-4 text-warning">PREMIUM SERVICES</h5>
-        <div class="service-grid">
-            <div class="nexus-card">
-                <i class="fas fa-gem text-info mb-3 fs-3"></i>
-                <h6 class="small">FF Diamond</h6>
-                <button class="btn-order" onclick="placeOrder('FF Diamond')">ORDER</button>
+        <h5 class="orbitron mb-4"><i class="fas fa-bolt text-warning me-2"></i>PREMIUM SERVICES</h5>
+        
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳৮৫</span>
+                    <i class="fas fa-gem fs-2 text-info mb-3"></i>
+                    <h6 class="fw-bold">FF Diamond</h6>
+                    <button class="btn-pay" onclick="checkout('Free Fire')">অর্ডার দিন</button>
+                </div>
             </div>
-            <div class="nexus-card">
-                <i class="fab fa-facebook text-primary mb-3 fs-3"></i>
-                <h6 class="small">FB Follower</h6>
-                <button class="btn-order" onclick="placeOrder('FB Follower')">ORDER</button>
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳১৩০</span>
+                    <i class="fab fa-facebook fs-2 text-primary mb-3"></i>
+                    <h6 class="fw-bold">FB Follower</h6>
+                    <button class="btn-pay" onclick="checkout('FB Follower')">অর্ডার দিন</button>
+                </div>
             </div>
-            <div class="nexus-card">
-                <i class="fab fa-youtube text-danger mb-3 fs-3"></i>
-                <h6 class="small">YT Views</h6>
-                <button class="btn-order" onclick="placeOrder('YT Views')">ORDER</button>
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳৫৫০</span>
+                    <i class="fab fa-youtube fs-2 text-danger mb-3"></i>
+                    <h6 class="fw-bold">YT Watchtime</h6>
+                    <button class="btn-pay" onclick="checkout('YouTube')">অর্ডার দিন</button>
+                </div>
             </div>
-            <div class="nexus-card">
-                <i class="fab fa-tiktok text-light mb-3 fs-3"></i>
-                <h6 class="small">TikTok Like</h6>
-                <button class="btn-order" onclick="placeOrder('TikTok Like')">ORDER</button>
+            <div class="col-6 col-md-3">
+                <div class="service-card">
+                    <span class="price-badge">৳৯৫</span>
+                    <i class="fab fa-tiktok fs-2 text-light mb-3"></i>
+                    <h6 class="fw-bold">TikTok Views</h6>
+                    <button class="btn-pay" onclick="checkout('TikTok')">অর্ডার দিন</button>
+                </div>
             </div>
         </div>
 
         <div class="mt-5">
-            <h5 class="orbitron mb-4 text-info">ORDER HISTORY</h5>
-            <div id="history">
-                <div class="history-row">
+            <h5 class="orbitron mb-4 text-warning">অর্ডার হিস্ট্রি</h5>
+            <div id="orderHistory">
+                <div class="history-box">
                     <div>
-                        <span class="d-block fw-bold small">#AR2026-992</span>
-                        <small class="text-secondary">Free Fire 500 Dia</small>
+                        <span class="fw-bold d-block">#AR-202611</span>
+                        <small class="text-secondary">FB Follower (1K)</small>
                     </div>
-                    <span class="text-warning small">● Pending</span>
+                    <span class="badge bg-success">Success</span>
                 </div>
             </div>
         </div>
@@ -181,56 +177,86 @@
 </div>
 
 <script>
-    function initSystem() {
-        const mail = document.getElementById('email').value;
-        const key = document.getElementById('pass').value;
-        
-        if(!mail || !key) {
-            Swal.fire('Error', 'তথ্য প্রদান করুন ওস্তাদ!', 'error');
+    // সিকিউর লগইন লজিক
+    function authCheck() {
+        const mail = document.getElementById('userEmail').value;
+        const pass = document.getElementById('userPass').value;
+
+        if(!mail || !pass) {
+            Swal.fire('ভুল!', 'জিমেইল এবং পাসওয়ার্ড দিন ওস্তাদ।', 'error');
             return;
         }
 
-        const storedMail = localStorage.getItem('v20_mail');
-        const storedKey = localStorage.getItem('v20_key');
+        const lockMail = localStorage.getItem('lock_mail');
+        const lockPass = localStorage.getItem('lock_pass');
 
-        if(!storedMail) {
-            localStorage.setItem('v20_mail', mail);
-            localStorage.setItem('v20_key', key);
-            launch();
-        } else if(mail === storedMail && key === storedKey) {
-            launch();
+        if(!lockMail) {
+            localStorage.setItem('lock_mail', mail);
+            localStorage.setItem('lock_pass', pass);
+            openDashboard();
+        } else if(mail === lockMail && pass === lockPass) {
+            openDashboard();
         } else {
-            Swal.fire('Denied', 'এই জিমেইলটি অন্য পাসওয়ার্ডে লক করা!', 'error');
+            Swal.fire('এক্সেস ডিনাইড!', 'এই জিমেইলটি অন্য পাসওয়ার্ডে লক করা।', 'error');
         }
     }
 
-    function launch() {
-        document.getElementById('authArea').style.display = 'none';
-        document.getElementById('mainPanel').style.display = 'block';
+    function openDashboard() {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('mainPage').style.display = 'block';
     }
 
-    function placeOrder(name) {
-        const oid = "AR" + Math.floor(Math.random() * 9999);
+    // আধুনিক চেকআউট সিস্টেম
+    function checkout(service) {
+        const orderId = "AR-" + Math.floor(Math.random() * 999999);
         Swal.fire({
-            title: 'Confirm Order',
-            html: `<input id="tid" class="swal2-input bg-dark text-white" placeholder="ID/Link">
-                   <input id="trx" class="swal2-input bg-dark text-white" placeholder="TrxID (BKash/Nagad)">`,
+            title: 'প্রফেশনাল পেমেন্ট গেটওয়ে',
+            html: `
+                <div class="text-start" style="color: #fff;">
+                    <p class="small text-info mb-2">সার্ভিস: ${service} | আইডি: ${orderId}</p>
+                    <hr style="border-color: #333;">
+                    <label class="small">১. পেমেন্ট মেথড সিলেক্ট করুন:</label><br>
+                    <div class="text-center">
+                        <img src="https://img.icons8.com/color/96/bkash.png" class="pay-icon" title="Bkash">
+                        <img src="https://img.icons8.com/color/96/nagad.png" class="pay-icon" title="Nagad">
+                    </div>
+                    <label class="small mt-2">২. প্লেয়ার আইডি বা প্রোফাইল লিঙ্ক দিন:</label>
+                    <input id="target" class="swal2-input bg-dark text-white border-secondary" placeholder="ID/Link">
+                    <label class="small mt-2">৩. পেমেন্ট করার TrxID দিন:</label>
+                    <input id="trx" class="swal2-input bg-dark text-white border-secondary" placeholder="Transaction ID">
+                </div>
+            `,
             background: '#0d1117',
-            confirmButtonText: 'PAY NOW',
-            confirmButtonColor: '#00f2fe'
+            confirmButtonText: 'অর্ডার নিশ্চিত করুন',
+            confirmButtonColor: '#00f2fe',
+            showCancelButton: true
         }).then((res) => {
             if(res.isConfirmed) {
-                Swal.fire('Success', 'অর্ডার আইডি: ' + oid + ' ভেরিফাই হচ্ছে।', 'success');
+                const trx = document.getElementById('trx').value;
+                if(trx.length < 8) {
+                    Swal.fire('ব্যর্থ!', 'সঠিক ট্রানজেকশন আইডি দিন।', 'error');
+                } else {
+                    addHistory(orderId, service);
+                    Swal.fire('সফল!', 'অর্ডার পেন্ডিং আছে। ৫ মিনিটে ডেলিভারি পাবেন।', 'success');
+                }
             }
         });
     }
 
+    function addHistory(id, name) {
+        const h = document.getElementById('orderHistory');
+        h.innerHTML = `
+            <div class="history-box">
+                <div><span class="fw-bold d-block">#${id}</span><small class="text-secondary">${name}</small></div>
+                <span class="badge bg-warning text-dark">Pending</span>
+            </div>
+        ` + h.innerHTML;
+    }
+
+    // অটো লগইন চেক
     window.onload = () => {
-        if(localStorage.getItem('v20_mail')) {
-            launch();
-        }
+        if(localStorage.getItem('lock_mail')) openDashboard();
     }
 </script>
-
 </body>
 </html>
