@@ -1,33 +1,88 @@
 :root {
-    --primary: #00ff88;
-    --secondary: #00d4ff;
-    --bg: #080a0f;
-    --surface: #12161f;
-    --text: #f8fafc;
+    --ar-cyan: #00f2fe;
+    --ar-purple: #bc13fe;
+    --ar-gold: #FFD700;
+    --ar-bg: #010409;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', sans-serif; }
-body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+body {
+    background-color: var(--ar-bg);
+    color: white;
+    font-family: 'Hind Siliguri', sans-serif;
+    margin: 0;
+}
 
-#preloader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.loader-ring { width: 60px; height: 60px; border: 4px solid #111; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { 100% { transform: rotate(360deg); } }
+.orbitron { font-family: 'Orbitron', sans-serif; }
 
-#auth-portal { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-.auth-card { background: var(--surface); width: 100%; max-width: 400px; padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-.input-box { position: relative; margin-bottom: 15px; }
-.input-box i { position: absolute; left: 15px; top: 16px; color: var(--primary); }
-.input-box input { width: 100%; background: #000; border: 1px solid #222; padding: 15px 15px 15px 45px; border-radius: 12px; color: #fff; outline: none; }
+#serverGate {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-.cta-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; border-radius: 12px; color: #000; font-weight: 800; cursor: pointer; }
+.glass-container {
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
 
-.navbar { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid #222; }
-.balance-card { background: linear-gradient(135deg, #00ff88, #0088ff); padding: 30px; border-radius: 25px; margin: 20px; color: #000; position: relative; }
+.logo-main {
+    width: 100px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 2px solid var(--ar-gold);
+}
 
-.grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
-.service-card { background: var(--surface); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #222; }
-.service-card i { font-size: 30px; margin-bottom: 10px; display: block; }
+.nexus-input {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
 
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 1000; }
-.modal { background: var(--surface); width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; text-align: center; }
-.wa-float { position: fixed; bottom: 30px; right: 25px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+.btn-nexus-main {
+    background: linear-gradient(90deg, var(--ar-cyan), var(--ar-purple));
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.payment-banner {
+    background: linear-gradient(rgba(0, 242, 254, 0.1), transparent);
+    padding: 40px;
+    text-align: center;
+    border-bottom: 2px solid var(--ar-cyan);
+}
+
+.package-tile {
+    background: #0d1117;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #30363d;
+    transition: 0.3s;
+}
+
+.package-tile:hover { transform: translateY(-10px); border-color: var(--ar-cyan); }
+
+.price { color: var(--ar-gold); }
+
+.order-btn {
+    background: var(--ar-cyan);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 100%;
+}
