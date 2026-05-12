@@ -485,3 +485,71 @@
         <p class="small text-muted">১. Free Fire 115 Dia - <span class="text-warning">Pending</span></p>
     </div>
 </div>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>AR Online Shop | V11.11 Secure Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ar-cyan: #00f2fe;
+            --ar-bg: #010409;
+        }
+        body {
+            background-color: var(--ar-bg);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: rgba(13, 17, 23, 0.95);
+            padding: 50px;
+            border-radius: 35px;
+            border: 2px solid var(--ar-cyan);
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.3);
+            width: 400px;
+        }
+        /* লোগো সেকশন - এখানে আপনার দেওয়া ছবি শো করবে ওস্তাদ */
+        .brand-logo-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 30px;
+            border: 3px solid #FFD700;
+            padding: 5px;
+            box-shadow: 0 0 20px #FFD700;
+            margin-bottom: 25px;
+            animation: pulse 2.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); border-color: var(--ar-cyan); box-shadow: 0 0 30px var(--ar-cyan); }
+            100% { transform: scale(1); }
+        }
+        /* [লগইন লজিক এবং ইনপুট আগের মতোই...] */
+    </style>
+</head>
+<body>
+    <div class="login-box animate__animated animate__fadeIn">
+        <img src="ar-logo.png" class="brand-logo-img" alt="AR Online Shop Logo">
+        
+        <h2 class="orbitron text-white">SYSTEM LOGIN</h2>
+        <p class="text-secondary small mb-4">ডিভাইস ভেরিফিকেশন এবং জিমেইল লক করুন</p>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" id="uEmail" class="form-control" placeholder="আপনার জিমেইল এড্রেস">
+        </div>
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
+            <input type="password" id="uPass" class="form-control" placeholder="মাস্টার পাসওয়ার্ড">
+        </div>
+        <button class="btn btn-nexus" onclick="secureLogin()">সিস্টেম আনলক করুন</button>
+    </div>
+</body>
+</html>
