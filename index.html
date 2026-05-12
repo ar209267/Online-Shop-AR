@@ -3,183 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Rocky | MASTER V30.26</title>
+    <title>AR EMPIRE | SECURE SERVER</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --ar-cyan: #00f2fe; --ar-purple: #bc13fe; --ar-bg: #010409; }
-        body { background-color: var(--ar-bg); color: white; font-family: 'Hind Siliguri', sans-serif; margin: 0; }
-        .orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass-container { background: rgba(13, 17, 23, 0.98); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 30px; padding: 40px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .nexus-input { width: 100%; background: #0d1117; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 12px; margin-bottom: 20px; }
-        .btn-nexus { background: linear-gradient(90deg, var(--ar-cyan), var(--ar-purple)); border: none; padding: 15px; border-radius: 12px; font-weight: bold; color: black; cursor: pointer; transition: 0.3s; }
-        .btn-nexus:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--ar-cyan); }
-        .package-tile { background: #0d1117; padding: 25px; border-radius: 25px; text-align: center; border: 1px solid #21262d; transition: 0.4s; height: 100%; }
-        .package-tile:hover { border-color: var(--ar-cyan); transform: translateY(-10px); }
-        .package-tile i { font-size: 2.5rem; color: var(--ar-cyan); margin-bottom: 15px; }
-        .price { color: #FFD700; font-weight: bold; font-size: 1.2rem; }
-        .payment-banner { background: linear-gradient(rgba(0, 242, 254, 0.05), transparent); padding: 50px 20px; text-align: center; border-bottom: 1px solid #30363d; }
-        #loginGate { height: 100vh; display: flex; justify-content: center; align-items: center; }
-        #mainApplication, #adminControlRoom { display: none; }
+        body { background-color: var(--ar-bg); color: white; font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; }
+        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        
+        /* Login Design */
+        #loginGate { height: 100vh; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle at center, #0a192f 0%, #010409 100%); }
+        .auth-card { background: rgba(13, 17, 23, 0.95); border: 1px solid var(--ar-cyan); border-radius: 30px; padding: 40px; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); }
+        .nexus-input { width: 100%; background: #0d1117; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 12px; margin-bottom: 15px; transition: 0.3s; }
+        .nexus-input:focus { border-color: var(--ar-cyan); box-shadow: 0 0 10px var(--ar-cyan); outline: none; }
+        
+        /* Dashboard Design */
+        #mainApplication { display: none; }
+        .package-tile { background: #0d1117; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #21262d; transition: 0.3s; height: 100%; }
+        .package-tile:hover { border-color: var(--ar-cyan); transform: translateY(-5px); }
+        .package-tile i { font-size: 2rem; color: var(--ar-cyan); margin-bottom: 10px; }
+        .price { color: #FFD700; font-weight: bold; }
+        .order-btn { background: var(--ar-cyan); color: black; border: none; padding: 8px; border-radius: 10px; font-weight: bold; width: 100%; }
     </style>
 </head>
 <body>
 
 <section id="loginGate">
-    <div class="glass-container text-center animate__animated animate__fadeIn" style="max-width: 400px; width: 90%;">
-        <img src="ar-logo.png" style="width: 110px; border-radius: 25px; border: 2px solid #FFD700; margin-bottom: 20px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
-        <h3 class="orbitron text-info">AR NEXUS LOGIN</h3>
-        <p class="text-secondary small mb-4">স্বাগতম আতিক ওস্তাদ, সিস্টেম এক্সেস করুন</p>
+    <div class="auth-card text-center animate__animated animate__fadeIn">
+        <img src="ar-logo.png" style="width: 100px; border-radius: 20px; margin-bottom: 20px; border: 2px solid var(--ar-cyan);" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
+        <h4 class="orbitron text-white">AR MASTER LOCK</h4>
+        <p class="text-secondary small mb-4">শুধুমাত্র আতিক ওস্তাদ প্রবেশ করতে পারবেন</p>
+        
         <input type="email" id="uMail" class="nexus-input" placeholder="আপনার জিমেইল">
-        <input type="password" id="uPass" class="nexus-input" placeholder="পাসওয়ার্ড">
-        <button class="btn-nexus w-100" onclick="handleLogin()">ACTIVATE SYSTEM</button>
+        <input type="password" id="uPass" class="nexus-input" placeholder="মাস্টার পাসওয়ার্ড">
+        <button class="btn btn-info w-100 py-2 fw-bold" onclick="masterLogin()">LOGIN SYSTEM</button>
     </div>
 </section>
 
 <section id="mainApplication">
     <nav class="navbar navbar-dark bg-dark py-3 border-bottom border-secondary">
         <div class="container d-flex justify-content-between align-items-center">
-            <h5 class="orbitron mb-0 text-white">AR EMPIRE MEGA HUB</h5>
-            <button class="btn btn-sm btn-info rounded-pill px-3" onclick="showAdmin()">ADMIN</button>
+            <h6 class="orbitron mb-0">AR EMPIRE HUB</h6>
+            <button class="btn btn-sm btn-info px-3 rounded-pill" onclick="showAdmin()">ADMIN</button>
         </div>
     </nav>
 
-    <div class="payment-banner">
-        <h6 class="text-secondary">বিকাশ/নগদ পারসোনাল নম্বর</h6>
-        <h1 class="orbitron fw-bold text-white">01766380931</h1>
-        <button class="btn btn-sm btn-outline-info mt-2" onclick="copyNum()">COPY NUMBER</button>
+    <div class="text-center py-5 bg-dark border-bottom border-secondary">
+        <p class="text-secondary mb-1">বিকাশ/নগদ নম্বর</p>
+        <h2 class="orbitron fw-bold">01766380931</h2>
+        <button class="btn btn-sm btn-outline-info" onclick="copyNum()">COPY</button>
     </div>
 
-    <div class="container mt-5 pb-5">
-        <h4 class="orbitron text-info mb-4 border-start border-info ps-3">ALL ONLINE SERVICES</h4>
-        <div class="row g-4">
+    <div class="container mt-4 pb-5">
+        <div class="row g-3">
             <div class="col-6 col-md-3">
                 <div class="package-tile">
                     <i class="fas fa-user-shield"></i>
-                    <h6>Account Verify</h6>
+                    <p class="mb-1 small">Account Verify</p>
                     <p class="price">৳ ৫০০</p>
-                    <button class="btn btn-info btn-sm w-100 fw-bold" onclick="doOrder('Account Verify', '500')">অর্ডার</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-unlock-alt"></i>
-                    <h6>Password Reset</h6>
-                    <p class="price">৳ ৩০০</p>
-                    <button class="btn btn-info btn-sm w-100 fw-bold" onclick="doOrder('Pass Recovery', '300')">অর্ডার</button>
+                    <button class="order-btn" onclick="doOrder('Account Verify', '500')">অর্ডার</button>
                 </div>
             </div>
             <div class="col-6 col-md-3">
                 <div class="package-tile">
                     <i class="fab fa-facebook"></i>
-                    <h6>1K Followers</h6>
+                    <p class="mb-1 small">FB Follower</p>
                     <p class="price">৳ ১৩৫</p>
-                    <button class="btn btn-info btn-sm w-100 fw-bold" onclick="doOrder('FB 1K Follower', '135')">অর্ডার</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-fire"></i>
-                    <h6>FF Topup Fee</h6>
-                    <p class="price">৳ ১০</p>
-                    <button class="btn btn-info btn-sm w-100 fw-bold" onclick="doOrder('FF Fee', '10')">অর্ডার</button>
+                    <button class="order-btn" onclick="doOrder('FB 1K', '135')">অর্ডার</button>
                 </div>
             </div>
         </div>
-        <div id="userLogArea" class="mt-5"></div>
+        <div id="userActivity" class="mt-4"></div>
     </div>
 </section>
 
-<section id="adminControlRoom" class="container mt-5">
-    <div class="d-flex justify-content-between mb-4">
-        <h2 class="orbitron text-white">ADMIN PANEL</h2>
-        <button class="btn btn-danger btn-sm" onclick="hideAdmin()">BACK</button>
+<section id="adminRoom" style="display:none;" class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h4 class="orbitron">ADMIN</h4>
+        <button class="btn btn-sm btn-danger" onclick="location.reload()">LOGOUT</button>
     </div>
-    <div class="table-responsive glass-container p-0">
-        <table class="table table-dark mb-0 text-center">
-            <thead><tr><th>ইউজার</th><th>কাজ</th><th>টার্গেট</th><th>TrxID</th><th>স্ট্যাটাস</th><th>অ্যাকশন</th></tr></thead>
-            <tbody id="adminTableBody"></tbody>
+    <div class="table-responsive">
+        <table class="table table-dark small">
+            <thead><tr><th>কাস্টমার</th><th>কাজ</th><th>TrxID</th><th>অ্যাকশন</th></tr></thead>
+            <tbody id="adminTable"></tbody>
         </table>
     </div>
 </section>
 
 <script>
-    // Firebase Setup
+    // --- ফায়ারবেস সেটআপ ---
     const firebaseConfig = {
         apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
         authDomain: "online-shop-ar.firebaseapp.com",
         projectId: "online-shop-ar",
-        storageBucket: "online-shop-ar.firebasestorage.app",
+        databaseURL: "https://online-shop-ar-default-rtdb.firebaseio.com", // আপনার ডাটাবেস URL
+        storageBucket: "online-shop-ar.appspot.com",
         messagingSenderId: "913434308973",
         appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Login Logic
-    function handleLogin() {
-        const email = document.getElementById('uMail').value.trim().toLowerCase();
+    // --- লগইন লজিক (নির্ধারিত জিমেইল ও পাসওয়ার্ড) ---
+    function masterLogin() {
+        const email = document.getElementById('uMail').value.trim();
         const pass = document.getElementById('uPass').value;
-        if(!email || !pass) return Swal.fire('Error', 'সব তথ্য দিন!', 'error');
 
-        // প্রথমবার সেট হয়ে গেলে স্থায়ী লক
-        if(!localStorage.getItem('ar_email')) {
-            localStorage.setItem('ar_email', email);
-            localStorage.setItem('ar_pass', pass);
-        }
+        // আপনার নির্দিষ্ট জিমেইল এবং পাসওয়ার্ড এখানে সেট করুন
+        const MASTER_EMAIL = "atiq@gmail.com"; 
+        const MASTER_PASS = "atiq8389";
 
-        if(email === localStorage.getItem('ar_email') && pass === localStorage.getItem('ar_pass')) {
+        if(email === MASTER_EMAIL && pass === MASTER_PASS) {
+            // সার্ভারে লগ সেভ হবে (কে কখন ঢুকল)
+            db.ref('login_logs/').push({ user: email, time: new Date().toLocaleString() });
+            
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+            
             document.getElementById('loginGate').style.display = 'none';
             document.getElementById('mainApplication').style.display = 'block';
-            loadUserLogs();
+            loadOrders();
         } else {
-            Swal.fire('Denied', 'ভুল পাসওয়ার্ড ওস্তাদ!', 'error');
+            Swal.fire('Access Denied', 'সঠিক জিমেইল বা পাসওয়ার্ড দিন ওস্তাদ!', 'error');
         }
     }
 
-    function copyNum() {
-        navigator.clipboard.writeText('01766380931');
-        Swal.fire({ title: 'Copied!', icon: 'success', timer: 1000, showConfirmButton: false });
-    }
-
-    function doOrder(pkg, price) {
+    function doOrder(item, pr) {
         Swal.fire({
-            title: pkg,
-            html: `<input id="o_target" class="swal2-input" placeholder="User ID / Link">
-                   <input id="o_trx" class="swal2-input" placeholder="TrxID">`,
-            confirmButtonText: 'Confirm Order',
+            title: item,
+            html: `<input id="target" class="swal2-input" placeholder="ID/Link"><input id="trx" class="swal2-input" placeholder="TrxID">`,
             showCancelButton: true
-        }).then((res) => {
-            if(res.isConfirmed) {
-                const target = document.getElementById('o_target').value;
-                const trx = document.getElementById('o_trx').value;
-                if(!target || !trx) return;
-                
+        }).then((r) => {
+            if(r.isConfirmed) {
+                const t = document.getElementById('target').value;
+                const trx = document.getElementById('trx').value;
                 db.ref('orders/').push({
-                    user: localStorage.getItem('ar_email'),
-                    item: pkg, target: target, trx: trx, status: 'Pending', date: new Date().toLocaleString()
+                    customer: localStorage.getItem('userEmail'),
+                    item: item, target: t, trx: trx, status: 'Pending', date: new Date().toLocaleString()
                 });
-                Swal.fire('Success', 'অর্ডার জমা হয়েছে।', 'success');
+                Swal.fire('Success', 'অর্ডার সার্ভারে সেভ হয়েছে!', 'success');
             }
         });
     }
 
-    function loadUserLogs() {
-        db.ref('orders/').on('value', (snap) => {
-            const area = document.getElementById('userLogArea');
-            area.innerHTML = "<h5 class='orbitron text-secondary'>YOUR LOGS:</h5>";
-            snap.forEach((child) => {
-                const d = child.val();
-                if(d.user === localStorage.getItem('ar_email')) {
-                    area.innerHTML += `<div class="p-3 mb-2" style="background:#161b22; border-radius:12px; border-left:4px solid var(--ar-cyan)">
-                        <b>${d.item}</b> - <span class="text-warning">${d.status}</span><br><small>${d.date}</small>
-                    </div>`;
+    function loadOrders() {
+        const mail = localStorage.getItem('userEmail');
+        db.ref('orders/').on('value', (s) => {
+            const area = document.getElementById('userActivity');
+            area.innerHTML = "<h6 class='text-secondary'>Recent Logs:</h6>";
+            s.forEach((c) => {
+                const d = c.val();
+                if(d.customer === mail) {
+                    area.innerHTML += `<div class='p-2 mb-2 bg-dark border-start border-info'>${d.item} - ${d.status}</div>`;
                 }
             });
         });
@@ -187,30 +168,25 @@
 
     function showAdmin() {
         document.getElementById('mainApplication').style.display = 'none';
-        document.getElementById('adminControlRoom').style.display = 'block';
-        db.ref('orders/').on('value', (snap) => {
-            const tbody = document.getElementById('adminTableBody');
+        document.getElementById('adminRoom').style.display = 'block';
+        db.ref('orders/').on('value', (s) => {
+            const tbody = document.getElementById('adminTable');
             tbody.innerHTML = "";
-            snap.forEach((child) => {
-                const d = child.val();
-                tbody.innerHTML += `<tr>
-                    <td>${d.user}</td><td>${d.item}</td><td>${d.target}</td><td>${d.trx}</td>
-                    <td><span class="badge bg-warning text-dark">${d.status}</span></td>
-                    <td><button class="btn btn-success btn-sm" onclick="update('${child.key}', 'Success')">✓</button></td>
-                </tr>`;
+            s.forEach((c) => {
+                const d = c.val();
+                tbody.innerHTML += `<tr><td>${d.customer}</td><td>${d.item}</td><td>${d.trx}</td><td><button class='btn btn-xs btn-success' onclick="db.ref('orders/${c.key}').update({status:'Success'})">OK</button></td></tr>`;
             });
         });
     }
 
-    function hideAdmin() { document.getElementById('adminControlRoom').style.display = 'none'; document.getElementById('mainApplication').style.display = 'block'; }
-    function update(id, s) { db.ref('orders/' + id).update({ status: s }); }
+    function copyNum() { navigator.clipboard.writeText('01766380931'); Swal.fire('Copied','','success'); }
 
-    // Auto Resume
-    if(localStorage.getItem('ar_email')) {
+    // Auto Login
+    if(localStorage.getItem('isLoggedIn') === 'true') {
         document.getElementById('loginGate').style.display = 'none';
         document.getElementById('mainApplication').style.display = 'block';
-        loadUserLogs();
+        loadOrders();
     }
 </script>
 </body>
-</html>
+</html> 
