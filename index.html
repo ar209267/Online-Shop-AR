@@ -3,209 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Shop AR - Mega Platform v5.0</title>
+    <title>AR SHOP PRO | Ultimate Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root { --primary: #7d40ff; --accent: #00d2ff; --bg: #0b0e14; --card: #161b22; }
-        body { background-color: var(--bg); color: #c9d1d9; font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; }
+        :root { --primary: #7d40ff; --bg: #0b0e14; --card: #161b22; }
+        body { background: var(--bg); color: #fff; font-family: 'Hind Siliguri', sans-serif; }
         
-        /* 1. Google Verification Screen */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #1a1d23, #000); z-index: 10000; display: flex; align-items: center; justify-content: center; }
-        .auth-box { background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--primary); text-align: center; max-width: 450px; width: 90%; box-shadow: 0 0 50px rgba(125, 64, 255, 0.2); }
-        .google-btn { background: #fff; color: #000; font-weight: 700; padding: 12px; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; border: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .google-btn:hover { background: #e6e6e6; }
+        /* Navbar */
+        .navbar { background: #1a1d23; border-bottom: 2px solid var(--primary); }
 
-        /* 2. Navbar & Navigation */
-        .navbar { background: rgba(22, 27, 34, 0.9); backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary); }
-        .cat-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; }
-        .cat-item { padding: 10px 22px; background: #21262d; border: 1px solid #30363d; border-radius: 30px; color: #fff; text-decoration: none; white-space: nowrap; transition: 0.3s; font-weight: 600; }
-        .cat-item.active, .cat-item:hover { background: var(--primary); border-color: var(--primary); transform: scale(1.05); }
+        /* Product Cards with Real Logos */
+        .service-card { background: var(--card); border-radius: 15px; border: 1px solid #30363d; transition: 0.3s; cursor: pointer; overflow: hidden; height: 100%; text-align: center; }
+        .service-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .logo-box { height: 120px; display: flex; align-items: center; justify-content: center; background: #000; padding: 15px; }
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .service-name { padding: 12px; font-weight: 700; font-size: 14px; }
 
-        /* 3. Product Grid */
-        .service-card { background: var(--card); border: 1px solid #30363d; border-radius: 15px; transition: 0.4s; cursor: pointer; text-align: center; height: 100%; overflow: hidden; }
-        .service-card:hover { border-color: var(--primary); transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .service-card i { font-size: 50px; padding: 30px 0; color: var(--primary); }
-        .service-card.game i { color: #ff4081; }
-        .service-card.social i { color: #00d2ff; }
-        .service-name { padding: 15px; font-weight: 700; background: rgba(0,0,0,0.2); }
+        /* Order Panel */
+        #order-panel { display: none; background: var(--card); padding: 25px; border-radius: 20px; border: 1px solid var(--primary); }
+        .pkg-btn { background: #21262d; border: 1px solid #30363d; padding: 12px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; }
+        .pkg-btn.active { border-color: var(--primary); background: rgba(125, 64, 255, 0.1); }
 
-        /* 4. Dynamic Order Panel */
-        #order-panel { display: none; background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); margin-top: 30px; }
-        .pkg-item { background: #0d1117; border: 1px solid #30363d; padding: 15px; border-radius: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; cursor: pointer; }
-        .pkg-item:hover, .pkg-item.selected { border-color: var(--primary); background: #1c2128; }
-
-        /* 5. Owner Logs (Admin) */
-        .owner-log { background: #0d1117; border-left: 5px solid #238636; padding: 25px; border-radius: 10px; margin-top: 60px; }
+        /* Admin Table */
+        .admin-section { margin-top: 40px; background: #0d1117; padding: 20px; border-radius: 15px; border: 1px solid #238636; }
+        .status-success { color: #238636; font-weight: bold; }
+        .status-pending { color: #d29922; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="auth-screen">
-    <div class="auth-box">
-        <h1 class="text-white fw-bold">AR MEGA <span class="text-primary">SHOP</span></h1>
-        <p class="text-secondary mb-4">গেম এবং সোশ্যাল মিডিয়া সার্ভিসের সেরা প্ল্যাটফর্ম। প্রবেশ করতে আপনার গুগল অ্যাকাউন্ট দিয়ে ভেরিফাই করুন।</p>
-        <button class="google-btn" onclick="verifyUser()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
-            Verify with Google
-        </button>
+<nav class="navbar navbar-dark p-3">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#" onclick="location.reload()">AR DIGITAL SHOP</a>
+        <span class="text-info small">মালিক: আতিক</span>
     </div>
-</div>
+</nav>
 
-<div id="app-body" style="display:none;">
-    <nav class="navbar navbar-dark p-3 sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#" onclick="goHome()">AR SHOP PRO</a>
-            <div id="user-info" class="text-info small fw-bold"></div>
-        </div>
-    </nav>
-
-    <div class="container mt-4 pb-5">
-        <div class="cat-scroll">
-            <a href="#" class="cat-item active" onclick="filterServices('all')">সবগুলো</a>
-            <a href="#" class="cat-item" onclick="filterServices('game')">গেম টপ-আপ</a>
-            <a href="#" class="cat-item" onclick="filterServices('social')">সোশ্যাল মিডিয়া</a>
-            <a href="#" class="cat-item" onclick="filterServices('soft')">সফটওয়্যার</a>
-        </div>
-
-        <div class="row g-4 mt-2" id="service-grid">
-            <div class="col-6 col-md-3 service-item game" onclick="openService('ff')">
-                <div class="service-card game">
-                    <i class="fas fa-fire"></i>
+<div class="container mt-4 pb-5">
+    <div id="home-view">
+        <h4 class="mb-4 fw-bold">পছন্দের সার্ভিসটি বেছে নিন</h4>
+        <div class="row g-3">
+            <div class="col-6 col-md-3" onclick="openOrder('ff')">
+                <div class="service-card">
+                    <div class="logo-box"><img src="https://i.ibb.co/LhYpY0P/freefire-logo.png"></div>
                     <div class="service-name">Free Fire Diamond</div>
                 </div>
             </div>
-            <div class="col-6 col-md-3 service-item social" onclick="openService('tiktok')">
-                <div class="service-card social">
-                    <i class="fab fa-tiktok"></i>
-                    <div class="service-name">TikTok Services</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 service-item social" onclick="openService('fb')">
-                <div class="service-card social">
-                    <i class="fab fa-facebook"></i>
-                    <div class="service-name">FB Followers/Likes</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 service-item social" onclick="openService('wa')">
-                <div class="service-card social">
-                    <i class="fab fa-whatsapp"></i>
-                    <div class="service-name">WA Marketing</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 service-item game" onclick="openService('pubg')">
-                <div class="service-card game">
-                    <i class="fas fa-crosshairs"></i>
+            <div class="col-6 col-md-3" onclick="openOrder('pubg')">
+                <div class="service-card">
+                    <div class="logo-box"><img src="https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png"></div>
                     <div class="service-name">PUBG Mobile UC</div>
                 </div>
             </div>
-        </div>
-
-        <div id="order-panel">
-            <button class="btn btn-outline-light btn-sm mb-4" onclick="goHome()">← ফিরে যান</button>
-            <div class="row">
-                <div class="col-md-7">
-                    <h3 id="displayTitle" class="text-primary mb-4"></h3>
-                    <div id="pkg-list"></div>
+            <div class="col-6 col-md-3" onclick="openOrder('fb')">
+                <div class="service-card">
+                    <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"></div>
+                    <div class="service-name">Facebook Service</div>
                 </div>
-                <div class="col-md-5">
-                    <div class="p-4 bg-dark border border-secondary rounded-4">
-                        <h4 class="mb-3">অর্ডার তথ্য দিন</h4>
-                        <input type="text" id="target" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="ID/Link লিখুন...">
-                        <div class="alert alert-info py-2 small">পেমেন্ট নম্বর: 01766 380 931 (পার্সোনাল)</div>
-                        <input type="text" id="trx" class="form-control mb-4 bg-dark text-white border-secondary" placeholder="বিকাশ/নগদ TrxID লিখুন">
-                        <button class="btn btn-primary w-100 py-3 fw-bold" onclick="sendToAdmin()">কনফার্ম অর্ডার</button>
-                    </div>
+            </div>
+            <div class="col-6 col-md-3" onclick="openOrder('tk')">
+                <div class="service-card">
+                    <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"></div>
+                    <div class="service-name">TikTok Followers</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="owner-log mt-5">
-            <h4 class="text-success mb-4 fw-bold"><i class="fas fa-lock"></i> মালিক ভিউ (অর্ডার লগ)</h4>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover small">
-                    <thead>
-                        <tr><th>ভেরিফাইড মেইল</th><th>সার্ভিস</th><th>টার্গেট</th><th>TrxID</th><th>স্ট্যাটাস</th></tr>
-                    </thead>
-                    <tbody id="adminTable">
-                        <tr><td colspan="5" class="text-center">এখনও কোনো অর্ডার আসেনি।</td></tr>
-                    </tbody>
-                </table>
+    <div id="order-panel" class="mt-3">
+        <button class="btn btn-sm btn-outline-light mb-3" onclick="goHome()">← ফিরে যান</button>
+        <div class="row">
+            <div class="col-md-7">
+                <h3 id="display-title" class="text-primary mb-3"></h3>
+                <div id="pkg-list"></div>
             </div>
+            <div class="col-md-5">
+                <div class="p-4 border border-secondary rounded bg-dark">
+                    <h5>অর্ডার কনফার্ম করুন</h5>
+                    <input type="text" id="target-id" class="form-control mb-3" placeholder="ID বা লিঙ্ক দিন">
+                    <div class="alert alert-info py-2 small">বিকাশ/নগদ: 01766 380 931</div>
+                    <input type="text" id="trx-id" class="form-control mb-3" placeholder="ট্রানজেকশন আইডি (TrxID)">
+                    <button class="btn btn-primary w-100 fw-bold" onclick="submitOrder()">সাবমিট অর্ডার</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="m-0 text-success fw-bold">অর্ডার হিস্টোরি (ডাটাবেজ)</h5>
+            <button class="btn btn-danger btn-sm" onclick="clearData()">ডিলিট অল</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover small">
+                <thead>
+                    <tr><th>টাইম</th><th>সার্ভিস</th><th>টার্গেট</th><th>TrxID</th><th>স্ট্যাটাস</th></tr>
+                </thead>
+                <tbody id="history-body"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
-    let currentUserEmail = "";
-    const db = {
-        ff: { title: "Free Fire Diamond", pkgs: ["115 Diamond - ৳85", "505 Diamond - ৳340", "Weekly - ৳160"] },
-        tiktok: { title: "TikTok Services", pkgs: ["1K Followers - ৳120", "1K Likes - ৳60", "10K Views - ৳40"] },
-        fb: { title: "Facebook Services", pkgs: ["1K Page Follow - ৳150", "1K Profile Follow - ৳130", "1K Reactions - ৳90"] },
-        wa: { title: "WhatsApp Tools", pkgs: ["Marketing Bot - ৳500", "Bulker Sender - ৳350"] },
-        pubg: { title: "PUBG Mobile UC", pkgs: ["60 UC - ৳75", "325 UC - ৳380", "660 UC - ৳730"] }
+    const data = {
+        ff: { n: "Free Fire Diamond", pkgs: ["115 Diamond - ৳85", "505 Diamond - ৳340"] },
+        pubg: { n: "PUBG Mobile UC", pkgs: ["60 UC - ৳75", "325 UC - ৳380"] },
+        fb: { n: "Facebook Follower", pkgs: ["1K Follower - ৳150", "5K Follower - ৳600"] },
+        tk: { n: "TikTok Follower", pkgs: ["1K Follower - ৳120", "10K Views - ৳50"] }
     };
 
-    function verifyUser() {
-        // এখানে ফায়ারবেস বা গুগল অথ বসাতে পারেন, আপাতত সিমুলেশন
-        currentUserEmail = "atiq.verify@gmail.com"; 
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('app-body').style.display = 'block';
-        document.getElementById('user-info').innerText = "Verified: " + currentUserEmail;
-    }
+    let selectedPkg = "";
 
-    function filterServices(type) {
-        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-        event.target.classList.add('active');
-        
-        const items = document.querySelectorAll('.service-item');
-        items.forEach(item => {
-            if(type === 'all' || item.classList.contains(type)) item.style.display = 'block';
-            else item.style.display = 'none';
-        });
-    }
+    // পেইজ লোড হওয়ার সময় আগের ডাটা নিয়ে আসা
+    window.onload = function() {
+        renderHistory();
+    };
 
-    function openService(key) {
-        const data = db[key];
-        document.getElementById('displayTitle').innerText = data.title;
+    function openOrder(id) {
+        const s = data[id];
+        document.getElementById('display-title').innerText = s.n;
         const list = document.getElementById('pkg-list');
         list.innerHTML = '';
-        data.pkgs.forEach(p => {
-            list.innerHTML += `<div class="pkg-item" onclick="this.classList.toggle('selected')"><span>${p}</span><i class="fas fa-check-circle text-primary"></i></div>`;
+        s.pkgs.forEach(p => {
+            list.innerHTML += `<div class="pkg-btn" onclick="selectThis(this, '${p}')"><span>${p}</span></div>`;
         });
-        document.getElementById('service-grid').style.display = 'none';
+        document.getElementById('home-view').style.display = 'none';
         document.getElementById('order-panel').style.display = 'block';
     }
 
+    function selectThis(el, p) {
+        document.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        selectedPkg = p;
+    }
+
     function goHome() {
-        document.getElementById('service-grid').style.display = 'flex';
+        document.getElementById('home-view').style.display = 'block';
         document.getElementById('order-panel').style.display = 'none';
     }
 
-    function sendToAdmin() {
-        const target = document.getElementById('target').value;
-        const trx = document.getElementById('trx').value;
-        const service = document.getElementById('displayTitle').innerText;
+    // পেমেন্ট ভেরিফাই এবং ডাটা সেভ লজিক
+    function submitOrder() {
+        const target = document.getElementById('target-id').value;
+        const trx = document.getElementById('trx-id').value;
+        const service = document.getElementById('display-title').innerText;
 
-        if(!target || !trx) return alert("দয়া করে সবগুলো তথ্য দিন!");
+        // ১. অটো ভেরিফিকেশন লজিক (TrxID সাধারণত ৮-১০ অক্ষরের হয়)
+        if(!selectedPkg || !target || trx.length < 8) {
+            alert("ভুল তথ্য! সঠিক TrxID এবং প্যাকেজ সিলেক্ট করুন।");
+            return;
+        }
 
-        alert("আপনার অর্ডারটি মালিকের কাছে পৌঁছেছে!");
+        // ২. ডাটা অবজেক্ট তৈরি
+        const newOrder = {
+            time: new Date().toLocaleString(),
+            service: service + " (" + selectedPkg + ")",
+            target: target,
+            trx: trx,
+            status: "Pending" // এটা মালিক পরে চেক করবে
+        };
 
-        const table = document.getElementById('adminTable');
-        if(table.innerText.includes("কোনো অর্ডার আসেনি")) table.innerHTML = "";
-        
-        const row = `<tr>
-            <td><span class="text-info">${currentUserEmail}</span></td>
-            <td>${service}</td>
-            <td><code>${target}</code></td>
-            <td><span class="badge bg-secondary">${trx}</span></td>
-            <td><span class="badge bg-warning">ভেরিফাই হচ্ছে</span></td>
-        </tr>`;
-        table.innerHTML = row + table.innerHTML;
-        
+        // ৩. LocalStorage-এ সেভ করা (যাতে রিফ্রেশ দিলে না যায়)
+        let orders = JSON.parse(localStorage.getItem('ar_orders')) || [];
+        orders.unshift(newOrder);
+        localStorage.setItem('ar_orders', JSON.stringify(orders));
+
+        alert("অর্ডার সফল! মালিক এখন এটি চেক করবেন।");
+        renderHistory();
         goHome();
+    }
+
+    function renderHistory() {
+        const orders = JSON.parse(localStorage.getItem('ar_orders')) || [];
+        const body = document.getElementById('history-body');
+        body.innerHTML = '';
+        
+        if(orders.length === 0) {
+            body.innerHTML = '<tr><td colspan="5" class="text-center py-3">কোনো ডাটা নেই।</td></tr>';
+            return;
+        }
+
+        orders.forEach(o => {
+            body.innerHTML += `<tr>
+                <td>${o.time}</td>
+                <td>${o.service}</td>
+                <td>${o.target}</td>
+                <td><span class="text-info">${o.trx}</span></td>
+                <td><span class="status-pending">${o.status}</span></td>
+            </tr>`;
+        });
+    }
+
+    function clearData() {
+        if(confirm("আপনি কি নিশ্চিত সব ডাটা মুছে ফেলতে চান?")) {
+            localStorage.removeItem('ar_orders');
+            renderHistory();
+        }
     }
 </script>
 </body>
