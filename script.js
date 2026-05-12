@@ -90,3 +90,62 @@ const firebaseConfig = {
     messagingSenderId: "913434308973",
     appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
 };
+// পেমেন্ট সাবমিট করার ফাংশন
+function submitPayment() {
+    const amount = document.getElementById('amount').value;
+    const trxID = document.getElementById('trxID').value.trim();
+
+    if(amount === "" || trxID === "") {
+        alert("দয়া করে সব তথ্য পূরণ করুন।");
+        return;
+    }
+
+    // Firebase-এ চেক করা যে এই TrxID আগে ব্যবহার হয়েছে কি না
+    const trxRef = firebase.database().ref('payments/' + trxID);
+    
+    trxRef.once('value', (snapshot) => {
+        if (snapshot.exists()) {
+            alert("ভুল! এই ট্রানজেকশন আইডিটি ইতিমধ্যে একবার ব্যবহার করা হয়েছে।");
+        } else {
+            // নতুন পেমেন্ট হিসেবে সেভ করা
+            trxRef.set({
+                uid: firebase.auth().currentUser.uid,
+                amount: amount,
+                status: "Pending", // আপনার অ্যাডমিন প্যানেল থেকে এটি সাকসেস করবেন
+                timestamp: Date.now()
+            }).then(() => {
+                alert("পেমেন্ট রিকোয়েস্ট জমা হয়েছে! ভেরিফিকেশনের পর ব্যালেন্স যোগ হবে।");
+                document.getElementById('trxID').value = "";
+                showSection('history');
+                updateHistoryTable();
+            });
+        }
+    });
+}
+
+// সেকশন পরিবর্তন করার ফাংশন
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.classList.add('d-none'));
+    document.getElementById(sectionId).classList.remove('d-none');
+}
+
+// হিস্টোরি আপডেট
+function updateHistoryTable() {
+    const historyBody = document.getElementById('historyBody');
+    const user = firebase.auth().currentUser;
+    
+    firebase.database().ref('payments').orderByChild('uid').equalTo(user.uid).on('value', (snapshot) => {
+        historyBody.innerHTML = "";
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            let statusBadge = data.status === "Pending" ? "badge-warning" : "badge-success";
+            historyBody.innerHTML += `
+                <tr>
+                    <td>Add Balance</td>
+                    <td>৳${data.amount}</td>
+                    <td><span class="badge ${statusBadge}">${data.status}</span></td>
+                </tr>
+            `;
+        });
+    });
+}
