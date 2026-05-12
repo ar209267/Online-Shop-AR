@@ -140,3 +140,38 @@
     </script>
 </body>
 </html>
+<div id="dashboard" class="container mt-5">
+    <h2>স্বাগতম, <span id="userName">User</span></h2>
+    <div class="balance-card bg-primary text-white p-3 mb-4">
+        <h4>আপনার ব্যালেন্স: ৳<span id="userBalance">0.00</span></h4>
+    </div>
+
+    <div class="row text-center mb-4">
+        <div class="col-4"><button onclick="showSection('newOrder')" class="btn btn-outline-dark w-100">New Order</button></div>
+        <div class="col-4"><button onclick="showSection('addFund')" class="btn btn-outline-dark w-100">Add Fund</button></div>
+        <div class="col-4"><button onclick="showSection('history')" class="btn btn-outline-dark w-100">History</button></div>
+    </div>
+
+    <div id="addFund" class="section d-none p-3 border">
+        <h3>Add Fund (Bkash/Nagad/Rocket)</h3>
+        <p>নাম্বার: <strong>01766 380 931</strong> (Personal)</p>
+        <input type="number" id="amount" class="form-control mb-2" placeholder="কত টাকা পাঠিয়েছেন?">
+        <input type="text" id="trxID" class="form-control mb-2" placeholder="ট্রানজেকশন আইডি (TrxID)">
+        <button onclick="submitPayment()" class="btn btn-success w-100">Submit Payment</button>
+    </div>
+
+    <div id="history" class="section d-none mt-4">
+        <h3>অর্ডার হিস্টোরি</h3>
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                </tbody>
+        </table>
+    </div>
+</div>
