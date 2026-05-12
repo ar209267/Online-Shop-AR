@@ -3,364 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Online Shop | V11.11 Nexus Prime</title>
+    <title>AR EMPIRE | ULTRASONIC V20.26</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --ar-cyan: #00f2fe;
-            --ar-gold: #FFD700;
-            --ar-dark: #010409;
-            --glass: rgba(13, 17, 23, 0.95);
-        }
-
-        body {
-            background-color: var(--ar-dark);
-            color: #e6edf3;
-            font-family: 'Space Grotesk', sans-serif;
-            margin: 0;
-            background: radial-gradient(circle at 50% 50%, #0d1117 0%, #010409 100%);
-        }
-
-        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
-
-        /* [LOGIN SECTION] */
-        #authSection {
-            height: 100vh; display: flex; justify-content: center; align-items: center;
-        }
-
-        .login-card {
-            background: var(--glass);
-            padding: 40px; border-radius: 35px;
-            border: 1px solid var(--ar-cyan);
-            width: 100%; max-width: 380px;
-            text-align: center; box-shadow: 0 0 40px rgba(0, 242, 254, 0.1);
-        }
-
-        .brand-logo {
-            width: 120px; height: 120px; border-radius: 25px;
-            border: 2px solid var(--ar-gold); margin-bottom: 25px;
-            box-shadow: 0 0 20px var(--ar-gold);
-        }
-
-        /* [DASHBOARD SECTION] */
-        #dashboard { display: none; padding: 15px; }
-
-        .nexus-box {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px; padding: 20px;
-            border: 1px solid #30363d; margin-bottom: 20px;
-        }
-
-        .service-card {
-            background: var(--glass); border-radius: 25px;
-            padding: 20px; border: 1px solid #30363d;
-            transition: 0.4s; text-align: center; position: relative;
-        }
-
-        .service-card:hover {
-            border-color: var(--ar-cyan); transform: translateY(-8px);
-        }
-
-        .price-tag {
-            background: var(--ar-cyan); color: #000;
-            padding: 2px 10px; border-radius: 8px;
-            font-weight: bold; font-size: 11px;
-            position: absolute; top: 15px; right: 15px;
-        }
-
-        .btn-ar {
-            background: var(--ar-cyan); color: #000; font-weight: bold;
-            border: none; border-radius: 12px; padding: 10px; width: 100%;
-            margin-top: 15px;
-        }
-
-        .history-item {
-            background: #0d1117; border-radius: 15px; padding: 15px;
-            margin-bottom: 10px; border-left: 5px solid var(--ar-cyan);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-    </style>
-</head>
-<body>
-
-<div id="authSection">
-    <div class="login-card">
-        <img src="ar-logo.png" class="brand-logo" alt="AR LOGO">
-        <h3 class="orbitron fw-bold">SYSTEM V11.11</h3>
-        <p class="text-secondary small mb-4">ডিভাইস এবং জিমেইল ভেরিফিকেশন</p>
-        
-        <input type="email" id="uEmail" class="form-control bg-dark text-white border-secondary mb-3" placeholder="জিমেইল এড্রেস">
-        <input type="password" id="uPass" class="form-control bg-dark text-white border-secondary mb-4" placeholder="মাস্টার পাসওয়ার্ড">
-        
-        <button class="btn btn-ar" onclick="secureLogin()">সিস্টেম আনলক করুন</button>
-    </div>
-</div>
-
-<div id="dashboard">
-    <div class="container">
-        <div class="nexus-box d-flex justify-content-between align-items-center mt-3">
-            <div class="d-flex align-items-center">
-                <img src="ar-logo.png" style="width: 50px; border-radius: 10px; margin-right: 15px; border: 1px solid var(--ar-gold);">
-                <div>
-                    <h4 class="orbitron mb-0">AR SHOP</h4>
-                    <span id="userDisplay" class="small text-info"></span>
-                </div>
-            </div>
-            <div class="text-end">
-                <span class="text-secondary small">BALANCE</span>
-                <h4 class="text-success orbitron mb-0">৳ ৯৫০.০০</h4>
-            </div>
-        </div>
-
-        <marquee class="text-warning small mb-4">🔥 V11.11 আপডেট: জিমেইল লক সিস্টেম সচল করা হয়েছে। পেমেন্ট করার ৫ মিনিটে ডেলিভারি।</marquee>
-
-        <h5 class="orbitron mb-3 text-info">PREMIUM SERVICES</h5>
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳৮৫</span>
-                    <i class="fas fa-gem fs-2 text-info mb-2"></i>
-                    <h6 class="fw-bold">FF Diamond</h6>
-                    <button class="btn-ar btn-sm" onclick="checkout('Free Fire')">অর্ডার</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳১৩০</span>
-                    <i class="fab fa-facebook fs-2 text-primary mb-2"></i>
-                    <h6 class="fw-bold">FB Follower</h6>
-                    <button class="btn-ar btn-sm" onclick="checkout('FB Follower')">অর্ডার</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳৯৫</span>
-                    <i class="fab fa-tiktok fs-2 text-light mb-2"></i>
-                    <h6 class="fw-bold">TikTok Views</h6>
-                    <button class="btn-ar btn-sm" onclick="checkout('TikTok')">অর্ডার</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳৫৫০</span>
-                    <i class="fab fa-youtube fs-2 text-danger mb-2"></i>
-                    <h6 class="fw-bold">YT Watchtime</h6>
-                    <button class="btn-ar btn-sm" onclick="checkout('YouTube')">অর্ডার</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-5 mb-5">
-            <h5 class="orbitron mb-3 text-warning">সাম্প্রতিক অর্ডার হিস্ট্রি</h5>
-            <div id="historyList">
-                <div class="history-item">
-                    <div><span class="fw-bold d-block">#AR-1102</span><small class="text-secondary">সিস্টেম চেকআপ</small></div>
-                    <span class="badge bg-success">Active</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // ১. পারমানেন্ট জিমেইল ও পাসওয়ার্ড লক (Strict Logic)
-    function secureLogin() {
-        const mail = document.getElementById('uEmail').value.trim().toLowerCase();
-        const pass = document.getElementById('uPass').value;
-
-        if(!mail || !pass) {
-            Swal.fire('ভুল!', 'জিমেইল এবং পাসওয়ার্ড দুইটাই দিন।', 'error');
-            return;
-        }
-
-        const savedMail = localStorage.getItem('ar_locked_mail');
-        const savedPass = localStorage.getItem('ar_locked_pass');
-
-        if(!savedMail) {
-            // প্রথমবার রেজিস্ট্রেশন - ডাটা লক করা হলো
-            localStorage.setItem('ar_locked_mail', mail);
-            localStorage.setItem('ar_locked_pass', pass);
-            launchDashboard(mail);
-        } else {
-            // পরবর্তী সময়ে জিমেইল এবং পাসওয়ার্ড দুইটাই চেক করা হবে
-            if(mail === savedMail && pass === savedPass) {
-                launchDashboard(mail);
-            } else if(mail !== savedMail) {
-                Swal.fire('এক্সেস ডিনাইড!', 'এই ডিভাইসে শুধুমাত্র '+ savedMail +' অনুমোদিত।', 'warning');
-            } else {
-                Swal.fire('ভুল পাসওয়ার্ড!', 'সঠিক পাসওয়ার্ড দিয়ে সিস্টেম আনলক করুন।', 'error');
-            }
-        }
-    }
-
-    function launchDashboard(mail) {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('userDisplay').innerText = "ইউজার: " + mail;
-    }
-
-    // ২. পেমেন্ট গেটওয়ে ও অর্ডার লজিক
-    function checkout(service) {
-        const oid = "AR-" + Math.floor(Math.random() * 99999);
-        Swal.fire({
-            title: 'পেমেন্ট গেটওয়ে',
-            html: `
-                <div class="text-start" style="color:#fff">
-                    <p class="small text-info">অর্ডার আইডি: ${oid}</p>
-                    <label class="small">১. প্লেয়ার আইডি বা লিঙ্ক দিন:</label>
-                    <input id="target" class="swal2-input bg-dark text-white border-secondary" placeholder="ID/Link">
-                    <label class="small mt-2">২. বিকাশ/নগদ TrxID দিন (01XXXXXXX):</label>
-                    <input id="trx" class="swal2-input bg-dark text-white border-secondary" placeholder="Transaction ID">
-                </div>
-            `,
-            background: '#0d1117',
-            confirmButtonText: 'অর্ডার জমা দিন',
-            confirmButtonColor: '#00f2fe',
-            showCancelButton: true
-        }).then((res) => {
-            if(res.isConfirmed) {
-                const trx = document.getElementById('trx').value;
-                if(trx.length < 8) {
-                    Swal.fire('ব্যর্থ!', 'সঠিক ট্রানজেকশন আইডি দিন।', 'error');
-                } else {
-                    addHistory(oid, service);
-                    Swal.fire('সফল!', 'আপনার অর্ডারটি ভেরিফাই হচ্ছে। ৫ মিনিটে ডেলিভারি পাবেন।', 'success');
-                }
-            }
-        });
-    }
-
-    function addHistory(id, name) {
-        const list = document.getElementById('historyList');
-        list.innerHTML = `
-            <div class="history-item animate__animated animate__fadeIn">
-                <div><span class="fw-bold d-block">#${id}</span><small class="text-secondary">${name}</small></div>
-                <span class="badge bg-warning text-dark">Pending</span>
-            </div>
-        ` + list.innerHTML;
-    }
-
-    // অটো লগইন চেক
-    window.onload = () => {
-        const mail = localStorage.getItem('ar_locked_mail');
-        if(mail) launchDashboard(mail);
-    }
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Empire | V11.11 Firebase</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
 
     <style>
-        body { background: #010409; color: white; font-family: sans-serif; }
-        .orbitron { font-family: 'Orbitron', sans-serif; }
-        #mainPanel { display: none; padding: 20px; }
-        .service-card { background: #0d1117; border: 1px solid #00f2fe; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 20px; }
-        .btn-nexus { background: #00f2fe; color: black; font-weight: bold; border-radius: 10px; width: 100%; border: none; padding: 10px; }
+        /* [1. ADVANCED CSS ARCHITECTURE] */
+        :root {
+            --neon-cyan: #00f2fe;
+            --neon-purple: #bc13fe;
+            --gold: #FFD700;
+            --dark-bg: #010409;
+            --glass-bg: rgba(13, 17, 23, 0.85);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--dark-bg);
+            color: #e6edf3;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(188, 19, 254, 0.05) 0%, transparent 20%);
+        }
+
+        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
+
+        /* [2. LOGIN SYSTEM UI] */
+        #auth_gate {
+            height: 100vh; display: flex; justify-content: center; align-items: center;
+        }
+
+        .master-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: 50px; border-radius: 40px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            width: 100%; max-width: 450px;
+            text-align: center; box-shadow: 0 0 50px rgba(0, 242, 254, 0.1);
+        }
+
+        .auth-logo {
+            width: 140px; height: 140px; border-radius: 35px;
+            border: 3px solid var(--gold); margin-bottom: 30px;
+            box-shadow: 0 0 25px var(--gold); animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 15px var(--gold); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px var(--gold); }
+            100% { transform: scale(1); box-shadow: 0 0 15px var(--gold); }
+        }
+
+        /* [3. DASHBOARD UI] */
+        #app_shell { display: none; padding: 20px; }
+
+        .nexus-navbar {
+            background: rgba(13, 17, 23, 0.9);
+            border-bottom: 1px solid #30363d;
+            padding: 15px 0; position: sticky; top: 0; z-index: 1000;
+        }
+
+        .wallet-banner {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border-radius: 30px; padding: 35px; border: 1px solid #30363d;
+            margin-bottom: 40px; position: relative; overflow: hidden;
+        }
+
+        .wallet-banner::before {
+            content: ''; position: absolute; top: -50%; right: -10%;
+            width: 300px; height: 300px; background: var(--neon-cyan);
+            filter: blur(120px); opacity: 0.1;
+        }
+
+        .service-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 25px; margin-bottom: 50px;
+        }
+
+        .service-card {
+            background: var(--glass-bg); border-radius: 30px;
+            padding: 25px; border: 1px solid #30363d;
+            transition: var(--transition); text-align: center;
+            position: relative;
+        }
+
+        .service-card:hover {
+            border-color: var(--neon-cyan); transform: translateY(-12px);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
+        }
+
+        .service-card i { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+
+        .btn-ultrasonic {
+            background: var(--neon-cyan); color: #000; font-weight: 800;
+            border-radius: 15px; border: none; padding: 12px; width: 100%;
+            text-transform: uppercase; transition: 0.3s;
+        }
+
+        .btn-ultrasonic:hover {
+            background: #fff; box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* [4. ADMIN PANEL UI] */
+        #admin_shell { display: none; padding: 30px; }
+        .admin-table {
+            background: #0d1117; border-radius: 20px; overflow: hidden;
+            border: 1px solid #30363d;
+        }
+        .table { color: #fff !important; margin-bottom: 0; }
+        .table thead { background: #161b22; }
+
     </style>
 </head>
 <body>
 
-<div id="authArea" class="container mt-5 pt-5 text-center">
-    <h2 class="orbitron text-info mb-4">SYSTEM ACCESS</h2>
-    <input type="email" id="email" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="আপনার জিমেইল">
-    <input type="password" id="pass" class="form-control mb-4 bg-dark text-white border-secondary" placeholder="পাসওয়ার্ড">
-    <button class="btn btn-nexus" onclick="login()">আনলক করুন</button>
+<div id="auth_gate" class="animate__animated animate__fadeIn">
+    <div class="master-card">
+        <img src="ar-logo.png" class="auth-logo" alt="AR LOGO">
+        <h2 class="orbitron text-white mb-1">NEXUS LOCK</h2>
+        <p class="text-secondary small mb-4">স্বাগতম আতিক ওস্তাদ, সিস্টেম আনলক করুন</p>
+        
+        <div class="form-floating mb-3">
+            <input type="email" id="uMail" class="form-control bg-dark text-white border-secondary" placeholder="Email">
+            <label class="text-secondary">জিমেইল এড্রেস</label>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="password" id="uPass" class="form-control bg-dark text-white border-secondary" placeholder="Password">
+            <label class="text-secondary">মাস্টার পাসওয়ার্ড</label>
+        </div>
+        
+        <button class="btn btn-ultrasonic py-3" onclick="handleAuth()">INITIALIZE SYSTEM</button>
+        <p class="mt-4 text-secondary" style="font-size: 10px;">ULTRASONIC V20.26 | SECURED BY FIREBASE</p>
+    </div>
 </div>
 
-<div id="mainPanel" class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="orbitron">AR SHOP</h3>
-        <span class="badge bg-success">Balance: ৳ ৯৫০</span>
-    </div>
+<div id="app_shell">
+    <nav class="nexus-navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="ar-logo.png" style="width: 45px; border-radius: 12px; margin-right: 12px; border: 1px solid var(--gold);">
+                <h4 class="orbitron mb-0 text-white fw-bold">AR EMPIRE</h4>
+            </div>
+            <button class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="logout()">LOGOUT</button>
+        </div>
+    </nav>
 
-    <div class="row">
-        <div class="col-6">
-            <div class="service-card">
-                <h6>FF Diamond</h6>
-                <button class="btn btn-nexus btn-sm" onclick="order('Free Fire')">অর্ডার</button>
+    <div class="container mt-5">
+        <div class="wallet-banner">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h6 class="text-secondary orbitron mb-1">CURRENT BALANCE</h6>
+                    <h1 class="orbitron fw-bold text-success display-4">৳ ৯৫০.৫০</h1>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <button class="btn btn-light btn-sm rounded-pill px-4 mb-2" onclick="showAdmin()">ADMIN PANEL</button>
+                    <p class="small text-info mb-0">ID: AR-NEXUS-2026</p>
+                </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="service-card">
-                <h6>FB Follower</h6>
-                <button class="btn btn-nexus btn-sm" onclick="order('FB Follower')">অর্ডার</button>
+
+        <div class="marquee-notice mb-5">
+            <marquee class="text-info"><i class="fas fa-satellite-dish me-2"></i> আজকের স্পেশাল: ডাবল পেমেন্ট বোনাস চলছে! প্রতিটি অর্ডারে পাচ্ছেন ১০% এক্সট্রা ডিসকাউন্ট। পেমেন্ট করার ৫ মিনিটে ডেলিভারি নিশ্চিত।</marquee>
+        </div>
+
+        <h4 class="orbitron text-warning mb-4">CORE SERVICES</h4>
+        <div class="service-grid">
+            <div class="service-card animate__animated animate__zoomIn">
+                <i class="fas fa-gem text-info"></i>
+                <h6 class="fw-bold">FF DIAMOND</h6>
+                <p class="small text-secondary">Instantly via ID Code</p>
+                <button class="btn-ultrasonic btn-sm" onclick="initOrder('Free Fire Diamond')">ORDER NOW</button>
             </div>
+            <div class="service-card animate__animated animate__zoomIn">
+                <i class="fab fa-facebook-f text-primary"></i>
+                <h6 class="fw-bold">FB FOLLOWERS</h6>
+                <p class="small text-secondary">High Quality & Safe</p>
+                <button class="btn-ultrasonic btn-sm" onclick="initOrder('FB Followers')">ORDER NOW</button>
+            </div>
+            <div class="service-card animate__animated animate__zoomIn">
+                <i class="fab fa-youtube text-danger"></i>
+                <h6 class="fw-bold">YT WATCHTIME</h6>
+                <p class="small text-secondary">Monetization Special</p>
+                <button class="btn-ultrasonic btn-sm" onclick="initOrder('YouTube Watchtime')">ORDER NOW</button>
+            </div>
+            <div class="service-card animate__animated animate__zoomIn">
+                <i class="fab fa-tiktok text-white"></i>
+                <h6 class="fw-bold">TIKTOK VIEWS</h6>
+                <p class="small text-secondary">Viral Your Content</p>
+                <button class="btn-ultrasonic btn-sm" onclick="initOrder('TikTok Views')">ORDER NOW</button>
+            </div>
+        </div>
+
+        <h4 class="orbitron text-info mb-4">LIVE TRANSACTIONS</h4>
+        <div id="live_history" class="mb-5">
+            </div>
+    </div>
+</div>
+
+<div id="admin_shell" class="animate__animated animate__slideInUp">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2 class="orbitron text-warning">MASTER CONTROL</h2>
+            <button class="btn btn-nexus btn-sm" onclick="hideAdmin()">BACK TO SHOP</button>
+        </div>
+
+        <div class="admin-table table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="orbitron small">ORDER ID</th>
+                        <th class="orbitron small">SERVICE</th>
+                        <th class="orbitron small">TARGET ID</th>
+                        <th class="orbitron small">TRX ID</th>
+                        <th class="orbitron small">STATUS</th>
+                        <th class="orbitron small">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="admin_data_list">
+                    </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
-    // আপনার দেওয়া Firebase Config
+    // --- [FIREBASE INITIALIZATION] ---
     const firebaseConfig = {
-      apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
-      authDomain: "online-shop-ar.firebaseapp.com",
-      projectId: "online-shop-ar",
-      storageBucket: "online-shop-ar.firebasestorage.app",
-      messagingSenderId: "913434308973",
-      appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
+        apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
+        authDomain: "online-shop-ar.firebaseapp.com",
+        projectId: "online-shop-ar",
+        storageBucket: "online-shop-ar.firebasestorage.app",
+        messagingSenderId: "913434308973",
+        appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function login() {
-        const mail = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-        if(mail && pass) {
-            localStorage.setItem('ar_user', mail);
-            launch();
+    // --- [AUTH LOGIC] ---
+    function handleAuth() {
+        const mail = document.getElementById('uMail').value.trim().toLowerCase();
+        const pass = document.getElementById('uPass').value;
+
+        if(!mail || !pass) {
+            Swal.fire('Error', 'তথ্য দিন ওস্তাদ!', 'error');
+            return;
+        }
+
+        const storedMail = localStorage.getItem('nexus_mail');
+        const storedPass = localStorage.getItem('nexus_pass');
+
+        if(!storedMail) {
+            localStorage.setItem('nexus_mail', mail);
+            localStorage.setItem('nexus_pass', pass);
+            enterSystem(mail);
+        } else if(mail === storedMail && pass === storedPass) {
+            enterSystem(mail);
+        } else {
+            Swal.fire('Denied', 'এই ডিভাইস অন্য আইডিতে লক করা!', 'error');
         }
     }
 
-    function launch() {
-        document.getElementById('authArea').style.display = 'none';
-        document.getElementById('mainPanel').style.display = 'block';
+    function enterSystem(mail) {
+        document.getElementById('auth_gate').style.display = 'none';
+        document.getElementById('app_shell').style.display = 'block';
+        loadUserOrders();
     }
 
-    function order(service) {
+    function logout() {
+        location.reload();
+    }
+
+    // --- [ORDER LOGIC] ---
+    function initOrder(service) {
+        const oid = "AR-" + Math.floor(100000 + Math.random() * 900000);
+        
         Swal.fire({
-            title: service,
-            html: `<input id="target" class="swal2-input" placeholder="আইডি/লিঙ্ক">
-                   <input id="trx" class="swal2-input" placeholder="TrxID">`,
-            showCancelButton: true,
-            confirmButtonText: 'অর্ডার দিন'
+            title: `<span class="orbitron">CHECKOUT</span>`,
+            html: `
+                <div class="text-start p-2" style="color: #fff;">
+                    <p class="mb-1 text-info">সার্ভিস: <b>${service}</b></p>
+                    <p class="small text-secondary mb-3">আইডি: ${oid}</p>
+                    <label class="small text-secondary mb-1">প্লেয়ার আইডি / লিঙ্ক:</label>
+                    <input id="target" class="swal2-input bg-dark text-white m-0 w-100 border-secondary mb-3" placeholder="Target ID">
+                    <label class="small text-secondary mb-1">পেমেন্ট করার TrxID দিন:</label>
+                    <input id="trx" class="swal2-input bg-dark text-white m-0 w-100 border-secondary" placeholder="Transaction ID">
+                </div>
+            `,
+            background: '#0d1117',
+            confirmButtonText: 'CONFIRM ORDER',
+            confirmButtonColor: '#00f2fe',
+            showCancelButton: true
         }).then((res) => {
             if(res.isConfirmed) {
                 const target = document.getElementById('target').value;
                 const trx = document.getElementById('trx').value;
-                const orderId = "AR-" + Date.now();
 
-                // সরাসরি Firebase Database এ ডাটা সেভ
-                db.ref('orders/' + orderId).set({
+                if(!target || trx.length < 8) {
+                    Swal.fire('Fail', 'সঠিক তথ্য দিন ওস্তাদ!', 'error');
+                    return;
+                }
+
+                // Push to Firebase
+                db.ref('orders/' + oid).set({
                     service: service,
                     target: target,
                     trx: trx,
                     status: 'Pending',
+                    user: localStorage.getItem('nexus_mail'),
                     time: new Date().toLocaleString()
                 }).then(() => {
-                    Swal.fire('সফল!', 'অর্ডারটি অ্যাডমিন প্যানেলে পাঠানো হয়েছে।', 'success');
+                    Swal.fire('Success', 'অর্ডার জমা হয়েছে। ৫ মিনিটে চেক করুন।', 'success');
                 });
             }
         });
     }
 
-    window.onload = () => { if(localStorage.getItem('ar_user')) launch(); }
+    // --- [ADMIN LOGIC] ---
+    function showAdmin() {
+        document.getElementById('app_shell').style.display = 'none';
+        document.getElementById('admin_shell').style.display = 'block';
+        loadAdminData();
+    }
+
+    function hideAdmin() {
+        document.getElementById('admin_shell').style.display = 'none';
+        document.getElementById('app_shell').style.display = 'block';
+    }
+
+    function loadAdminData() {
+        db.ref('orders/').on('value', (snapshot) => {
+            const list = document.getElementById('admin_data_list');
+            list.innerHTML = "";
+            snapshot.forEach((child) => {
+                const d = child.val();
+                list.innerHTML += `
+                    <tr class="animate__animated animate__fadeIn">
+                        <td>${child.key}</td>
+                        <td>${d.service}</td>
+                        <td>${d.target}</td>
+                        <td class="text-info">${d.trx}</td>
+                        <td><span class="badge bg-warning text-dark">${d.status}</span></td>
+                        <td>
+                            <button onclick="updateOrder('${child.key}', 'Success')" class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
+                            <button onclick="updateOrder('${child.key}', 'Rejected')" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        });
+    }
+
+    function updateOrder(id, status) {
+        db.ref('orders/' + id).update({ status: status });
+    }
+
+    // --- [LIVE HISTORY FOR USERS] ---
+    function loadUserOrders() {
+        db.ref('orders/').on('value', (snapshot) => {
+            const hist = document.getElementById('live_history');
+            hist.innerHTML = "";
+            snapshot.forEach((child) => {
+                const d = child.val();
+                if(d.user === localStorage.getItem('nexus_mail')) {
+                    hist.innerHTML += `
+                        <div class="history-item d-flex justify-content-between p-3 mb-2 rounded-4" style="background:#161b22; border-left: 4px solid var(--neon-cyan)">
+                            <div>
+                                <span class="d-block fw-bold">${d.service}</span>
+                                <small class="text-secondary">#${child.key}</small>
+                            </div>
+                            <span class="badge bg-info align-self-center">${d.status}</span>
+                        </div>
+                    `;
+                }
+            });
+        });
+    }
+
+    // Auto-login Check
+    window.onload = () => {
+        if(localStorage.getItem('nexus_mail')) {
+            enterSystem(localStorage.getItem('nexus_mail'));
+        }
+    }
 </script>
+
 </body>
 </html>
