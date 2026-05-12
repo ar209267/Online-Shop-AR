@@ -175,3 +175,21 @@
         </table>
     </div>
 </div>
+<div id="newOrder" class="section d-none p-3 border">
+    <h3>নতুন অর্ডার করুন</h3>
+    
+    <select id="serviceCategory" class="form-control mb-3" onchange="updateSubServices()">
+        <option value="">ক্যাটাগরি সিলেক্ট করুন</option>
+        <option value="ff_diamond">Free Fire Diamond</option>
+        <option value="pubg_uc">PUBG UC</option>
+        <option value="social">Social Media Services</option>
+    </select>
+
+    <select id="packageSelect" class="form-control mb-3">
+        <option value="">আগে ক্যাটাগরি সিলেক্ট করুন</option>
+    </select>
+
+    <input type="text" id="playerID" class="form-control mb-3" placeholder="Player ID / Game ID লিখুন">
+
+    <button onclick="placeOrder()" class="btn btn-primary w-100">অর্ডার সাবমিট করুন</button>
+</div>
