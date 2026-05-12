@@ -3,192 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR SHOP PRO | Ultimate v8.0</title>
+    <title>AR ULTIMATE HUB | Next-Gen Digital OS</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Orbitron:wght@800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --primary: #7d40ff; --dark: #05070a; --glass: #161b22; }
-        body { background: var(--dark); color: #fff; font-family: 'Hind Siliguri', sans-serif; }
-
-        /* Login Screen Layer */
-        #login-screen {
-            position: fixed; inset: 0; background: #000; z-index: 20000;
-            display: flex; align-items: center; justify-content: center; text-align: center;
+        :root {
+            --primary: #7d40ff;
+            --secondary: #00f2ff;
+            --bg-dark: #020408;
+            --glass: rgba(13, 17, 23, 0.9);
+            --border: rgba(125, 64, 255, 0.2);
+            --neon-glow: 0 0 15px rgba(125, 64, 255, 0.4);
         }
-        .login-box { background: var(--glass); padding: 40px; border-radius: 25px; border: 1px solid var(--primary); max-width: 380px; width: 90%; }
 
-        /* Product Cards UI */
-        .glass-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: 0.3s; cursor: pointer; height: 100%; }
-        .glass-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(125, 64, 255, 0.2); }
-        .logo-container { height: 100px; display: flex; align-items: center; justify-content: center; padding: 10px; background: #000; border-radius: 15px 15px 0 0; }
-        .logo-container img { max-width: 80%; max-height: 80%; object-fit: contain; }
-
-        /* Payment & Invoice Modals */
-        #payment-gateway, #invoice-modal { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); 
-            z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(125, 64, 255, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
         }
-        .modal-box { background: #fff; color: #000; width: 90%; max-width: 400px; border-radius: 15px; overflow: hidden; padding: 25px; }
-        .btn-pay { background: #d12053; color: #fff; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 5px; }
-        
-        .navbar { background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--primary); }
+
+        /* --- STAGE 1: SUPER-POWERFUL AUTH LAYER --- */
+        #secure-auth-layer {
+            position: fixed; inset: 0; background: #000; z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .auth-terminal {
+            background: var(--glass); padding: 40px; border-radius: 30px;
+            border: 2px solid var(--primary); box-shadow: var(--neon-glow);
+            width: 100%; max-width: 420px; text-align: center;
+        }
+        .terminal-text { font-family: 'Urbanist', sans-serif; letter-spacing: 2px; font-weight: 900; }
+
+        /* --- STAGE 2: NAVIGATION & HUD --- */
+        .master-nav {
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 15px 0;
+        }
+        .nav-brand { font-family: 'Urbanist', sans-serif; font-weight: 900; font-size: 24px; }
+
+        /* --- STAGE 3: REALISTIC SERVICE GRID --- */
+        .category-tab {
+            background: var(--glass); padding: 10px 20px; border-radius: 50px;
+            border: 1px solid var(--border); margin-right: 10px; cursor: pointer;
+            font-size: 14px; transition: 0.3s;
+        }
+        .category-tab.active { background: var(--primary); border-color: #fff; }
+
+        .service-card {
+            background: var(--glass); border-radius: 20px; border: 1px solid var(--border);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden;
+            position: relative; height: 100%;
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--secondary); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1); }
+        .service-img { height: 140px; background: #000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .service-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .status-dot { height: 8px; width: 8px; background: #00ff00; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #00ff00; }
+
+        /* --- STAGE 4: PAYMENT GATEWAY (REALISTIC UX) --- */
+        #gateway-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 10000; align-items: center; justify-content: center;
+        }
+        .gateway-container { background: #fff; color: #000; border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; }
+        .bkash-head { background: #d12053; color: #fff; padding: 25px; text-align: center; }
+
+        /* --- STAGE 5: INVOICE & LOGS --- */
+        .log-section { background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid #1a1a1a; padding: 20px; margin-top: 50px; }
+        .order-id-tag { color: var(--secondary); font-family: 'Urbanist', sans-serif; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <div class="login-box">
-        <h2 style="font-family: 'Orbitron'; color: var(--primary);">AR SHOP</h2>
-        <p class="text-secondary small mb-4">Secure Access Required</p>
-        <button class="btn btn-light w-100 py-3 fw-bold rounded-pill" onclick="handleLogin()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18" class="me-2">
-            Login with Google
-        </button>
+<div id="secure-auth-layer">
+    <div class="auth-terminal">
+        <div class="mb-4"><i class="fas fa-user-shield fa-4x text-primary"></i></div>
+        <h2 class="terminal-text text-white">AR SYSTEM <span class="text-secondary">v9.0</span></h2>
+        <p class="text-secondary small mb-5">ENTER THE SECURE DIGITAL ECOSYSTEM</p>
+        <div class="mb-3">
+            <input type="password" id="master-pin" class="form-control bg-dark text-white border-primary text-center py-3 rounded-pill" placeholder="Enter System PIN">
+        </div>
+        <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill" onclick="AuthEngine.verify()">BYPASS SECURITY</button>
     </div>
 </div>
 
-<div id="main-app" style="display:none;">
-    <nav class="navbar navbar-dark p-3 sticky-top">
-        <div class="container d-flex justify-content-between">
-            <a class="navbar-brand fw-bold" href="#">AR <span class="text-primary">PRO</span></a>
-            <span class="small text-info" id="user-email"></span>
+<div id="main-hub" style="display:none;">
+    <nav class="master-nav sticky-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="nav-brand text-white">AR <span class="text-primary">ULTIMATE</span></div>
+            <div class="d-flex align-items-center">
+                <span class="small me-3 text-secondary d-none d-md-block"><i class="fas fa-circle status-dot"></i> Server: Online</span>
+                <button class="btn btn-sm btn-outline-danger" onclick="location.reload()">Logout</button>
+            </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container mt-5">
         <div id="home-view">
-            <h5 class="mb-4 fw-bold">সার্ভিস ক্যাটাগরি</h5>
-            <div class="row g-3">
-                <div class="col-6 col-md-3" onclick="openOrder('ff', 'Free Fire Diamond')">
-                    <div class="glass-card">
-                        <div class="logo-container"><img src="https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png"></div>
-                        <div class="p-3 text-center"><h6>Free Fire</h6></div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3" onclick="openOrder('fb', 'Facebook Services')">
-                    <div class="glass-card">
-                        <div class="logo-container"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"></div>
-                        <div class="p-3 text-center"><h6>Facebook</h6></div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3" onclick="openOrder('tk', 'TikTok Services')">
-                    <div class="glass-card">
-                        <div class="logo-container"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg"></div>
-                        <div class="p-3 text-center"><h6>TikTok</h6></div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3" onclick="openOrder('wa', 'WhatsApp Bot')">
-                    <div class="glass-card">
-                        <div class="logo-container"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div>
-                        <div class="p-3 text-center"><h6>WhatsApp</h6></div>
-                    </div>
-                </div>
+            <div class="d-flex mb-4 overflow-auto pb-2" id="cat-filter">
+                <div class="category-tab active" onclick="AppEngine.filter('all')">All Services</div>
+                <div class="category-tab" onclick="AppEngine.filter('game')">Gaming</div>
+                <div class="category-tab" onclick="AppEngine.filter('social')">Social SMM</div>
+                <div class="category-tab" onclick="AppEngine.filter('software')">Software</div>
             </div>
+
+            <div class="row g-4" id="service-grid">
+                </div>
         </div>
 
-        <div id="order-view" style="display:none;" class="mt-4">
-            <button class="btn btn-outline-light btn-sm mb-4" onclick="goHome()">← ফিরে যান</button>
+        <div id="order-panel" style="display:none;">
             <div class="row">
-                <div class="col-md-7">
-                    <h3 id="display-title" class="text-primary fw-bold"></h3>
-                    <div id="pkg-container" class="mt-4"></div>
-                </div>
-                <div class="col-md-5">
-                    <div class="p-4 bg-dark border border-secondary rounded-4">
-                        <input type="text" id="target-id" class="form-control mb-3" placeholder="ID/লিঙ্ক দিন...">
-                        <button class="btn btn-primary w-100 py-3 fw-bold" onclick="showGateway()">অর্ডার প্রসেস করুন</button>
+                <div class="col-lg-8">
+                    <div class="glass-card p-4">
+                        <button class="btn btn-sm text-secondary mb-3" onclick="AppEngine.goHome()"><i class="fas fa-arrow-left"></i> Back</button>
+                        <h2 id="order-title" class="fw-900 text-primary mb-4"></h2>
+                        <div id="pkg-list" class="row g-3"></div>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="glass-card p-4">
+                        <h5 class="fw-bold mb-4">Verification Info</h5>
+                        <div class="mb-3">
+                            <label class="small text-secondary">Player ID / Target Link</label>
+                            <input type="text" id="target-id" class="form-control bg-dark text-white border-secondary py-3">
+                        </div>
+                        <button class="btn btn-primary w-100 py-3 fw-bold" onclick="PaymentEngine.open()">Initialize Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h6 class="text-secondary mb-3 fw-bold"><i class="fas fa-code-branch me-2"></i> MASTER TRANSACTION LOGS</h6>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover small">
+                    <thead><tr><th>ORDER_ID</th><th>SERVICE</th><th>TARGET</th><th>TRX_ID</th><th>STATUS</th></tr></thead>
+                    <tbody id="master-log-body"></tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-<div id="payment-gateway">
-    <div class="modal-box">
-        <h5 class="text-danger fw-bold text-center">Secure Payment</h5>
-        <hr>
-        <p class="small">বিকাশ/নগদ (Personal): <strong>01766 380 931</strong></p>
-        <div class="bg-light p-2 mb-3 rounded">Payable: <strong id="pay-amount"></strong></div>
-        <input type="text" id="trx-input" class="form-control mb-3" placeholder="ট্রানজেকশন আইডি (TrxID)">
-        <button class="btn-pay" onclick="confirmPayment()">CONFIRM PAYMENT</button>
-        <button class="btn btn-sm w-100 mt-2 text-secondary" onclick="closeGateway()">Cancel</button>
-    </div>
-</div>
-
-<div id="invoice-modal">
-    <div class="modal-box">
-        <h4 class="text-center text-primary fw-bold">RECEIPT</h4>
-        <div id="inv-content" class="small mt-3"></div>
-        <hr>
-        <button class="btn btn-dark w-100" onclick="location.reload()">ডাউনলোড ও শেষ করুন</button>
+<div id="gateway-overlay">
+    <div class="gateway-container">
+        <div class="bkash-head">
+            <img src="https://www.logo.wine/a/logo/BKash/BKash-Logo.wine.svg" height="50">
+            <h6 class="m-0 mt-2">Personal Payment Secure Gateway</h6>
+        </div>
+        <div class="p-4">
+            <div class="alert alert-info py-2 small">01766 380 931 (Send Money)</div>
+            <div class="d-flex justify-content-between mb-3"><span>Payable Amount:</span><strong id="final-price"></strong></div>
+            <input type="text" id="trx-field" class="form-control mb-3 py-3" placeholder="Enter Transaction ID">
+            <button class="btn btn-danger w-100 py-3 fw-bold" onclick="PaymentEngine.verify()">CONFIRM TRANSACTION</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const db = {
-        ff: { pkgs: [{n: "115 Diamond", p: "৳85"}, {n: "505 Diamond", p: "৳340"}] },
-        fb: { pkgs: [{n: "1K Follower", p: "৳150"}] },
-        tk: { pkgs: [{n: "1K Follower", p: "৳120"}] },
-        wa: { pkgs: [{n: "Premium Bot", p: "৳500"}] }
-    };
+/**
+ * AR CORE ENGINE v9.0
+ * Architecture: Object-Oriented JS
+ * Features: Database Mockup, Persistence, Multi-Cat Logic
+ */
 
-    let orderData = { service: "", pkg: "", price: "" };
+const Database = {
+    services: [
+        { id: 1, cat: 'game', name: 'Free Fire Diamond', img: 'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png', pkgs: [{n: '115 Diamond', p: 85}, {n: '505 Diamond', p: 340}, {n: 'Weekly', p: 165}] },
+        { id: 2, cat: 'game', name: 'PUBG Mobile UC', img: 'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png', pkgs: [{n: '60 UC', p: 80}, {n: '325 UC', p: 420}] },
+        { id: 3, cat: 'social', name: 'Facebook Services', img: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg', pkgs: [{n: '1K Follower', p: 150}, {n: '1K Like', p: 90}] },
+        { id: 4, cat: 'social', name: 'TikTok Services', img: 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg', pkgs: [{n: '1K Follower', p: 120}, {n: '10K Views', p: 50}] },
+        { id: 5, cat: 'software', name: 'Canva Pro 1 Year', img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg', pkgs: [{n: 'Private Account', p: 450}, {n: 'Team Invite', p: 150}] },
+        { id: 6, cat: 'software', name: 'Windows 11 Pro', img: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Windows_11_logo.svg', pkgs: [{n: 'Retail Key', p: 800}] }
+    ]
+};
 
-    function handleLogin() {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        document.getElementById('user-email').innerText = "atiq.verified@gmail.com";
+const AuthEngine = {
+    verify: function() {
+        const pin = document.getElementById('master-pin').value;
+        if(pin === "1234") { // আপনি এখানে আপনার পছন্দের পিন দিতে পারেন
+            document.getElementById('secure-auth-layer').style.display = 'none';
+            document.getElementById('main-hub').style.display = 'block';
+            AppEngine.init();
+        } else { alert("ACCESS DENIED: INVALID SYSTEM PIN"); }
     }
+};
 
-    function openOrder(id, name) {
-        orderData.service = name;
-        document.getElementById('display-title').innerText = name;
-        const area = document.getElementById('pkg-container');
-        area.innerHTML = '';
-        db[id].pkgs.forEach(p => {
-            const div = document.createElement('div');
-            div.className = "p-3 glass-card mb-2 d-flex justify-content-between";
-            div.innerHTML = `<span>${p.n}</span><strong>${p.p}</strong>`;
-            div.onclick = () => {
-                orderData.pkg = p.n;
-                orderData.price = p.p;
-                document.querySelectorAll('.glass-card').forEach(c => c.style.borderColor = "rgba(255,255,255,0.1)");
-                div.style.borderColor = "#7d40ff";
-            };
-            area.appendChild(div);
+const AppEngine = {
+    currentPkg: null,
+    currentService: null,
+
+    init: function() {
+        this.render('all');
+        this.loadLogs();
+    },
+
+    render: function(filter) {
+        const grid = document.getElementById('service-grid');
+        grid.innerHTML = '';
+        const items = filter === 'all' ? Database.services : Database.services.filter(s => s.cat === filter);
+        
+        items.forEach(s => {
+            grid.innerHTML += `
+                <div class="col-6 col-lg-3">
+                    <div class="service-card" onclick="AppEngine.openOrder(${s.id})">
+                        <div class="service-img"><img src="${s.img}"></div>
+                        <div class="p-3 text-center">
+                            <span class="small text-secondary fw-bold text-uppercase">${s.cat}</span>
+                            <h6 class="m-0 fw-bold mt-1">${s.name}</h6>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    },
+
+    filter: function(cat) {
+        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        this.render(cat);
+    },
+
+    openOrder: function(id) {
+        const s = Database.services.find(x => x.id === id);
+        this.currentService = s;
+        document.getElementById('order-title').innerText = s.name;
+        const list = document.getElementById('pkg-list');
+        list.innerHTML = '';
+        s.pkgs.forEach(p => {
+            list.innerHTML += `
+                <div class="col-12 col-md-6">
+                    <div class="p-3 glass-card d-flex justify-content-between" onclick="AppEngine.selectPkg(this, '${p.n}', '${p.p}')">
+                        <span>${p.n}</span><strong>৳${p.p}</strong>
+                    </div>
+                </div>`;
         });
         document.getElementById('home-view').style.display = 'none';
-        document.getElementById('order-view').style.display = 'block';
-    }
+        document.getElementById('order-panel').style.display = 'block';
+    },
 
-    function showGateway() {
-        if(!orderData.pkg || !document.getElementById('target-id').value) return alert("তথ্য দিন!");
-        document.getElementById('pay-amount').innerText = orderData.price;
-        document.getElementById('payment-gateway').style.display = 'flex';
-    }
+    selectPkg: function(el, name, price) {
+        this.currentPkg = { name, price };
+        document.querySelectorAll('#pkg-list .glass-card').forEach(c => c.style.borderColor = 'rgba(125,64,255,0.2)');
+        el.style.borderColor = '#00f2ff';
+    },
 
-    function closeGateway() { document.getElementById('payment-gateway').style.display = 'none'; }
-
-    function confirmPayment() {
-        const trx = document.getElementById('trx-input').value;
-        if(trx.length < 8) return alert("সঠিক TrxID দিন!");
-        
-        document.getElementById('payment-gateway').style.display = 'none';
-        document.getElementById('invoice-modal').style.display = 'flex';
-        document.getElementById('inv-content').innerHTML = `
-            <p>Order ID: #AR${Math.floor(Math.random()*9999)}</p>
-            <p>Service: ${orderData.service}</p>
-            <p>Price: ${orderData.price}</p>
-            <p>TrxID: ${trx}</p>
-            <p class="text-success fw-bold">Status: Payment Received</p>
-        `;
-    }
-
-    function goHome() {
+    goHome: function() {
         document.getElementById('home-view').style.display = 'block';
-        document.getElementById('order-view').style.display = 'none';
+        document.getElementById('order-panel').style.display = 'none';
+    },
+
+    loadLogs: function() {
+        const logs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
+        const body = document.getElementById('master-log_body');
+        body.innerHTML = logs.map(l => `
+            <tr>
+                <td class="order-id-tag">${l.id}</td>
+                <td>${l.service}</td>
+                <td><code>${l.target}</code></td>
+                <td><span class="text-info">${l.trx}</span></td>
+                <td><span class="badge bg-warning text-dark">PENDING_API</span></td>
+            </tr>`).join('') || '<tr><td colspan="5" class="text-center py-5">NO DATA IN SERVER</td></tr>';
     }
+};
+
+const PaymentEngine = {
+    open: function() {
+        const target = document.getElementById('target-id').value;
+        if(!AppEngine.currentPkg || !target) return alert("Error: Select Package & Input Target ID");
+        document.getElementById('final-price').innerText = "৳" + AppEngine.currentPkg.price;
+        document.getElementById('gateway-overlay').style.display = 'flex';
+    },
+
+    verify: function() {
+        const trx = document.getElementById('trx-field').value;
+        if(trx.length < 8) return alert("INVALID TRX_ID: Verification Failed.");
+        
+        const orderId = "#ARX-" + Math.floor(100000 + Math.random() * 900000);
+        const log = {
+            id: orderId,
+            service: AppEngine.currentService.name + " (" + AppEngine.currentPkg.name + ")",
+            target: document.getElementById('target-id').value,
+            trx: trx
+        };
+
+        let allLogs = JSON.parse(localStorage.getItem('ar_master_logs')) || [];
+        allLogs.unshift(log);
+        localStorage.setItem('ar_master_logs', JSON.stringify(allLogs));
+
+        alert("ENCRYPTED DATA SENT TO SERVER.\nOrder ID: " + orderId);
+        location.reload();
+    }
+};
 </script>
+
 </body>
-</html>
+</html> 
