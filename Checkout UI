@@ -1,0 +1,52 @@
+<style>
+    .payment-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .pay-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        padding: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .pay-card:hover { border-color: var(--nexus-cyan); background: #1c2128; }
+    .pay-card img { width: 40px; margin-bottom: 10px; }
+    .marquee-notice {
+        background: rgba(0, 242, 254, 0.1);
+        color: var(--nexus-cyan);
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+</style>
+
+<div id="checkoutArea" style="display:none;">
+    <div class="marquee-notice">
+        <marquee>🔥 আজকের অফার: ১০০০ ডায়মন্ড কিনলে ১০০ ডায়মন্ড বোনাস! পেমেন্ট করার ৫ মিনিটে ডেলিভারি।</marquee>
+    </div>
+    
+    <h5 class="orbitron text-center">পেমেন্ট মেথড সিলেক্ট করুন</h5>
+    <div class="payment-grid">
+        <div class="pay-card text-center" onclick="selectPay('Bkash')">
+            <img src="https://path-to-bkash-logo.png" alt="Bkash">
+            <p class="small mb-0">বিকাশ</p>
+        </div>
+        <div class="pay-card text-center" onclick="selectPay('Nagad')">
+            <img src="https://path-to-nagad-logo.png" alt="Nagad">
+            <p class="small mb-0">নগদ</p>
+        </div>
+        <div class="pay-card text-center" onclick="selectPay('Rocket')">
+            <img src="https://path-to-rocket-logo.png" alt="Rocket">
+            <p class="small mb-0">রকেট</p>
+        </div>
+        <div class="pay-card text-center" onclick="selectPay('Upay')">
+            <img src="https://path-to-upay-logo.png" alt="Upay">
+            <p class="small mb-0">উপায়</p>
+        </div>
+    </div>
+</div>
