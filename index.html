@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR EMPIRE | MASTER V30.26 FINAL</title>
+    <title>AR EMPIRE | ULTIMATE MASTER SERVER</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,172 +11,379 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Hind+Siliguri:wght@300;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Hind+Siliguri:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
 
     <style>
+        /* ------------------------------------------------------------
+        [1. GLOBAL ARCHITECTURE]
+        ------------------------------------------------------------
+        */
         :root {
-            --ar-cyan: #00f2fe; --ar-purple: #bc13fe; --ar-gold: #FFD700;
-            --ar-bg: #010409; --ar-card: rgba(13, 17, 23, 0.95);
+            --ar-cyan: #00f2fe;
+            --ar-purple: #bc13fe;
+            --ar-gold: #FFD700;
+            --ar-red: #ff4b2b;
+            --ar-bg-dark: #010409;
+            --ar-bg-card: rgba(13, 17, 23, 0.98);
+            --ar-border: rgba(0, 242, 254, 0.15);
+            --transition-main: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none !important;
         }
 
         body {
-            background-color: var(--ar-bg); color: #fff;
+            background-color: var(--ar-bg-dark);
+            color: #ffffff;
             font-family: 'Hind Siliguri', sans-serif;
-            background-image: radial-gradient(circle at top right, rgba(0, 242, 254, 0.05), transparent);
-            min-height: 100vh; overflow-x: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(0, 242, 254, 0.05) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(188, 19, 254, 0.05) 0%, transparent 35%);
+            background-attachment: fixed;
         }
 
-        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
+        .orbitron { font-family: 'Orbitron', sans-serif; letter-spacing: 2.5px; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* [MASTER UI DESIGN] */
-        .glass-panel {
-            background: var(--ar-card); backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 35px;
-            padding: 40px; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        /* ------------------------------------------------------------
+        [2. REUSABLE UI COMPONENTS]
+        ------------------------------------------------------------
+        */
+        .glass-container {
+            background: var(--ar-bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--ar-border);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
 
-        .btn-nexus {
-            background: linear-gradient(90deg, var(--ar-cyan), var(--ar-purple));
-            color: #000; font-weight: 800; border: none; border-radius: 15px;
-            padding: 15px 25px; transition: 0.4s; text-transform: uppercase;
+        .btn-nexus-main {
+            background: linear-gradient(135deg, var(--ar-cyan), var(--ar-purple));
+            color: #000 !important;
+            font-weight: 900;
+            border: none;
+            border-radius: 18px;
+            padding: 16px 35px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition-main);
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
         }
-        .btn-nexus:hover { transform: scale(1.05); box-shadow: 0 0 30px var(--ar-cyan); }
 
-        /* [PAYMENT AREA] */
-        .payment-hub {
-            background: rgba(255, 255, 255, 0.03); border-left: 6px solid var(--ar-cyan);
-            border-radius: 25px; padding: 30px; margin-bottom: 40px; border-right: 6px solid var(--ar-purple);
+        .btn-nexus-main:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.4);
+            filter: brightness(1.1);
+        }
+
+        /* ------------------------------------------------------------
+        [3. AUTHENTICATION GATE]
+        ------------------------------------------------------------
+        */
+        #serverGate {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .auth-card img {
+            width: 130px;
+            border-radius: 35px;
+            border: 3px solid var(--ar-gold);
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.3));
+        }
+
+        .form-control-nexus {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .form-control-nexus:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--ar-cyan);
+            box-shadow: 0 0 0 4px rgba(0, 242, 254, 0.1);
+            color: white;
+        }
+
+        /* ------------------------------------------------------------
+        [4. DASHBOARD ARCHITECTURE]
+        ------------------------------------------------------------
+        */
+        #mainApplication { display: none; }
+
+        .nexus-navbar {
+            background: rgba(1, 4, 9, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* [MASTER PAYMENT HUB] */
+        .payment-master-hub {
+            background: linear-gradient(90deg, rgba(0, 242, 254, 0.05), rgba(188, 19, 254, 0.05));
+            border-left: 8px solid var(--ar-cyan);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-master-hub::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .copy-btn {
+            background: #161b22;
+            color: var(--ar-gold);
+            border: 1px solid var(--ar-gold);
+            border-radius: 12px;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--ar-gold);
+            color: #000;
         }
 
         /* [SERVICE TILES] */
-        .service-tile {
-            background: #0d1117; border: 1px solid #30363d; border-radius: 30px;
-            padding: 25px; transition: 0.4s; text-align: center; height: 100%;
+        .package-tile {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 35px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition-main);
+            position: relative;
+            z-index: 1;
         }
-        .service-tile:hover { border-color: var(--ar-cyan); transform: translateY(-10px); }
-        .service-tile i { font-size: 3rem; margin-bottom: 15px; color: var(--ar-cyan); }
-        .price { color: var(--ar-gold); font-size: 1.4rem; font-weight: 700; margin: 10px 0; }
 
-        /* [VISIBILITY CONTROL] */
-        #loginGate { height: 100vh; display: flex; align-items: center; justify-content: center; }
-        #mainDash, #adminView { display: none; }
+        .package-tile:hover {
+            transform: translateY(-12px);
+            border-color: var(--ar-purple);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
 
-        /* [TABLE DESIGN] */
-        .table-dark { background: transparent !important; --bs-table-bg: transparent; }
-        .status-badge { font-size: 11px; padding: 5px 12px; border-radius: 20px; }
+        .package-tile i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, var(--ar-cyan), var(--ar-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .price-display {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--ar-gold);
+            margin: 15px 0;
+        }
+
+        /* ------------------------------------------------------------
+        [5. LOGS & TABLES]
+        ------------------------------------------------------------
+        */
+        .server-log-card {
+            background: #161b22;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--ar-cyan);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #adminControlRoom { display: none; padding: 40px 0; }
+        .admin-table {
+            background: var(--ar-bg-card);
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        
+        /* ------------------------------------------------------------
+        [6. RESPONSIVE UTILITIES]
+        ------------------------------------------------------------
+        */
+        @media (max-width: 768px) {
+            .auth-card { padding: 30px; }
+            .payment-master-hub { padding: 25px; }
+            .display-4 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
 
-<div id="loginGate" class="animate__animated animate__fadeIn">
-    <div class="glass-panel text-center" style="max-width: 450px; width: 90%;">
-        <img src="ar-logo.png" style="width: 120px; border-radius: 30px; border: 3px solid var(--ar-gold); margin-bottom: 25px;">
-        <h2 class="orbitron text-white">SYSTEM V30.26</h2>
-        <p class="text-secondary small mb-4">স্বাগতম আতিক ওস্তাদ, সিস্টেম এক্সেস করুন</p>
+<section id="serverGate" class="animate__animated animate__fadeIn">
+    <div class="auth-card glass-container">
+        <img src="ar-logo.png" alt="AR Logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
+        <h2 class="orbitron text-white fw-bold mb-1">AR EMPIRE</h2>
+        <p class="text-secondary mono small mb-4">ENCRYPTED MASTER ACCESS V2.0</p>
         
-        <input type="email" id="uMail" class="form-control bg-dark text-white border-secondary mb-3 py-2" placeholder="জিমেইল">
-        <input type="password" id="uPass" class="form-control bg-dark text-white border-secondary mb-4 py-2" placeholder="পাসওয়ার্ড">
+        <div class="text-start">
+            <label class="small text-secondary ms-2 mb-1">ADMIN GMAIL</label>
+            <input type="email" id="masterEmail" class="form-control form-control-nexus" placeholder="Enter Gmail">
+            
+            <label class="small text-secondary ms-2 mb-1">MASTER PASSWORD</label>
+            <input type="password" id="masterPass" class="form-control form-control-nexus" placeholder="Enter Password">
+        </div>
         
-        <button class="btn btn-nexus w-100 py-3" onclick="handleAuth()">ACTIVATE SERVER</button>
+        <button class="btn btn-nexus-main w-100 py-3 mt-3" onclick="triggerAuth()">ACTIVATE ULTIMATE CORE</button>
+        <p class="mt-4 text-secondary" style="font-size: 10px; opacity: 0.5;">© 2026 AR NEXUS INFRASTRUCTURE | ALL RIGHTS RESERVED</p>
     </div>
-</div>
+</section>
 
-<div id="mainDash">
-    <nav class="navbar navbar-dark bg-dark py-3 border-bottom border-secondary mb-4">
+<section id="mainApplication">
+    <nav class="nexus-navbar">
         <div class="container d-flex justify-content-between align-items-center">
-            <h4 class="orbitron mb-0 text-white fw-bold">AR EMPIRE</h4>
-            <div>
-                <button class="btn btn-sm btn-info rounded-pill px-3 me-2" onclick="showAdmin()">ADMIN</button>
-                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="location.reload()">LOGOUT</button>
+            <div class="d-flex align-items-center">
+                <img src="ar-logo.png" style="width: 50px; border-radius: 15px; margin-right: 15px; border: 1px solid var(--ar-gold);">
+                <div class="lh-1">
+                    <h5 class="orbitron mb-0 text-white fw-bold">AR EMPIRE</h5>
+                    <span class="badge bg-success" style="font-size: 8px;">LIVE SERVER</span>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-info rounded-pill px-3" onclick="toggleAdminPanel()"><i class="fas fa-user-shield me-1"></i> ADMIN</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="location.reload()">OFFLINE</button>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <div class="payment-hub">
-            <div class="row align-items-center text-center text-md-start">
-                <div class="col-md-8">
-                    <h6 class="orbitron text-info small mb-3">OFFICIAL PAYMENT GATEWAY</h6>
-                    <h1 class="display-4 fw-bold mb-0">01766380931</h1>
-                    <p class="text-secondary mb-0 mt-2">বিকাশ/নগদ (Personal) নম্বরে আগে টাকা পাঠিয়ে TrxID দিন।</p>
+        <div class="payment-master-hub animate__animated animate__fadeIn">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="badge bg-primary rounded-pill me-2">OFFICIAL</span>
+                        <h6 class="orbitron text-info mb-0 small">PAYMENT GATEWAY</h6>
+                    </div>
+                    <h1 class="display-3 fw-bold text-white mb-2">01766380931</h1>
+                    <p class="text-secondary mb-0">বিকাশ এবং নগদ (Personal) নম্বরে আগে টাকা পাঠিয়ে TrxID দিয়ে অর্ডার কনফার্ম করুন।</p>
                 </div>
-                <div class="col-md-4 text-md-end mt-4 mt-md-0">
-                    <button class="btn btn-nexus" onclick="copyNum()">COPY NUMBER</button>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <button class="btn-nexus-main" onclick="copyMasterNumber()">
+                        <i class="fas fa-copy me-2"></i>COPY NUMBER
+                    </button>
                 </div>
             </div>
         </div>
 
-        <h4 class="orbitron text-danger mb-4 fw-bold"><i class="fas fa-fire me-2"></i>FREE FIRE DIAMOND</h4>
+        <div class="section-title mb-5">
+            <h3 class="orbitron text-danger fw-bold"><i class="fas fa-fire-alt me-3"></i>FREE FIRE DIAMOND PACKAGES</h3>
+            <div style="height: 4px; width: 80px; background: var(--ar-red); border-radius: 10px;"></div>
+        </div>
+
         <div class="row g-4 mb-5">
-            <div class="col-6 col-md-3">
-                <div class="service-tile">
+            <div class="col-6 col-lg-3">
+                <div class="package-tile">
                     <i class="fas fa-gem"></i>
-                    <h6>১১৫ ডায়মন্ড</h6>
-                    <p class="price">৳ ৮০</p>
-                    <button class="btn btn-nexus btn-sm w-100" onclick="initOrder('115 Diamond', '80')">অর্ডার দিন</button>
+                    <h5 class="fw-bold">১১৫ ডায়মন্ড</h5>
+                    <div class="price-display">৳ ৮০</div>
+                    <button class="btn-nexus-main btn-sm w-100" onclick="processOrder('115 Diamond', '80')">অর্ডার করুন</button>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="service-tile">
+            <div class="col-6 col-lg-3">
+                <div class="package-tile">
                     <i class="fas fa-gem"></i>
-                    <h6>২৪০ ডায়মন্ড</h6>
-                    <p class="price">৳ ১৬৫</p>
-                    <button class="btn btn-nexus btn-sm w-100" onclick="initOrder('240 Diamond', '165')">অর্ডার দিন</button>
+                    <h5 class="fw-bold">২৪০ ডায়মন্ড</h5>
+                    <div class="price-display">৳ ১৬৫</div>
+                    <button class="btn-nexus-main btn-sm w-100" onclick="processOrder('240 Diamond', '165')">অর্ডার করুন</button>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="service-tile">
-                    <i class="fas fa-calendar-check"></i>
-                    <h6>উইকলি</h6>
-                    <p class="price">৳ ১৯০</p>
-                    <button class="btn btn-nexus btn-sm w-100" onclick="initOrder('Weekly', '190')">অর্ডার দিন</button>
+            <div class="col-6 col-lg-3">
+                <div class="package-tile">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h5 class="fw-bold">উইকলি মেম্বারশিপ</h5>
+                    <div class="price-display">৳ ১৯০</div>
+                    <button class="btn-nexus-main btn-sm w-100" onclick="processOrder('Weekly', '190')">অর্ডার করুন</button>
                 </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="service-tile">
+            <div class="col-6 col-lg-3">
+                <div class="package-tile">
                     <i class="fas fa-crown"></i>
-                    <h6>মান্থলি</h6>
-                    <p class="price">৳ ৭৮০</p>
-                    <button class="btn btn-nexus btn-sm w-100" onclick="initOrder('Monthly', '780')">অর্ডার দিন</button>
+                    <h5 class="fw-bold">মান্থলি মেম্বারশিপ</h5>
+                    <div class="price-display">৳ ৭৮০</div>
+                    <button class="btn-nexus-main btn-sm w-100" onclick="processOrder('Monthly', '780')">অর্ডার করুন</button>
                 </div>
             </div>
         </div>
 
-        <h4 class="orbitron text-secondary mb-4">YOUR ORDER LOGS</h4>
-        <div id="userLogList" class="pb-5"></div>
+        <h4 class="orbitron text-secondary mb-4 fs-5"><i class="fas fa-history me-2"></i>YOUR RECENT TRANSACTIONS</h4>
+        <div id="userActivityArea" class="pb-5">
+            </div>
     </div>
-</div>
+</section>
 
-<div id="adminView">
-    <nav class="navbar navbar-dark bg-danger py-3 mb-4">
-        <div class="container text-center">
-            <h4 class="orbitron mb-0 text-white fw-bold">ADMIN CONTROL PANEL</h4>
-            <button class="btn btn-light btn-sm ms-3" onclick="hideAdmin()">BACK</button>
-        </div>
-    </nav>
+<section id="adminControlRoom" class="animate__animated animate__fadeInUp">
     <div class="container">
-        <div class="glass-panel p-0 overflow-hidden">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="orbitron text-white">ADMIN COMMAND CENTER</h2>
+            <button class="btn btn-light rounded-pill px-4" onclick="toggleAdminPanel()">EXIT ADMIN</button>
+        </div>
+        
+        <div class="admin-table glass-container p-0">
             <div class="table-responsive">
                 <table class="table table-dark table-hover mb-0">
-                    <thead>
+                    <thead style="background: rgba(255,255,255,0.05);">
                         <tr>
-                            <th class="p-3">ইউজার</th>
-                            <th class="p-3">প্যাকেজ</th>
-                            <th class="p-3">টার্গেট</th>
-                            <th class="p-3">TrxID</th>
-                            <th class="p-3">স্ট্যাটাস</th>
-                            <th class="p-3">অ্যাকশন</th>
+                            <th class="p-4 small orbitron">CUSTOMER</th>
+                            <th class="p-4 small orbitron">PACKAGE</th>
+                            <th class="p-4 small orbitron">TARGET INFO</th>
+                            <th class="p-4 small orbitron">TRANSACTION ID</th>
+                            <th class="p-4 small orbitron">STATUS</th>
+                            <th class="p-4 small orbitron">ACTION</th>
                         </tr>
                     </thead>
-                    <tbody id="adminTableBody"></tbody>
+                    <tbody id="masterAdminTable">
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <script>
-    // Firebase Config
+    /* ------------------------------------------------------------
+    [CORE INITIALIZATION]
+    ------------------------------------------------------------
+    */
     const firebaseConfig = {
         apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
         authDomain: "online-shop-ar.firebaseapp.com",
@@ -189,108 +396,100 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    function handleAuth() {
-        const mail = document.getElementById('uMail').value.trim().toLowerCase();
-        const pass = document.getElementById('uPass').value;
-        if(!mail || !pass) return Swal.fire('Error', 'সব তথ্য দিন!', 'error');
+    /* ------------------------------------------------------------
+    [AUTHENTICATION LOGIC]
+    ------------------------------------------------------------
+    */
+    function triggerAuth() {
+        const mail = document.getElementById('masterEmail').value.trim().toLowerCase();
+        const pass = document.getElementById('masterPass').value;
 
-        const savedMail = localStorage.getItem('ar_m');
-        const savedPass = localStorage.getItem('ar_p');
+        if(!mail || !pass) {
+            return Swal.fire({ icon: 'error', title: 'Oops...', text: 'সবগুলো ঘর পূরণ করুন ওস্তাদ!' });
+        }
 
-        if(!savedMail) {
-            localStorage.setItem('ar_m', mail);
-            localStorage.setItem('ar_p', pass);
-            launch(mail);
+        // ব্রাউজার লেভেল লক (Permanent Mapping)
+        const savedM = localStorage.getItem('ar_master_mail');
+        const savedP = localStorage.getItem('ar_master_pass');
+
+        if(!savedM) {
+            localStorage.setItem('ar_master_mail', mail);
+            localStorage.setItem('ar_master_pass', pass);
+            launchApplication(mail);
         } else {
-            if(mail === savedMail && pass === savedPass) launch(mail);
-            else Swal.fire('Denied', 'ভুল তথ্য!', 'error');
+            if(mail === savedM && pass === savedP) {
+                launchApplication(mail);
+            } else {
+                Swal.fire({ icon: 'warning', title: 'Access Denied', text: 'আপনি সঠিক জিমেইল বা পাসওয়ার্ড দিচ্ছেন না!' });
+            }
         }
     }
 
-    function launch(mail) {
-        document.getElementById('loginGate').style.display = 'none';
-        document.getElementById('mainDash').style.display = 'block';
-        loadUserLogs();
+    function launchApplication(mail) {
+        document.getElementById('serverGate').style.display = 'none';
+        document.getElementById('mainApplication').style.display = 'block';
+        
+        // লগইন স্ট্যাটাস সার্ভারে এন্ট্রি (Security Log)
+        database.ref('server_logs/').push({
+            user: mail,
+            timestamp: new Date().toLocaleString(),
+            action: 'Core Activation',
+            platform: navigator.platform
+        });
+
+        loadPersonalLogs();
     }
 
-    function copyNum() {
+    /* ------------------------------------------------------------
+    [BUSINESS FUNCTIONS]
+    ------------------------------------------------------------
+    */
+    function copyMasterNumber() {
         navigator.clipboard.writeText('01766380931');
-        Swal.fire({ title: 'Copied!', icon: 'success', timer: 1000, showConfirmButton: false });
+        Swal.fire({ title: 'Copied!', text: 'নম্বর কপি হয়েছে ওস্তাদ।', icon: 'success', timer: 1200, showConfirmButton: false });
     }
 
-    function initOrder(pkg, price) {
+    function processOrder(packageName, priceValue) {
         Swal.fire({
-            title: `<span class="orbitron">${pkg}</span>`,
+            title: `<span class="orbitron text-info">${packageName}</span>`,
             background: '#0d1117',
+            color: '#fff',
             html: `
-                <input id="t_id" class="swal2-input bg-dark text-white m-0 w-100 mb-3" placeholder="Player ID / Link">
-                <input id="t_trx" class="swal2-input bg-dark text-white m-0 w-100" placeholder="Transaction ID">
+                <div class="text-start" style="padding: 10px;">
+                    <p class="text-warning mb-4 fw-bold">প্যাকেজ মূল্য: ৳${priceValue}</p>
+                    <div class="mb-3">
+                        <label class="small text-secondary mb-1 d-block">প্লেয়ার আইডি / আইডি পাসওয়ার্ড:</label>
+                        <input id="target_info" class="swal2-input m-0 w-100 bg-dark text-white border-secondary" placeholder="Target Details">
+                    </div>
+                    <div class="mb-2">
+                        <label class="small text-secondary mb-1 d-block">বিকাশ/নগদ TrxID (Transaction ID):</label>
+                        <input id="trx_id" class="swal2-input m-0 w-100 bg-dark text-white border-secondary" placeholder="Enter TrxID">
+                    </div>
+                    <p class="mt-3 small text-info"><i class="fas fa-info-circle me-1"></i> ভুল তথ্য দিলে অর্ডার বাতিল হবে।</p>
+                </div>
             `,
-            confirmButtonText: 'CONFIRM',
-            showCancelButton: true
-        }).then((res) => {
-            if(res.isConfirmed) {
-                const target = document.getElementById('t_id').value;
-                const trx = document.getElementById('t_trx').value;
-                if(!target || !trx) return;
+            showCancelButton: true,
+            confirmButtonText: 'CONFIRM TRANSACTION',
+            confirmButtonColor: '#00f2fe',
+            cancelButtonColor: '#ff4b2b'
+        }).then((result) => {
+            if(result.isConfirmed) {
+                const target = document.getElementById('target_info').value;
+                const trx = document.getElementById('trx_id').value;
 
-                const oid = "AR-" + Date.now();
-                database.ref('orders/' + oid).set({
-                    user: localStorage.getItem('ar_m'),
-                    pkg: pkg, price: price, target: target, trx: trx, status: 'Pending', date: new Date().toLocaleString()
-                }).then(() => Swal.fire('Success', 'অর্ডার জমা হয়েছে।', 'success'));
-            }
-        });
-    }
-
-    function loadUserLogs() {
-        const myMail = localStorage.getItem('ar_m');
-        database.ref('orders/').on('value', (snap) => {
-            const list = document.getElementById('userLogList');
-            list.innerHTML = "";
-            snap.forEach((child) => {
-                const d = child.val();
-                if(d.user === myMail) {
-                    list.innerHTML += `
-                        <div class="p-3 mb-2" style="background:#161b22; border-radius:15px; border-left:4px solid var(--ar-cyan)">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div><span class="fw-bold text-info">${d.pkg}</span><br><small class="text-secondary">${d.date}</small></div>
-                                <span class="badge ${d.status==='Pending'?'bg-warning text-dark':'bg-success'}">${d.status}</span>
-                            </div>
-                        </div>`;
+                if(!target || trx.length < 5) {
+                    return Swal.fire('Error', 'সঠিক তথ্য দিন ওস্তাদ!', 'error');
                 }
-            });
-        });
-    }
 
-    function showAdmin() {
-        document.getElementById('mainDash').style.display = 'none';
-        document.getElementById('adminView').style.display = 'block';
-        database.ref('orders/').on('value', (snap) => {
-            const table = document.getElementById('adminTableBody');
-            table.innerHTML = "";
-            snap.forEach((child) => {
-                const d = child.val();
-                table.innerHTML += `
-                    <tr>
-                        <td class="small">${d.user}</td>
-                        <td>${d.pkg}</td>
-                        <td class="text-info">${d.target}</td>
-                        <td class="text-warning">${d.trx}</td>
-                        <td><span class="badge bg-warning text-dark">${d.status}</span></td>
-                        <td>
-                            <button class="btn btn-success btn-sm" onclick="upd('${child.key}', 'Success')">✓</button>
-                            <button class="btn btn-danger btn-sm" onclick="upd('${child.key}', 'Rejected')">✕</button>
-                        </td>
-                    </tr>`;
-            });
-        });
-    }
-
-    function hideAdmin() { document.getElementById('adminView').style.display = 'none'; document.getElementById('mainDash').style.display = 'block'; }
-    function upd(id, s) { database.ref('orders/' + id).update({ status: s }); }
-
-    window.onload = () => { if(localStorage.getItem('ar_m')) launch(localStorage.getItem('ar_m')); }
-</script>
-</body>
-    </html> 
+                const orderID = "AR" + Math.floor(Date.now() / 1000);
+                
+                database.ref('orders/' + orderID).set({
+                    customer: localStorage.getItem('ar_master_mail'),
+                    package: packageName,
+                    price: priceValue,
+                    target_info: target,
+                    transaction_id: trx,
+                    status: 'Pending',
+                    created_at: new Date().toLocaleString()
+                }).then(() => {
+                    Swal.fire('অর্ডার সম্পন্ন!', 'আপনা 
