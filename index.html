@@ -3,230 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR SHOP PRO | UI-UX Edition</title>
+    <title>AR SHOP PRO | Payment & Invoice v7.0</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Urbanist:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #7d40ff; --dark: #080a0c; --glass: #161b22; }
+        :root { --primary: #7d40ff; --accent: #00f2ff; --dark: #05070a; --glass: #161b22; }
         body { background: var(--dark); color: #fff; font-family: 'Hind Siliguri', sans-serif; }
 
-        /* UI Upgrade: Custom Navbar */
-        .navbar { background: rgba(22, 27, 34, 0.9); backdrop-filter: blur(10px); border-bottom: 2px solid var(--primary); }
-        .nav-brand { font-family: 'Urbanist', sans-serif; font-weight: 800; letter-spacing: 1px; }
+        /* General UI */
+        .glass-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; transition: 0.3s; cursor: pointer; }
+        .glass-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .navbar { background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--primary); backdrop-filter: blur(10px); }
 
-        /* UI Upgrade: Realistic Service Cards */
-        .service-card { background: var(--glass); border-radius: 18px; border: 1px solid #30363d; transition: 0.4s; cursor: pointer; overflow: hidden; }
-        .service-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 25px rgba(125, 64, 255, 0.2); }
-        .logo-box { height: 130px; display: flex; align-items: center; justify-content: center; background: #000; padding: 20px; }
-        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .service-name { padding: 15px; font-weight: 700; text-align: center; background: rgba(255,255,255,0.02); }
+        /* 3. Payment Gateway Overlay (UX) */
+        #payment-gateway { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+            z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(10px);
+        }
+        .gateway-box { background: #fff; color: #000; width: 90%; max-width: 400px; border-radius: 15px; overflow: hidden; animation: zoomIn 0.3s; }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .gateway-header { background: #d12053; color: #fff; padding: 20px; text-align: center; } /* bKash Color */
 
-        /* UX Upgrade: Smooth Order Panel */
-        #order-panel { display: none; background: var(--glass); border-radius: 25px; border: 1px solid var(--primary); padding: 30px; margin-top: 20px; animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* 5. Invoice System */
+        #invoice-modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            z-index: 10001; align-items: center; justify-content: center; padding: 20px;
+        }
+        .invoice-card { background: #fff; color: #333; width: 100%; max-width: 450px; border-radius: 10px; padding: 30px; box-shadow: 0 0 40px rgba(125, 64, 255, 0.5); position: relative; }
+        .invoice-brand { font-family: 'Orbitron', sans-serif; color: var(--primary); font-size: 24px; border-bottom: 2px dashed #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        .inv-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .inv-footer { border-top: 1px solid #eee; margin-top: 20px; padding-top: 15px; text-align: center; font-size: 12px; color: #888; }
 
-        .pkg-item { background: #0d1117; border: 1px solid #30363d; padding: 15px; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
-        .pkg-item.selected { border-color: var(--primary); background: rgba(125, 64, 255, 0.1); }
-
-        /* UX Upgrade: Loading Spinner */
-        .loader { display: none; width: 18px; height: 18px; border: 2px solid #fff; border-top: 2px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; margin-right: 8px; vertical-align: middle; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Admin Table UI */
-        .history-box { background: #0d1117; border-radius: 20px; padding: 25px; margin-top: 50px; border-top: 4px solid #238636; }
-        .status-pill { padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: bold; background: #d29922; color: #000; }
+        /* Buttons */
+        .btn-pay { background: #d12053; color: #fff; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-dark p-3 sticky-top">
     <div class="container d-flex justify-content-between">
-        <a class="navbar-brand nav-brand" href="#" onclick="location.reload()">AR <span class="text-primary">DIGITAL</span></a>
-        <div class="small text-info fw-bold">Verified: Atiq</div>
+        <a class="navbar-brand fw-bold" href="#" onclick="location.reload()">AR <span class="text-primary">PRO SHOP</span></a>
+        <span class="badge bg-primary px-3 py-2">SSL SECURED</span>
     </div>
 </nav>
 
-<div class="container mt-4 pb-5">
+<div class="container mt-4">
     <div id="home-view">
-        <h3 class="mb-4 fw-bold">পছন্দের সার্ভিস নির্বাচন করুন</h3>
         <div class="row g-4">
-            <div class="col-6 col-md-3" onclick="openOrder('ff')">
-                <div class="service-card">
-                    <div class="logo-box"><img src="https://i.ibb.co/LhYpY0P/freefire-logo.png" alt="Free Fire"></div>
-                    <div class="service-name">Free Fire Diamond</div>
+            <div class="col-6 col-md-3" onclick="openOrder('ff', 'Free Fire Diamond', 'https://i.ibb.co/LhYpY0P/freefire-logo.png')">
+                <div class="glass-card p-3 text-center">
+                    <img src="https://i.ibb.co/LhYpY0P/freefire-logo.png" height="80" class="mb-2">
+                    <h6 class="m-0 fw-bold">Free Fire Diamond</h6>
                 </div>
             </div>
-            <div class="col-6 col-md-3" onclick="openOrder('fb')">
-                <div class="service-card">
-                    <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook"></div>
-                    <div class="service-name">Facebook Follower</div>
+            <div class="col-6 col-md-3" onclick="openOrder('fb', 'Facebook Services', 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg')">
+                <div class="glass-card p-3 text-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" height="80" class="mb-2">
+                    <h6 class="m-0 fw-bold">FB Follower/Like</h6>
                 </div>
             </div>
-            <div class="col-6 col-md-3" onclick="openOrder('tk')">
-                <div class="service-card">
-                    <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok"></div>
-                    <div class="service-name">TikTok Marketing</div>
+            <div class="col-6 col-md-3" onclick="openOrder('tk', 'TikTok Services', 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg')">
+                <div class="glass-card p-3 text-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" height="80" class="mb-2">
+                    <h6 class="m-0 fw-bold">TikTok Services</h6>
                 </div>
             </div>
-            <div class="col-6 col-md-3" onclick="openOrder('wa')">
-                <div class="service-card">
-                    <div class="logo-box"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp"></div>
-                    <div class="service-name">WhatsApp Tools</div>
+            <div class="col-6 col-md-3" onclick="openOrder('wa', 'WhatsApp Bot', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg')">
+                <div class="glass-card p-3 text-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" height="80" class="mb-2">
+                    <h6 class="m-0 fw-bold">WhatsApp Bot</h6>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="order-panel">
+    <div id="order-view" style="display:none;" class="mt-4">
         <button class="btn btn-outline-light btn-sm mb-4" onclick="goHome()">← ফিরে যান</button>
         <div class="row">
             <div class="col-md-7">
-                <h3 id="order-title" class="text-primary fw-bold mb-4"></h3>
-                <div id="pkg-render"></div>
+                <h3 id="display-title" class="text-primary fw-bold"></h3>
+                <div id="pkg-container" class="mt-4"></div>
             </div>
             <div class="col-md-5">
                 <div class="p-4 bg-dark border border-secondary rounded-4">
-                    <h5 class="mb-4 fw-bold">পেমেন্ট ডিটেইলস</h5>
-                    <div class="mb-3">
-                        <label class="small text-secondary mb-1">প্লেয়ার আইডি / লিঙ্ক</label>
-                        <input type="text" id="target-input" class="form-control bg-dark text-white border-secondary" placeholder="এখানে দিন...">
-                    </div>
-                    <div class="p-3 mb-3 bg-primary bg-opacity-10 border border-primary border-opacity-20 rounded-3">
-                        <small class="text-primary fw-bold">বিকাশ/নগদ (পার্সোনাল):</small>
-                        <h5 class="m-0 fw-bold">01766 380 931</h5>
-                    </div>
-                    <div class="mb-4">
-                        <label class="small text-secondary mb-1">ট্রানজেকশন আইডি (TrxID)</label>
-                        <input type="text" id="trx-input" class="form-control bg-dark text-white border-secondary" placeholder="TrxID পেস্ট করুন">
-                    </div>
-                    <button id="submit-btn" class="btn btn-primary w-100 py-3 fw-bold rounded-3" onclick="processOrder()">
-                        অর্ডার কনফার্ম করুন
-                    </button>
+                    <h5 class="mb-3">অর্ডার ইনফো</h5>
+                    <input type="text" id="target-id" class="form-control mb-3" placeholder="ID/লিঙ্ক দিন...">
+                    <button class="btn btn-primary w-100 py-3 fw-bold" onclick="showGateway()">অর্ডার প্রসেস করুন</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="history-box">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="m-0 text-success fw-bold"><i class="fas fa-database me-2"></i> সিকিউর ডাটাবেজ লগ</h5>
-            <button class="btn btn-outline-danger btn-sm" onclick="clearData()">Clear All</button>
+<div id="payment-gateway">
+    <div class="gateway-box">
+        <div class="gateway-header">
+            <h5 class="m-0">Secure Payment Checkout</h5>
         </div>
-        <div class="table-responsive">
-            <table class="table table-dark table-hover align-middle">
-                <thead>
-                    <tr class="text-secondary small"><th>ID</th><th>TIME</th><th>SERVICE</th><th>TARGET</th><th>TrxID</th><th>STATUS</th></tr>
-                </thead>
-                <tbody id="history-body"></tbody>
-            </table>
+        <div class="p-4">
+            <div class="d-flex justify-content-between mb-3">
+                <span class="small text-secondary">Amount to Pay:</span>
+                <span class="fw-bold" id="pay-amount">৳00</span>
+            </div>
+            <div class="alert alert-light border small">
+                বিকাশ/নগদ (Personal): <br>
+                <strong class="text-danger">01766 380 931</strong>
+            </div>
+            <label class="small mb-1">ট্রানজেকশন আইডি (TrxID) দিন:</label>
+            <input type="text" id="trx-input" class="form-control mb-3" placeholder="Ex: 8XJ92KLA">
+            <button class="btn-pay" onclick="verifyAndConfirm()">PAY NOW SECURELY</button>
+            <button class="btn btn-link w-100 btn-sm mt-2 text-decoration-none text-secondary" onclick="closeGateway()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="invoice-modal">
+    <div class="invoice-card">
+        <div class="invoice-brand">AR DIGITAL SHOP</div>
+        <div class="text-center mb-4">
+            <div class="badge bg-success mb-2">Order Successful</div>
+            <h5 class="fw-bold">Payment Receipt</h5>
+        </div>
+        <div class="inv-row"><span>Order ID:</span><strong id="inv-id"></strong></div>
+        <div class="inv-row"><span>Date/Time:</span><span id="inv-date"></span></div>
+        <div class="inv-row"><span>Service:</span><span id="inv-service"></span></div>
+        <div class="inv-row"><span>Target ID:</span><span id="inv-target"></span></div>
+        <div class="inv-row"><span>TrxID:</span><span id="inv-trx" class="text-primary fw-bold"></span></div>
+        <hr>
+        <div class="inv-row h5"><span>Total Paid:</span><strong id="inv-total"></strong></div>
+        <div class="inv-footer">
+            <p>আমাদের ওপর বিশ্বাস রাখার জন্য ধন্যবাদ। <br> ২-৩০ মিনিটের মধ্যে ডেলিভারি সম্পন্ন হবে।</p>
+            <button class="btn btn-dark btn-sm mt-3" onclick="closeInvoice()">ডাউনলোড রিসিট</button>
         </div>
     </div>
 </div>
 
 <script>
-    const services = {
-        ff: { n: "Free Fire Diamond", pkgs: ["115 Diamond - ৳85", "505 Diamond - ৳340", "Weekly - ৳160"] },
-        fb: { n: "Facebook Follower", pkgs: ["1K Follower - ৳150", "1K Reactions - ৳90"] },
-        tk: { n: "TikTok Marketing", pkgs: ["1K Follower - ৳120", "10K Views - ৳45"] },
-        wa: { n: "WhatsApp Tools", pkgs: ["Bulker Bot - ৳450", "Marketing Tool - ৳300"] }
+    const db = {
+        ff: { pkgs: [{n: "115 Diamond", p: "৳85"}, {n: "505 Diamond", p: "৳340"}] },
+        fb: { pkgs: [{n: "1K Follower", p: "৳150"}, {n: "1K Reactions", p: "৳90"}] },
+        tk: { pkgs: [{n: "1K Follower", p: "৳120"}, {n: "10K Views", p: "৳45"}] },
+        wa: { pkgs: [{n: "Premium Bot", p: "৳500"}] }
     };
 
-    let selectedPkg = "";
+    let orderData = { service: "", pkgName: "", price: "", target: "" };
 
-    window.onload = renderHistory;
-
-    function openOrder(id) {
-        const s = services[id];
-        document.getElementById('order-title').innerText = s.n;
-        const area = document.getElementById('pkg-render');
+    function openOrder(id, name) {
+        orderData.service = name;
+        document.getElementById('display-title').innerText = name;
+        const area = document.getElementById('pkg-container');
         area.innerHTML = '';
-        s.pkgs.forEach(p => {
-            area.innerHTML += `<div class="pkg-item" onclick="selectPkg(this, '${p}')">${p}</div>`;
+        db[id].pkgs.forEach(p => {
+            const div = document.createElement('div');
+            div.className = "p-3 glass-card mb-2 d-flex justify-content-between";
+            div.innerHTML = `<span>${p.n}</span><strong>${p.p}</strong>`;
+            div.onclick = () => {
+                document.querySelectorAll('.glass-card').forEach(c => c.style.borderColor = "rgba(255,255,255,0.1)");
+                div.style.borderColor = "#7d40ff";
+                orderData.pkgName = p.n;
+                orderData.price = p.p;
+            };
+            area.appendChild(div);
         });
         document.getElementById('home-view').style.display = 'none';
-        document.getElementById('order-panel').style.display = 'block';
+        document.getElementById('order-view').style.display = 'block';
     }
 
-    function selectPkg(el, val) {
-        document.querySelectorAll('.pkg-item').forEach(i => i.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedPkg = val;
+    function showGateway() {
+        orderData.target = document.getElementById('target-id').value;
+        if(!orderData.pkgName || !orderData.target) return alert("প্যাকেজ এবং টার্গেট আইডি দিন!");
+        
+        document.getElementById('pay-amount').innerText = orderData.price;
+        document.getElementById('payment-gateway').style.display = 'flex';
+    }
+
+    function closeGateway() { document.getElementById('payment-gateway').style.display = 'none'; }
+
+    function verifyAndConfirm() {
+        const trx = document.getElementById('trx-input').value;
+        if(trx.length < 8) return alert("সঠিক ট্রানজেকশন আইডি দিন!");
+
+        const btn = document.querySelector('.btn-pay');
+        btn.disabled = true;
+        btn.innerHTML = "Verifying Transaction...";
+
+        setTimeout(() => {
+            closeGateway();
+            showInvoice(trx);
+        }, 3000);
+    }
+
+    function showInvoice(trx) {
+        const id = "#AR" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('inv-id').innerText = id;
+        document.getElementById('inv-date').innerText = new Date().toLocaleString();
+        document.getElementById('inv-service').innerText = orderData.service + " (" + orderData.pkgName + ")";
+        document.getElementById('inv-target').innerText = orderData.target;
+        document.getElementById('inv-trx').innerText = trx;
+        document.getElementById('inv-total').innerText = orderData.price;
+        
+        document.getElementById('invoice-modal').style.display = 'flex';
+    }
+
+    function closeInvoice() {
+        alert("রিসিটটি সেভ করা হলো। আপনাকে হোমপেজে ফিরিয়ে নেওয়া হচ্ছে।");
+        location.reload();
     }
 
     function goHome() {
         document.getElementById('home-view').style.display = 'block';
-        document.getElementById('order-panel').style.display = 'none';
-    }
-
-    // UX Upgrade: Real Process Simulation
-    function processOrder() {
-        const target = document.getElementById('target-input').value;
-        const trx = document.getElementById('trx-input').value;
-        const btn = document.getElementById('submit-btn');
-
-        // Security Validation
-        if(!selectedPkg || !target || trx.length < 8) {
-            alert("ভুল তথ্য! সঠিক প্যাকেজ এবং ৮ অক্ষরের সঠিক TrxID দিন।");
-            return;
-        }
-
-        btn.disabled = true;
-        btn.innerHTML = `<span class="loader"></span> ভেরিফাই হচ্ছে...`;
-
-        setTimeout(() => {
-            const orderId = "#AR-" + Math.floor(1000 + Math.random() * 9000);
-            const newOrder = {
-                id: orderId,
-                time: new Date().toLocaleTimeString(),
-                service: document.getElementById('order-title').innerText + " (" + selectedPkg + ")",
-                target: target,
-                trx: trx,
-                status: "Pending"
-            };
-
-            let orders = JSON.parse(localStorage.getItem('ar_orders')) || [];
-            orders.unshift(newOrder);
-            localStorage.setItem('ar_orders', JSON.stringify(orders));
-
-            btn.disabled = false;
-            btn.innerHTML = "অর্ডার কনফার্ম করুন";
-            alert("আপনার অর্ডার সফলভাবে সংরক্ষিত হয়েছে। ID: " + orderId);
-            
-            renderHistory();
-            goHome();
-            document.getElementById('target-input').value = "";
-            document.getElementById('trx-input').value = "";
-        }, 3000);
-    }
-
-    function renderHistory() {
-        const orders = JSON.parse(localStorage.getItem('ar_orders')) || [];
-        const body = document.getElementById('history-body');
-        body.innerHTML = '';
-        
-        if(orders.length === 0) {
-            body.innerHTML = '<tr><td colspan="6" class="text-center text-secondary py-4">কোনো ডাটা পাওয়া যায়নি।</td></tr>';
-            return;
-        }
-
-        orders.forEach(o => {
-            body.innerHTML += `<tr>
-                <td class="text-primary fw-bold">${o.id}</td>
-                <td>${o.time}</td>
-                <td>${o.service}</td>
-                <td><code>${o.target}</code></td>
-                <td>${o.trx}</td>
-                <td><span class="status-pill">${o.status}</span></td>
-            </tr>`;
-        });
-    }
-
-    function clearData() {
-        if(confirm("সব ডাটা মুছে ফেলতে চান?")) {
-            localStorage.removeItem('ar_orders');
-            renderHistory();
-        }
+        document.getElementById('order-view').style.display = 'none';
     }
 </script>
 </body>
-</html>
+    </html> 
