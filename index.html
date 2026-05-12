@@ -1,238 +1,64 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Online Shop | V11.11 Nexus Prime</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- PAYMENT MODAL -->
+<div class="modal fade" id="paymentModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white border-info">
 
-    <style>
-        :root {
-            --nexus-cyan: #00f2fe;
-            --nexus-gold: #FFD700;
-            --bg-dark: #010409;
-            --card-bg: rgba(13, 17, 23, 0.9);
-        }
+      <div class="modal-header border-secondary">
+        <h5 class="modal-title orbitron">
+          <i class="fas fa-shield-alt text-info"></i>
+          Secure Payment Gateway
+        </h5>
 
-        body {
-            background: var(--bg-dark);
-            color: #e6edf3;
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-        }
+        <button type="button" class="btn-close btn-close-white"
+        data-bs-dismiss="modal"></button>
+      </div>
 
-        .orbitron { font-family: 'Orbitron', sans-serif; }
+      <div class="modal-body">
 
-        /* [LOGIN SECTION] */
-        #authSection {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, rgba(0,242,254,0.05) 0%, rgba(1,4,9,1) 70%);
-        }
+        <div class="alert alert-info small">
+          বিকাশ / নগদ এ পেমেন্ট করুন
+        </div>
 
-        .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px solid var(--nexus-cyan);
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
-            width: 380px;
-            text-align: center;
-        }
+        <div class="text-center mb-3">
+          <h3 class="text-warning orbitron">018XXXXXXXX</h3>
+          <p class="small text-secondary">
+            Send Money Only
+          </p>
+        </div>
 
-        .brand-logo {
-            width: 120px; height: 120px;
-            border-radius: 25px;
-            border: 2px solid var(--nexus-gold);
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px var(--nexus-gold);
-        }
+        <label class="small mb-1">প্লেয়ার আইডি / লিংক</label>
+        <input type="text" id="playerID"
+        class="form-control bg-black text-white border-secondary mb-3">
 
-        /* [DASHBOARD SECTION] */
-        #mainDashboard { display: none; padding: 20px; }
+        <label class="small mb-1">Transaction ID</label>
+        <input type="text" id="trxID"
+        class="form-control bg-black text-white border-secondary mb-3">
 
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid #30363d;
-            border-radius: 20px;
-            padding: 20px;
-            transition: 0.3s;
-            position: relative;
-            height: 100%;
-        }
+        <label class="small mb-1">Payment Method</label>
 
-        .service-card:hover {
-            border-color: var(--nexus-cyan);
-            transform: translateY(-5px);
-        }
+        <select id="payMethod"
+        class="form-select bg-black text-white border-secondary">
+          <option>bKash</option>
+          <option>Nagad</option>
+          <option>Rocket</option>
+        </select>
 
-        .price-tag {
-            position: absolute; top: 10px; right: 10px;
-            background: rgba(0, 242, 254, 0.1);
-            color: var(--nexus-cyan);
-            padding: 2px 10px; border-radius: 5px; font-size: 12px;
-        }
+      </div>
 
-        .btn-nexus {
-            background: var(--nexus-cyan);
-            color: #000; font-weight: bold;
-            border-radius: 10px; width: 100%;
-            border: none; padding: 10px;
-        }
+      <div class="modal-footer border-secondary">
 
-        .history-box {
-            background: #0d1117;
-            border-radius: 15px; padding: 15px;
-            margin-top: 20px; border-left: 4px solid var(--nexus-gold);
-        }
-    </style>
-</head>
-<body>
+        <button class="btn btn-secondary"
+        data-bs-dismiss="modal">
+          Cancel
+        </button>
 
-<div id="authSection">
-    <div class="login-card">
-        <img src="ar-logo.png" class="brand-logo"> <h3 class="orbitron fw-bold">SYSTEM LOGIN</h3>
-        <p class="text-secondary small mb-4">আপনার জিমেইল আইডি লক করুন</p>
-        
-        <input type="email" id="uEmail" class="form-control bg-dark text-white border-secondary mb-3" placeholder="জিমেইল এড্রেস">
-        <input type="password" id="uPass" class="form-control bg-dark text-white border-secondary mb-4" placeholder="মাস্টার পাসওয়ার্ড">
-        
-        <button class="btn btn-nexus" onclick="handleLogin()">সিস্টেম আনলক করুন</button>
+        <button class="btn btn-info fw-bold"
+        onclick="confirmPayment()">
+          Confirm Payment
+        </button>
+
+      </div>
     </div>
+  </div>
 </div>
-
-<div id="mainDashboard">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5 mt-3">
-            <div>
-                <h2 class="orbitron fw-bold text-white mb-0">NEXUS PRIME</h2>
-                <p class="text-secondary small" id="userTag"></p>
-            </div>
-            <div class="text-end">
-                <span class="text-secondary">ব্যালেন্স:</span>
-                <h4 class="text-success orbitron mb-0">৳৫০০.০০</h4>
-            </div>
-        </div>
-
-        <h5 class="orbitron text-info mb-3">GAME TOP-UP</h5>
-        <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳৮৫ থেকে</span>
-                    <i class="fas fa-gamepad text-info mb-3 fs-3"></i>
-                    <h6>Free Fire Diamond</h6>
-                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('Free Fire')">অর্ডার দিন</button>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳১২০ থেকে</span>
-                    <i class="fas fa-headset text-warning mb-3 fs-3"></i>
-                    <h6>PUBG Mobile UC</h6>
-                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('PUBG UC')">অর্ডার দিন</button>
-                </div>
-            </div>
-        </div>
-
-        <h5 class="orbitron text-info mb-3">SOCIAL EMPIRE</h5>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳১৩০</span>
-                    <i class="fab fa-facebook text-primary mb-3 fs-3"></i>
-                    <h6>FB Follower</h6>
-                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('FB Follower')">অর্ডার দিন</button>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="service-card">
-                    <span class="price-tag">৳৫৫০</span>
-                    <i class="fab fa-youtube text-danger mb-3 fs-3"></i>
-                    <h6>YT Watchtime</h6>
-                    <button class="btn btn-nexus btn-sm mt-3" onclick="startOrder('YT Watchtime')">অর্ডার দিন</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-5 mb-5">
-            <h5 class="orbitron text-warning mb-3"><i class="fas fa-history"></i> আমার অর্ডার হিস্ট্রি</h5>
-            <div id="historyList">
-                <div class="history-box d-flex justify-content-between align-items-center">
-                    <span class="small">#AR-101 | FB 1K Follower</span>
-                    <span class="badge bg-success">Success</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // ১. পারমানেন্ট জিমেইল লক লজিক
-    function handleLogin() {
-        const email = document.getElementById('uEmail').value;
-        const pass = document.getElementById('uPass').value;
-        const savedEmail = localStorage.getItem('nexus_user');
-        const savedPass = localStorage.getItem('nexus_key');
-
-        if (!email || !pass) {
-            Swal.fire('ভুল!', 'সবগুলো ঘর পূরণ করুন।', 'error');
-            return;
-        }
-
-        if (!savedEmail) {
-            localStorage.setItem('nexus_user', email);
-            localStorage.setItem('nexus_key', pass);
-            openPanel(email);
-        } else {
-            if (email === savedEmail && pass === savedPass) {
-                openPanel(email);
-            } else {
-                Swal.fire('এক্সেস ডিনাইড!', 'এই জিমেইলটি অন্য পাসওয়ার্ড দিয়ে লক করা।', 'error');
-            }
-        }
-    }
-
-    function openPanel(email) {
-        document.getElementById('authSection').style.display = 'none';
-        document.getElementById('mainDashboard').style.display = 'block';
-        document.getElementById('userTag').innerText = "স্বাগতম: " + email;
-    }
-
-    // ২. সিকিউর পেমেন্ট ভেরিফিকেশন
-    function startOrder(service) {
-        Swal.fire({
-            title: service + ' অর্ডার',
-            html: `
-                <p class="small text-secondary">বিকাশ/নগদ (01XXXXXXXXX) এ পেমেন্ট করে আইডি দিন।</p>
-                <input id="pID" class="swal2-input bg-dark text-white" placeholder="প্লেয়ার আইডি / লিঙ্ক">
-                <input id="trx" class="swal2-input bg-dark text-white" placeholder="ট্রানজেকশন আইডি (TrxID)">
-            `,
-            background: '#0d1117', color: '#fff',
-            confirmButtonText: 'অর্ডার নিশ্চিত করুন',
-            showCancelButton: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const trx = document.getElementById('trx').value;
-                if(trx.length < 8) {
-                    Swal.fire('ব্যর্থ!', 'সঠিক ট্রানজেকশন আইডি দিন।', 'error');
-                } else {
-                    Swal.fire('সফল!', 'অর্ডার পেন্ডিং আছে। ৫ মিনিটে ডেলিভারি পাবেন।', 'success');
-                }
-            }
-        });
-    }
-
-    // অটো লগইন চেক
-    if(localStorage.getItem('nexus_user')) {
-        openPanel(localStorage.getItem('nexus_user'));
-    }
-</script>
-
-</body>
-</html> 
