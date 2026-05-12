@@ -231,3 +231,70 @@ function handleSecureOrder(serviceName, minPrice) {
 
 // জিমেইল ডিসপ্লে লজিক
 document.getElementById('displayEmail').innerText = localStorage.getItem('nexus_email') || "User Not Found";
+<script>
+
+function startOrder(service){
+
+    window.currentService = service;
+
+    const modal = new bootstrap.Modal(
+      document.getElementById('paymentModal')
+    );
+
+    modal.show();
+}
+
+function confirmPayment(){
+
+    const player = document.getElementById('playerID').value;
+    const trx = document.getElementById('trxID').value;
+    const method = document.getElementById('payMethod').value;
+
+    if(player === "" || trx === ""){
+
+        Swal.fire({
+            icon:'error',
+            title:'সব তথ্য দিন'
+        });
+
+        return;
+    }
+
+    if(trx.length < 8){
+
+        Swal.fire({
+            icon:'error',
+            title:'Invalid TrxID'
+        });
+
+        return;
+    }
+
+    const orderHTML = `
+    <div class="history-box d-flex justify-content-between align-items-center">
+        <div>
+            <div class="fw-bold">${window.currentService}</div>
+            <small>${method} | ${trx}</small>
+        </div>
+
+        <span class="badge bg-warning text-dark">
+            Pending
+        </span>
+    </div>
+    `;
+
+    document.getElementById('historyList')
+    .innerHTML += orderHTML;
+
+    Swal.fire({
+        icon:'success',
+        title:'Payment Submitted',
+        text:'আপনার অর্ডার রিভিউতে আছে'
+    });
+
+    bootstrap.Modal.getInstance(
+      document.getElementById('paymentModal')
+    ).hide();
+}
+
+</script>
