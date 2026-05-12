@@ -149,3 +149,63 @@ function updateHistoryTable() {
         });
     });
 }
+const services = {
+    ff_diamond: [
+        { name: "30 Diamond", price: 25 },
+        { name: "50 Diamond", price: 45 },
+        { name: "115 Diamond", price: 85 },
+        { name: "240 Diamond", price: 170 },
+        { name: "505 Diamond", price: 340 },
+        { name: "1000 Diamond", price: 650 },
+        { name: "Weekly Membership", price: 160 },
+        { name: "Monthly Membership", price: 750 }
+    ],
+    pubg_uc: [
+        { name: "30 UC", price: 40 },
+        { name: "60 UC", price: 75 },
+        { name: "325 UC", price: 380 },
+        { name: "660 UC", price: 730 },
+        { name: "1800 UC", price: 1850 }
+    ]
+};
+
+// ক্যাটাগরি অনুযায়ী প্যাকেজ আপডেট করার ফাংশন
+function updateSubServices() {
+    const category = document.getElementById('serviceCategory').value;
+    const packageSelect = document.getElementById('packageSelect');
+    packageSelect.innerHTML = '<option value="">প্যাকেজ সিলেক্ট করুন</option>';
+
+    if (services[category]) {
+        services[category].forEach(item => {
+            packageSelect.innerHTML += `<option value="${item.name}">${item.name} - ৳${item.price}</option>`;
+        });
+    }
+}
+
+// অর্ডার করার ফাংশন
+function placeOrder() {
+    const category = document.getElementById('serviceCategory').value;
+    const packageName = document.getElementById('packageSelect').value;
+    const playerID = document.getElementById('playerID').value;
+    const user = firebase.auth().currentUser;
+
+    if (!packageName || !playerID) {
+        alert("দয়া করে সব তথ্য দিন!");
+        return;
+    }
+
+    // Firebase-এ অর্ডার সেভ করা
+    const orderData = {
+        uid: user.uid,
+        category: category,
+        package: packageName,
+        playerID: playerID,
+        status: "Pending",
+        timestamp: Date.now()
+    };
+
+    firebase.database().ref('orders').push(orderData).then(() => {
+        alert("আপনার অর্ডারটি সফলভাবে জমা হয়েছে! কিছুক্ষণের মধ্যেই কমপ্লিট হবে।");
+        showSection('history'); // অর্ডার করার পর হিস্টোরিতে নিয়ে যাবে
+    });
+}
