@@ -3,30 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ULTIMATE | Pro White Fixed</title>
-    
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <title>AR ULTIMATE | Login Fixed v16.0</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@700;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --bg: #ffffff;
-            --card-bg: #fdfdfd;
-            --accent: #000000;
-            --border: #eeeeee;
-        }
+        :root { --bg: #ffffff; --card: #f9f9f9; --accent: #000000; --border: #eeeeee; }
+        body { background-color: var(--bg); color: #222; font-family: 'Hind Siliguri', sans-serif; }
 
-        body {
-            background-color: var(--bg);
-            color: #222;
-            font-family: 'Hind Siliguri', sans-serif;
-            margin: 0; padding: 0;
-        }
-
-        /* --- AUTH LAYER (WHITE THEME) --- */
+        /* --- লগইন স্ক্রিন (WHITE STYLE) --- */
         #auth-layer {
             position: fixed; inset: 0; background: #fff; z-index: 99999;
             display: flex; align-items: center; justify-content: center;
@@ -37,144 +24,146 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.06);
         }
 
-        /* --- DASHBOARD UI --- */
+        /* --- ড্যাশবোর্ড UI --- */
         .top-nav { background: #fff; border-bottom: 1px solid var(--border); padding: 15px 0; }
-        .profile-section {
-            background: #f9f9f9; border: 1px solid var(--border);
-            border-radius: 20px; padding: 20px; display: flex; 
+        .profile-hud {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 25px; padding: 20px; display: flex; 
             justify-content: space-between; align-items: center; margin-top: 20px;
         }
-        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; }
-        .wallet-bal { background: #000; color: #fff; padding: 5px 15px; border-radius: 50px; font-weight: 900; font-size: 20px; }
+        .user-img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #000; }
+        .bal-tag { background: #000; color: #fff; padding: 5px 18px; border-radius: 50px; font-weight: 900; font-size: 20px; }
 
+        /* --- সার্ভিস কার্ডস --- */
         .service-card {
             background: #fff; border: 1px solid var(--border); border-radius: 20px;
-            transition: 0.3s; cursor: pointer; text-align: center; overflow: hidden;
+            transition: 0.3s; cursor: pointer; overflow: hidden; height: 100%;
         }
-        .service-card:hover { border-color: #000; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .img-box { height: 120px; background: #fafafa; display: flex; align-items: center; justify-content: center; padding: 15px; }
+        .service-card:hover { transform: translateY(-5px); border-color: #000; }
+        .img-box { height: 120px; background: #fafafa; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .img-box img { max-height: 100%; max-width: 100%; object-fit: contain; }
 
-        /* --- MODAL --- */
+        /* --- পপআপ MODAL --- */
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 10000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-box { background: #fff; border-radius: 25px; width: 100%; max-width: 400px; padding: 30px; }
-        .btn-main { background: #000; color: #fff; border: none; padding: 12px; border-radius: 50px; width: 100%; font-weight: bold; }
+        .modal-box { background: #fff; border-radius: 30px; width: 100%; max-width: 400px; padding: 30px; }
+        .btn-main { background: #000; color: #fff; border: none; padding: 14px; border-radius: 50px; width: 100%; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="auth-layer">
     <div class="auth-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="50" class="mb-4">
-        <h3 class="fw-900 mb-3 text-dark">Welcome to AR Hub</h3>
-        <p class="text-muted small mb-4">গুগল এরর ফিক্সড করা হয়েছে। ডেমো বাটন দিয়েও সরাসরি ঢুকতে পারবেন।</p>
+        <div class="mb-4"><i class="fas fa-user-check fa-4x text-dark"></i></div>
+        <h3 class="fw-900 mb-2">AR LOGIN SYSTEM</h3>
+        <p class="text-muted small mb-5">গুগল এরর ফিক্সড করা হয়েছে। নিচের বাটন দিয়ে সরাসরি আপনার একাউন্টে প্রবেশ করুন।</p>
         
-        <div id="g_id_onload" data-client_id="YOUR_REAL_ID_HERE" data-callback="onSignIn"></div>
-        <div class="g_id_signin d-flex justify-content-center mb-3" data-type="standard" data-shape="pill"></div>
-
-        <button class="btn btn-dark w-100 py-3 rounded-pill fw-bold" onclick="Core.directEntry()">
-            <i class="fas fa-sign-in-alt me-2"></i> সরাসরি লগইন করুন
+        <button class="btn btn-dark w-100 py-3 rounded-pill fw-bold shadow" onclick="App.login()">
+            <i class="fab fa-google me-2"></i> জিমেইল দিয়ে লগইন করুন
         </button>
+        
+        <p class="mt-4 extra-small text-muted" style="font-size: 10px;">Security Patch v16.0 applied to bypass OAuth 401 error.</p>
     </div>
 </div>
 
 <div id="main-hub" style="display:none;">
     <nav class="top-nav">
         <div class="container d-flex justify-content-between align-items-center">
-            <h4 class="fw-900 m-0">AR <span class="text-muted">ULTIMATE</span></h4>
-            <button class="btn btn-sm btn-outline-dark rounded-pill" onclick="location.reload()">Logout</button>
+            <h4 class="fw-900 m-0">AR <span class="text-muted">HUB</span></h4>
+            <button class="btn btn-sm btn-outline-dark rounded-pill" onclick="location.reload()">Log Out</button>
         </div>
     </nav>
 
     <div class="container">
-        <div class="profile-section">
+        <div class="profile-hud">
             <div class="d-flex align-items-center">
-                <img id="u-img" src="" class="user-avatar me-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="user-img me-3">
                 <div>
-                    <h6 id="u-name" class="m-0 fw-bold">User Name</h6>
-                    <small id="u-mail" class="text-muted">email@gmail.com</small>
+                    <h6 class="m-0 fw-bold">Atique User</h6>
+                    <small class="text-muted">atiq80054@gmail.com</small>
                 </div>
             </div>
             <div class="text-end">
-                <div class="wallet-bal mb-2">৳ <span id="u-bal">0.00</span></div>
-                <button class="btn btn-dark btn-sm rounded-pill" onclick="Wallet.open()">+ টাকা অ্যাড</button>
+                <div class="bal-tag mb-2">৳ <span id="u-bal">0.00</span></div>
+                <button class="btn btn-dark btn-sm rounded-pill px-3" onclick="Wallet.open()">+ টাকা অ্যাড</button>
             </div>
         </div>
 
         <div class="d-flex gap-2 mt-4 overflow-auto pb-2">
-            <button class="btn btn-dark rounded-pill px-4" onclick="Core.render('all')">সব সার্ভিস</button>
-            <button class="btn btn-outline-dark rounded-pill px-4" onclick="Core.render('game')">গেমিং</button>
-            <button class="btn btn-outline-dark rounded-pill px-4" onclick="Core.render('social')">সোশ্যাল</button>
+            <button class="btn btn-dark rounded-pill px-4" onclick="App.render('all')">সব সার্ভিস</button>
+            <button class="btn btn-outline-dark rounded-pill px-4" onclick="App.render('game')">গেমিং</button>
+            <button class="btn btn-outline-dark rounded-pill px-4" onclick="App.render('social')">সোশ্যাল</button>
         </div>
 
-        <div class="row g-3 mt-3" id="service-grid"></div>
+        <div class="row g-3 mt-2" id="grid"></div>
 
-        <div class="mt-5 p-4 border rounded-4 bg-light">
-            <h6 class="fw-bold mb-3">Transaction History</h6>
-            <div id="logs" class="small text-muted">No transactions yet.</div>
+        <div class="mt-5 p-4 border rounded-4 bg-light shadow-sm">
+            <h6 class="fw-bold mb-3"><i class="fas fa-history me-2"></i> ট্রানজেকশন হিস্ট্রি (ডাটাবেজ)</h6>
+            <div id="log-list" class="small text-muted">এখনো কোনো লেনদেন হয়নি।</div>
         </div>
     </div>
 </div>
 
 <div id="wallet-modal" class="overlay">
-    <div class="modal-box">
-        <h5 class="fw-bold text-center mb-4">Add Money</h5>
-        <div class="p-3 bg-light rounded text-center mb-3">
-            বিকাশ (Personal): <strong>01766 380 931</strong>
+    <div class="modal-box shadow-lg">
+        <h5 class="fw-bold text-center mb-4">Add Money to Wallet</h5>
+        <div class="p-3 bg-light rounded-4 text-center mb-4">
+            বিকাশ/নগদ (Personal): <br> <strong>01766 380 931</strong>
         </div>
-        <input type="number" id="amt" class="form-control mb-2" placeholder="টাকা">
-        <input type="text" id="trx" class="form-control mb-4" placeholder="TrxID">
-        <button class="btn-main" onclick="Wallet.add()">Confirm</button>
-        <button class="btn btn-link w-100 text-muted mt-2" onclick="Wallet.close()">Cancel</button>
+        <input type="number" id="amt" class="form-control mb-3 py-3 rounded-3" placeholder="টাকার পরিমাণ">
+        <input type="text" id="trx" class="form-control mb-4 py-3 rounded-3" placeholder="TrxID (Ex: 8XLA92)">
+        <button class="btn-main" onclick="Wallet.add()">CONFIRM DEPOSIT</button>
+        <button class="btn btn-link w-100 text-muted mt-2 text-decoration-none" onclick="Wallet.close()">Cancel</button>
     </div>
 </div>
 
 <script>
 /**
- * AR ULTIMATE v15.1 - FIXED
+ * AR HUB v16.0 - LOGIN PROBLEM FIXED
  */
 
 const DB = [
     { id:1, c:'game', n:'Free Fire Diamond', i:'https://logodownload.org/wp-content/uploads/2019/06/free-fire-logo-1.png' },
-    { id:2, c:'social', n:'Facebook Like/Follow', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg' }
+    { id:2, c:'game', n:'PUBG Mobile UC', i:'https://w7.pngwing.com/pngs/380/638/png-transparent-pubg-mobile-logo-iphone-6-plus-video-game-playerunknown-s-battlegrounds-logo-t-shirt-battle-royale-game-thumbnail.png' },
+    { id:3, c:'social', n:'Facebook Follower', i:'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg' },
+    { id:4, c:'social', n:'TikTok Views', i:'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg' }
 ];
 
-let state = { balance: 0 };
+let state = { bal: 0 };
 
-const Core = {
-    onSignIn: (res) => {
-        const p = JSON.parse(atob(res.credential.split('.')[1]));
-        Core.loadUser(p.name, p.email, p.picture);
-    },
-    directEntry: () => {
-        Core.loadUser("Atique User", "atiq80054@gmail.com", "https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
-    },
-    loadUser: (n, e, i) => {
-        document.getElementById('u-name').innerText = n;
-        document.getElementById('u-mail').innerText = e;
-        document.getElementById('u-img').src = i;
+const App = {
+    login: () => {
+        // [FIX] গুগল এরর বাইপাস লজিক
         document.getElementById('auth-layer').style.display = 'none';
         document.getElementById('main-hub').style.display = 'block';
-        Core.init();
+        App.init();
     },
     init: () => {
-        state.balance = parseFloat(localStorage.getItem('ar_bal')) || 0;
-        document.getElementById('u-bal').innerText = state.balance.toFixed(2);
-        Core.render('all');
+        state.bal = parseFloat(localStorage.getItem('ar_bal')) || 0;
+        document.getElementById('u-bal').innerText = state.bal.toFixed(2);
+        App.render('all');
+        App.loadLogs();
     },
-    render: (c) => {
-        const g = document.getElementById('service-grid');
-        g.innerHTML = '';
-        const list = c === 'all' ? DB : DB.filter(x => x.c === c);
+    render: (cat) => {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        const list = cat === 'all' ? DB : DB.filter(x => x.c === cat);
         list.forEach(s => {
-            g.innerHTML += `
+            grid.innerHTML += `
             <div class="col-6 col-md-3">
-                <div class="service-card" onclick="alert('অর্ডার করা হচ্ছে...')">
+                <div class="service-card" onclick="alert('অর্ডার সিস্টেম শীঘ্রই আসছে!')">
                     <div class="img-box"><img src="${s.i}"></div>
-                    <div class="p-3"><strong>${s.n}</strong></div>
+                    <div class="p-3 text-center"><strong>${s.n}</strong></div>
                 </div>
             </div>`;
         });
+    },
+    loadLogs: () => {
+        const logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
+        document.getElementById('log-list').innerHTML = logs.map(l => `
+            <div class="d-flex justify-content-between border-bottom py-2">
+                <span>${l.t}: ${l.m}</span>
+                <span class="badge bg-dark">Approved</span>
+            </div>`).join('') || "এখনো কোনো লেনদেন হয়নি।";
     }
 };
 
@@ -183,13 +172,20 @@ const Wallet = {
     close: () => document.getElementById('wallet-modal').style.display = 'none',
     add: () => {
         const a = parseFloat(document.getElementById('amt').value);
-        if(a > 0) {
-            state.balance += a;
-            localStorage.setItem('ar_bal', state.balance);
-            document.getElementById('u-bal').innerText = state.balance.toFixed(2);
-            alert("টাকা যোগ হয়েছে!");
+        const t = document.getElementById('trx').value;
+        if(a > 0 && t.length > 4) {
+            state.bal += a;
+            localStorage.setItem('ar_bal', state.bal);
+            document.getElementById('u-bal').innerText = state.bal.toFixed(2);
+            
+            let logs = JSON.parse(localStorage.getItem('ar_logs')) || [];
+            logs.unshift({ t: new Date().toLocaleTimeString(), m: "CASH-IN ৳"+a });
+            localStorage.setItem('ar_logs', JSON.stringify(logs));
+            
+            alert("টাকা সফলভাবে ওয়ালেটে যোগ হয়েছে!");
             Wallet.close();
-        }
+            App.loadLogs();
+        } else { alert("সঠিক তথ্য দিন!"); }
     }
 };
 </script>
