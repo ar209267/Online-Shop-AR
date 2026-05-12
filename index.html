@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR EMPIRE | SECURE SERVER V100</title>
+    <title>AR EMPIRE | ULTIMATE DIGITAL HUB</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,81 +13,104 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --ar-primary: #00f2fe; --ar-danger: #ff4b2b; --ar-dark: #010409; }
-        body { background: var(--ar-dark); color: white; font-family: 'Hind Siliguri', sans-serif; }
+        :root { --cyan: #00f2fe; --purple: #bc13fe; --dark: #010409; --card: #0d1117; }
+        body { background: var(--dark); color: white; font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; }
         .orbitron { font-family: 'Orbitron', sans-serif; }
         
-        /* Security Shield Login */
-        #loginGate { height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(45deg, #010409, #0a192f); }
-        .auth-card { background: rgba(13, 17, 23, 0.98); border: 1px solid var(--ar-primary); border-radius: 25px; padding: 40px; box-shadow: 0 0 40px rgba(0, 242, 254, 0.1); width: 95%; max-width: 400px; }
-        
-        /* Payment Security Banner */
-        .secure-banner { background: rgba(0, 242, 254, 0.05); border-left: 5px solid var(--ar-primary); padding: 15px; margin: 20px 0; border-radius: 10px; }
-        .trx-input { background: #0d1117; border: 2px solid #30363d; color: var(--ar-primary); font-weight: bold; }
-        .trx-input:focus { border-color: var(--ar-primary); box-shadow: 0 0 10px var(--ar-primary); }
+        /* Login UI */
+        #loginGate { height: 100vh; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, #0a192f 0%, #010409 100%); }
+        .auth-card { background: var(--card); border: 2px solid var(--cyan); border-radius: 30px; padding: 40px; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 242, 254, 0.2); }
+        .nexus-input { width: 100%; background: #161b22; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 12px; margin-bottom: 15px; }
 
-        .package-tile { background: #0d1117; padding: 15px; border-radius: 20px; border: 1px solid #21262d; text-align: center; height: 100%; transition: 0.3s; }
-        .package-tile:hover { border-color: var(--ar-primary); transform: scale(1.02); }
-        .order-btn { background: var(--ar-primary); color: #000; font-weight: 700; border: none; width: 100%; border-radius: 10px; padding: 8px; }
+        /* Dashboard UI */
+        #mainApp { display: none; }
+        .header-banner { background: linear-gradient(rgba(0,242,254,0.1), transparent); border-bottom: 1px solid #30363d; padding: 40px 10px; }
+        .package-tile { background: var(--card); padding: 20px; border-radius: 20px; border: 1px solid #21262d; text-align: center; height: 100%; transition: 0.4s; }
+        .package-tile:hover { border-color: var(--cyan); transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .package-tile i { font-size: 2rem; color: var(--cyan); margin-bottom: 12px; }
+        .price { color: #FFD700; font-weight: bold; font-size: 1.1rem; }
+        .order-btn { background: var(--cyan); color: black; border: none; font-weight: bold; padding: 8px; border-radius: 10px; width: 100%; transition: 0.3s; }
+        .order-btn:hover { background: #fff; transform: scale(1.05); }
+
+        .category-title { border-left: 5px solid var(--cyan); padding-left: 15px; margin: 40px 0 20px 0; color: var(--cyan); font-weight: bold; }
+        
+        /* Admin UI */
+        #adminPanel { display: none; padding-top: 50px; }
     </style>
 </head>
 <body>
 
 <section id="loginGate">
     <div class="auth-card text-center">
-        <h2 class="orbitron text-info mb-4"><i class="fas fa-shield-alt"></i> AR SECURE</h2>
-        <input type="email" id="uMail" class="form-control mb-3 bg-dark text-white border-secondary" placeholder="Admin Gmail">
-        <input type="password" id="uPass" class="form-control mb-4 bg-dark text-white border-secondary" placeholder="Master Password">
-        <button class="btn btn-info w-100 fw-bold" onclick="masterLogin()">DECRYPT & ENTER</button>
-        <p class="mt-3 small text-secondary">Authorized Access Only</p>
+        <img src="ar-logo.png" style="width: 100px; border-radius: 20px; border: 2px solid var(--cyan); margin-bottom: 20px;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/7032/7032338.png'">
+        <h4 class="orbitron">AR MASTER LOCK</h4>
+        <div class="mt-4">
+            <input type="email" id="uMail" class="nexus-input" placeholder="ইমেইল">
+            <input type="password" id="uPass" class="nexus-input" placeholder="পাসওয়ার্ড">
+            <button class="btn btn-info w-100 fw-bold py-2" onclick="handleAuth()">ENTER SYSTEM</button>
+        </div>
     </div>
 </section>
 
-<section id="mainApplication" style="display:none;">
+<section id="mainApp">
     <nav class="navbar navbar-dark bg-dark border-bottom border-secondary">
         <div class="container d-flex justify-content-between">
-            <span class="orbitron text-info">MASTER CONSOLE</span>
-            <span id="displayUser" class="small text-secondary"></span>
+            <span class="orbitron text-info fw-bold">AR EMPIRE V3</span>
+            <button class="btn btn-sm btn-outline-info px-3 rounded-pill" onclick="showAdmin()">ADMIN</button>
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <div class="secure-banner animate__animated animate__pulse animate__infinite">
-            <h6 class="orbitron"><i class="fas fa-lock"></i> PAYMENT SECURITY ENABLED</h6>
-            <p class="small mb-0">ভুল TrxID দিলে অর্ডার অটোমেটিক ক্যানসেল হয়ে যাবে। টাকা পাঠানোর পর সঠিকভাবে ট্রানজেকশন আইডি দিন।</p>
-        </div>
+    <div class="header-banner text-center">
+        <p class="text-secondary small">SEND MONEY (PERSONAL)</p>
+        <h1 class="orbitron fw-bold">01766380931</h1>
+        <button class="btn btn-sm btn-outline-info" onclick="copyNum()">COPY NUMBER</button>
+    </div>
 
-        <div class="text-center my-4 p-4 glass-container" style="background:#0d1117; border-radius:20px; border:1px dashed var(--ar-primary)">
-            <p class="mb-1">Send Money (Personal)</p>
-            <h3 class="orbitron text-white fw-bold">01766380931</h3>
-            <button class="btn btn-sm btn-outline-info" onclick="copyNum()">COPY NUMBER</button>
-        </div>
-
+    <div class="container pb-5">
+        
+        <h5 class="orbitron category-title">GAMING TOPUP</h5>
         <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fas fa-user-check fa-2x mb-2 text-info"></i>
-                    <p class="mb-1">ID Verify</p>
-                    <p class="text-warning fw-bold">৳ ৫০০</p>
-                    <button class="order-btn" onclick="secureOrder('Account Verify', '500')">ORDER</button>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="package-tile">
-                    <i class="fab fa-facebook fa-2x mb-2 text-primary"></i>
-                    <p class="mb-1">1K Follower</p>
-                    <p class="text-warning fw-bold">৳ ১৩৫</p>
-                    <button class="order-btn" onclick="secureOrder('FB Follower', '135')">ORDER</button>
-                </div>
-            </div>
-            </div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-fire"></i><p>১১৫ ডায়মন্ড</p><p class="price">৳ ৮০</p><button class="order-btn" onclick="makeOrder('FF 115', '80')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-gem"></i><p>২৪০ ডায়মন্ড</p><p class="price">৳ ১৬৫</p><button class="order-btn" onclick="makeOrder('FF 240', '165')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-calendar-alt"></i><p>উইকলি</p><p class="price">৳ ১৯০</p><button class="order-btn" onclick="makeOrder('Weekly', '190')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-crown"></i><p>মান্থলি</p><p class="price">৳ ৭৮০</p><button class="order-btn" onclick="makeOrder('Monthly', '780')">অর্ডার</button></div></div>
+        </div>
 
-        <div id="statusLogs" class="mt-5 pb-5"></div>
+        <h5 class="orbitron category-title">SOCIAL MEDIA GROWTH</h5>
+        <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-facebook"></i><p>1K Followers</p><p class="price">৳ ১৩৫</p><button class="order-btn" onclick="makeOrder('FB 1K', '135')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-tiktok"></i><p>1K Followers</p><p class="price">৳ ৯৫</p><button class="order-btn" onclick="makeOrder('TikTok 1K', '95')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-youtube"></i><p>1K Subscriber</p><p class="price">৳ ৬৫০</p><button class="order-btn" onclick="makeOrder('YT 1K', '650')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fab fa-instagram"></i><p>1K Followers</p><p class="price">৳ ১১০</p><button class="order-btn" onclick="makeOrder('Insta 1K', '110')">অর্ডার</button></div></div>
+        </div>
+
+        <h5 class="orbitron category-title">ONLINE APP SERVICES</h5>
+        <div class="row g-3">
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-user-shield"></i><p>ID Verify</p><p class="price">৳ ৫০০</p><button class="order-btn" onclick="makeOrder('ID Verify', '500')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-unlock-alt"></i><p>Pass Recover</p><p class="price">৳ ৩০০</p><button class="order-btn" onclick="makeOrder('Pass Recover', '300')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-mobile-alt"></i><p>Premium App</p><p class="price">৳ ২০০</p><button class="order-btn" onclick="makeOrder('Premium App', '200')">অর্ডার</button></div></div>
+            <div class="col-6 col-md-3"><div class="package-tile"><i class="fas fa-code-branch"></i><p>Fixing Fee</p><p class="price">৳ ৪০০</p><button class="order-btn" onclick="makeOrder('Bug Fix', '400')">অর্ডার</button></div></div>
+        </div>
+
+        <div id="liveLogs" class="mt-5"></div>
+    </div>
+</section>
+
+<section id="adminPanel" class="container">
+    <div class="d-flex justify-content-between mb-4">
+        <h4 class="orbitron text-info">ADMIN COMMANDS</h4>
+        <button class="btn btn-danger btn-sm" onclick="location.reload()">EXIT</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-dark small">
+            <thead><tr><th>ইউজার</th><th>আইটেম</th><th>টার্গেট</th><th>TrxID</th><th>অ্যাকশন</th></tr></thead>
+            <tbody id="adminTableBody"></tbody>
+        </table>
     </div>
 </section>
 
 <script>
-    // সার্ভার সারাজীবন চলার জন্য ফায়ারবেস কনফিগ (End-to-End Encryption)
+    // --- Master Configurations ---
     const firebaseConfig = {
         apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
         authDomain: "online-shop-ar.firebaseapp.com",
@@ -100,85 +123,79 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // মাস্টার লগইন (সার্ভার সিকিউরিটি)
-    function masterLogin() {
+    // --- Authentication ---
+    function handleAuth() {
         const mail = document.getElementById('uMail').value.trim();
         const pass = document.getElementById('uPass').value;
         
-        // ওস্তাদ, এখানে আপনার জিমেইল আর পাসওয়ার্ড দিন
+        // এখানে আপনার জিমেইল আর পাসওয়ার্ড (সারাজীবনের জন্য সেভ)
         if(mail === "atiq@gmail.com" && pass === "atiq8389") {
-            localStorage.setItem('ar_session', 'active');
-            localStorage.setItem('ar_user', mail);
-            location.reload();
+            localStorage.setItem('ar_auth', 'true');
+            localStorage.setItem('ar_mail', mail);
+            showDashboard();
         } else {
-            Swal.fire('Error', 'ভুল তথ্য! সার্ভার ব্লক হতে পারে।', 'error');
+            Swal.fire('Access Denied', 'ভুল তথ্য! সার্ভার প্রোটেকটেড।', 'error');
         }
     }
 
-    // পেমেন্ট সিকিউরিটি অর্ডার সিস্টেম
-    function secureOrder(item, price) {
+    function showDashboard() {
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        loadLogs();
+    }
+
+    // --- Ordering & Security ---
+    function makeOrder(item, pr) {
         Swal.fire({
-            title: `Confirm: ${item}`,
-            text: `পেমেন্ট ফী: ${price} টাকা`,
-            html: `
-                <input id="target_id" class="swal2-input trx-input" placeholder="User ID / Link">
-                <input id="trx_id" class="swal2-input trx-input" placeholder="Enter TrxID (8-10 Digits)">
-            `,
+            title: item,
+            text: `ফি: ৳${pr}`,
+            html: `<input id="t" class="swal2-input" placeholder="User ID/Link"><input id="x" class="swal2-input" placeholder="TrxID (মাস্ট)">`,
             showCancelButton: true,
-            confirmButtonText: 'Verify & Submit',
-            preConfirm: () => {
-                const target = document.getElementById('target_id').value;
-                const trx = document.getElementById('trx_id').value;
-                if (!target || trx.length < 8) {
-                    Swal.showValidationMessage('সঠিক TrxID এবং টার্গেট দিন!');
-                }
-                return { target: target, trx: trx };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // ডাটাবেসে সিকিউর অর্ডার পাঠানো
-                db.ref('secure_orders/').push({
-                    user: localStorage.getItem('ar_user'),
-                    item: item,
-                    price: price,
-                    target: result.value.target,
-                    trx: result.value.trx,
-                    status: 'Verifying',
-                    timestamp: firebase.database.ServerValue.TIMESTAMP
+            confirmButtonText: 'সাবমিট করুন'
+        }).then((res) => {
+            if(res.isConfirmed) {
+                const target = document.getElementById('t').value;
+                const trx = document.getElementById('x').value;
+                if(!target || trx.length < 8) return Swal.fire('Error','সঠিক তথ্য ও TrxID দিন','error');
+                
+                db.ref('orders/').push({
+                    u: localStorage.getItem('ar_mail'), i: item, t: target, x: trx, s: 'Pending', d: new Date().toLocaleString()
                 });
-                Swal.fire('Success', 'আপনার পেমেন্ট ভেরিফাই করা হচ্ছে...', 'success');
+                Swal.fire('Success', 'অর্ডার সার্ভারে পৌঁছেছে!', 'success');
             }
         });
     }
 
-    // অর্ডার স্ট্যাটাস ট্র্যাকিং
-    function trackLive() {
-        const myMail = localStorage.getItem('ar_user');
-        db.ref('secure_orders/').on('value', (snap) => {
-            const logArea = document.getElementById('statusLogs');
-            logArea.innerHTML = "<h5 class='orbitron text-secondary'>LIVE SERVER LOGS:</h5>";
+    function loadLogs() {
+        db.ref('orders/').on('value', (snap) => {
+            const area = document.getElementById('liveLogs');
+            area.innerHTML = "<h6 class='text-secondary orbitron mb-3'>SERVER LOGS:</h6>";
             snap.forEach((child) => {
                 const d = child.val();
-                if(d.user === myMail) {
-                    logArea.innerHTML += `
-                        <div class="p-3 mb-2 border-start border-3 ${d.status==='Verifying'?'border-warning':'border-success'}" style="background:#0d1117">
-                            <b>${d.item}</b> - <span class="badge bg-dark text-info">${d.status}</span><br>
-                            <small class="text-secondary">TrxID: ${d.trx}</small>
-                        </div>`;
+                if(d.u === localStorage.getItem('ar_mail')) {
+                    area.innerHTML += `<div class="p-2 mb-2 bg-dark border-start border-info" style="border-radius:5px"><b>${d.i}</b> - ${d.s}</div>`;
                 }
             });
         });
     }
 
-    // অটো সেশন চেক
-    if(localStorage.getItem('ar_session') === 'active') {
-        document.getElementById('loginGate').style.display = 'none';
-        document.getElementById('mainApplication').style.display = 'block';
-        document.getElementById('displayUser').innerText = localStorage.getItem('ar_user');
-        trackLive();
+    function showAdmin() {
+        document.getElementById('mainApp').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        db.ref('orders/').on('value', (snap) => {
+            const body = document.getElementById('adminTableBody');
+            body.innerHTML = "";
+            snap.forEach((c) => {
+                const d = c.val();
+                body.innerHTML += `<tr><td>${d.u}</td><td>${d.i}</td><td>${d.t}</td><td>${d.x}</td><td><button class="btn btn-success btn-sm" onclick="db.ref('orders/${c.key}').update({s:'Done'})">✓</button></td></tr>`;
+            });
+        });
     }
 
     function copyNum() { navigator.clipboard.writeText('01766380931'); Swal.fire('Copied','','success'); }
+
+    // Auto-Resume Session
+    if(localStorage.getItem('ar_auth') === 'true') showDashboard();
 </script>
 </body>
-</html> 
+</html>
