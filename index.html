@@ -3,90 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enjoy Shop - Game Top Up</title>
+    <title>Online Shop AR - Premium Top-Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #0f0f0f;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #1a1a1a;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #7d40ff;
-        }
-        .logo { font-size: 24px; font-weight: bold; color: #7d40ff; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; }
-        .login-btn {
-            background-color: #6a11cb;
-            padding: 8px 20px;
-            border-radius: 5px;
-            color: white;
-        }
+        :root { --primary: #7d40ff; --dark-bg: #0b0e14; --card-bg: #161b22; }
+        body { background-color: var(--dark-bg); color: #c9d1d9; font-family: 'Hind Siliguri', sans-serif; }
+        
+        /* Navbar */
+        .navbar { background: #1a1d23; border-bottom: 2px solid var(--primary); padding: 15px; }
+        .navbar-brand { font-weight: 700; color: var(--primary) !important; }
 
-        .container { padding: 40px 5%; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: #1e1e1e;
-            border-radius: 10px;
-            overflow: hidden;
-            text-align: center;
-            padding-bottom: 15px;
-            transition: 0.3s;
-            border: 1px solid #333;
-        }
-        .card:hover { transform: translateY(-5px); border-color: #7d40ff; }
-        .card img { width: 100%; height: 180px; object-fit: cover; }
-        .card h3 { font-size: 16px; margin: 10px 0; }
-        .rating { color: #ffcc00; font-size: 12px; }
+        /* EnjoyShop Style Category Navigation */
+        .category-nav { background: #161b22; padding: 10px; margin-bottom: 25px; border-radius: 8px; overflow-x: auto; white-space: nowrap; }
+        .nav-item-btn { display: inline-block; padding: 10px 20px; color: #fff; text-decoration: none; border-radius: 5px; margin-right: 10px; transition: 0.3s; }
+        .nav-item-btn:hover, .nav-item-btn.active { background: var(--primary); }
 
-        footer {
-            background: #1a1a1a;
-            padding: 30px;
-            text-align: center;
-            margin-top: 50px;
-        }
+        /* Game Card Design */
+        .game-card { background: var(--card-bg); border-radius: 12px; border: 1px solid #30363d; overflow: hidden; transition: 0.3s; cursor: pointer; height: 100%; }
+        .game-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .game-img { width: 100%; height: 180px; object-fit: cover; }
+        .game-info { padding: 15px; text-align: center; }
+
+        /* Package Selection Area */
+        .package-box { background: #1a1d23; border: 1px solid var(--primary); border-radius: 10px; padding: 20px; display: none; }
+        .pkg-item { background: #21262d; border: 1px solid #30363d; padding: 10px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; }
+        .pkg-item:hover { border-color: var(--primary); background: #2b323b; }
+
+        /* Footer Info */
+        footer { background: #161b22; padding: 40px 0; margin-top: 50px; text-align: center; border-top: 1px solid #30363d; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">ENJOY SHOP</div>
-    <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">FAQ</a>
-        <a href="#" class="login-btn">Login</a>
+<nav class="navbar navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">ONLINE SHOP AR</a>
+        <div class="d-flex align-items-center">
+            <span class="me-3">Balance: ৳0.00</span>
+            <button class="btn btn-outline-primary btn-sm">Login</button>
+        </div>
     </div>
-</header>
+</nav>
 
-<div class="container">
-    <h2>Game Category</h2>
-    <div class="grid">
-        <div class="card">
-            <img src="https://via.placeholder.com/200x180" alt="Free Fire">
-            <h3>Free Fire BD Server</h3>
-            <div class="rating">★★★★★ 5.0</div>
+<div class="container mt-4">
+    <div class="category-nav">
+        <a href="#" class="nav-item-btn active">Game Top Up</a>
+        <a href="#" class="nav-item-btn">Gift Card</a>
+        <a href="#" class="nav-item-btn">Software</a>
+        <a href="#" class="nav-item-btn">Premium Subscription</a>
+    </div>
+
+    <div class="row g-4" id="gameGrid">
+        <div class="col-6 col-md-3">
+            <div class="game-card" onclick="showPackages('ff')">
+                <img src="https://i.ibb.co/LhYpY0P/freefire-logo.png" class="game-img">
+                <div class="game-info"><h5>Free Fire Diamond</h5><span class="badge bg-primary">Fast Delivery</span></div>
+            </div>
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/200x180" alt="MLBB">
-            <h3>MLBB Diamonds</h3>
-            <div class="rating">★★★★★ 5.0</div>
+        <div class="col-6 col-md-3">
+            <div class="game-card" onclick="showPackages('pubg')">
+                <img src="https://i.ibb.co/mH6G76M/pubg-logo.png" class="game-img">
+                <div class="game-info"><h5>PUBG Mobile UC</h5><span class="badge bg-primary">Global</span></div>
+            </div>
         </div>
+        <div class="col-6 col-md-3">
+            <div class="game-card" onclick="showPackages('mlbb')">
+                <img src="https://i.ibb.co/pWfSgSj/smm-logo.png" class="game-img">
+                <div class="game-info"><h5>MLBB Diamond</h5><span class="badge bg-primary">Instant</span></div>
+            </div>
         </div>
+    </div>
+
+    <div class="row mt-5" id="orderSection" style="display:none;">
+        <div class="col-md-7">
+            <div class="package-box" id="pkgBox" style="display:block;">
+                <h4 id="selectedGameName" class="text-primary mb-4">Select Package</h4>
+                <div id="pkgList">
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card bg-dark border-secondary p-4">
+                <h4>Checkout Details</h4>
+                <div class="mb-3">
+                    <label>Player ID / Link</label>
+                    <input type="text" id="playerId" class="form-control" placeholder="Enter ID here">
+                </div>
+                <div class="mb-3">
+                    <label>Payment Method</label>
+                    <div class="alert alert-info py-2 small">Send Money to: 01766 380 931 (bKash/Nagad)</div>
+                    <input type="text" id="trxId" class="form-control" placeholder="Enter TrxID">
+                </div>
+                <button class="btn btn-primary w-100 py-3 fw-bold" onclick="alert('অর্ডার সফল হয়েছে!')">Confirm Order</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
-    <p>© 2026 Enjoy Shop - All Rights Reserved</p>
+    <div class="container">
+        <h5>ONLINE SHOP AR</h5>
+        <p>Your trusted gaming partner in Bangladesh.</p>
+        <div class="mt-3">
+            <a href="#" class="text-secondary mx-2">Home</a> | 
+            <a href="#" class="text-secondary mx-2">Terms</a> | 
+            <a href="#" class="text-secondary mx-2">Contact</a>
+        </div>
+    </div>
 </footer>
+
+<script>
+    const gameData = {
+        ff: {
+            name: "Free Fire Diamond",
+            items: [{n: "115 Diamond", p: 85}, {n: "240 Diamond", p: 175}, {n: "505 Diamond", p: 340}, {n: "Weekly", p: 160}]
+        },
+        pubg: {
+            name: "PUBG Mobile UC",
+            items: [{n: "60 UC", p: 75}, {n: "325 UC", p: 380}, {n: "660 UC", p: 730}]
+        },
+        mlbb: {
+            name: "MLBB Diamonds",
+            items: [{n: "86 Diamonds", p: 120}, {n: "172 Diamonds", p: 235}]
+        }
+    };
+
+    function showPackages(gameKey) {
+        const data = gameData[gameKey];
+        document.getElementById('selectedGameName').innerText = data.name;
+        const list = document.getElementById('pkgList');
+        list.innerHTML = '';
+        
+        data.items.forEach(pkg => {
+            list.innerHTML += `
+                <div class="pkg-item">
+                    <span>${pkg.n}</span>
+                    <strong class="text-primary">৳${pkg.p}</strong>
+                </div>
+            `;
+        });
+        
+        document.getElementById('gameGrid').style.display = 'none';
+        document.getElementById('orderSection').style.display = 'flex';
+        window.scrollTo(0, 0);
+    }
+</script>
 
 </body>
 </html>
