@@ -1,203 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online Shop AR</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shop AR - Premium Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --main: #00ff88; --dark: #0f0f0f; --card: #1a1a1a; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--dark); color: white; transition: 0.5s; }
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+        /* Navbar */
+        nav { background: #000; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--main); position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Orbitron'; color: var(--main); font-size: 20px; font-weight: bold; }
+        .user-nav { display: flex; align-items: center; gap: 15px; }
+        .nav-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--main); }
 
-<style>
+        /* Login Section */
+        #login-page { height: 90vh; display: flex; justify-content: center; align-items: center; }
+        .login-card { background: var(--card); padding: 40px; border-radius: 20px; text-align: center; border: 1px solid #333; box-shadow: 0 0 20px rgba(0, 255, 136, 0.1); }
+        .btn-github { background: white; color: black; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; margin: 0 auto; }
+        .btn-github:hover { background: var(--main); transform: scale(1.05); }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Orbitron',sans-serif;
-}
+        /* Store Section */
+        #store-page { display: none; padding: 40px 5%; animation: fadeIn 0.8s ease; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background: var(--card); border-radius: 15px; padding: 20px; border: 1px solid #333; transition: 0.3s; position: relative; overflow: hidden; }
+        .product-card:hover { border-color: var(--main); transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .product-img { width: 100%; height: 200px; border-radius: 10px; margin-bottom: 15px; background-size: cover; background-position: center; }
+        .price { color: var(--main); font-weight: bold; font-size: 20px; display: block; margin: 10px 0; }
+        .buy-btn { width: 100%; background: var(--main); color: black; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .buy-btn:hover { letter-spacing: 1px; opacity: 0.9; }
 
-body{
-    background:#050505;
-    color:white;
-}
+        .logout-btn { background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-/* LOGIN */
-
-.login-page{
-    width:100%;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.login-box{
-    width:320px;
-    background:#111;
-    padding:30px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 0 20px #00ffb3;
-}
-
-.login-box h1{
-    color:#00ffb3;
-    margin-bottom:10px;
-}
-
-.login-box p{
-    color:#aaa;
-    margin-bottom:20px;
-}
-
-.login-btn{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#222;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.login-btn:hover{
-    background:#00ffb3;
-    color:black;
-}
-
-/* MAIN PANEL */
-
-.main-panel{
-    display:none;
-    padding:20px;
-}
-
-.header{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.header h1{
-    color:#00ffb3;
-    font-size:32px;
-}
-
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:#111;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 10px #00ffb344;
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card h2{
-    color:#00ffb3;
-    margin-bottom:10px;
-}
-
-.price{
-    font-size:24px;
-    margin:10px 0;
-}
-
-.order-btn{
-    width:100%;
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    background:#00ffb3;
-    color:black;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.order-btn:hover{
-    opacity:0.8;
-}
-
-</style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+    <nav>
+        <div class="logo">ONLINE SHOP AR</div>
+        <div id="nav-user" class="user-nav" style="display: none;">
+            <span id="nav-name" style="font-weight: 600;"></span>
+            <img id="nav-img" class="nav-avatar" src="" alt="User">
+            <button class="logout-btn" id="btn-logout">Logout</button>
+        </div>
+    </nav>
 
-<div class="login-page" id="loginPage">
-
-    <div class="login-box">
-        <h1>Online Shop AR</h1>
-        <p>Please login to continue</p>
-
-        <button class="login-btn" onclick="login()">
-            Sign in with GitHub
-        </button>
+    <div id="login-page">
+        <div class="login-card">
+            <h1 style="font-family: 'Orbitron'; margin-bottom: 10px;">PREMIUM ACCESS</h1>
+            <p style="color: #888; margin-bottom: 35px;">Sign in with GitHub to explore our products</p>
+            <button class="btn-github" id="btn-login">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="22">
+                Continue with GitHub
+            </button>
+        </div>
     </div>
 
-</div>
-
-<!-- MAIN PANEL -->
-
-<div class="main-panel" id="mainPanel">
-
-    <div class="header">
-        <h1>ONLINE SHOP AR</h1>
+    <div id="store-page">
+        <h2 style="margin-bottom: 35px; border-left: 5px solid var(--main); padding-left: 15px;">Trending Collection</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600');"></div>
+                <h3>Smart Watch Edition</h3>
+                <p style="color: #aaa; font-size: 14px;">Next-gen health tracking and style.</p>
+                <span class="price">$199.99</span>
+                <button class="buy-btn" onclick="alert('Order Placed Successfully!')">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600');"></div>
+                <h3>Studio Headphones</h3>
+                <p style="color: #aaa; font-size: 14px;">Pure sound, noise-canceling technology.</p>
+                <span class="price">$249.50</span>
+                <button class="buy-btn" onclick="alert('Order Placed Successfully!')">Buy Now</button>
+            </div>
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600');"></div>
+                <h3>Speed Sneakers</h3>
+                <p style="color: #aaa; font-size: 14px;">Lightweight design for everyday comfort.</p>
+                <span class="price">$120.00</span>
+                <button class="buy-btn" onclick="alert('Order Placed Successfully!')">Buy Now</button>
+            </div>
+        </div>
     </div>
 
-    <div class="products">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, GithubAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
-        <div class="card">
-            <h2>Facebook Followers</h2>
-            <p>High Quality Followers</p>
-            <div class="price">৳150</div>
-            <button class="order-btn">Buy Now</button>
-        </div>
+        // আপনার দেওয়া সঠিক Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
+            authDomain: "online-shop-ar.firebaseapp.com",
+            projectId: "online-shop-ar",
+            storageBucket: "online-shop-ar.firebasestorage.app",
+            messagingSenderId: "913434308973",
+            appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
+            measurementId: "G-T20TRS2F59"
+        };
 
-        <div class="card">
-            <h2>Facebook Likes</h2>
-            <p>Real Like Service</p>
-            <div class="price">৳100</div>
-            <button class="order-btn">Buy Now</button>
-        </div>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GithubAuthProvider();
 
-        <div class="card">
-            <h2>Meta Verified</h2>
-            <p>Verification Service</p>
-            <div class="price">৳500</div>
-            <button class="order-btn">Buy Now</button>
-        </div>
+        const loginPage = document.getElementById('login-page');
+        const storePage = document.getElementById('store-page');
+        const navUser = document.getElementById('nav-user');
 
-        <div class="card">
-            <h2>Instagram Followers</h2>
-            <p>Fast Delivery</p>
-            <div class="price">৳200</div>
-            <button class="order-btn">Buy Now</button>
-        </div>
+        // Login Logic
+        document.getElementById('btn-login').onclick = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error(error);
+                alert("Login Failed: " + error.message);
+            }
+        };
 
-    </div>
+        // Logout Logic
+        document.getElementById('btn-logout').onclick = () => {
+            signOut(auth).then(() => location.reload());
+        };
 
-</div>
-
-<script>
-
-function login(){
-
-    document.getElementById("loginPage").style.display="none";
-    document.getElementById("mainPanel").style.display="block";
-
-}
-
-</script>
-
+        // UI Update on Auth Change
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginPage.style.display = 'none';
+                storePage.style.display = 'block';
+                navUser.style.display = 'flex';
+                document.getElementById('nav-name').innerText = user.displayName || "User";
+                document.getElementById('nav-img').src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+            } else {
+                loginPage.style.display = 'flex';
+                storePage.style.display = 'none';
+                navUser.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
