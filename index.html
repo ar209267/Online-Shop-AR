@@ -3,26 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AR DIGITAL STORE PRO</title>
+<title>AR ONLINE SHOPPING</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-  .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+  body { background:#0b0f1a; }
+
+  /* Splash Screen */
+  #splash {
+    position:fixed;
+    inset:0;
+    background:#050814;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+  }
+
+  .logo {
+    width:120px;
+    height:120px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform:scale(1); opacity:1; }
+    50% { transform:scale(1.2); opacity:0.7; }
+    100% { transform:scale(1); opacity:1; }
+  }
+
+  .fadeOut {
+    animation: fade 1s forwards;
+  }
+
+  @keyframes fade {
+    to { opacity:0; visibility:hidden; }
+  }
+
+  .glass {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+  }
 </style>
 </head>
 
-<body class="bg-gray-950 text-white">
+<body class="text-white">
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  
+  <!-- LOGO (SVG) -->
+  <svg class="logo" viewBox="0 0 100 100">
+    <defs>
+      <linearGradient id="g" x1="0" x2="1">
+        <stop offset="0%" stop-color="#00ff88"/>
+        <stop offset="100%" stop-color="#00a2ff"/>
+      </linearGradient>
+    </defs>
+
+    <circle cx="50" cy="50" r="45" fill="url(#g)" opacity="0.2"/>
+    <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="22" font-weight="bold">AR</text>
+  </svg>
+
+  <h1 class="text-2xl font-bold mt-4 text-green-400">AR ONLINE SHOPPING</h1>
+  <p class="text-gray-400 text-sm mt-2">Loading your store...</p>
+</div>
 
 <!-- HEADER -->
 <header class="flex justify-between items-center p-4 bg-gray-900">
-  <h1 class="text-2xl font-bold text-green-400">🎮 AR DIGITAL STORE</h1>
+  <h1 class="text-xl font-bold text-green-400">🛒 AR ONLINE SHOPPING</h1>
   <button onclick="openLogin()" class="bg-green-500 px-4 py-2 rounded">Login</button>
 </header>
 
 <!-- HERO -->
 <section class="text-center p-6">
-  <h2 class="text-3xl font-bold">সব গেম টপআপ এক প্ল্যাটফর্মে</h2>
-  <p class="text-gray-400 mt-2">Free Fire • PUBG • Mobile Recharge • Gift Card</p>
+  <h2 class="text-3xl font-bold">সব ডিজিটাল সার্ভিস এক জায়গায়</h2>
+  <p class="text-gray-400 mt-2">Fast • Secure • Reliable Store</p>
 </section>
 
 <!-- PRODUCTS -->
@@ -30,9 +87,7 @@
 
   <div class="glass p-4 rounded-xl">
     <h3 class="text-xl font-bold">🔥 Free Fire Diamond</h3>
-    <p class="text-gray-400">Instant Delivery System</p>
-
-    <input id="ff_uid" placeholder="Player UID" class="w-full mt-2 p-2 text-black rounded">
+    <input placeholder="Player UID" class="w-full mt-2 p-2 text-black rounded">
 
     <select class="w-full mt-2 p-2 text-black rounded">
       <option>100 Diamond - ৳80</option>
@@ -40,9 +95,7 @@
       <option>520 Diamond - ৳400</option>
     </select>
 
-    <button onclick="buy('Free Fire Diamond')" class="bg-green-500 w-full mt-3 py-2 rounded">
-      Buy Now
-    </button>
+    <button class="bg-green-500 w-full mt-3 py-2 rounded">Buy Now</button>
   </div>
 
   <div class="glass p-4 rounded-xl">
@@ -56,9 +109,7 @@
       <option>৳500</option>
     </select>
 
-    <button onclick="buy('Mobile Recharge')" class="bg-blue-500 w-full mt-3 py-2 rounded">
-      Recharge
-    </button>
+    <button class="bg-blue-500 w-full mt-3 py-2 rounded">Recharge</button>
   </div>
 
   <div class="glass p-4 rounded-xl">
@@ -70,44 +121,13 @@
       <option>iTunes Gift Card</option>
     </select>
 
-    <button onclick="buy('Gift Card')" class="bg-purple-500 w-full mt-3 py-2 rounded">
-      Get Code
-    </button>
+    <button class="bg-purple-500 w-full mt-3 py-2 rounded">Get Code</button>
   </div>
 
 </section>
 
-<!-- PAYMENT -->
-<section class="p-6">
-  <h2 class="text-xl font-bold mb-3">💳 Payment Methods</h2>
-
-  <div class="grid md:grid-cols-3 gap-3">
-
-    <div class="bg-pink-600 p-3 rounded">
-      🟣 bKash  
-      <p class="text-sm">Personal / Merchant</p>
-    </div>
-
-    <div class="bg-orange-500 p-3 rounded">
-      🟠 Nagad  
-      <p class="text-sm">Instant Payment</p>
-    </div>
-
-    <div class="bg-green-700 p-3 rounded">
-      🟢 Bank Transfer  
-      <p class="text-sm">Manual Verify</p>
-    </div>
-
-  </div>
-
-  <p class="text-gray-400 mt-3 text-sm">
-    Payment পরে Admin verify করবে (demo UI)
-  </p>
-</section>
-
-<!-- LOGIN MODAL -->
+<!-- LOGIN -->
 <div id="loginBox" class="hidden fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
-
   <div class="bg-gray-900 p-6 rounded-xl w-80">
     <h2 class="text-xl font-bold mb-3">Login</h2>
 
@@ -115,25 +135,25 @@
     <input type="password" placeholder="Password" class="w-full p-2 text-black rounded">
 
     <button class="bg-green-500 w-full mt-3 py-2 rounded">Login</button>
-
-    <button onclick="closeLogin()" class="text-red-400 mt-2 w-full">
-      Close
-    </button>
+    <button onclick="closeLogin()" class="text-red-400 mt-2 w-full">Close</button>
   </div>
-
 </div>
 
 <!-- SCRIPT -->
 <script>
+
+setTimeout(() => {
+  document.getElementById("splash").classList.add("fadeOut");
+}, 2500);
+
 function openLogin(){
   document.getElementById("loginBox").classList.remove("hidden");
 }
+
 function closeLogin(){
   document.getElementById("loginBox").classList.add("hidden");
 }
-function buy(item){
-  alert("Order placed for: " + item + " (Demo UI)");
-}
+
 </script>
 
 </body>
