@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>AR Ultimate Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>AR Ultimate Gaming Marketplace</h1>
+
+<!-- LOGIN -->
+<div>
+  <input type="email" placeholder="Email">
+  <input type="password" placeholder="Password">
+  <button onclick="loginUser()">Login</button>
+</div>
+
+<!-- ORDER -->
+<div>
+  <input type="text" placeholder="Name">
+  <input type="text" placeholder="UID">
+  
+  <select>
+    <option>Free Fire</option>
+    <option>PUBG</option>
+  </select>
+
+  <button onclick="placeOrder()">Place Order</button>
+</div>
+
+<!-- LOAD ORDERS -->
+<button onclick="loadOrders()">Load Orders (Admin)</button>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
