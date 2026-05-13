@@ -3,124 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AR ULTIMATE HUB | FULL SECURE SYSTEM</title>
+    <title>AR ULTIMATE HUB | MASTER CONTROL PANEL</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --bg: #010409; --panel: #0d1117; --gold: #ffd700; --border: #30363d; --text: #c9d1d9; --success: #238636; }
-        body { background: var(--bg); color: var(--text); font-family: 'Hind Siliguri', sans-serif; margin: 0; overflow-x: hidden; }
+        :root {
+            --bg: #010409;
+            --panel: #0d1117;
+            --gold: #ffd700;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --success: #238636;
+            --danger: #da3633;
+        }
 
-        /* --- AUTHENTICATION LAYER --- */
-        #auth-gate { position: fixed; inset: 0; background: var(--bg); z-index: 100000; display: flex; align-items: center; justify-content: center; }
-        .login-card { background: var(--panel); border: 1px solid var(--border); padding: 40px; border-radius: 30px; width: 92%; max-width: 420px; text-align: center; }
-        .btn-social { padding: 15px; border-radius: 12px; width: 100%; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
-        .btn-google { background: #fff; color: #000; }
-        .btn-github { background: #24292e; color: #fff; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Hind Siliguri', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
 
-        /* --- MASTER DASHBOARD --- */
-        #main-app { display: none; }
-        .header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 15px; position: sticky; top: 0; z-index: 100; }
-        
-        .status-pill { background: rgba(35, 134, 54, 0.1); color: var(--success); padding: 4px 12px; border-radius: 20px; font-size: 11px; border: 1px solid var(--success); }
+        /* --- AUTHENTICATION OVERLAY --- */
+        #auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        .stat-card { background: #161b22; border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; transition: 0.3s; }
-        .stat-label { font-size: 12px; color: #8b949e; margin-bottom: 5px; }
-        .stat-value { font-size: 22px; font-weight: 800; color: var(--gold); }
+        .auth-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 45px 35px;
+            border-radius: 35px;
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
 
-        .control-btn { background: #21262d; border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; color: #fff; text-decoration: none; display: block; transition: 0.3s; }
-        .control-btn:active { background: #30363d; transform: scale(0.95); }
-        .control-btn i { font-size: 20px; margin-bottom: 8px; display: block; color: var(--gold); }
+        .social-btn {
+            padding: 16px;
+            border-radius: 15px;
+            width: 100%;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
 
-        /* --- TERMINAL LOOK --- */
-        .terminal { background: #000; border: 1px solid #333; border-radius: 12px; padding: 15px; font-family: monospace; font-size: 12px; height: 150px; overflow-y: auto; color: #00ff00; margin-top: 20px; }
+        .google-btn { background: #ffffff; color: #000; }
+        .github-btn { background: #24292e; color: #fff; }
+        .social-btn:active { transform: scale(0.96); }
+
+        /* --- MASTER DASHBOARD UI --- */
+        #main-container { display: none; }
+
+        .top-nav {
+            background: var(--panel);
+            border-bottom: 2px solid var(--gold);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .live-indicator {
+            background: rgba(35, 134, 54, 0.15);
+            color: var(--success);
+            padding: 5px 12px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid var(--success);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .stat-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .stat-box {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-box small { color: #8b949e; display: block; margin-bottom: 8px; font-size: 13px; }
+        .stat-box span { font-size: 24px; font-weight: 800; color: var(--gold); }
+
+        /* --- SYSTEM CONTROLS --- */
+        .control-section {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            margin: 0 20px;
+            border-radius: 25px;
+            padding: 30px;
+        }
+
+        .grid-action {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .action-card {
+            background: #161b22;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px 10px;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .action-card i {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .action-card span { font-size: 11px; font-weight: 600; }
+        .action-card:hover { border-color: var(--gold); background: #21262d; }
+
+        /* --- LOG TERMINAL --- */
+        .log-terminal {
+            background: #000;
+            border: 1px solid #333;
+            margin: 20px;
+            border-radius: 15px;
+            padding: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            height: 180px;
+            overflow-y: auto;
+            color: #00ff00;
+            box-shadow: inset 0 0 10px rgba(0,255,0,0.1);
+        }
+
+        .btn-logout {
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<div id="auth-gate">
-    <div class="login-card">
+<div id="auth-overlay">
+    <div class="auth-card">
         <h2 class="fw-bold mb-1" style="color: var(--gold);">AR ULTIMATE HUB</h2>
         <p class="text-muted small mb-4">স্বয়ংক্রিয়ভাবে নিজের অ্যাকাউন্টে প্রবেশ করুন</p>
         
-        <button class="btn-social btn-google" onclick="App.login('google')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
-            Google দিয়ে প্রবেশ করুন
-        </button>
+        <div class="social-btn google-btn" onclick="Master.auth('google')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="22">
+            Sign in with Google
+        </div>
 
-        <button class="btn-social btn-github" onclick="App.login('github')">
-            <i class="fab fa-github"></i>
-            GitHub দিয়ে প্রবেশ করুন
-        </button>
+        <div class="social-btn github-btn" onclick="Master.auth('github')">
+            <i class="fab fa-github" style="font-size: 22px;"></i>
+            Sign in with GitHub
+        </div>
         
-        <div class="small text-muted mt-3">সুরক্ষার জন্য ২-ধাপ ভেরিফিকেশন চালু আছে</div>
+        <p class="small text-muted mt-4">Security Powered by Firebase & AR Dev</p>
     </div>
 </div>
 
-<div id="main-app">
-    <nav class="header d-flex justify-content-between align-items-center">
+<div id="main-container">
+    <nav class="top-nav">
         <div class="d-flex align-items-center gap-2">
             <i class="fas fa-crown text-warning"></i>
-            <span class="fw-bold">AR ULTIMATE HUB</span>
+            <span class="fw-bold text-white">AR ULTIMATE HUB</span>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <span class="status-pill"><i class="fas fa-signal me-1"></i> Firebase Live</span>
-            <button class="btn btn-sm btn-outline-danger py-1" onclick="App.logout()">Secure Logout</button>
+            <span class="live-indicator"><i class="fas fa-satellite-dish me-1"></i> Firebase Live</span>
+            <button class="btn-logout" onclick="Master.exit()">Secure Logout</button>
         </div>
     </nav>
 
-    <div class="container py-4">
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">মোট ইউজার</div>
-                    <div class="stat-value">১,৫৮০+</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">ওয়ালেট ব্যালেন্স</div>
-                    <div class="stat-value">৳ ৪২,০০০</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">পেন্ডিং অর্ডার</div>
-                    <div class="stat-value text-warning">৯২</div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-card">
-                    <div class="stat-label">সার্ভার স্ট্যাটাস</div>
-                    <div class="stat-value text-success" style="font-size: 16px;">STABLE</div>
-                </div>
-            </div>
-        </div>
+    <div class="stat-grid">
+        <div class="stat-box"><small>Total Users</small><span>১,৫৮০</span></div>
+        <div class="stat-box"><small>Wallet Balance</small><span>৳ ৪২,০০০</span></div>
+        <div class="stat-box"><small>Orders Pending</small><span style="color: #ff9800;">৯২</span></div>
+        <div class="stat-box"><small>Server Status</small><span style="color: #4caf50; font-size: 18px;">Stable</span></div>
+    </div>
 
-        <div class="mt-4 p-4" style="background: #0d1117; border-radius: 20px; border: 1px solid var(--border);">
-            <h6 class="fw-bold mb-4">সিস্টেম কন্ট্রোল প্যানেল</h6>
-            <div class="row g-3">
-                <div class="col-3">
-                    <a href="#" class="control-btn"><i class="fas fa-users-cog"></i><span class="small">ইউজার কন্ট্রোল</span></a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="control-btn"><i class="fas fa-check-double"></i><span class="small">পেমেন্ট ভেরিফাই</span></a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="control-btn"><i class="fas fa-database"></i><span class="small">ডাটা ব্যাকআপ</span></a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="control-btn"><i class="fas fa-broadcast-tower"></i><span class="small">গ্লোবাল নোটিশ</span></a>
-                </div>
-            </div>
+    <div class="control-section">
+        <h6 class="fw-bold mb-4" style="color: var(--gold); letter-spacing: 1px;">System Controls</h6>
+        <div class="grid-action">
+            <div class="action-card"><i class="fas fa-users-cog"></i><span>ইউজার কন্ট্রোল</span></div>
+            <div class="action-card"><i class="fas fa-check-circle"></i><span>পেমেন্ট ভেরিফাই</span></div>
+            <div class="action-card"><i class="fas fa-hdd"></i><span>ডাটাবেজ ব্যাকআপ</span></div>
+            <div class="action-card"><i class="fas fa-bullhorn"></i><span>গ্লোবাল নোটিশ</span></div>
         </div>
+    </div>
 
-        <div class="terminal mt-4" id="log-terminal">
-            <div class="text-secondary">[SYSTEM] Final Security Check...</div>
-            <div class="text-info">[AUTH] Waiting for master key...</div>
-        </div>
+    <div class="log-terminal" id="terminal-screen">
+        <div style="color: #888;">Firebase Data Stream:</div>
+        <div style="color: #238636;">[SYSTEM] Final Security Check...</div>
+        <div style="color: #ff9800;">[AUTH] Waiting for master key...</div>
     </div>
 </div>
 
@@ -128,7 +240,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
 <script>
-    // আপনার দেওয়া সঠিক ডাটাগুলো এখানে সেট করা হয়েছে
+    // আপনার প্রজেক্টের সঠিক কনফিগ
     const firebaseConfig = {
       apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
       authDomain: "online-shop-ar.firebaseapp.com",
@@ -141,36 +253,30 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    const App = {
-        login: (providerName) => {
-            let provider = providerName === 'google' ? 
-                new firebase.auth.GoogleAuthProvider() : 
-                new firebase.auth.GithubAuthProvider();
-
-            firebase.auth().signInWithPopup(provider).then(res => {
-                App.loadUI(res.user);
-            }).catch(err => {
-                alert("Login Failed: " + err.message);
-            });
+    const Master = {
+        auth: (type) => {
+            let provider = (type === 'google') ? new firebase.auth.GoogleAuthProvider() : new firebase.auth.GithubAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(res => Master.initPanel(res.user))
+                .catch(err => alert("Access Denied: " + err.message));
         },
-        loadUI: (user) => {
-            document.getElementById('auth-gate').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
+        initPanel: (user) => {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('main-container').style.display = 'block';
             
-            // লাইভ লগ আপডেট
-            const log = document.getElementById('log-terminal');
-            const time = new Date().toLocaleTimeString();
-            log.innerHTML += `<div style="color: #ffd700;">> [${time}] Master Session Started for ${user.displayName || 'User'}</div>`;
-            log.innerHTML += `<div style="color: #238636;">> [${time}] Firebase Database Linked Successfully.</div>`;
-            log.scrollTop = log.scrollHeight;
+            const screen = document.getElementById('terminal-screen');
+            const now = new Date().toLocaleTimeString();
+            screen.innerHTML += `<div style="color: #ffd700;">> [${now}] Master Session Started for ${user.displayName || 'Atique'}</div>`;
+            screen.innerHTML += `<div style="color: #00ff00;">> [${now}] Firebase Database Linked Successfully.</div>`;
+            screen.scrollTop = screen.scrollHeight;
         },
-        logout: () => {
+        exit: () => {
             firebase.auth().signOut().then(() => location.reload());
         }
     };
 
-    // আগের লগইন সেশন চেক
-    firebase.auth().onAuthStateChanged(user => { if(user) App.loadUI(user); });
+    // সেশন চেক
+    firebase.auth().onAuthStateChanged(u => { if(u) Master.initPanel(u); });
 </script>
 
 </body>
