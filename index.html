@@ -257,5 +257,109 @@
     <p class="text-xl text-gray-200 max-w-3xl mx-auto">
       Premium Digital Marketplace for Gamers, Top-Up Services and Online Business.
     </p>
-  </section></body>
-</html> 
+  </section>  <!-- Advanced Business Systems -->  <section class="py-16 px-6 bg-gray-950 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto">
+      <h3 class="text-4xl font-extrabold text-center mb-12">🚀 Advanced Systems (Pro Upgrade)</h3><div class="grid md:grid-cols-3 gap-6">
+
+    <!-- 1 Real Database -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-cyan-500">
+      <h4 class="text-xl font-bold text-cyan-400 mb-3">1. Real Database Orders</h4>
+      <p class="text-gray-400">Firebase Firestore ব্যবহার করে সব অর্ডার অটো সেভ হবে এবং Admin Panel এ দেখা যাবে।</p>
+    </div>
+
+    <!-- 2 Admin Panel -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-green-500">
+      <h4 class="text-xl font-bold text-green-400 mb-3">2. Real Admin Panel</h4>
+      <p class="text-gray-400">Login করে অর্ডার Approve, Reject, Complete করা যাবে।</p>
+    </div>
+
+    <!-- 3 Product Click System -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-pink-500">
+      <h4 class="text-xl font-bold text-pink-400 mb-3">3. Product Click System</h4>
+      <p class="text-gray-400">Free Fire / PUBG ক্লিক করলে আলাদা product page open হবে।</p>
+    </div>
+
+    <!-- 4 Cart System -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-yellow-500">
+      <h4 class="text-xl font-bold text-yellow-400 mb-3">4. Cart System</h4>
+      <p class="text-gray-400">একাধিক diamond / UC add to cart করে একসাথে order করা যাবে।</p>
+    </div>
+
+    <!-- 5 Order Status -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-purple-500">
+      <h4 class="text-xl font-bold text-purple-400 mb-3">5. Order Status Flow</h4>
+      <p class="text-gray-400">Pending → Processing → Completed স্ট্যাটাস ট্র্যাক করা যাবে।</p>
+    </div>
+
+    <!-- 6 Telegram Bot -->
+    <div class="bg-gray-900 p-6 rounded-2xl border border-red-500">
+      <h4 class="text-xl font-bold text-red-400 mb-3">6. Telegram Bot Notify</h4>
+      <p class="text-gray-400">নতুন অর্ডার আসলেই Telegram এ instant notification যাবে।</p>
+    </div>
+
+  </div>
+
+  <!-- Basic JS Concept -->
+  <div class="mt-12 bg-black border border-gray-800 p-6 rounded-2xl text-sm text-green-400 overflow-auto">
+    <pre>
+
+// Example Future Logic let cart = [];
+
+function addToCart(item){ cart.push(item); console.log("Added to cart:", cart); }
+
+function placeOrder(){ // send to Firebase // status: Pending } </pre> </div>
+
+</div>
+
+  </section>  <!-- LIVE FIREBASE + ADVANCED SYSTEM (PRO UPGRADE) -->  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>  <script>
+    // Your Firebase Config (Connected)
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
+      authDomain: "online-shop-ar.firebaseapp.com",
+      projectId: "online-shop-ar",
+      storageBucket: "online-shop-ar.firebasestorage.app",
+      messagingSenderId: "913434308973",
+      appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
+      measurementId: "G-T20TRS2F59"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // CART SYSTEM
+    let cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price, time: new Date().toISOString() });
+      alert("Added to cart: " + name);
+      console.log(cart);
+    }
+
+    // PLACE ORDER TO FIREBASE
+    function placeOrder(name, uid, service) {
+      db.collection("orders").add({
+        name: name,
+        uid: uid,
+        service: service,
+        cart: cart,
+        status: "Pending",
+        createdAt: new Date()
+      }).then(() => {
+        alert("Order Placed Successfully!");
+        cart = [];
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
+    // PRODUCT CLICK NAVIGATION
+    function openFreeFire() {
+      document.getElementById("services").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function openPUBG() {
+      document.getElementById("services").scrollIntoView({ behavior: "smooth" });
+    }
+  </script></body>
+        </html> 
