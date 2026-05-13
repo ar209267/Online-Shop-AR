@@ -1,18 +1,32 @@
 body {
-  background: #0f0f1a;
+  background: #0b0f1a;
   color: white;
   font-family: Arial;
   text-align: center;
+  padding: 20px;
+}
+
+section {
+  background: #111827;
+  margin: 15px auto;
+  padding: 20px;
+  width: 320px;
+  border-radius: 12px;
 }
 
 input, select {
+  width: 90%;
   padding: 10px;
-  margin: 5px;
+  margin: 6px;
+  border: none;
+  border-radius: 6px;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px;
   background: cyan;
   border: none;
   cursor: pointer;
+  margin-top: 5px;
+  border-radius: 6px;
 }
