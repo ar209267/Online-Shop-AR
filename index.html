@@ -1,283 +1,188 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AR ULTIMATE HUB | MASTER CONTROL PANEL</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg: #010409;
-            --panel: #0d1117;
-            --gold: #ffd700;
-            --border: #30363d;
-            --text: #c9d1d9;
-            --success: #238636;
-            --danger: #da3633;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Hind Siliguri', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* --- AUTHENTICATION OVERLAY --- */
-        #auth-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 45px 35px;
-            border-radius: 35px;
-            width: 95%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-        }
-
-        .social-btn {
-            padding: 16px;
-            border-radius: 15px;
-            width: 100%;
-            font-weight: 700;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            border: 1px solid var(--border);
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .google-btn { background: #ffffff; color: #000; }
-        .github-btn { background: #24292e; color: #fff; }
-        .social-btn:active { transform: scale(0.96); }
-
-        /* --- MASTER DASHBOARD UI --- */
-        #main-container { display: none; }
-
-        .top-nav {
-            background: var(--panel);
-            border-bottom: 2px solid var(--gold);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .live-indicator {
-            background: rgba(35, 134, 54, 0.15);
-            color: var(--success);
-            padding: 5px 12px;
-            border-radius: 25px;
-            font-size: 12px;
-            font-weight: bold;
-            border: 1px solid var(--success);
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .stat-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        .stat-box {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 25px 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .stat-box small { color: #8b949e; display: block; margin-bottom: 8px; font-size: 13px; }
-        .stat-box span { font-size: 24px; font-weight: 800; color: var(--gold); }
-
-        /* --- SYSTEM CONTROLS --- */
-        .control-section {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            margin: 0 20px;
-            border-radius: 25px;
-            padding: 30px;
-        }
-
-        .grid-action {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .action-card {
-            background: #161b22;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 18px 10px;
-            text-align: center;
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .action-card i {
-            display: block;
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: var(--gold);
-        }
-
-        .action-card span { font-size: 11px; font-weight: 600; }
-        .action-card:hover { border-color: var(--gold); background: #21262d; }
-
-        /* --- LOG TERMINAL --- */
-        .log-terminal {
-            background: #000;
-            border: 1px solid #333;
-            margin: 20px;
-            border-radius: 15px;
-            padding: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            height: 180px;
-            overflow-y: auto;
-            color: #00ff00;
-            box-shadow: inset 0 0 10px rgba(0,255,0,0.1);
-        }
-
-        .btn-logout {
-            background: var(--danger);
-            color: #fff;
-            border: none;
-            padding: 6px 15px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR Online Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-<div id="auth-overlay">
-    <div class="auth-card">
-        <h2 class="fw-bold mb-1" style="color: var(--gold);">AR ULTIMATE HUB</h2>
-        <p class="text-muted small mb-4">স্বয়ংক্রিয়ভাবে নিজের অ্যাকাউন্টে প্রবেশ করুন</p>
-        
-        <div class="social-btn google-btn" onclick="Master.auth('google')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="22">
-            Sign in with Google
-        </div>
-
-        <div class="social-btn github-btn" onclick="Master.auth('github')">
-            <i class="fab fa-github" style="font-size: 22px;"></i>
-            Sign in with GitHub
-        </div>
-        
-        <p class="small text-muted mt-4">Security Powered by Firebase & AR Dev</p>
+<body class="bg-gray-950 text-white font-sans">  <!-- Navbar -->  <header class="bg-black border-b border-gray-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
+      <h1 class="text-2xl font-bold text-cyan-400">AR Online Platform</h1>
+      <nav class="space-x-4 text-sm">
+        <a href="#home" class="hover:text-cyan-400">Home</a>
+        <a href="#services" class="hover:text-cyan-400">Services</a>
+        <a href="#payment" class="hover:text-cyan-400">Payment</a>
+        <a href="#contact" class="hover:text-cyan-400">Contact</a>
+      </nav>
     </div>
+  </header>  <!-- Hero -->  <section id="home" class="py-20 text-center px-6 bg-gradient-to-b from-cyan-900 to-gray-950">
+    <h2 class="text-5xl font-extrabold mb-4">Professional Online Business Platform</h2>
+    <p class="text-gray-300 max-w-2xl mx-auto mb-8">
+      এখানে আপনি Game Top-Up, Digital Services, Website Services এবং আরও অনেক কিছু সেল করতে পারবেন।
+    </p>
+    <a href="#services" class="bg-cyan-500 hover:bg-cyan-600 text-black font-bold px-6 py-3 rounded-xl transition">
+      Start Business
+    </a>
+  </section>  <!-- Services -->  <section id="services" class="max-w-7xl mx-auto py-16 px-6">
+    <h3 class="text-4xl font-bold text-center mb-12">Our Services</h3><div class="grid md:grid-cols-3 gap-8">
+
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:scale-105 transition">
+    <h4 class="text-2xl font-bold mb-3 text-cyan-400">Free Fire Top-Up</h4>
+    <p class="text-gray-400 mb-4">Instant diamond top-up service.</p>
+    <div class="space-y-2">
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>100 Diamond</span>
+        <span>৳80</span>
+      </div>
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>310 Diamond</span>
+        <span>৳240</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:scale-105 transition">
+    <h4 class="text-2xl font-bold mb-3 text-cyan-400">PUBG UC</h4>
+    <p class="text-gray-400 mb-4">Fast UC delivery service.</p>
+    <div class="space-y-2">
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>60 UC</span>
+        <span>৳70</span>
+      </div>
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>325 UC</span>
+        <span>৳320</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 hover:scale-105 transition">
+    <h4 class="text-2xl font-bold mb-3 text-cyan-400">Website Services</h4>
+    <p class="text-gray-400 mb-4">Professional website design and setup.</p>
+    <div class="space-y-2">
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>Landing Page</span>
+        <span>৳500</span>
+      </div>
+      <div class="bg-gray-800 p-3 rounded-lg flex justify-between">
+        <span>Business Site</span>
+        <span>৳1500</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div id="main-container">
-    <nav class="top-nav">
-        <div class="d-flex align-items-center gap-2">
-            <i class="fas fa-crown text-warning"></i>
-            <span class="fw-bold text-white">AR ULTIMATE HUB</span>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-            <span class="live-indicator"><i class="fas fa-satellite-dish me-1"></i> Firebase Live</span>
-            <button class="btn-logout" onclick="Master.exit()">Secure Logout</button>
-        </div>
-    </nav>
+  </section>  <!-- Order Form -->  <section class="bg-gray-900 py-16 px-6">
+    <div class="max-w-3xl mx-auto bg-black rounded-3xl p-8 border border-gray-800">
+      <h3 class="text-3xl font-bold text-center mb-8">Place Order</h3><form id="orderForm" class="space-y-4">
+    <input type="text" placeholder="Your Name" class="w-full bg-gray-900 border border-gray-700 p-4 rounded-xl" required>
 
-    <div class="stat-grid">
-        <div class="stat-box"><small>Total Users</small><span>১,৫৮০</span></div>
-        <div class="stat-box"><small>Wallet Balance</small><span>৳ ৪২,০০০</span></div>
-        <div class="stat-box"><small>Orders Pending</small><span style="color: #ff9800;">৯২</span></div>
-        <div class="stat-box"><small>Server Status</small><span style="color: #4caf50; font-size: 18px;">Stable</span></div>
-    </div>
+    <input type="text" placeholder="Game UID / Username" class="w-full bg-gray-900 border border-gray-700 p-4 rounded-xl" required>
 
-    <div class="control-section">
-        <h6 class="fw-bold mb-4" style="color: var(--gold); letter-spacing: 1px;">System Controls</h6>
-        <div class="grid-action">
-            <div class="action-card"><i class="fas fa-users-cog"></i><span>ইউজার কন্ট্রোল</span></div>
-            <div class="action-card"><i class="fas fa-check-circle"></i><span>পেমেন্ট ভেরিফাই</span></div>
-            <div class="action-card"><i class="fas fa-hdd"></i><span>ডাটাবেজ ব্যাকআপ</span></div>
-            <div class="action-card"><i class="fas fa-bullhorn"></i><span>গ্লোবাল নোটিশ</span></div>
-        </div>
-    </div>
+    <select class="w-full bg-gray-900 border border-gray-700 p-4 rounded-xl">
+      <option>Select Service</option>
+      <option>Free Fire Top-Up</option>
+      <option>PUBG UC</option>
+      <option>Website Service</option>
+    </select>
 
-    <div class="log-terminal" id="terminal-screen">
-        <div style="color: #888;">Firebase Data Stream:</div>
-        <div style="color: #238636;">[SYSTEM] Final Security Check...</div>
-        <div style="color: #ff9800;">[AUTH] Waiting for master key...</div>
-    </div>
+    <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold py-4 rounded-xl">
+      Submit Order
+    </button>
+  </form>
+
+  <p id="successMsg" class="hidden text-green-400 mt-4 text-center">
+    Order Submitted Successfully!
+  </p>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  </section>  <!-- Payment -->  <section id="payment" class="py-16 px-6 max-w-5xl mx-auto">
+    <h3 class="text-4xl font-bold text-center mb-10">Payment Methods</h3><div class="grid md:grid-cols-3 gap-6">
+  <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 text-center">
+    <h4 class="text-2xl font-bold mb-2 text-pink-400">bKash</h4>
+    <p>017XXXXXXXX</p>
+  </div>
 
-<script>
-    // আপনার প্রজেক্টের সঠিক কনফিগ
-    const firebaseConfig = {
-      apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
-      authDomain: "online-shop-ar.firebaseapp.com",
-      projectId: "online-shop-ar",
-      storageBucket: "online-shop-ar.firebasestorage.app",
-      messagingSenderId: "913434308973",
-      appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
-      measurementId: "G-T20TRS2F59" 
-    };
+  <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 text-center">
+    <h4 class="text-2xl font-bold mb-2 text-orange-400">Nagad</h4>
+    <p>018XXXXXXXX</p>
+  </div>
 
-    firebase.initializeApp(firebaseConfig);
+  <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800 text-center">
+    <h4 class="text-2xl font-bold mb-2 text-purple-400">Rocket</h4>
+    <p>019XXXXXXXX</p>
+  </div>
+</div>
 
-    const Master = {
-        auth: (type) => {
-            let provider = (type === 'google') ? new firebase.auth.GoogleAuthProvider() : new firebase.auth.GithubAuthProvider();
-            firebase.auth().signInWithPopup(provider)
-                .then(res => Master.initPanel(res.user))
-                .catch(err => alert("Access Denied: " + err.message));
-        },
-        initPanel: (user) => {
-            document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('main-container').style.display = 'block';
-            
-            const screen = document.getElementById('terminal-screen');
-            const now = new Date().toLocaleTimeString();
-            screen.innerHTML += `<div style="color: #ffd700;">> [${now}] Master Session Started for ${user.displayName || 'Atique'}</div>`;
-            screen.innerHTML += `<div style="color: #00ff00;">> [${now}] Firebase Database Linked Successfully.</div>`;
-            screen.scrollTop = screen.scrollHeight;
-        },
-        exit: () => {
-            firebase.auth().signOut().then(() => location.reload());
-        }
-    };
+  </section>  <!-- Contact -->  <section id="contact" class="bg-black py-16 px-6 border-t border-gray-800">
+    <div class="max-w-4xl mx-auto text-center">
+      <h3 class="text-4xl font-bold mb-6">Contact Us</h3>
+      <p class="text-gray-400 mb-4">WhatsApp / Telegram Support Available</p><div class="space-y-2">
+    <p>Facebook: AR Online Platform</p>
+    <p>Telegram: @ARSupport</p>
+    <p>Email: support@example.com</p>
+  </div>
+</div>
 
-    // সেশন চেক
-    firebase.auth().onAuthStateChanged(u => { if(u) Master.initPanel(u); });
-</script>
+  </section>  <!-- Footer -->  <footer class="bg-gray-950 text-center py-6 border-t border-gray-800">
+    <p class="text-gray-500">© 2026 AR Online Platform. All Rights Reserved.</p>
+  </footer>  <script>
+    const form = document.getElementById('orderForm');
+    const successMsg = document.getElementById('successMsg');
 
-</body>
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      successMsg.classList.remove('hidden');
+      form.reset();
+    });
+  </script>  <!-- Admin Dashboard Preview -->  <section class="py-16 px-6 bg-gray-900 border-t border-gray-800">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="text-4xl font-bold text-center mb-10">Admin Dashboard</h3><div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-black border border-gray-800 rounded-2xl p-6 text-center">
+      <h4 class="text-xl font-bold text-cyan-400 mb-2">Total Orders</h4>
+      <p class="text-4xl font-extrabold">120+</p>
+    </div>
+
+    <div class="bg-black border border-gray-800 rounded-2xl p-6 text-center">
+      <h4 class="text-xl font-bold text-green-400 mb-2">Completed</h4>
+      <p class="text-4xl font-extrabold">95+</p>
+    </div>
+
+    <div class="bg-black border border-gray-800 rounded-2xl p-6 text-center">
+      <h4 class="text-xl font-bold text-pink-400 mb-2">Pending</h4>
+      <p class="text-4xl font-extrabold">25+</p>
+    </div>
+  </div>
+</div>
+
+  </section>  <!-- Login Section -->  <section class="py-16 px-6 bg-black border-t border-gray-800">
+    <div class="max-w-md mx-auto bg-gray-900 rounded-3xl p-8 border border-gray-800">
+      <h3 class="text-3xl font-bold text-center mb-8">User Login</h3><form class="space-y-4">
+    <input type="email" placeholder="Email Address" class="w-full bg-black border border-gray-700 p-4 rounded-xl">
+
+    <input type="password" placeholder="Password" class="w-full bg-black border border-gray-700 p-4 rounded-xl">
+
+    <button class="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-bold py-4 rounded-xl">
+      Login
+    </button>
+  </form>
+</div>
+
+  </section>  <!-- Firebase Setup Guide -->  <section class="py-16 px-6 bg-gray-950 border-t border-gray-800">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-4xl font-bold text-center mb-8">Free Database Setup</h3><div class="bg-black border border-gray-800 rounded-3xl p-8">
+    <ol class="space-y-4 text-gray-300 list-decimal list-inside">
+      <li>Create a free Firebase account.</li>
+      <li>Create a new project.</li>
+      <li>Enable Firestore Database.</li>
+      <li>Connect your website with Firebase config.</li>
+      <li>Store orders and user data online for free.</li>
+    </ol>
+
+    <div class="mt-8 bg-gray-900 p-6 rounded-2xl overflow-auto text-sm text-green-400">
+
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script> <script> const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT.firebaseapp.com", projectId: "YOUR_PROJECT_ID" }; </script> </div> </div> </div>
+
+  </section></body>
 </html>
