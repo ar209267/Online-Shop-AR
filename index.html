@@ -453,3 +453,10 @@ onAuthStateChanged(auth, (user) => {
 window.loginUser = async function() {
   const email = document.querySelector('input[type="email"]').value;
   const password = document.querySelector('input[type="
+<script>
+  let cart = [];
+  function addToCart(item) {
+      cart.push(item);
+      console.log("Added to cart:", cart);
+  }
+</script>
