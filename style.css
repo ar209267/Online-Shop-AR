@@ -1,88 +1,18 @@
-:root {
-    --ar-cyan: #00f2fe;
-    --ar-purple: #bc13fe;
-    --ar-gold: #FFD700;
-    --ar-bg: #010409;
-}
-
 body {
-    background-color: var(--ar-bg);
-    color: white;
-    font-family: 'Hind Siliguri', sans-serif;
-    margin: 0;
+  background: #0f0f1a;
+  color: white;
+  font-family: Arial;
+  text-align: center;
 }
 
-.orbitron { font-family: 'Orbitron', sans-serif; }
-
-#serverGate {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+input, select {
+  padding: 10px;
+  margin: 5px;
 }
 
-.glass-container {
-    background: rgba(13, 17, 23, 0.95);
-    border: 1px solid rgba(0, 242, 254, 0.2);
-    border-radius: 30px;
-    padding: 40px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-}
-
-.logo-main {
-    width: 100px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    border: 2px solid var(--ar-gold);
-}
-
-.nexus-input {
-    width: 100%;
-    background: #0d1117;
-    border: 1px solid #30363d;
-    color: white;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.btn-nexus-main {
-    background: linear-gradient(90deg, var(--ar-cyan), var(--ar-purple));
-    border: none;
-    padding: 15px;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.payment-banner {
-    background: linear-gradient(rgba(0, 242, 254, 0.1), transparent);
-    padding: 40px;
-    text-align: center;
-    border-bottom: 2px solid var(--ar-cyan);
-}
-
-.package-tile {
-    background: #0d1117;
-    padding: 20px;
-    border-radius: 20px;
-    text-align: center;
-    border: 1px solid #30363d;
-    transition: 0.3s;
-}
-
-.package-tile:hover { transform: translateY(-10px); border-color: var(--ar-cyan); }
-
-.price { color: var(--ar-gold); }
-
-.order-btn {
-    background: var(--ar-cyan);
-    color: black;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    width: 100%;
+button {
+  padding: 10px 20px;
+  background: cyan;
+  border: none;
+  cursor: pointer;
 }
