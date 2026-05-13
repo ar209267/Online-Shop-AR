@@ -419,4 +419,37 @@ function placeOrder(){ // send to Firebase // status: Pending } </pre> </div>
 </div>
 
   </section></body>
-  </html> 
+  <!-- FULL WORKING FIREBASE SYSTEM (AUTH + ORDERS + ADMIN ROLE) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";const firebaseConfig = {
+  apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
+  authDomain: "online-shop-ar.firebaseapp.com",
+  projectId: "online-shop-ar",
+  storageBucket: "online-shop-ar.firebasestorage.app",
+  messagingSenderId: "913434308973",
+  appId: "1:913434308973:web:d0b1f8f7dda8c64f586a64",
+  measurementId: "G-T20TRS2F59"
+};
+
+// INIT
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ADMIN EMAIL (CHANGE THIS)
+const ADMIN_EMAIL = "admin@ar.com";
+
+let currentUser = null;
+
+// AUTH STATE
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  console.log("User:", user);
+});
+
+// LOGIN FUNCTION
+window.loginUser = async function() {
+  const email = document.querySelector('input[type="email"]').value;
+  const password = document.querySelector('input[type="
