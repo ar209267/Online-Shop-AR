@@ -1,24 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <title>AR Shop</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AR Digital Store</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-950 text-white p-5">
+<body class="bg-gray-950 text-white">
 
-<h1 class="text-2xl text-cyan-400">AR Ultimate Shop</h1>
-
-<div class="mt-5 bg-gray-900 p-4 rounded">
-  <h2>Free Fire Diamond</h2>
-  <p>Price: 100৳</p>
-
-  <button onclick="startPayment(100)" class="bg-green-500 text-black px-3 py-2 mt-2">
-    Buy Now
-  </button>
+<!-- NAVBAR -->
+<div class="flex justify-between items-center p-4 bg-gray-900">
+  <h1 class="text-xl font-bold text-green-400">AR DIGITAL STORE</h1>
+  <button class="bg-green-500 px-4 py-2 rounded">Login</button>
 </div>
 
-<script src="checkout.js"></script>
+<!-- HERO -->
+<div class="p-6 text-center">
+  <h2 class="text-3xl font-bold">সব ডিজিটাল টপআপ এক জায়গায়</h2>
+  <p class="text-gray-400 mt-2">Free Fire • PUBG • Mobile Recharge • Gift Card</p>
+</div>
+
+<!-- PRODUCTS -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+
+  <div class="bg-gray-900 p-4 rounded-xl">
+    <h3 class="text-xl font-bold">🔥 Free Fire Diamond</h3>
+    <p class="text-gray-400">Instant Delivery</p>
+    <input type="number" placeholder="UID" class="w-full mt-2 p-2 text-black rounded">
+    <select class="w-full mt-2 p-2 text-black rounded">
+      <option>100 Diamond - ৳80</option>
+      <option>310 Diamond - ৳240</option>
+      <option>520 Diamond - ৳400</option>
+    </select>
+    <button class="bg-green-500 w-full mt-3 py-2 rounded">Buy Now</button>
+  </div>
+
+  <div class="bg-gray-900 p-4 rounded-xl">
+    <h3 class="text-xl font-bold">📱 Mobile Topup</h3>
+    <input class="w-full mt-2 p-2 text-black rounded" placeholder="Phone Number">
+    <select class="w-full mt-2 p-2 text-black rounded">
+      <option>৳100</option>
+      <option>৳200</option>
+      <option>৳500</option>
+    </select>
+    <button class="bg-blue-500 w-full mt-3 py-2 rounded">Recharge</button>
+  </div>
+
+  <div class="bg-gray-900 p-4 rounded-xl">
+    <h3 class="text-xl font-bold">🎮 Gaming Cards</h3>
+    <select class="w-full mt-2 p-2 text-black rounded">
+      <option>Google Play</option>
+      <option>iTunes Gift Card</option>
+      <option>Steam Wallet</option>
+    </select>
+    <button class="bg-purple-500 w-full mt-3 py-2 rounded">Get Code</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="text-center p-4 text-gray-500">
+  © 2026 AR Digital Store | All Rights Reserved
+</div>
 
 </body>
-</html> 
+</html>
