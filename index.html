@@ -3,91 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AR ONLINE SHOPPING</title>
+<title>AR ONLINE SHOPPING PRO MAX</title>
+
 <script src="https://cdn.tailwindcss.com"></script>
 
+<!-- Firebase (CDN Ready) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
 <style>
-  body { background:#0b0f1a; }
+body { background:#070b18; }
 
-  /* Splash Screen */
-  #splash {
-    position:fixed;
-    inset:0;
-    background:#050814;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-  }
+.glass{
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:16px;
+}
 
-  .logo {
-    width:120px;
-    height:120px;
-    animation: pulse 1.5s infinite;
-  }
+#splash{
+  position:fixed;
+  inset:0;
+  background: radial-gradient(circle at top,#0a1a3a,#050814);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
 
-  @keyframes pulse {
-    0% { transform:scale(1); opacity:1; }
-    50% { transform:scale(1.2); opacity:0.7; }
-    100% { transform:scale(1); opacity:1; }
-  }
+.logo{
+  width:120px;
+  height:120px;
+  animation:float 2s infinite ease-in-out;
+}
 
-  .fadeOut {
-    animation: fade 1s forwards;
-  }
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-15px)}
+  100%{transform:translateY(0)}
+}
 
-  @keyframes fade {
-    to { opacity:0; visibility:hidden; }
-  }
+.fade{
+  animation:fadeout 1s forwards;
+}
 
-  .glass {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(10px);
-  }
+@keyframes fadeout{
+  to{opacity:0;visibility:hidden}
+}
+
+.btn{
+  transition:0.3s;
+}
+.btn:hover{
+  transform:scale(1.05);
+}
 </style>
 </head>
 
 <body class="text-white">
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash">
-  
-  <!-- LOGO (SVG) -->
-  <svg class="logo" viewBox="0 0 100 100">
-    <defs>
-      <linearGradient id="g" x1="0" x2="1">
-        <stop offset="0%" stop-color="#00ff88"/>
-        <stop offset="100%" stop-color="#00a2ff"/>
-      </linearGradient>
-    </defs>
-
-    <circle cx="50" cy="50" r="45" fill="url(#g)" opacity="0.2"/>
-    <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="22" font-weight="bold">AR</text>
-  </svg>
+  <div class="logo">
+    <svg viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="g">
+          <stop offset="0%" stop-color="#00ff88"/>
+          <stop offset="100%" stop-color="#00a2ff"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="45" fill="url(#g)" opacity="0.2"/>
+      <text x="50%" y="55%" text-anchor="middle" fill="white" font-size="20">AR</text>
+    </svg>
+  </div>
 
   <h1 class="text-2xl font-bold mt-4 text-green-400">AR ONLINE SHOPPING</h1>
-  <p class="text-gray-400 text-sm mt-2">Loading your store...</p>
+  <p class="text-gray-400">Loading Secure Platform...</p>
 </div>
 
 <!-- HEADER -->
-<header class="flex justify-between items-center p-4 bg-gray-900">
-  <h1 class="text-xl font-bold text-green-400">🛒 AR ONLINE SHOPPING</h1>
-  <button onclick="openLogin()" class="bg-green-500 px-4 py-2 rounded">Login</button>
+<header class="flex justify-between items-center p-4 bg-black/40 backdrop-blur">
+  <h1 class="text-green-400 font-bold text-xl">🛒 AR ONLINE SHOP</h1>
+
+  <div class="flex gap-2">
+    <button onclick="showAdmin()" class="bg-purple-600 px-3 py-2 rounded btn">Admin</button>
+    <button onclick="login()" class="bg-green-500 px-3 py-2 rounded btn">Login</button>
+  </div>
 </header>
 
 <!-- HERO -->
 <section class="text-center p-6">
-  <h2 class="text-3xl font-bold">সব ডিজিটাল সার্ভিস এক জায়গায়</h2>
-  <p class="text-gray-400 mt-2">Fast • Secure • Reliable Store</p>
+  <h1 class="text-3xl font-bold">Ultra Fast Digital Store</h1>
+  <p class="text-gray-400">Games • Recharge • Gift Cards • Instant Delivery</p>
 </section>
 
 <!-- PRODUCTS -->
 <section class="grid md:grid-cols-3 gap-4 p-6">
 
-  <div class="glass p-4 rounded-xl">
-    <h3 class="text-xl font-bold">🔥 Free Fire Diamond</h3>
-    <input placeholder="Player UID" class="w-full mt-2 p-2 text-black rounded">
+  <div class="glass p-4">
+    <h2 class="text-xl font-bold">🔥 Free Fire Diamond</h2>
+    <input class="w-full mt-2 p-2 text-black rounded" placeholder="UID">
 
     <select class="w-full mt-2 p-2 text-black rounded">
       <option>100 Diamond - ৳80</option>
@@ -95,13 +112,13 @@
       <option>520 Diamond - ৳400</option>
     </select>
 
-    <button class="bg-green-500 w-full mt-3 py-2 rounded">Buy Now</button>
+    <button class="bg-green-500 w-full mt-3 p-2 rounded btn">Order Now</button>
   </div>
 
-  <div class="glass p-4 rounded-xl">
-    <h3 class="text-xl font-bold">📱 Mobile Recharge</h3>
+  <div class="glass p-4">
+    <h2 class="text-xl font-bold">📱 Mobile Recharge</h2>
 
-    <input placeholder="Phone Number" class="w-full mt-2 p-2 text-black rounded">
+    <input class="w-full mt-2 p-2 text-black rounded" placeholder="Phone">
 
     <select class="w-full mt-2 p-2 text-black rounded">
       <option>৳100</option>
@@ -109,52 +126,108 @@
       <option>৳500</option>
     </select>
 
-    <button class="bg-blue-500 w-full mt-3 py-2 rounded">Recharge</button>
+    <button class="bg-blue-500 w-full mt-3 p-2 rounded btn">Recharge</button>
   </div>
 
-  <div class="glass p-4 rounded-xl">
-    <h3 class="text-xl font-bold">🎮 Gaming Cards</h3>
+  <div class="glass p-4">
+    <h2 class="text-xl font-bold">🎮 Gift Cards</h2>
 
     <select class="w-full mt-2 p-2 text-black rounded">
       <option>Google Play</option>
-      <option>Steam Wallet</option>
-      <option>iTunes Gift Card</option>
+      <option>Steam</option>
+      <option>iTunes</option>
     </select>
 
-    <button class="bg-purple-500 w-full mt-3 py-2 rounded">Get Code</button>
+    <button class="bg-purple-500 w-full mt-3 p-2 rounded btn">Get</button>
   </div>
 
 </section>
 
-<!-- LOGIN -->
-<div id="loginBox" class="hidden fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center">
-  <div class="bg-gray-900 p-6 rounded-xl w-80">
-    <h2 class="text-xl font-bold mb-3">Login</h2>
+<!-- PAYMENT -->
+<section class="p-6">
+  <h2 class="text-xl font-bold mb-3">💳 Payment Gateway</h2>
 
-    <input placeholder="Email" class="w-full p-2 text-black rounded mb-2">
-    <input type="password" placeholder="Password" class="w-full p-2 text-black rounded">
+  <div class="grid md:grid-cols-3 gap-3">
 
-    <button class="bg-green-500 w-full mt-3 py-2 rounded">Login</button>
+    <div class="glass p-3">🟣 bKash (Auto/Manual)</div>
+    <div class="glass p-3">🟠 Nagad (Instant)</div>
+    <div class="glass p-3">🟢 Bank Transfer</div>
+
+  </div>
+</section>
+
+<!-- LOGIN MODAL -->
+<div id="loginBox" class="hidden fixed inset-0 bg-black/80 flex justify-center items-center">
+  <div class="glass p-6 w-80">
+    <h2 class="text-xl mb-3">Login</h2>
+    <input class="w-full p-2 text-black rounded mb-2" placeholder="Email">
+    <input class="w-full p-2 text-black rounded" placeholder="Password">
+    <button class="bg-green-500 w-full mt-3 p-2 rounded">Login</button>
     <button onclick="closeLogin()" class="text-red-400 mt-2 w-full">Close</button>
   </div>
 </div>
 
-<!-- SCRIPT -->
+<!-- ADMIN PANEL -->
+<div id="adminBox" class="hidden fixed inset-0 bg-black/90 p-6 overflow-auto">
+  <h1 class="text-2xl font-bold text-purple-400">Admin Panel</h1>
+
+  <div class="grid md:grid-cols-2 gap-4 mt-4">
+
+    <div class="glass p-4">
+      <h2 class="font-bold">Add Product</h2>
+      <input class="w-full mt-2 p-2 text-black rounded" placeholder="Product Name">
+      <input class="w-full mt-2 p-2 text-black rounded" placeholder="Price">
+      <button class="bg-green-500 w-full mt-3 p-2 rounded">Save</button>
+    </div>
+
+    <div class="glass p-4">
+      <h2 class="font-bold">Orders (Live)</h2>
+      <p class="text-gray-400">Firebase Firestore connect করলে এখানে দেখাবে</p>
+    </div>
+
+  </div>
+
+  <button onclick="closeAdmin()" class="mt-4 text-red-400">Close Admin</button>
+</div>
+
 <script>
+// Splash
+setTimeout(()=>{
+  document.getElementById("splash").classList.add("fade");
+},2500);
 
-setTimeout(() => {
-  document.getElementById("splash").classList.add("fadeOut");
-}, 2500);
-
-function openLogin(){
+// Login
+function login(){
   document.getElementById("loginBox").classList.remove("hidden");
 }
-
 function closeLogin(){
   document.getElementById("loginBox").classList.add("hidden");
 }
 
+// Admin
+function showAdmin(){
+  document.getElementById("adminBox").classList.remove("hidden");
+}
+function closeAdmin(){
+  document.getElementById("adminBox").classList.add("hidden");
+}
+
+/* =========================
+   FIREBASE CONFIG PLACEHOLDER
+========================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+};
+
+// Firebase init (connect করলে কাজ করবে)
+// firebase.initializeApp(firebaseConfig);
+
 </script>
 
 </body>
-</html>
+</html> 
