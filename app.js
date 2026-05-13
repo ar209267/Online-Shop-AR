@@ -1,54 +1,57 @@
 import { app } from "./firebase.js";
 
-import {
-  getAuth,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// LOGIN
+/* 🔐 LOGIN */
 window.loginUser = async function () {
-  const email = document.querySelector("input[type=email]").value;
-  const pass = document.querySelector("input[type=password]").value;
-
-  await signInWithEmailAndPassword(auth, email, pass);
-  alert("Login Success");
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      document.getElementById("email").value,
+      document.getElementById("password").value
+    );
+    alert("Login Success");
+  } catch (e) {
+    alert("Login Failed");
+  }
 };
 
-// ORDER
+/* 📦 ORDER */
 window.placeOrder = async function () {
-  const name = document.querySelectorAll("input")[0].value;
-  const uid = document.querySelectorAll("input")[1].value;
-  const service = document.querySelector("select").value;
+  try {
+    await addDoc(collection(db, "orders"), {
+      name: document.getElementById("name").value,
+      uid: document.getElementById("uid").value,
+      service: document.getElementById("service").value,
+      status: "Pending",
+      time: new Date().toISOString()
+    });
 
-  await addDoc(collection(db, "orders"), {
-    name,
-    uid,
-    service,
-    status: "Pending",
-    time: new Date().toISOString()
-  });
-
-  alert("Order Placed");
+    alert("Order Placed Successfully");
+  } catch (e) {
+    alert("Error Occurred");
+  }
 };
 
-// LOAD ORDERS
+/* 🎮 CATEGORY */
+window.openCategory = function (type) {
+  alert("Opening " + type + " section");
+};
+
+/* 📊 ADMIN LOAD */
 window.loadOrders = async function () {
   const q = query(collection(db, "orders"), orderBy("time", "desc"));
   const snap = await getDocs(q);
 
+  let text = "";
   snap.forEach(doc => {
-    console.log(doc.id, doc.data());
+    const d = doc.data();
+    text += `${d.name} | ${d.service} | ${d.status}\n`;
   });
+
+  alert(text);
 };
