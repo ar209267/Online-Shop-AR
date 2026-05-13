@@ -28,3 +28,4 @@ function verifyTrxAndPlaceOrder() {
         }
     }, 3000);
 }
+allow read, write: if true;
