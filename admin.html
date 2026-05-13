@@ -1,40 +1,16 @@
-<div style="padding: 20px; font-family: sans-serif;">
-    <h2>অ্যাডমিন প্যানেল - সব অর্ডার লিস্ট</h2>
-    <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
-        <thead style="background: #2c3e50; color: white;">
-            <tr>
-                <th>সার্ভিস</th>
-                <th>লিঙ্ক/UID</th>
-                <th>বিল</th>
-                <th>Txn ID</th>
-                <th>স্ট্যাটাস</th>
-            </tr>
-        </thead>
-        <tbody id="order-list">
-            </tbody>
-    </table>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<script type="module">
-    import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    const db = getFirestore();
+<h1>⚙️ Admin Dashboard</h1>
 
-    const q = query(collection(db, "all_orders"), orderBy("order_date", "desc"));
-    
-    onSnapshot(q, (snapshot) => {
-        const list = document.getElementById('order-list');
-        list.innerHTML = "";
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            list.innerHTML += `
-                <tr>
-                    <td>${data.service}</td>
-                    <td>${data.link_or_uid}</td>
-                    <td>${data.amount}৳</td>
-                    <td>${data.transaction_id}</td>
-                    <td style="color: orange; font-weight: bold;">${data.status}</td>
-                </tr>
-            `;
-        });
-    });
-</script>
+<button onclick="loadOrders()">Load Orders</button>
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
