@@ -1,0 +1,13 @@
+<h2>Profile</h2>
+<div id="user"></div>
+
+<script type="module">
+import { auth } from "./js/firebase.js";
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById("user").innerHTML =
+      "Email: " + user.email;
+  }
+});
+</script>
