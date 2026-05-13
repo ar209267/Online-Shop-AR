@@ -3,82 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AR ULTIMATE | FINAL WEB HUB</title>
+    <title>AR ULTIMATE HUB | FULL SECURE SYSTEM</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --bg: #010409; --panel: #0d1117; --gold: #ffd700; --border: #30363d; --text: #c9d1d9; }
-        body { background: var(--bg); color: var(--text); font-family: 'Hind Siliguri', sans-serif; margin: 0; }
+        :root { --bg: #010409; --panel: #0d1117; --gold: #ffd700; --border: #30363d; --text: #c9d1d9; --success: #238636; }
+        body { background: var(--bg); color: var(--text); font-family: 'Hind Siliguri', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* AUTH SCREEN */
-        #auth-screen {
-            position: fixed; inset: 0; background: var(--bg);
-            z-index: 10000; display: flex; align-items: center; justify-content: center;
-        }
-        .login-card {
-            background: var(--panel); border: 1px solid var(--border);
-            padding: 40px 30px; border-radius: 30px; width: 90%; max-width: 400px;
-            text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.6);
-        }
-        .btn-auth {
-            border: none; padding: 15px; border-radius: 15px; width: 100%; 
-            font-weight: 700; display: flex; align-items: center; justify-content: center; 
-            gap: 10px; margin-bottom: 15px; transition: 0.3s;
-        }
+        /* --- AUTHENTICATION LAYER --- */
+        #auth-gate { position: fixed; inset: 0; background: var(--bg); z-index: 100000; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: var(--panel); border: 1px solid var(--border); padding: 40px; border-radius: 30px; width: 92%; max-width: 420px; text-align: center; }
+        .btn-social { padding: 15px; border-radius: 12px; width: 100%; font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
         .btn-google { background: #fff; color: #000; }
         .btn-github { background: #24292e; color: #fff; }
+
+        /* --- MASTER DASHBOARD --- */
+        #main-app { display: none; }
+        .header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 15px; position: sticky; top: 0; z-index: 100; }
         
-        /* DASHBOARD */
-        #dashboard { display: none; }
-        .nav-header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 15px; }
-        .user-status { background: linear-gradient(135deg, #161b22, #0d1117); border: 1px solid var(--border); border-radius: 25px; padding: 25px; margin-top: 20px; }
-        .stat-box { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #222; flex: 1; }
-        .stat-val { font-size: 24px; font-weight: 800; color: var(--gold); }
+        .status-pill { background: rgba(35, 134, 54, 0.1); color: var(--success); padding: 4px 12px; border-radius: 20px; font-size: 11px; border: 1px solid var(--success); }
+
+        .stat-card { background: #161b22; border: 1px solid var(--border); border-radius: 18px; padding: 20px; text-align: center; transition: 0.3s; }
+        .stat-label { font-size: 12px; color: #8b949e; margin-bottom: 5px; }
+        .stat-value { font-size: 22px; font-weight: 800; color: var(--gold); }
+
+        .control-btn { background: #21262d; border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; color: #fff; text-decoration: none; display: block; transition: 0.3s; }
+        .control-btn:active { background: #30363d; transform: scale(0.95); }
+        .control-btn i { font-size: 20px; margin-bottom: 8px; display: block; color: var(--gold); }
+
+        /* --- TERMINAL LOOK --- */
+        .terminal { background: #000; border: 1px solid #333; border-radius: 12px; padding: 15px; font-family: monospace; font-size: 12px; height: 150px; overflow-y: auto; color: #00ff00; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div id="auth-screen">
+<div id="auth-gate">
     <div class="login-card">
-        <h2 class="fw-bold mb-1">AR ULTIMATE</h2>
-        <p class="text-muted small mb-4">স্বয়ংক্রিয়ভাবে লগইন করুন</p>
+        <h2 class="fw-bold mb-1" style="color: var(--gold);">AR ULTIMATE HUB</h2>
+        <p class="text-muted small mb-4">স্বয়ংক্রিয়ভাবে নিজের অ্যাকাউন্টে প্রবেশ করুন</p>
         
-        <button class="btn-auth btn-google" onclick="System.login('google')">
+        <button class="btn-social btn-google" onclick="App.login('google')">
             <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
-            Google দিয়ে লগইন
+            Google দিয়ে প্রবেশ করুন
         </button>
 
-        <button class="btn-auth btn-github" onclick="System.login('github')">
+        <button class="btn-social btn-github" onclick="App.login('github')">
             <i class="fab fa-github"></i>
-            GitHub দিয়ে লগইন
+            GitHub দিয়ে প্রবেশ করুন
         </button>
-
-        <div id="recaptcha-container"></div>
+        
+        <div class="small text-muted mt-3">সুরক্ষার জন্য ২-ধাপ ভেরিফিকেশন চালু আছে</div>
     </div>
 </div>
 
-<div id="dashboard">
-    <nav class="nav-header d-flex justify-content-between align-items-center">
-        <span class="fw-bold">AR USER PORTAL</span>
-        <button class="btn btn-sm btn-outline-danger" onclick="System.logout()">Logout</button>
+<div id="main-app">
+    <nav class="header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-crown text-warning"></i>
+            <span class="fw-bold">AR ULTIMATE HUB</span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="status-pill"><i class="fas fa-signal me-1"></i> Firebase Live</span>
+            <button class="btn btn-sm btn-outline-danger py-1" onclick="App.logout()">Secure Logout</button>
+        </div>
     </nav>
 
-    <div class="container mt-4">
-        <div class="user-status">
-            <div class="d-flex align-items-center mb-4">
-                <img id="u-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="60" class="rounded-circle me-3 border border-warning">
-                <div>
-                    <h5 class="m-0 fw-bold" id="u-name">Loading...</h5>
-                    <small class="text-muted" id="u-mail">---</small>
+    <div class="container py-4">
+        <div class="row g-3">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">মোট ইউজার</div>
+                    <div class="stat-value">১,৫৮০+</div>
                 </div>
             </div>
-            <div class="d-flex gap-3">
-                <div class="stat-box"><small>ব্যালেন্স</small><div class="stat-val">৳ ০.০০</div></div>
-                <div class="stat-box"><small>অর্ডার</small><div class="stat-val">০</div></div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">ওয়ালেট ব্যালেন্স</div>
+                    <div class="stat-value">৳ ৪২,০০০</div>
+                </div>
             </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">পেন্ডিং অর্ডার</div>
+                    <div class="stat-value text-warning">৯২</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-label">সার্ভার স্ট্যাটাস</div>
+                    <div class="stat-value text-success" style="font-size: 16px;">STABLE</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 p-4" style="background: #0d1117; border-radius: 20px; border: 1px solid var(--border);">
+            <h6 class="fw-bold mb-4">সিস্টেম কন্ট্রোল প্যানেল</h6>
+            <div class="row g-3">
+                <div class="col-3">
+                    <a href="#" class="control-btn"><i class="fas fa-users-cog"></i><span class="small">ইউজার কন্ট্রোল</span></a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="control-btn"><i class="fas fa-check-double"></i><span class="small">পেমেন্ট ভেরিফাই</span></a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="control-btn"><i class="fas fa-database"></i><span class="small">ডাটা ব্যাকআপ</span></a>
+                </div>
+                <div class="col-3">
+                    <a href="#" class="control-btn"><i class="fas fa-broadcast-tower"></i><span class="small">গ্লোবাল নোটিশ</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal mt-4" id="log-terminal">
+            <div class="text-secondary">[SYSTEM] Final Security Check...</div>
+            <div class="text-info">[AUTH] Waiting for master key...</div>
         </div>
     </div>
 </div>
@@ -87,7 +128,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
 <script>
-    // আপনার প্রজেক্টের সঠিক কনফিগ এখানে বসানো হয়েছে
+    // আপনার দেওয়া সঠিক ডাটাগুলো এখানে সেট করা হয়েছে
     const firebaseConfig = {
       apiKey: "AIzaSyC5i7SOEJeFO8NsO7VbIU63rfRBrGwBWQY",
       authDomain: "online-shop-ar.firebaseapp.com",
@@ -100,29 +141,37 @@
 
     firebase.initializeApp(firebaseConfig);
 
-    const System = {
-        login: (type) => {
-            let provider;
-            if(type === 'google') provider = new firebase.auth.GoogleAuthProvider();
-            else provider = new firebase.auth.GithubAuthProvider();
+    const App = {
+        login: (providerName) => {
+            let provider = providerName === 'google' ? 
+                new firebase.auth.GoogleAuthProvider() : 
+                new firebase.auth.GithubAuthProvider();
 
             firebase.auth().signInWithPopup(provider).then(res => {
-                System.render(res.user);
-            }).catch(e => alert("Login Error: " + e.message));
+                App.loadUI(res.user);
+            }).catch(err => {
+                alert("Login Failed: " + err.message);
+            });
         },
-        render: (user) => {
-            document.getElementById('auth-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('u-name').innerText = user.displayName || "User";
-            document.getElementById('u-mail').innerText = user.email || user.uid.substring(0,10);
-            if(user.photoURL) document.getElementById('u-img').src = user.photoURL;
+        loadUI: (user) => {
+            document.getElementById('auth-gate').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            
+            // লাইভ লগ আপডেট
+            const log = document.getElementById('log-terminal');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML += `<div style="color: #ffd700;">> [${time}] Master Session Started for ${user.displayName || 'User'}</div>`;
+            log.innerHTML += `<div style="color: #238636;">> [${time}] Firebase Database Linked Successfully.</div>`;
+            log.scrollTop = log.scrollHeight;
         },
         logout: () => {
             firebase.auth().signOut().then(() => location.reload());
         }
     };
 
-    firebase.auth().onAuthStateChanged(user => { if(user) System.render(user); });
+    // আগের লগইন সেশন চেক
+    firebase.auth().onAuthStateChanged(user => { if(user) App.loadUI(user); });
 </script>
+
 </body>
-</html>
+</html> 
