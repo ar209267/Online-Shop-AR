@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>AR Ultimate Marketplace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🔥 AR Ultimate Gaming Store</h1>
+
+<section>
+  <h2>🎮 Categories</h2>
+  <button onclick="openCategory('freefire')">Free Fire</button>
+  <button onclick="openCategory('pubg')">PUBG</button>
+  <button onclick="openCategory('social')">Social Media</button>
+</section>
+
+<section>
+  <h2>🔐 Login</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="loginUser()">Login</button>
+</section>
+
+<section>
+  <h2>📦 Place Order</h2>
+  <input id="name" type="text" placeholder="Name">
+  <input id="uid" type="text" placeholder="Game UID">
+
+  <select id="service">
+    <option>Free Fire Diamond</option>
+    <option>PUBG UC</option>
+    <option>Facebook Boost</option>
+  </select>
+
+  <button onclick="placeOrder()">Order Now</button>
+</section>
+
+<section>
+  <h2>⚙️ Admin</h2>
+  <a href="admin.html"><button>Go Admin Panel</button></a>
+</section>
+
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
