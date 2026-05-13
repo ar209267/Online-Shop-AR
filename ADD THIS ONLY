@@ -1,0 +1,18 @@
+// Fake UID database (you can expand later)
+const ffDatabase = {
+  "123456789": "★ RDX Legend",
+  "987654321": "AR Killer",
+  "111222333": "BD Pro Gamer",
+  "555666777": "Shadow X",
+};
+
+function checkUID(){
+  let uid = document.getElementById("uid").value;
+  let name = ffDatabase[uid];
+
+  if(name){
+    document.getElementById("ffname").innerText = "Player Name: " + name;
+  }else{
+    document.getElementById("ffname").innerText = "Player Name: Not Found";
+  }
+}
